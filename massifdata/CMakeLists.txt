@@ -7,6 +7,7 @@ set(massifdata_SRCS
     datamodel.cpp
     snapshotitem.cpp
     parser.cpp
+    parserprivate.cpp
 )
 
 kde4_add_library(massifdata ${massifdata_SRCS})

@@ -14,24 +14,18 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <KDChartChart>
-#include <KDChartAbstractCoordinatePlane>
-#include <KDChartLineDiagram>
-
 #include <KLocalizedString>
 #include <KAboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KCmdLineOptions>
+#include <KUrl>
 
-#include <QStandardItemModel>
+#include <QTextStream>
+#include <QFile>
 
-#include <time.h>
-#include <KDChartGridAttributes>
-#include <KDChartBarDiagram.h>
-#include <KDChartFrameAttributes>
-#include <KDChartHeaderFooter>
-#include <KDChartLegend>
+#include "massifdata/parser.h"
+#include "massifdata/datamodel.h"
 
 int main( int argc, char *argv[] )
 {
@@ -41,42 +35,30 @@ int main( int argc, char *argv[] )
 
     KCmdLineArgs::init( argc, argv, &aboutData, KCmdLineArgs::CmdLineArgNone );
     KCmdLineOptions options;
-    options.add("f <file>", ki18n("Open given output file and visualize it."));
+    options.add("+file", ki18n("Opens given output file and visualize it."));
 
     KCmdLineArgs::addCmdLineOptions( options );
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
-    KDChart::Chart* chart = new KDChart::Chart();
-    KDChart::AbstractDiagram* diagram = new KDChart::LineDiagram();
-    diagram->setBrush(QBrush(Qt::red));
-    qDebug() << diagram->brush().color().name();
-    QStandardItemModel* model = new QStandardItemModel(chart);
-    qsrand(time(NULL));
-    for ( int i = 0; i < 100; ++i ) {
-        QList<QStandardItem*> items;
-        items << new QStandardItem(QString::number(i)) << new QStandardItem(QString::number(qrand()));
-        model->appendRow(items);
+    if (!args->count()) {
+        QTextStream out(stderr);
+        out << i18n("no file given, aborting.") << endl;
+        return 1;
     }
-    diagram->setModel(model);
-    chart->coordinatePlane()->addDiagram(diagram);
-    diagram = new KDChart::BarDiagram();
-    diagram->setBrush(QBrush(Qt::yellow));
-    qDebug() << diagram->brush().color().name();
-    diagram->setModel(model);
-    chart->coordinatePlane()->addDiagram(diagram);
 
-    chart->coordinatePlane()->setRubberBandZoomingEnabled(true);
-    chart->coordinatePlane()->globalGridAttributes().setSubGridVisible(true);
+    QIODevice* file = new QFile(args->url(0).toLocalFile());
+    if (!file->open(QIODevice::ReadOnly)) {
+        QTextStream out(stderr);
+        out << i18n("Cannot open file '%1' for reading, aborting.", args->url(0).toLocalFile());
+        return 2;
+    }
 
-    chart->addHeaderFooter(new KDChart::HeaderFooter);
-    chart->headerFooter()->setText(i18n("test"));
+    Massif::Parser parser;
+    Massif::DataModel* model = parser.parse(file);
 
-    chart->addLegend(new KDChart::Legend);
-    chart->legend()->setTitleText(i18n("some legend"));
-    chart->legend()->addDiagram(chart->coordinatePlane()->diagrams().first());
-//     chart->legend()->addDiagram(chart->coordinatePlane()->diagrams().last());
-
-    chart->show();
-    return app.exec();
+    delete file;
+    delete model;
+//     return app.exec();
+    return 0;
 }

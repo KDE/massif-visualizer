@@ -19,11 +19,23 @@
 
 #include <ctime>
 
+namespace Massif
+{
+
 class SnapshotItem
 {
 public:
     SnapshotItem();
     ~SnapshotItem();
+
+    /**
+     * Sets the number of this snapshot.
+     */
+    void setNumber(const unsigned int num);
+    /**
+     * Returns the number of this snapshot.
+     */
+    unsigned int number() const;
 
     /**
      * Sets the time at which this snapshot was taken.
@@ -62,10 +74,13 @@ public:
     unsigned int memStacks() const;
 
 private:
+    unsigned int m_number;
     std::time_t m_time;
     unsigned int m_memHeap;
     unsigned int m_memHeapExtra;
     unsigned int m_memStacks;
 };
+
+}
 
 #endif // SNAPSHOTITEM_H

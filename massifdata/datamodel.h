@@ -17,7 +17,7 @@
 #ifndef MASSIF_DATAMODEL_H
 #define MASSIF_DATAMODEL_H
 
-#include <qt4/QtCore/QModelIndex>
+#include <QtCore/QAbstractItemModel>
 
 namespace Massif {
 
@@ -34,7 +34,7 @@ public:
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     /**
-     * The top-most items (i.e. with invalid parents) are snapshots which have four columns.
+     * The top-most items (i.e. with invalid parents) are snapshots which have five columns.
      * Everything below is a detailed entry in the heap tree and has two columns.
      */
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
@@ -71,6 +71,12 @@ public:
      * @return The unit that times are measured in.
      */
     QString timeUnit() const;
+
+    /**
+     * Adds @p snapshot to this model. The model takes ownership and will
+     * delete it when neccessary.
+     */
+    void addSnapshot(SnapshotItem* snapshot);
 
 private:
     QString m_cmd;

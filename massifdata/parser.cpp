@@ -17,8 +17,11 @@
 #include "parser.h"
 
 #include "datamodel.h"
+#include "parserprivate.h"
 
 #include <QtCore/QIODevice>
+
+#include <QtCore/QDebug>
 
 using namespace Massif;
 
@@ -32,7 +35,19 @@ Massif::Parser::~Parser()
 
 DataModel* Parser::parse(QIODevice* file)
 {
+    Q_ASSERT(file->isOpen());
+    Q_ASSERT(file->isReadable());
+
     DataModel* model = new DataModel;
+
+    ParserPrivate p(file, model);
+    qDebug() << model->description() << model->cmd() << model->timeUnit();
+
+    if (p.error()) {
+        qWarning() << "error parsing file: Invalid line" << p.errorLine();
+        delete model;
+        model = 0;
+    }
 
     return model;
 }

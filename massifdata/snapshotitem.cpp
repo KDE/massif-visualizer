@@ -16,13 +16,25 @@
 
 #include "snapshotitem.h"
 
+using namespace Massif;
+
 SnapshotItem::SnapshotItem()
-    : m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0)
+    : m_number(0), m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0)
 {
 }
 
 SnapshotItem::~SnapshotItem()
 {
+}
+
+void SnapshotItem::setNumber(const unsigned int num)
+{
+    m_number = num;
+}
+
+unsigned int SnapshotItem::number() const
+{
+    return m_number;
 }
 
 void SnapshotItem::setTime(const std::time_t time)

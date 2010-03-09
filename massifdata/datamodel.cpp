@@ -28,7 +28,7 @@ DataModel::DataModel(QObject* parent): QAbstractItemModel(parent)
 
 DataModel::~DataModel()
 {
-
+    qDeleteAll(m_snapshots);
 }
 
 QVariant DataModel::data(const QModelIndex& index, int role) const
@@ -53,7 +53,18 @@ QVariant DataModel::data(const QModelIndex& index, int role) const
         ///FIXME: implement this properly
         return QVariant();
     } else {
-        m_snapshots.at(index.row());
+        SnapshotItem* snapshot = m_snapshots.at(index.row());
+        if (index.column() == 0) {
+            return snapshot->number();
+        } else if (index.column() == 1) {
+            return QVariant::fromValue<qulonglong>(snapshot->time());
+        } else if (index.column() == 2) {
+            return snapshot->memHeap();
+        } else if (index.column() == 3) {
+            return snapshot->memHeapExtra();
+        } else if (index.column() == 4) {
+            return snapshot->memStacks();
+        }
     }
 }
 
@@ -64,7 +75,7 @@ int DataModel::columnCount(const QModelIndex& parent) const
         return 2;
     } else {
         // snapshot item
-        return 4;
+        return 5;
     }
 }
 
@@ -141,6 +152,11 @@ void DataModel::setTimeUnit(const QString& unit)
 QString DataModel::timeUnit() const
 {
     return m_timeUnit;
+}
+
+void DataModel::addSnapshot(Massif::SnapshotItem* snapshot)
+{
+    m_snapshots << snapshot;
 }
 
 //END Massif File Data

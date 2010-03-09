@@ -14,7 +14,32 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "parser.h"
+#ifndef MASSIF_PARSER_H
+#define MASSIF_PARSER_H
 
-using namespace Massif;
+class QIODevice;
 
+namespace Massif {
+
+class DataModel;
+
+/**
+ * This class parses a Massif output file.
+ */
+class Parser
+{
+public:
+    Parser();
+    ~Parser();
+
+    /**
+     * Parse @p file and return a model representing the data.
+     *
+     * @note The caller has to delete the model afterwards.
+     */
+    DataModel* parse(QIODevice* file);
+};
+
+}
+
+#endif // MASSIF_PARSER_H

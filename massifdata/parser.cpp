@@ -14,17 +14,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIF_PARSER_H
-#define MASSIF_PARSER_H
+#include "parser.h"
 
-namespace Massif {
+#include "datamodel.h"
 
-class Parser
+#include <QtCore/QIODevice>
+
+using namespace Massif;
+
+Massif::Parser::Parser()
 {
-public:
-    
-};
-
 }
 
-#endif // MASSIF_PARSER_H
+Massif::Parser::~Parser()
+{
+}
+
+DataModel* Parser::parse(QIODevice* file)
+{
+    DataModel* model = new DataModel;
+
+    return model;
+}
+

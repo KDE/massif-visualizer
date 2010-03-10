@@ -31,7 +31,7 @@ public:
     /**
      * Sets the label for this leaf item.
      */
-    setLabel(const QString label);
+    void setLabel(const QString label);
     /**
      * @return The label for this leaf item.
      */
@@ -40,7 +40,7 @@ public:
     /**
      * Sets the cost for this item in bytes.
      */
-    setCost(const unsigned int bytes);
+    void setCost(const unsigned int bytes);
     /**
      * @return The cost for this item in bytes.
      */

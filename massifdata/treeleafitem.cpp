@@ -16,42 +16,44 @@
 
 #include "treeleafitem.h"
 
-Massif::TreeLeafItem::TreeLeafItem()
+using namespace Massif;
+
+TreeLeafItem::TreeLeafItem()
     : m_cost(0)
 {
 }
 
-Massif::TreeLeafItem::~TreeLeafItem()
+TreeLeafItem::~TreeLeafItem()
 {
     qDeleteAll(m_children);
 }
 
-Massif::TreeLeafItem::setLabel(const QString label)
+void TreeLeafItem::setLabel(const QString label)
 {
     m_label = label;
 }
 
-QString Massif::TreeLeafItem::label() const
+QString TreeLeafItem::label() const
 {
     return m_label;
 }
 
-Massif::TreeLeafItem::setCost(const unsigned int bytes)
+void TreeLeafItem::setCost(const unsigned int bytes)
 {
     m_cost = bytes;
 }
 
-unsigned int Massif::TreeLeafItem::cost() const
+unsigned int TreeLeafItem::cost() const
 {
     return m_cost;
 }
 
-void Massif::TreeLeafItem::addChild(Massif::TreeLeafItem* leaf)
+void TreeLeafItem::addChild(TreeLeafItem* leaf)
 {
     m_children << leaf;
 }
 
-QList< Massif::TreeLeafItem* > Massif::TreeLeafItem::children() const
+QList< TreeLeafItem* > TreeLeafItem::children() const
 {
     return m_children;
 }

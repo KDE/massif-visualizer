@@ -41,10 +41,8 @@ DataModel* Parser::parse(QIODevice* file)
     DataModel* model = new DataModel;
 
     ParserPrivate p(file, model);
-    qDebug() << model->description() << model->cmd() << model->timeUnit();
 
     if (p.error()) {
-        qWarning() << "error parsing file: Invalid line" << p.errorLine();
         delete model;
         model = 0;
     }

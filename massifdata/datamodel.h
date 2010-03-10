@@ -77,12 +77,27 @@ public:
      * delete it when neccessary.
      */
     void addSnapshot(SnapshotItem* snapshot);
+    /**
+     * @return List of all snapshots that make up this dataset.
+     */
+    QList<SnapshotItem*> snapshots() const;
+
+    /**
+     * Marks @p snapshot as peak of this dataset.
+     * The snapshot should already been added to the model.
+     */
+    void setPeak(SnapshotItem* snapshot);
+    /**
+     * @return The peak snapshot in this dataset.
+     */
+    SnapshotItem* peak() const;
 
 private:
     QString m_cmd;
     QString m_description;
     QString m_timeUnit;
     QList<SnapshotItem*> m_snapshots;
+    SnapshotItem* m_peak;
 };
 
 }

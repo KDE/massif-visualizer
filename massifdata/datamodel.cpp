@@ -21,7 +21,7 @@
 
 using namespace Massif;
 
-DataModel::DataModel(QObject* parent): QAbstractItemModel(parent)
+DataModel::DataModel(QObject* parent): QAbstractItemModel(parent), m_peak(0)
 {
 
 }
@@ -158,6 +158,23 @@ void DataModel::addSnapshot(Massif::SnapshotItem* snapshot)
 {
     m_snapshots << snapshot;
 }
+
+QList< SnapshotItem* > DataModel::snapshots() const
+{
+    return m_snapshots;
+}
+
+void DataModel::setPeak(SnapshotItem* snapshot)
+{
+    Q_ASSERT(m_snapshots.contains(snapshot));
+    m_peak = snapshot;
+}
+
+SnapshotItem* DataModel::peak() const
+{
+    return m_peak;
+}
+
 
 //END Massif File Data
 

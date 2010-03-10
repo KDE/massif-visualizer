@@ -18,12 +18,14 @@
 #define MASSIF_PARSERPRIVATE_H
 
 #include <QtCore/QByteArray>
+
 class QIODevice;
 
 namespace Massif {
 
 class DataModel;
 class SnapshotItem;
+class TreeLeafItem;
 
 class ParserPrivate
 {
@@ -46,6 +48,18 @@ public:
     int errorLine() const;
 
 private:
+    void parseFileDesc(const QByteArray& line);
+    void parseFileCmd(const QByteArray& line);
+    void parseFileTimeUnit(const QByteArray& line);
+    void parseSnapshot(const QByteArray& line);
+    void parseSnapshotHeapTree(const QByteArray& line);
+    void parseSnapshotMemHeap(const QByteArray& line);
+    void parseSnapshotMemHeapExtra(const QByteArray& line);
+    void parseSnapshotTime(const QByteArray& line);
+    void parseSnapshotMemStacks(const QByteArray& line);
+    void parseHeapTreeLeaf(const QByteArray& line);
+    TreeLeafItem* parseheapTreeLeafInternal(const QByteArray& line, int depth);
+
     QIODevice* m_file;
     DataModel* m_model;
 
@@ -79,18 +93,8 @@ private:
 
     Error m_error;
 
+    /// current snapshot that is parsed.
     SnapshotItem* m_snapshot;
-
-    void parseFileDesc(const QByteArray& line);
-    void parseFileCmd(const QByteArray& line);
-    void parseFileTimeUnit(const QByteArray& line);
-    void parseSnapshot(const QByteArray& line);
-    void parseSnapshotHeapTree(const QByteArray& line);
-    void parseSnapshotMemHeap(const QByteArray& line);
-    void parseSnapshotMemHeapExtra(const QByteArray& line);
-    void parseSnapshotTime(const QByteArray& line);
-    void parseSnapshotMemStacks(const QByteArray& line);
-    void parseHeapTreeLeaf(const QByteArray& line);
 };
 
 }

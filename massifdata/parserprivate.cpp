@@ -18,6 +18,7 @@
 
 #include "datamodel.h"
 #include "snapshotitem.h"
+#include "treeleafitem.h"
 
 #include <QtCore/QIODevice>
 #include <QtCore/QTextStream>
@@ -26,7 +27,11 @@
 
 using namespace Massif;
 
-Massif::ParserPrivate::ParserPrivate(QIODevice* file, Massif::DataModel* model)
+#define VALIDATE(x) if (!(x)) { m_error = Invalid; return; }
+
+#define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
+
+ParserPrivate::ParserPrivate(QIODevice* file, DataModel* model)
     : m_file(file), m_model(model), m_nextLine(FileDesc), m_currentLine(0), m_error(NoError), m_snapshot(0)
 {
     QByteArray line;
@@ -83,16 +88,16 @@ Massif::ParserPrivate::ParserPrivate(QIODevice* file, Massif::DataModel* model)
     }
 }
 
-Massif::ParserPrivate::~ParserPrivate()
+ParserPrivate::~ParserPrivate()
 {
 }
 
-Massif::ParserPrivate::Error Massif::ParserPrivate::error() const
+ParserPrivate::Error ParserPrivate::error() const
 {
     return m_error;
 }
 
-int Massif::ParserPrivate::errorLine() const
+int ParserPrivate::errorLine() const
 {
     if (m_error == Invalid) {
         return m_currentLine;
@@ -105,10 +110,8 @@ int Massif::ParserPrivate::errorLine() const
 void ParserPrivate::parseFileDesc(const QByteArray& line)
 {
     // desc: ...
-    if (!line.startsWith("desc: ")) {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(line.startsWith("desc: "))
+
     m_model->setDescription(line.mid(6));
     m_nextLine = FileCmd;
 }
@@ -116,10 +119,8 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
 void ParserPrivate::parseFileCmd(const QByteArray& line)
 {
     // cmd: ...
-    if (!line.startsWith("cmd: ")) {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(line.startsWith("cmd: "))
+
     m_model->setCmd(line.mid(5));
     m_nextLine = FileTimeUnit;
 }
@@ -127,41 +128,28 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
 void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
 {
     // time_unit: ...
-    if (!line.startsWith("time_unit: ")) {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(line.startsWith("time_unit: "))
+
     m_model->setTimeUnit(line.mid(11));
     m_nextLine = Snapshot;
 }
 
 void ParserPrivate::parseSnapshot(const QByteArray& line)
 {
-    if (line != "#-----------") {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(line == "#-----------")
+
     // snapshot=N
     QByteArray nextLine = m_file->readLine(1024);
     ++m_currentLine;
-    if (!nextLine.startsWith("snapshot=")) {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(nextLine.startsWith("snapshot="))
     nextLine.chop(1);
     QString i(nextLine.mid(9));
     bool ok;
     uint number = i.toUInt(&ok);
-    if (!ok) {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(ok)
     nextLine = m_file->readLine(1024);
     ++m_currentLine;
-    if (nextLine != "#-----------\n") {
-        m_error = Invalid;
-        return;
-    }
+    VALIDATE(nextLine == "#-----------\n")
 
     m_snapshot = new SnapshotItem;
     m_model->addSnapshot(m_snapshot);
@@ -171,32 +159,103 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
 
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 {
-
+    VALIDATE(line.startsWith("time="))
+    QString timeStr(line.mid(5));
+    bool ok;
+    std::time_t time = timeStr.toLong(&ok);
+    VALIDATE(ok)
+    m_snapshot->setTime(time);
+    m_nextLine = SnapshotMemHeap;
 }
 
 void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 {
-
+    VALIDATE(line.startsWith("mem_heap_B="))
+    QString byteStr(line.mid(11));
+    bool ok;
+    unsigned int bytes = byteStr.toUInt(&ok);
+    VALIDATE(ok)
+    m_snapshot->setMemHeap(bytes);
+    m_nextLine = SnapshotMemHeapExtra;
 }
 
 void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
-
+    VALIDATE(line.startsWith("mem_heap_extra_B="))
+    QString byteStr(line.mid(17));
+    bool ok;
+    unsigned int bytes = byteStr.toUInt(&ok);
+    VALIDATE(ok)
+    m_snapshot->setMemHeapExtra(bytes);
+    m_nextLine = SnapshotMemStacks;
 }
 
 void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 {
-
+    VALIDATE(line.startsWith("mem_stacks_B="))
+    QString byteStr(line.mid(13));
+    bool ok;
+    unsigned int bytes = byteStr.toUInt(&ok);
+    VALIDATE(ok)
+    m_snapshot->setMemStacks(bytes);
+    m_nextLine = SnapshotHeapTree;
 }
 
 void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
 {
-
+    VALIDATE(line.startsWith("heap_tree="))
+    QByteArray value = line.mid(10);
+    if (value == "empty") {
+        m_nextLine = Snapshot;
+    } else if (value == "detailed") {
+        m_nextLine = HeapTreeLeaf;
+    } else if (value == "peak") {
+        m_nextLine = HeapTreeLeaf;
+        m_model->setPeak(m_snapshot);
+    } else {
+        m_error = Invalid;
+        return;
+    }
 }
 
 void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
 {
+    m_snapshot->setHeapTree(parseheapTreeLeafInternal(line, 0));
+    m_nextLine = Snapshot;
+}
 
+TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
+{
+    VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', 0)
+    int colonPos = line.indexOf(':', depth);
+    VALIDATE_RETURN(colonPos != -1, 0)
+    bool ok;
+
+    QByteArray tmpStr = line.mid(depth + 1, colonPos - depth - 1);
+    unsigned int children = tmpStr.toUInt(&ok);
+    VALIDATE_RETURN(ok, 0)
+
+    int spacePos = line.indexOf(' ', colonPos + 2);
+    VALIDATE_RETURN(spacePos != -1, 0)
+    tmpStr = line.mid(colonPos + 2, spacePos - colonPos - 2);
+    unsigned int cost = tmpStr.toUInt(&ok);
+    VALIDATE_RETURN(ok, 0)
+
+    TreeLeafItem* leaf = new TreeLeafItem;
+    leaf->setCost(cost);
+    leaf->setLabel(line.mid(spacePos + 1));
+
+    for (unsigned int i = 0; i < children; ++i) {
+        ++m_currentLine;
+        QByteArray nextLine = m_file->readLine();
+        // remove trailing \n
+        nextLine.chop(1);
+        TreeLeafItem* child = parseheapTreeLeafInternal(nextLine, depth + 1);
+        VALIDATE_RETURN(child, leaf)
+        leaf->addChild(child);
+    }
+
+    return leaf;
 }
 
 //END Parser Functions

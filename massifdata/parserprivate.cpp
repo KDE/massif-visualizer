@@ -79,6 +79,7 @@ ParserPrivate::ParserPrivate(QIODevice* file, FileData* data)
         if (m_error != NoError) {
             qWarning() << "invalid line" << (m_currentLine + 1) << line;
             m_error = Invalid;
+            m_errorLineString = line;
             break;
         }
         ++m_currentLine;
@@ -104,6 +105,11 @@ int ParserPrivate::errorLine() const
     } else {
         return -1;
     }
+}
+
+QByteArray ParserPrivate::errorLineString() const
+{
+    return m_errorLineString;
 }
 
 //BEGIN Parser Functions

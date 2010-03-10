@@ -46,6 +46,10 @@ public:
      * @return the line in which an error occurred or -1 if none.
      */
     int errorLine() const;
+    /**
+     * @return the line which could not be parsed.
+     */
+    QByteArray errorLineString() const;
 
 private:
     void parseFileDesc(const QByteArray& line);
@@ -90,6 +94,7 @@ private:
     };
     ExpectData m_nextLine;
     int m_currentLine;
+    QByteArray m_errorLineString;
 
     Error m_error;
 

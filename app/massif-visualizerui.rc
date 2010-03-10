@@ -1,0 +1,41 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="massif-visualizer" version="1">
+
+<MenuBar>
+  <Menu name="file" noMerge="1"><text>&amp;File</text>
+    <Action name="file_open"/>
+    <Action name="file_open_recent"/>
+    <Separator/>
+
+    <Action name="file_close"/>
+    <Separator/>
+
+    <Action name="file_quit"/>
+    <DefineGroup name="close_merge" append="close_merge"/>
+  </Menu>
+
+  <Menu name="settings"><text>&amp;Settings</text>
+    <Merge name="StandardToolBarMenuHandler" />
+    <DefineGroup name="show_toolbar_merge" />
+    <Action name="set_configure_toolbars" />
+    <Action name="settings_configure" />
+  </Menu>
+
+  <Menu name="help" noMerge="1"><text>&amp;Help</text>
+    <Action name="help_whats_this"/>
+    <Separator/>
+    <Action name="help_report_bug"/>
+    <Separator/>
+    <Action name="help_about_app"/>
+    <Action name="help_about_editor"/>
+    <Action name="help_about_kde"/>
+  </Menu>
+</MenuBar>
+
+<ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
+  <Action name="file_open" />
+  <Separator />
+  <Action name="file_close" />
+</ToolBar>
+
+</kpartgui>

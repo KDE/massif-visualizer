@@ -30,12 +30,11 @@
 
 #include "visualizer/costmodel.h"
 
-#include "KDChartChart"
 #include "KDChartPlotter"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
 
 #include <QtCore/QDebug>
+
+#include "mainwindow.h"
 
 int main( int argc, char *argv[] )
 {
@@ -51,72 +50,10 @@ int main( int argc, char *argv[] )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
-    if (!args->count()) {
-        QTextStream out(stderr);
-        out << i18n("no file given, aborting.") << endl;
-        return 1;
+    Massif::MainWindow* window = new Massif::MainWindow;
+    if (args->count()) {
+        window->openFile(args->url(0));
     }
-
-    QFile* file = new QFile(args->url(0).toLocalFile());
-    if (!file->open(QIODevice::ReadOnly)) {
-        QTextStream out(stderr);
-        out << i18n("Cannot open file '%1' for reading, aborting.", args->url(0).toLocalFile());
-        return 2;
-    }
-
-    Massif::Parser parser;
-    qDebug() << "parsing data from file" << file->fileName();
-    Massif::FileData* data = parser.parse(file);
-    delete file;
-    if (!data) {
-        return 3;
-    }
-
-    qDebug() << "description:" << data->description();
-    qDebug() << "command:" << data->cmd();
-    qDebug() << "time unit:" << data->timeUnit();
-    qDebug() << "snapshots:" << data->snapshots().size();
-    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << QString("%1%2").arg(data->peak()->time()).arg(data->timeUnit());
-    qDebug() << "peak cost:" << data->peak()->memHeap() << "bytes heap"
-                             << data->peak()->memHeapExtra() << "bytes heap extra"
-                             << data->peak()->memStacks() << "bytes stacks";
-
-    KDChart::Chart* chart = new KDChart::Chart;
-    KDChart::HeaderFooter* header = new KDChart::HeaderFooter;
-    header->setText(i18n("memory consumption of '%1' %2", data->cmd(), data->description() != "(none)" ? data->description() : ""));
-    header->setPosition(KDChart::Position(KDChartEnums::PositionNorth));
-    header->setTextAlignment(Qt::AlignHCenter);
-    chart->addHeaderFooter(header);
-    KDChart::HeaderFooter* subHeader = new KDChart::HeaderFooter;
-    subHeader->setText(i18n("peak of %1 bytes at snapshot %2", data->peak()->memHeap(), data->peak()->number()));
-    subHeader->setTextAlignment(Qt::AlignHCenter);
-    KDChart::TextAttributes textAttributes = subHeader->textAttributes();
-    textAttributes.setFontSize(KDChart::Measure(0.5));
-    subHeader->setTextAttributes(textAttributes);
-    chart->addHeaderFooter(subHeader);
-    KDChart::Plotter* diagram = new KDChart::Plotter;
-    diagram->setAntiAliasing(true);
-    KDChart::LineAttributes attributes = diagram->lineAttributes();
-    attributes.setDisplayArea(true);
-    attributes.setTransparency(127);
-    diagram->setLineAttributes(attributes);
-
-    Massif::CostModel* model = new Massif::CostModel(chart);
-    model->setSource(data);
-    diagram->setModel(model);
-
-    KDChart::CartesianAxis *bottomAxis = new KDChart::CartesianAxis( diagram );
-    bottomAxis->setTitleText("time in " + data->timeUnit());
-    bottomAxis->setPosition ( KDChart::CartesianAxis::Bottom );
-    diagram->addAxis(bottomAxis);
-
-    KDChart::CartesianAxis *leftAxis = new KDChart::CartesianAxis ( diagram );
-    leftAxis->setTitleText("memory heap size in bytes");
-    leftAxis->setPosition ( KDChart::CartesianAxis::Left );
-    diagram->addAxis(leftAxis);
-
-    chart->coordinatePlane()->addDiagram(diagram);
-
-    chart->show();
+    window->show();
     return app.exec();
 }

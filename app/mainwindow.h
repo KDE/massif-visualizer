@@ -14,49 +14,58 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIF_PARSER_H
-#define MASSIF_PARSER_H
+#ifndef MASSIF_MAINWINDOW_H
+#define MASSIF_MAINWINDOW_H
 
-class QIODevice;
+#include <KXmlGuiWindow>
 
-#include <QtCore/QString>
+#include "ui_mainwindow.h"
+
+namespace KDChart {
+class Chart;
+class HeaderFooter;
+}
 
 namespace Massif {
 
 class FileData;
 
-/**
- * This class parses a Massif output file and stores it's information.
- */
-class Parser
+class MainWindow : public KXmlGuiWindow
 {
+    Q_OBJECT
+
 public:
-    Parser();
-    ~Parser();
+    MainWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    virtual ~MainWindow();
+
+    KDChart::Chart* chart();
+
+    void setupActions();
+
+public slots:
+    /**
+     * Open a dialog to pick a massif output file to display.
+     */
+    void openFile();
 
     /**
-     * Parse @p file and return a FileData structure representing the data.
-     *
-     * @return Data or null if file could not be parsed.
-     *
-     * @note The caller has to delete the data afterwards.
+     * Opens @p file as massif output file and visualize it.
      */
-    FileData* parse(QIODevice* file);
+    void openFile(const KUrl& file);
 
     /**
-     * Returns the number of the line which could not be parsed or -1 if no error occurred.
+     * Close currently opened file.
      */
-    int errorLine() const;
-    /**
-     * Returns the line which could not be parsed.
-     */
-    QString errorLineString() const;
+    void closeFile();
 
 private:
-    int m_errorLine;
-    QString m_errorLineString;
+    Ui::MainWindow ui;
+    KDChart::Chart* m_chart;
+    KDChart::HeaderFooter* m_header;
+    KDChart::HeaderFooter* m_subheader;
+    FileData* m_data;
 };
 
 }
 
-#endif // MASSIF_PARSER_H
+#endif // MASSIF_MAINWINDOW_H

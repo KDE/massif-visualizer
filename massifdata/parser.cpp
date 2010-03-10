@@ -26,6 +26,7 @@
 using namespace Massif;
 
 Parser::Parser()
+    : m_errorLine(-1)
 {
 }
 
@@ -45,8 +46,22 @@ FileData* Parser::parse(QIODevice* file)
     if (p.error()) {
         delete data;
         data = 0;
+        m_errorLine = p.errorLine();
+        m_errorLineString = p.errorLineString();
+    } else {
+        m_errorLine = -1;
+        m_errorLineString.clear();
     }
 
     return data;
 }
 
+int Massif::Parser::errorLine() const
+{
+    return m_errorLine;
+}
+
+QString Massif::Parser::errorLineString() const
+{
+    return m_errorLineString;
+}

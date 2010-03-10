@@ -31,7 +31,7 @@
 #include "visualizer/costmodel.h"
 
 #include "KDChartChart"
-#include "KDChartBarDiagram"
+#include "KDChartPlotter"
 
 #include <QtCore/QDebug>
 
@@ -80,11 +80,10 @@ int main( int argc, char *argv[] )
                              << data->peak()->memStacks() << "bytes stacks";
 
     KDChart::Chart* chart = new KDChart::Chart;
-    KDChart::BarDiagram* diagram = new KDChart::BarDiagram;
+    KDChart::Plotter* diagram = new KDChart::Plotter;
     Massif::CostModel* model = new Massif::CostModel(chart);
     model->setSource(data);
     diagram->setModel(model);
-    chart->coordinatePlane()->addDiagram(diagram);
 
     KDChart::CartesianAxis *bottomAxis = new KDChart::CartesianAxis( diagram );
     bottomAxis->setTitleText("time in " + data->timeUnit());
@@ -95,6 +94,8 @@ int main( int argc, char *argv[] )
     leftAxis->setTitleText("memory heap size in bytes");
     leftAxis->setPosition ( KDChart::CartesianAxis::Left );
     diagram->addAxis(leftAxis);
+
+    chart->coordinatePlane()->addDiagram(diagram);
 
     chart->show();
     return app.exec();

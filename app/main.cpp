@@ -25,7 +25,15 @@
 #include <QFile>
 
 #include "massifdata/parser.h"
-#include "massifdata/datamodel.h"
+#include "massifdata/filedata.h"
+#include "massifdata/snapshotitem.h"
+
+#include "visualizer/costmodel.h"
+
+#include "KDChartChart"
+#include "KDChartBarDiagram"
+
+#include <QtCore/QDebug>
 
 int main( int argc, char *argv[] )
 {
@@ -47,7 +55,7 @@ int main( int argc, char *argv[] )
         return 1;
     }
 
-    QIODevice* file = new QFile(args->url(0).toLocalFile());
+    QFile* file = new QFile(args->url(0).toLocalFile());
     if (!file->open(QIODevice::ReadOnly)) {
         QTextStream out(stderr);
         out << i18n("Cannot open file '%1' for reading, aborting.", args->url(0).toLocalFile());
@@ -55,10 +63,29 @@ int main( int argc, char *argv[] )
     }
 
     Massif::Parser parser;
-    Massif::DataModel* model = parser.parse(file);
-
+    qDebug() << "parsing data from file" << file->fileName();
+    Massif::FileData* data = parser.parse(file);
     delete file;
-    delete model;
-//     return app.exec();
-    return 0;
+    if (!data) {
+        return 3;
+    }
+
+    qDebug() << "description:" << data->description();
+    qDebug() << "command:" << data->cmd();
+    qDebug() << "time unit:" << data->timeUnit();
+    qDebug() << "snapshots:" << data->snapshots().size();
+    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << QString("%1%2").arg(data->peak()->time()).arg(data->timeUnit());
+    qDebug() << "peak cost:" << data->peak()->memHeap() << "bytes heap"
+                             << data->peak()->memHeapExtra() << "bytes heap extra"
+                             << data->peak()->memStacks() << "bytes stacks";
+
+    KDChart::Chart* chart = new KDChart::Chart;
+    KDChart::BarDiagram* diagram = new KDChart::BarDiagram;
+    Massif::CostModel* model = new Massif::CostModel(chart);
+    model->setSource(data);
+    diagram->setModel(model);
+    chart->coordinatePlane()->addDiagram(diagram);
+
+    chart->show();
+    return app.exec();
 }

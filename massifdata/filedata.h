@@ -14,36 +14,24 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIF_DATAMODEL_H
-#define MASSIF_DATAMODEL_H
+#ifndef MASSIF_FILEDATA_H
+#define MASSIF_FILEDATA_H
 
-#include <QtCore/QAbstractItemModel>
+#include <QtCore/QObject>
 
 namespace Massif {
 
 class SnapshotItem;
 
 /**
- * A model that stores all information one can extract from a Massif output file.
+ * This structure holds all information that can be extracted from a massif output file.
  */
-class DataModel : public QAbstractItemModel
+class FileData : public QObject
 {
+    Q_OBJECT
 public:
-    DataModel(QObject* parent = 0);
-    virtual ~DataModel();
-
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    /**
-     * The top-most items (i.e. with invalid parents) are snapshots which have five columns.
-     * Everything below is a detailed entry in the heap tree and has two columns.
-     */
-    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QModelIndex parent(const QModelIndex& child) const;
-    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-
-    virtual Qt::ItemFlags flags(const QModelIndex& index) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    FileData(QObject* parent = 0);
+    virtual ~FileData();
 
     /**
      * Set the @p cmd that was profiled with massif.
@@ -73,8 +61,7 @@ public:
     QString timeUnit() const;
 
     /**
-     * Adds @p snapshot to this model. The model takes ownership and will
-     * delete it when neccessary.
+     * Adds @p snapshot to this dataset and takes ownership.
      */
     void addSnapshot(SnapshotItem* snapshot);
     /**
@@ -84,7 +71,7 @@ public:
 
     /**
      * Marks @p snapshot as peak of this dataset.
-     * The snapshot should already been added to the model.
+     * The snapshot should already been added to the dataset.
      */
     void setPeak(SnapshotItem* snapshot);
     /**
@@ -102,4 +89,4 @@ private:
 
 }
 
-#endif // MASSIF_DATAMODEL_H
+#endif // MASSIF_FILEDATA_H

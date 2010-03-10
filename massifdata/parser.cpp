@@ -16,7 +16,7 @@
 
 #include "parser.h"
 
-#include "datamodel.h"
+#include "filedata.h"
 #include "parserprivate.h"
 
 #include <QtCore/QIODevice>
@@ -33,20 +33,20 @@ Parser::~Parser()
 {
 }
 
-DataModel* Parser::parse(QIODevice* file)
+FileData* Parser::parse(QIODevice* file)
 {
     Q_ASSERT(file->isOpen());
     Q_ASSERT(file->isReadable());
 
-    DataModel* model = new DataModel;
+    FileData* data = new FileData;
 
-    ParserPrivate p(file, model);
+    ParserPrivate p(file, data);
 
     if (p.error()) {
-        delete model;
-        model = 0;
+        delete data;
+        data = 0;
     }
 
-    return model;
+    return data;
 }
 

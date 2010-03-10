@@ -14,32 +14,37 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIF_PARSER_H
-#define MASSIF_PARSER_H
+#ifndef MASSIF_COSTMODEL_H
+#define MASSIF_COSTMODEL_H
 
-class QIODevice;
+#include <QtCore/QAbstractTableModel>
 
 namespace Massif {
 
 class FileData;
 
 /**
- * This class parses a Massif output file and stores it's information.
+ * A model that gives a tabular access on the costs in a massif output file.
  */
-class Parser
+class CostModel : public QAbstractTableModel
 {
 public:
-    Parser();
-    ~Parser();
+    CostModel(QObject* parent = 0);
+    virtual ~CostModel();
 
     /**
-     * Parse @p file and return a FileData structure representing the data.
-     *
-     * @note The caller has to delete the data afterwards.
+     * That the source data for this model.
      */
-    FileData* parse(QIODevice* file);
+    void setSource(const FileData* data);
+
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+
+private:
+    const FileData* m_data;
 };
 
 }
 
-#endif // MASSIF_PARSER_H
+#endif // MASSIF_COSTMODEL_H

@@ -16,7 +16,7 @@
 
 #include "parserprivate.h"
 
-#include "datamodel.h"
+#include "filedata.h"
 #include "snapshotitem.h"
 #include "treeleafitem.h"
 
@@ -31,8 +31,8 @@ using namespace Massif;
 
 #define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
 
-ParserPrivate::ParserPrivate(QIODevice* file, DataModel* model)
-    : m_file(file), m_model(model), m_nextLine(FileDesc), m_currentLine(0), m_error(NoError), m_snapshot(0)
+ParserPrivate::ParserPrivate(QIODevice* file, FileData* data)
+    : m_file(file), m_data(data), m_nextLine(FileDesc), m_currentLine(0), m_error(NoError), m_snapshot(0)
 {
     QByteArray line;
     QByteArray buffer;
@@ -112,7 +112,7 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
     // desc: ...
     VALIDATE(line.startsWith("desc: "))
 
-    m_model->setDescription(line.mid(6));
+    m_data->setDescription(line.mid(6));
     m_nextLine = FileCmd;
 }
 
@@ -121,7 +121,7 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
     // cmd: ...
     VALIDATE(line.startsWith("cmd: "))
 
-    m_model->setCmd(line.mid(5));
+    m_data->setCmd(line.mid(5));
     m_nextLine = FileTimeUnit;
 }
 
@@ -130,7 +130,7 @@ void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
     // time_unit: ...
     VALIDATE(line.startsWith("time_unit: "))
 
-    m_model->setTimeUnit(line.mid(11));
+    m_data->setTimeUnit(line.mid(11));
     m_nextLine = Snapshot;
 }
 
@@ -152,7 +152,7 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     VALIDATE(nextLine == "#-----------\n")
 
     m_snapshot = new SnapshotItem;
-    m_model->addSnapshot(m_snapshot);
+    m_data->addSnapshot(m_snapshot);
     m_snapshot->setNumber(number);
     m_nextLine = SnapshotTime;
 }
@@ -211,7 +211,7 @@ void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
         m_nextLine = HeapTreeLeaf;
     } else if (value == "peak") {
         m_nextLine = HeapTreeLeaf;
-        m_model->setPeak(m_snapshot);
+        m_data->setPeak(m_snapshot);
     } else {
         m_error = Invalid;
         return;

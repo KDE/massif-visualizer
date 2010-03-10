@@ -4,7 +4,7 @@ include_directories(
 )
 
 set(massifdata_SRCS
-    datamodel.cpp
+    filedata.cpp
     snapshotitem.cpp
     treeleafitem.cpp
     parser.cpp

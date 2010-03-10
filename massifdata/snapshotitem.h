@@ -40,13 +40,13 @@ public:
     /**
      * Sets the @p time at which this snapshot was taken.
      * The time can be measured in different formats,
-     * @see DataModel::timeUnit()
+     * @see FileData::timeUnit()
      */
     void setTime(const unsigned long time);
     /**
      * @return The time at which this snapshot was taken.
      * The time can be measured in different formats,
-     * @see DataModel::timeUnit()
+     * @see FileData::timeUnit()
      */
     unsigned long time() const;
 

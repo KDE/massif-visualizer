@@ -15,6 +15,7 @@ include_directories(
 
 add_subdirectory(kdchart)
 add_subdirectory(massifdata)
+add_subdirectory(visualizer)
 add_subdirectory(app)
 
 add_subdirectory(test)

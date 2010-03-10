@@ -23,14 +23,14 @@ class QIODevice;
 
 namespace Massif {
 
-class DataModel;
+class FileData;
 class SnapshotItem;
 class TreeLeafItem;
 
 class ParserPrivate
 {
 public:
-    ParserPrivate(QIODevice* file, DataModel* model);
+    ParserPrivate(QIODevice* file, FileData* data);
     ~ParserPrivate();
 
     enum Error {
@@ -61,7 +61,7 @@ private:
     TreeLeafItem* parseheapTreeLeafInternal(const QByteArray& line, int depth);
 
     QIODevice* m_file;
-    DataModel* m_model;
+    FileData* m_data;
 
     /**
      * Each value in the enum identifies a line in the massif output file.

@@ -14,4 +14,5 @@ target_link_libraries(massif-visualizer
     ${KDE4_THREADWEAVER_LIBRARIES}
     kdchart
     massifdata
+    visualizer
 )

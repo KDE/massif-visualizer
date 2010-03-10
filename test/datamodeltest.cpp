@@ -16,10 +16,12 @@
 
 #include "datamodeltest.h"
 
-#include "massifdata/datamodel.h"
 #include "modeltest.h"
 
-#include "massifdata/parserprivate.h"
+#include "massifdata/parser.h"
+#include "massifdata/filedata.h"
+
+#include "visualizer/costmodel.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
@@ -35,9 +37,14 @@ void DataModelTest::parseFile()
     QFile* file = new QFile(path);
     QVERIFY(file->open(QIODevice::ReadOnly));
 
-    DataModel* model = new DataModel;
-    new ModelTest(model, model);
-    ParserPrivate parser(file, model);
-    QCOMPARE(parser.error(), ParserPrivate::NoError);
-    qDebug() << model->rowCount();
+    Parser parser;
+    FileData* data = parser.parse(file);
+    QVERIFY(data);
+
+    CostModel* model = new CostModel(this);
+    new ModelTest(model, this);
+    model->setSource(data);
+    QVERIFY(model->rowCount() == data->snapshots().size());
+    // remove data
+    model->setSource(0);
 }

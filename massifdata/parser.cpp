@@ -25,11 +25,11 @@
 
 using namespace Massif;
 
-Massif::Parser::Parser()
+Parser::Parser()
 {
 }
 
-Massif::Parser::~Parser()
+Parser::~Parser()
 {
 }
 

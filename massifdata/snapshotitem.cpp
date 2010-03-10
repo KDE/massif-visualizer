@@ -20,12 +20,13 @@
 using namespace Massif;
 
 SnapshotItem::SnapshotItem()
-    : m_number(0), m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0)
+    : m_number(0), m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0), m_heapTree(0)
 {
 }
 
 SnapshotItem::~SnapshotItem()
 {
+    delete m_heapTree;
 }
 
 void SnapshotItem::setNumber(const unsigned int num)
@@ -78,12 +79,12 @@ unsigned int SnapshotItem::memStacks() const
     return m_memStacks;
 }
 
-void Massif::SnapshotItem::addChild(TreeLeafItem* leaf)
+void SnapshotItem::setHeapTree(TreeLeafItem* root)
 {
-    m_children << leaf;
+    m_heapTree = root;
 }
 
-QList< Massif::TreeLeafItem* > Massif::SnapshotItem::children()
+TreeLeafItem* SnapshotItem::heapTree()
 {
-    return m_children;
+    return m_heapTree;
 }

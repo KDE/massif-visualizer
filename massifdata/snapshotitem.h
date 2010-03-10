@@ -19,8 +19,12 @@
 
 #include <ctime>
 
+#include <QtCore/QList>
+
 namespace Massif
 {
+
+class TreeLeafItem;
 
 class SnapshotItem
 {
@@ -73,12 +77,23 @@ public:
      */
     unsigned int memStacks() const;
 
+    /**
+     * Adds @p leaf as child of this snapshot.
+     * The snapshot takes ownership.
+     */
+    void addChild(TreeLeafItem* leaf);
+    /**
+     * @return The children of this snapshot. Only non-empty for snapshots with detailed heap_tree.
+     */
+    QList<TreeLeafItem*> children();
+
 private:
     unsigned int m_number;
     std::time_t m_time;
     unsigned int m_memHeap;
     unsigned int m_memHeapExtra;
     unsigned int m_memStacks;
+    QList<TreeLeafItem*> m_children;
 };
 
 }

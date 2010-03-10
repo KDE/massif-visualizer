@@ -15,6 +15,7 @@
 */
 
 #include "snapshotitem.h"
+#include "treeleafitem.h"
 
 using namespace Massif;
 
@@ -75,4 +76,14 @@ void SnapshotItem::setMemStacks(const unsigned int bytes)
 unsigned int SnapshotItem::memStacks() const
 {
     return m_memStacks;
+}
+
+void Massif::SnapshotItem::addChild(TreeLeafItem* leaf)
+{
+    m_children << leaf;
+}
+
+QList< Massif::TreeLeafItem* > Massif::SnapshotItem::children()
+{
+    return m_children;
 }

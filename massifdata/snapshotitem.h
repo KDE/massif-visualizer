@@ -17,8 +17,6 @@
 #ifndef SNAPSHOTITEM_H
 #define SNAPSHOTITEM_H
 
-#include <ctime>
-
 namespace Massif
 {
 
@@ -35,18 +33,22 @@ public:
      */
     void setNumber(const unsigned int num);
     /**
-     * Returns the number of this snapshot.
+     * @return The number of this snapshot.
      */
     unsigned int number() const;
 
     /**
-     * Sets the time at which this snapshot was taken.
+     * Sets the @p time at which this snapshot was taken.
+     * The time can be measured in different formats,
+     * @see DataModel::timeUnit()
      */
-    void setTime(const std::time_t time);
+    void setTime(const unsigned long time);
     /**
      * @return The time at which this snapshot was taken.
+     * The time can be measured in different formats,
+     * @see DataModel::timeUnit()
      */
-    std::time_t time() const;
+    unsigned long time() const;
 
     /**
      * Sets the size of the memory heap in bytes.
@@ -86,7 +88,7 @@ public:
 
 private:
     unsigned int m_number;
-    std::time_t m_time;
+    unsigned long m_time;
     unsigned int m_memHeap;
     unsigned int m_memHeapExtra;
     unsigned int m_memStacks;

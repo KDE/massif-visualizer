@@ -20,6 +20,7 @@
 
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
 
 using namespace Massif;
 
@@ -68,10 +69,17 @@ QVariant CostModel::data(const QModelIndex& index, int role) const
         return QVariant();
     } else {
         SnapshotItem* snapshot = m_data->snapshots().at(index.row());
-        if (index.column() == 0) {
+        if (index.column() % 2 == 0) {
             return QVariant::fromValue<unsigned long>(snapshot->time());
         } else if (index.column() == 1) {
             return snapshot->memHeap();
+        } else {
+            int item = index.column() / 2 - 1;
+            if ( !snapshot->heapTree() || snapshot->heapTree()->children().size() <= item ) {
+                return 0;
+            } else {
+                return snapshot->heapTree()->children().at(item)->cost();
+            }
         }
     }
     return QVariant();
@@ -79,7 +87,7 @@ QVariant CostModel::data(const QModelIndex& index, int role) const
 
 int CostModel::columnCount(const QModelIndex& parent) const
 {
-    return 2;
+    return 2 * 5;
 }
 
 int CostModel::rowCount(const QModelIndex& parent) const

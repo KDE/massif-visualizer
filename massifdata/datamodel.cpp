@@ -66,6 +66,7 @@ QVariant DataModel::data(const QModelIndex& index, int role) const
             return snapshot->memStacks();
         }
     }
+    return QVariant();
 }
 
 int DataModel::columnCount(const QModelIndex& parent) const

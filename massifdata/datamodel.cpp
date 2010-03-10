@@ -23,7 +23,6 @@ using namespace Massif;
 
 DataModel::DataModel(QObject* parent): QAbstractItemModel(parent), m_peak(0)
 {
-
 }
 
 DataModel::~DataModel()
@@ -106,7 +105,7 @@ QModelIndex DataModel::parent(const QModelIndex& child) const
 
 QModelIndex DataModel::index(int row, int column, const QModelIndex& parent) const
 {
-    if (row >= 0 && row < rowCount(parent) && column > 0 && column <= columnCount(parent)) {
+    if (row >= 0 && row < rowCount(parent) && column >= 0 && column <= columnCount(parent)) {
         quint32 id = parent.isValid() ? parent.internalId() : 0;
         return createIndex(row, column, id);
     } else {
@@ -114,9 +113,13 @@ QModelIndex DataModel::index(int row, int column, const QModelIndex& parent) con
     }
 }
 
-Qt::ItemFlags DataModel::flags(const QModelIndex&) const
+Qt::ItemFlags DataModel::flags(const QModelIndex& index) const
 {
-    return Qt::ItemIsEnabled;
+    if (index.isValid()) {
+        return Qt::ItemIsEnabled;
+    } else {
+        return 0;
+    }
 }
 
 QVariant DataModel::headerData(int, Qt::Orientation, int) const
@@ -157,7 +160,9 @@ QString DataModel::timeUnit() const
 
 void DataModel::addSnapshot(Massif::SnapshotItem* snapshot)
 {
+    beginInsertRows(QModelIndex(), m_snapshots.count(), m_snapshots.count());
     m_snapshots << snapshot;
+    endInsertRows();
 }
 
 QList< SnapshotItem* > DataModel::snapshots() const

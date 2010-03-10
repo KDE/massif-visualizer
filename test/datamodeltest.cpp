@@ -23,6 +23,7 @@
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
+#include <QtCore/QDebug>
 
 QTEST_MAIN(DataModelTest)
 
@@ -36,5 +37,7 @@ void DataModelTest::parseFile()
 
     DataModel* model = new DataModel;
     new ModelTest(model, model);
-    ParserPrivate(file, model);
+    ParserPrivate parser(file, model);
+    QCOMPARE(parser.error(), ParserPrivate::NoError);
+    qDebug() << model->rowCount();
 }

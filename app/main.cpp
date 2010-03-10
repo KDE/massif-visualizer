@@ -86,6 +86,16 @@ int main( int argc, char *argv[] )
     diagram->setModel(model);
     chart->coordinatePlane()->addDiagram(diagram);
 
+    KDChart::CartesianAxis *bottomAxis = new KDChart::CartesianAxis( diagram );
+    bottomAxis->setTitleText("time in " + data->timeUnit());
+    bottomAxis->setPosition ( KDChart::CartesianAxis::Bottom );
+    diagram->addAxis(bottomAxis);
+
+    KDChart::CartesianAxis *leftAxis = new KDChart::CartesianAxis ( diagram );
+    leftAxis->setTitleText("memory heap size in bytes");
+    leftAxis->setPosition ( KDChart::CartesianAxis::Left );
+    diagram->addAxis(leftAxis);
+
     chart->show();
     return app.exec();
 }

@@ -113,12 +113,12 @@ QModelIndex DataModel::index(int row, int column, const QModelIndex& parent) con
     }
 }
 
-Qt::ItemFlags DataModel::flags(const QModelIndex& index) const
+Qt::ItemFlags DataModel::flags(const QModelIndex&) const
 {
     return Qt::ItemIsEnabled;
 }
 
-QVariant DataModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DataModel::headerData(int, Qt::Orientation, int) const
 {
     return QVariant();
 }

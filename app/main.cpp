@@ -87,6 +87,13 @@ int main( int argc, char *argv[] )
     header->setPosition(KDChart::Position(KDChartEnums::PositionNorth));
     header->setTextAlignment(Qt::AlignHCenter);
     chart->addHeaderFooter(header);
+    KDChart::HeaderFooter* subHeader = new KDChart::HeaderFooter;
+    subHeader->setText(i18n("peak of %1 bytes at snapshot %2", data->peak()->memHeap(), data->peak()->number()));
+    subHeader->setTextAlignment(Qt::AlignHCenter);
+    KDChart::TextAttributes textAttributes = subHeader->textAttributes();
+    textAttributes.setFontSize(KDChart::Measure(0.5));
+    subHeader->setTextAttributes(textAttributes);
+    chart->addHeaderFooter(subHeader);
     KDChart::Plotter* diagram = new KDChart::Plotter;
     diagram->setAntiAliasing(true);
     KDChart::LineAttributes attributes = diagram->lineAttributes();

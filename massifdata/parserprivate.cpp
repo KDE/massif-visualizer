@@ -44,7 +44,6 @@ ParserPrivate::ParserPrivate(QIODevice* file, DataModel* model)
         line = m_file->readLine();
         // remove trailing \n
         line.chop(1);
-        qDebug() << m_currentLine << line;
         switch (m_nextLine) {
             case FileDesc:
                 parseFileDesc(line);
@@ -78,6 +77,7 @@ ParserPrivate::ParserPrivate(QIODevice* file, DataModel* model)
                 break;
         }
         if (m_error != NoError) {
+            qWarning() << "invalid line" << (m_currentLine + 1) << line;
             m_error = Invalid;
             break;
         }

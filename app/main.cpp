@@ -32,6 +32,8 @@
 
 #include "KDChartChart"
 #include "KDChartPlotter"
+#include "KDChartGridAttributes"
+#include "KDChartHeaderFooter"
 
 #include <QtCore/QDebug>
 
@@ -80,7 +82,18 @@ int main( int argc, char *argv[] )
                              << data->peak()->memStacks() << "bytes stacks";
 
     KDChart::Chart* chart = new KDChart::Chart;
+    KDChart::HeaderFooter* header = new KDChart::HeaderFooter;
+    header->setText(i18n("memory consumption of '%1' %2", data->cmd(), data->description() != "(none)" ? data->description() : ""));
+    header->setPosition(KDChart::Position(KDChartEnums::PositionNorth));
+    header->setTextAlignment(Qt::AlignHCenter);
+    chart->addHeaderFooter(header);
     KDChart::Plotter* diagram = new KDChart::Plotter;
+    diagram->setAntiAliasing(true);
+    KDChart::LineAttributes attributes = diagram->lineAttributes();
+    attributes.setDisplayArea(true);
+    attributes.setTransparency(127);
+    diagram->setLineAttributes(attributes);
+
     Massif::CostModel* model = new Massif::CostModel(chart);
     model->setSource(data);
     diagram->setModel(model);

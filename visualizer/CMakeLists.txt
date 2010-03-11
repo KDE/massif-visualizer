@@ -6,6 +6,7 @@ include_directories(
 set(visualizer_SRCS
     totalcostmodel.cpp
     detailedcostmodel.cpp
+    datatreemodel.cpp
 )
 
 kde4_add_library(visualizer ${visualizer_SRCS})

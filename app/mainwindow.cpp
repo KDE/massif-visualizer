@@ -29,6 +29,7 @@
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
+#include "visualizer/datatreemodel.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -188,6 +189,10 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setTitleText(i18n("memory heap size in bytes"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
+
+    DataTreeModel* treeModel =  new DataTreeModel;
+    treeModel->setSource(m_data);
+    ui.treeView->setModel(treeModel);
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
 }

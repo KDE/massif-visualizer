@@ -19,7 +19,7 @@
 using namespace Massif;
 
 TreeLeafItem::TreeLeafItem()
-    : m_cost(0)
+    : m_cost(0), m_parent(0)
 {
 }
 
@@ -50,6 +50,7 @@ unsigned int TreeLeafItem::cost() const
 
 void TreeLeafItem::addChild(TreeLeafItem* leaf)
 {
+    leaf->m_parent = this;
     m_children << leaf;
 }
 
@@ -57,3 +58,9 @@ QList< TreeLeafItem* > TreeLeafItem::children() const
 {
     return m_children;
 }
+
+TreeLeafItem* TreeLeafItem::parent() const
+{
+    return m_parent;
+}
+

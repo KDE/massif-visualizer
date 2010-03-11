@@ -23,6 +23,7 @@
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
+#include "visualizer/datatreemodel.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
@@ -72,4 +73,14 @@ void DataModelTest::parseFile()
         // remove data
         model->setSource(0);
     }
+
+    {
+        DataTreeModel* model = new DataTreeModel(this);
+        new ModelTest(model, this);
+        model->setSource(data);
+        QVERIFY(model->rowCount() == data->snapshots().size());
+        // remove data
+        model->setSource(0);
+    }
+
 }

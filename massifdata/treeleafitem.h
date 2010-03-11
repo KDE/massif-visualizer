@@ -56,10 +56,17 @@ public:
      */
     QList<TreeLeafItem*> children() const;
 
+    /**
+     * @return The parent tree leaf item or zero, if this is the root node.
+     */
+    TreeLeafItem* parent() const;
+
 private:
     QString m_label;
     unsigned int m_cost;
     QList<TreeLeafItem*> m_children;
+
+    TreeLeafItem* m_parent;
 };
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="massif-visualizer" version="1">
+<kpartgui name="massif-visualizer" version="2">
 
 <MenuBar>
   <Menu name="file" noMerge="1"><text>&amp;File</text>
@@ -12,6 +12,10 @@
 
     <Action name="file_quit"/>
     <DefineGroup name="close_merge" append="close_merge"/>
+  </Menu>
+  <Menu name="view" noMerge="1"><text>&amp;View</text>
+    <Action name="toggle_total"/>
+    <Action name="toggle_detailed"/>
   </Menu>
 
   <Menu name="settings"><text>&amp;Settings</text>
@@ -36,6 +40,9 @@
   <Action name="file_open" />
   <Separator />
   <Action name="file_close" />
+  <Separator />
+  <Action name="toggle_total"/>
+  <Action name="toggle_detailed"/>
 </ToolBar>
 
 </kpartgui>

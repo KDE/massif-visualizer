@@ -24,7 +24,11 @@
 namespace KDChart {
 class Chart;
 class HeaderFooter;
+class Plotter;
+class CartesianAxis;
 }
+
+class KAction;
 
 namespace Massif {
 
@@ -58,11 +62,25 @@ public slots:
      */
     void closeFile();
 
+    /**
+     * Depending on @p show, the total cost graph is shown or hidden.
+     */
+    void showTotalGraph(bool show);
+
+    /**
+     * Depending on @p show, the detailed cost graph is shown or hidden.
+     */
+    void showDetailedGraph(bool show);
+
 private:
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;
     KDChart::HeaderFooter* m_header;
     KDChart::HeaderFooter* m_subheader;
+    KAction* m_toggleTotal;
+    KDChart::Plotter* m_totalDiagram;
+    KAction* m_toggleDetailed;
+    KDChart::Plotter* m_detailedDiagram;
     FileData* m_data;
 };
 

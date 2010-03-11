@@ -22,6 +22,7 @@
 #include "massifdata/filedata.h"
 
 #include "visualizer/totalcostmodel.h"
+#include "visualizer/detailedcostmodel.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
@@ -41,10 +42,34 @@ void DataModelTest::parseFile()
     FileData* data = parser.parse(file);
     QVERIFY(data);
 
-    TotalCostModel* model = new TotalCostModel(this);
-    new ModelTest(model, this);
-    model->setSource(data);
-    QVERIFY(model->rowCount() == data->snapshots().size());
-    // remove data
-    model->setSource(0);
+    {
+        TotalCostModel* model = new TotalCostModel(this);
+        new ModelTest(model, this);
+        model->setSource(data);
+        QVERIFY(model->rowCount() == data->snapshots().size());
+        for ( int r = 0; r < model->rowCount(); ++r ) {
+            for ( int c = 0; c < model->columnCount(); ++c ) {
+                qDebug() << r << c << model->data(model->index(r, c));
+            }
+        }
+        // remove data
+        model->setSource(0);
+    }
+
+    {
+        DetailedCostModel* model = new DetailedCostModel(this);
+        new ModelTest(model, this);
+        model->setSource(data);
+        for ( int r = 0; r < model->rowCount(); ++r ) {
+            for ( int c = 0; c < model->columnCount(); ++c ) {
+                qDebug() << r << c << model->data(model->index(r, c));
+            }
+            if ( r ) {
+                // we want that the snapshots are ordered properly
+                QVERIFY(model->data(model->index(r, 0)).toDouble() > model->data(model->index(r - 1, 0)).toDouble());
+            }
+        }
+        // remove data
+        model->setSource(0);
+    }
 }

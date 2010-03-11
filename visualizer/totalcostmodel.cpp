@@ -48,10 +48,9 @@ void TotalCostModel::setSource(const FileData* data)
 
 QVariant TotalCostModel::data(const QModelIndex& index, int role) const
 {
-    qDebug() << "data requested for" << index << "and role" << role;
     // FIXME kdchart queries (-1, -1) for empty models
     if ( index.row() == -1 || index.column() == -1 ) {
-        qWarning() << "TotalCostModel::data: FIXME fix kdchart views to not query model data for invalid indices!";
+//         qWarning() << "TotalCostModel::data: FIXME fix kdchart views to not query model data for invalid indices!";
         return QVariant();
     }
 
@@ -65,11 +64,11 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     }
 
     SnapshotItem* snapshot = m_data->snapshots().at(index.row());
-    if (index.column() % 2 == 0) {
-        return QVariant::fromValue<unsigned long>(snapshot->time());
+    if (index.column() == 0) {
+        return double(snapshot->time());
     } else {
         Q_ASSERT(index.column() == 1);
-        return snapshot->memHeap();
+        return double(snapshot->memHeap());
     }
 }
 

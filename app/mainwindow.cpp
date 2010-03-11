@@ -21,15 +21,18 @@
 #include "KDChartHeaderFooter"
 #include "KDChartCartesianCoordinatePlane"
 #include "KDChartPlotter"
+#include "KDChartLineDiagram"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/snapshotitem.h"
 
 #include "visualizer/totalcostmodel.h"
+#include "visualizer/detailedcostmodel.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
+#include <KAction>
 #include <KFileDialog>
 
 #include <KMimeType>
@@ -40,7 +43,8 @@ using namespace Massif;
 using namespace KDChart;
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
-    : KXmlGuiWindow(parent, f), m_chart(new Chart), m_header(new HeaderFooter), m_subheader(new HeaderFooter)
+    : KXmlGuiWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
+    , m_toggleTotal(0), m_totalDiagram(0), m_toggleDetailed(0), m_detailedDiagram(0)
     , m_data(0)
 {
     ui.setupUi(this);
@@ -62,9 +66,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     setCentralWidget(m_chart);
 
     setupActions();
-    createGUI();
-    //TODO: why the hell doesn't this work?
-//     setupGUI();
+    setupGUI();
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +80,20 @@ void MainWindow::setupActions()
     KStandardAction::close(this, SLOT(closeFile()), actionCollection());
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
+
+    m_toggleTotal = new KAction(i18n("toggle total cost graph"), actionCollection());
+    m_toggleTotal->setCheckable(true);
+    m_toggleTotal->setChecked(true);
+    m_toggleTotal->setEnabled(false);
+    connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
+    actionCollection()->addAction("toggle_total", m_toggleTotal);
+
+    m_toggleDetailed = new KAction(i18n("toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed->setCheckable(true);
+    m_toggleDetailed->setChecked(true);
+    m_toggleDetailed->setEnabled(false);
+    connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
+    actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 }
 
 void MainWindow::openFile()
@@ -120,28 +136,60 @@ void MainWindow::openFile(const KUrl& file)
     m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
     m_subheader->setText(i18n("peak of %1 bytes at snapshot %2", m_data->peak()->memHeap(), m_data->peak()->number()));
 
-    Plotter* diagram = new Plotter;
-    diagram->setAntiAliasing(true);
-    LineAttributes attributes = diagram->lineAttributes();
-    attributes.setDisplayArea(true);
-    attributes.setTransparency(127);
-    diagram->setLineAttributes(attributes);
 
-    TotalCostModel* model = new TotalCostModel(m_chart->coordinatePlane());
-    model->setSource(m_data);
-    diagram->setModel(model);
+    m_totalDiagram = new Plotter;
+    m_toggleTotal->setEnabled(true);
+    m_totalDiagram->setAntiAliasing(true);
+    {
+        LineAttributes attributes = m_totalDiagram->lineAttributes();
+        attributes.setDisplayArea(true);
+        attributes.setTransparency(127);
+        m_totalDiagram->setLineAttributes(attributes);
+    }
 
-    CartesianAxis *bottomAxis = new CartesianAxis( diagram );
-    bottomAxis->setTitleText("time in " + m_data->timeUnit());
+    CartesianAxis* bottomAxis = new CartesianAxis;
+    bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     bottomAxis->setPosition ( CartesianAxis::Bottom );
-    diagram->addAxis(bottomAxis);
+    m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis *leftAxis = new CartesianAxis ( diagram );
-    leftAxis->setTitleText("memory heap size in bytes");
+    CartesianAxis* leftAxis = new CartesianAxis;
+    leftAxis->setTitleText(i18n("memory heap size in bytes"));
     leftAxis->setPosition ( CartesianAxis::Left );
-    diagram->addAxis(leftAxis);
+    m_totalDiagram->addAxis(leftAxis);
 
-    m_chart->coordinatePlane()->addDiagram(diagram);
+    TotalCostModel* totalCostModel = new TotalCostModel(m_chart->coordinatePlane());
+    totalCostModel->setSource(m_data);
+    m_totalDiagram->setModel(totalCostModel);
+
+    m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
+
+    m_detailedDiagram = new Plotter;
+    m_toggleDetailed->setEnabled(true);
+    m_detailedDiagram->setAntiAliasing(true);
+    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
+    {
+        LineAttributes attributes = m_detailedDiagram->lineAttributes();
+        attributes.setDisplayArea(true);
+        attributes.setTransparency(127);
+        m_detailedDiagram->setLineAttributes(attributes);
+    }
+
+    DetailedCostModel* detailedCostModel = new DetailedCostModel(m_chart->coordinatePlane());
+    detailedCostModel->setSource(m_data);
+    qDebug() << detailedCostModel->data(detailedCostModel->index(detailedCostModel->rowCount()-1, 0));
+    m_detailedDiagram->setModel(detailedCostModel);
+
+    CartesianAxis* topAxis = new CartesianAxis;
+    topAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
+    topAxis->setPosition ( CartesianAxis::Top );
+    m_detailedDiagram->addAxis(topAxis);
+
+    CartesianAxis* rightAxis = new CartesianAxis;
+    rightAxis->setTitleText(i18n("memory heap size in bytes"));
+    rightAxis->setPosition ( CartesianAxis::Right );
+    m_detailedDiagram->addAxis(rightAxis);
+
+    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
 }
 
 void MainWindow::closeFile()
@@ -152,15 +200,48 @@ void MainWindow::closeFile()
     delete m_data;
     m_data = 0;
 
-    AbstractCoordinatePlane* plane = m_chart->coordinatePlane();
-    m_chart->takeCoordinatePlane(plane);
-    delete plane;
-    m_chart->addCoordinatePlane(new CartesianCoordinatePlane);
+    m_toggleDetailed->setEnabled(false);
+    m_toggleDetailed->setChecked(true);
+    m_detailedDiagram = 0;
+
+    m_toggleTotal->setEnabled(false);
+    m_toggleTotal->setChecked(true);
+    m_totalDiagram = 0;
+
+    m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
 }
 
 Chart* MainWindow::chart()
 {
     return m_chart;
+}
+
+void MainWindow::showDetailedGraph(bool show)
+{
+    Q_ASSERT(m_data);
+    Q_ASSERT(m_detailedDiagram);
+    if (show) {
+        Q_ASSERT(!m_chart->coordinatePlane()->diagrams().contains(m_detailedDiagram));
+        m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+    } else {
+        Q_ASSERT(m_chart->coordinatePlane()->diagrams().contains(m_detailedDiagram));
+        m_chart->coordinatePlane()->takeDiagram(m_detailedDiagram);
+    }
+    m_toggleDetailed->setChecked(show);
+}
+
+void MainWindow::showTotalGraph(bool show)
+{
+    Q_ASSERT(m_data);
+    Q_ASSERT(m_totalDiagram);
+    if (show) {
+        Q_ASSERT(!m_chart->coordinatePlane()->diagrams().contains(m_totalDiagram));
+        m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
+    } else {
+        Q_ASSERT(m_chart->coordinatePlane()->diagrams().contains(m_totalDiagram));
+        m_chart->coordinatePlane()->takeDiagram(m_totalDiagram);
+    }
+    m_toggleTotal->setChecked(show);
 }
 
 #include "mainwindow.moc"

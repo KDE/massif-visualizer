@@ -25,37 +25,29 @@
  **
  **********************************************************************/
 
-#include "KDChartStackedLineDiagram_p.h"
+#include "KDChartStackedPlotter_p.h"
+#include "KDChartPlotter.h"
 
-#include <QAbstractItemModel>
-
-#include "KDChartBarDiagram.h"
-#include "KDChartLineDiagram.h"
-#include "KDChartTextAttributes.h"
-#include "KDChartAttributesModel.h"
-#include "KDChartAbstractCartesianDiagram.h"
+#include <limits>
 
 using namespace KDChart;
 using namespace std;
 
-StackedLineDiagram::StackedLineDiagram( LineDiagram* d )
-    : LineDiagramType( d )
+StackedPlotter::StackedPlotter( Plotter* d )
+    : PlotterType( d )
 {
 }
 
-LineDiagram::LineType StackedLineDiagram::type() const
+Plotter::PlotType StackedPlotter::type() const
 {
-    return LineDiagram::Stacked;
+    return Plotter::Stacked;
 }
 
-const QPair<QPointF, QPointF> StackedLineDiagram::calculateDataBoundaries() const
+const QPair< QPointF, QPointF > StackedPlotter::calculateDataBoundaries() const
 {
     const int rowCount = compressor().modelDataRows();
     const int colCount = compressor().modelDataColumns();
-    const double xMin = 0;
-    double xMax = diagram()->model() ? diagram()->model()->rowCount( diagram()->rootIndex() ) : 0;
-    if ( !diagram()->centerDataPoints() && diagram()->model() )
-        xMax -= 1;
+    double xMin = 0, xMax = 0;
     double yMin = 0, yMax = 0;
 
     bool bStarting = true;
@@ -64,7 +56,7 @@ const QPair<QPointF, QPointF> StackedLineDiagram::calculateDataBoundaries() cons
         // calculate sum of values per column - Find out stacked Min/Max
         double stackedValues = 0.0;
         double negativeStackedValues = 0.0;
-        for( int col = datasetDimension() - 1; col < colCount; col += datasetDimension() ) {
+        for( int col = 0; col < colCount; ++col ) {
             const CartesianDiagramDataCompressor::CachePosition position( row, col );
             const CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
 
@@ -77,14 +69,22 @@ const QPair<QPointF, QPointF> StackedLineDiagram::calculateDataBoundaries() cons
                 negativeStackedValues += point.value;
         }
 
+        //assume that each value in this row has the same x-value
+        //very unintuitive...
+        const CartesianDiagramDataCompressor::CachePosition xPosition( row, 0 );
+        const CartesianDiagramDataCompressor::DataPoint xPoint = compressor().data( xPosition );
         if( bStarting ){
             yMin = stackedValues;
             yMax = stackedValues;
+            xMax = xPoint.key;
+            xMin = xPoint.key;
             bStarting = false;
         }else{
             // take in account all stacked values
             yMin = qMin( qMin( yMin, negativeStackedValues ), stackedValues );
             yMax = qMax( qMax( yMax, negativeStackedValues ), stackedValues );
+            xMin = qMin( xMin, xPoint.key );
+            xMax = qMax( xMax, xPoint.key );
         }
     }
 
@@ -94,7 +94,7 @@ const QPair<QPointF, QPointF> StackedLineDiagram::calculateDataBoundaries() cons
     return QPair<QPointF, QPointF> ( bottomLeft, topRight );
 }
 
-void StackedLineDiagram::paint(  PaintContext* ctx )
+void StackedPlotter::paint( PaintContext* ctx )
 {
     reverseMapper().clear();
 
@@ -108,9 +108,9 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
 // FIXME integrate column index retrieval to compressor:
     int maxFound = 0;
 //    {   // find the last column number that is not hidden
-//        for( int iColumn =  datasetDimension() - 1;
+//        for( int iColumn =  /*datasetDimension()*/2 - 1;
 //             iColumn <  columnCount;
-//             iColumn += datasetDimension() )
+//             iColumn += /*datasetDimension()*/2 )
 //            if( ! diagram()->isHidden( iColumn ) )
 //                maxFound = iColumn;
 //    }
@@ -142,6 +142,7 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
             const CartesianDiagramDataCompressor::CachePosition position( row, column );
             CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
             const QModelIndex sourceIndex = attributesModel()->mapToSource( point.index );
+            qDebug() << row << column << '|' << point.key << point.value;
 
             const LineAttributes laCell = diagram()->lineAttributes( sourceIndex );
             const bool bDisplayCellArea = laCell.displayArea();
@@ -186,14 +187,19 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
                 }
             }
             //qDebug() << stackedValues << endl;
-            const QPointF nextPoint = ctx->coordinatePlane()->translate( QPointF( diagram()->centerDataPoints() ? point.key + 0.5 : point.key, stackedValues ) );
+            qDebug() << point.key << stackedValues;
+            const QPointF nextPoint = ctx->coordinatePlane()->translate( QPointF( point.key, stackedValues ) );
+            if (!points.isEmpty() && points.last().x() > nextPoint.x()) {
+                qDebug() << row << column << nextPoint << points.last();
+            }
+            Q_ASSERT(points.isEmpty() || points.last().x() < nextPoint.x());
             points << nextPoint;
 
             const QPointF ptNorthWest( nextPoint );
             const QPointF ptSouthWest(
                 bDisplayCellArea
                 ? ( bFirstDataset
-                    ? ctx->coordinatePlane()->translate( QPointF( diagram()->centerDataPoints() ? point.key + 0.5 : point.key, 0.0 ) )
+                    ? ctx->coordinatePlane()->translate( QPointF( point.key, 0.0 ) )
                     : bottomPoints.at( row )
                     )
                 : nextPoint );
@@ -201,13 +207,13 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
             QPointF ptSouthEast;
 
             if ( row + 1 < rowCount ){
-                QPointF toPoint = ctx->coordinatePlane()->translate( QPointF( diagram()->centerDataPoints() ? nextKey + 0.5 : nextKey, nextValues ) );
+                QPointF toPoint = ctx->coordinatePlane()->translate( QPointF( nextKey, nextValues ) );
                 lineList.append( LineAttributesInfo( sourceIndex, nextPoint, toPoint ) );
                 ptNorthEast = toPoint;
                 ptSouthEast =
                     bDisplayCellArea
                     ? ( bFirstDataset
-                        ? ctx->coordinatePlane()->translate( QPointF( diagram()->centerDataPoints() ? nextKey + 0.5 : nextKey, 0.0 ) )
+                        ? ctx->coordinatePlane()->translate( QPointF( nextKey, 0.0 ) )
                         : bottomPoints.at( row + 1 )
                         )
                     : toPoint;
@@ -231,7 +237,7 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
 
             const PositionPoints pts( ptNorthWest, ptNorthEast, ptSouthEast, ptSouthWest );
             if( !ISNAN( point.value ) )
-                appendDataValueTextInfoToList( diagram(), list, sourceIndex, &position,
+                appendDataValueTextInfoToList( diagram(), list, sourceIndex,
                                                pts, Position::NorthWest, Position::SouthWest,
                                                point.value );
         }
@@ -243,4 +249,39 @@ void StackedLineDiagram::paint(  PaintContext* ctx )
         bFirstDataset = false;
     }
     paintElements( ctx, list, lineList, policy );
+}
+
+double StackedPlotter::interpolateMissingValue( const CartesianDiagramDataCompressor::CachePosition& pos ) const
+{
+    double leftValue = std::numeric_limits< double >::quiet_NaN();
+    double rightValue = std::numeric_limits< double >::quiet_NaN();
+    int missingCount = 1;
+
+    const int column = pos.second;
+    const int row = pos.first;
+    const int rowCount = compressor().modelDataRows();
+
+    // iterate back and forth to find valid values
+    for( int r1 = row - 1; r1 > 0; --r1 )
+    {
+        const CartesianDiagramDataCompressor::CachePosition position( r1, column );
+        const CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
+        leftValue = point.value;
+        if( !ISNAN( point.value ) )
+            break;
+        ++missingCount;
+    }
+    for( int r2 = row + 1; r2 < rowCount; ++r2 )
+    {
+        const CartesianDiagramDataCompressor::CachePosition position( r2, column );
+        const CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
+        rightValue = point.value;
+        if( !ISNAN( point.value ) )
+            break;
+        ++missingCount;
+    }
+    if( !ISNAN( leftValue ) && !ISNAN( rightValue ) )
+        return leftValue + ( rightValue - leftValue ) / ( missingCount + 1 );
+    else
+        return std::numeric_limits< double >::quiet_NaN();
 }

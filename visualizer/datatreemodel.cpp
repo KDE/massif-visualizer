@@ -22,6 +22,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include <QtGui/QBrush>
+
 using namespace Massif;
 
 DataTreeModel::DataTreeModel(QObject* parent)
@@ -92,9 +94,23 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
     Q_ASSERT(m_data);
 
+
+    // custom background for peak snapshot
+    if ( role == Qt::BackgroundRole && !index.parent().isValid() ) {
+        SnapshotItem* snapshot = m_data->snapshots()[index.row()];
+        if ( snapshot == m_data->peak() ) {
+            QColor c(Qt::red);
+            c.setAlpha(125);
+            return QBrush(c);
+        } else {
+            return QVariant();
+        }
+    }
+
     if ( role != Qt::DisplayRole ) {
         return QVariant();
     }
+
     if (!index.parent().isValid()) {
         SnapshotItem* snapshot = m_data->snapshots()[index.row()];
         if (index.column() == 0) {

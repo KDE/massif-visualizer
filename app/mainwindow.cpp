@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setCentralWidget(m_chart);
 
+    setWindowIcon(KIcon("office-chart-area"));
+
     setupActions();
     setupGUI();
 }

@@ -15,4 +15,5 @@ target_link_libraries(visualizer
     massifdata
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
+    ${KDE4_KDECORE_LIBS}
 )

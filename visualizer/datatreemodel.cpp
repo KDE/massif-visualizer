@@ -22,6 +22,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include <KLocalizedString>
+
 #include <QtGui/QBrush>
 
 using namespace Massif;
@@ -73,9 +75,9 @@ QVariant DataTreeModel::headerData(int section, Qt::Orientation orientation, int
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section == 0) {
-            return "Cost";
+            return i18n("Cost");
         } else {
-            return "Location";
+            return i18n("Location");
         }
     }
 
@@ -116,7 +118,11 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         if (index.column() == 0) {
             return snapshot->memHeap();
         } else {
-            return QString("snapshot #%1").arg(snapshot->number());
+            if (snapshot == m_data->peak()) {
+                return i18n("snapshot #%1 (peak)", snapshot->number());
+            } else {
+                return i18n("snapshot #%1", snapshot->number());
+            }
         }
     } else {
         Q_ASSERT(index.internalPointer());

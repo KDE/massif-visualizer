@@ -245,6 +245,8 @@ void MainWindow::closeFile()
 
     m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
 
+    ui.treeView->setModel(0);
+
     setWindowTitle(i18n("Massif Visualizer"));
 }
 

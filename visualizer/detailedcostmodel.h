@@ -45,6 +45,11 @@ public:
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
+    /**
+     * @return List of labels, sorted by total cost.
+     */
+    QList<QString> labels() const;
+
 private:
     const FileData* m_data;
     // only a map to sort it by total cost

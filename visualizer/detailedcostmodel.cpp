@@ -133,3 +133,8 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
         return m_rows.count();
     }
 }
+
+QList< QString > Massif::DetailedCostModel::labels() const
+{
+    return m_columns.values();
+}

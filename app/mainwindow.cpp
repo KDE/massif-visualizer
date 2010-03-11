@@ -26,7 +26,7 @@
 #include "massifdata/parser.h"
 #include "massifdata/snapshotitem.h"
 
-#include "visualizer/costmodel.h"
+#include "visualizer/totalcostmodel.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -127,7 +127,7 @@ void MainWindow::openFile(const KUrl& file)
     attributes.setTransparency(127);
     diagram->setLineAttributes(attributes);
 
-    CostModel* model = new CostModel(m_chart->coordinatePlane());
+    TotalCostModel* model = new TotalCostModel(m_chart->coordinatePlane());
     model->setSource(m_data);
     diagram->setModel(model);
 

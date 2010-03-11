@@ -21,7 +21,7 @@
 #include "massifdata/parser.h"
 #include "massifdata/filedata.h"
 
-#include "visualizer/costmodel.h"
+#include "visualizer/totalcostmodel.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
@@ -41,7 +41,7 @@ void DataModelTest::parseFile()
     FileData* data = parser.parse(file);
     QVERIFY(data);
 
-    CostModel* model = new CostModel(this);
+    TotalCostModel* model = new TotalCostModel(this);
     new ModelTest(model, this);
     model->setSource(data);
     QVERIFY(model->rowCount() == data->snapshots().size());

@@ -14,7 +14,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "costmodel.h"
+#include "totalcostmodel.h"
 
 #include <QtCore/QDebug>
 
@@ -24,15 +24,15 @@
 
 using namespace Massif;
 
-CostModel::CostModel(QObject* parent): QAbstractTableModel(parent), m_data(0)
+TotalCostModel::TotalCostModel(QObject* parent): QAbstractTableModel(parent), m_data(0)
 {
 }
 
-CostModel::~CostModel()
+TotalCostModel::~TotalCostModel()
 {
 }
 
-void CostModel::setSource(const FileData* data)
+void TotalCostModel::setSource(const FileData* data)
 {
     if (m_data) {
         beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
@@ -46,59 +46,45 @@ void CostModel::setSource(const FileData* data)
     }
 }
 
-QVariant CostModel::data(const QModelIndex& index, int role) const
+QVariant TotalCostModel::data(const QModelIndex& index, int role) const
 {
     qDebug() << "data requested for" << index << "and role" << role;
     // FIXME kdchart queries (-1, -1) for empty models
     if ( index.row() == -1 || index.column() == -1 ) {
-        qWarning() << "CostModel::data: FIXME fix kdchart views to not query model data for invalid indices!";
+        qWarning() << "TotalCostModel::data: FIXME fix kdchart views to not query model data for invalid indices!";
         return QVariant();
     }
 
-    Q_ASSERT ( index.row() >= 0 && index.row() < rowCount(index.parent()) );
-    Q_ASSERT ( index.column() >= 0 && index.column() < columnCount(index.parent()) );
-    Q_ASSERT ( m_data );
+    Q_ASSERT(index.row() >= 0 && index.row() < rowCount(index.parent()));
+    Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
+    Q_ASSERT(m_data);
+    Q_ASSERT(!index.parent().isValid());
 
     if ( role != Qt::DisplayRole ) {
         return QVariant();
     }
 
-    if (index.parent().isValid()) {
-        // detailed heap tree item
-        ///FIXME: implement this properly
-        return QVariant();
+    SnapshotItem* snapshot = m_data->snapshots().at(index.row());
+    if (index.column() % 2 == 0) {
+        return QVariant::fromValue<unsigned long>(snapshot->time());
     } else {
-        SnapshotItem* snapshot = m_data->snapshots().at(index.row());
-        if (index.column() % 2 == 0) {
-            return QVariant::fromValue<unsigned long>(snapshot->time());
-        } else if (index.column() == 1) {
-            return snapshot->memHeap();
-        } else {
-            int item = index.column() / 2 - 1;
-            if ( !snapshot->heapTree() || snapshot->heapTree()->children().size() <= item ) {
-                return 0;
-            } else {
-                return snapshot->heapTree()->children().at(item)->cost();
-            }
-        }
+        Q_ASSERT(index.column() == 1);
+        return snapshot->memHeap();
     }
-    return QVariant();
 }
 
-int CostModel::columnCount(const QModelIndex& parent) const
+int TotalCostModel::columnCount(const QModelIndex& parent) const
 {
-    return 2 * 5;
+    return 2;
 }
 
-int CostModel::rowCount(const QModelIndex& parent) const
+int TotalCostModel::rowCount(const QModelIndex& parent) const
 {
     if (!m_data) {
         return 0;
     }
 
     if (parent.isValid()) {
-        // detailed heap tree item
-        ///FIXME: implement this properly
         return 0;
     } else {
         // snapshot item

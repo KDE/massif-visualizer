@@ -14,8 +14,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef MASSIF_COSTMODEL_H
-#define MASSIF_COSTMODEL_H
+#ifndef MASSIF_TOTALCOSTMODEL_H
+#define MASSIF_TOTALCOSTMODEL_H
 
 #include <QtCore/QAbstractTableModel>
 
@@ -26,11 +26,11 @@ class FileData;
 /**
  * A model that gives a tabular access on the costs in a massif output file.
  */
-class CostModel : public QAbstractTableModel
+class TotalCostModel : public QAbstractTableModel
 {
 public:
-    CostModel(QObject* parent = 0);
-    virtual ~CostModel();
+    TotalCostModel(QObject* parent = 0);
+    virtual ~TotalCostModel();
 
     /**
      * That the source data for this model.
@@ -47,4 +47,4 @@ private:
 
 }
 
-#endif // MASSIF_COSTMODEL_H
+#endif // MASSIF_TOTALCOSTMODEL_H

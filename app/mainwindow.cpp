@@ -84,14 +84,14 @@ void MainWindow::setupActions()
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
-    m_toggleTotal = new KAction(i18n("toggle total cost graph"), actionCollection());
+    m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     m_toggleTotal->setEnabled(false);
     connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
     actionCollection()->addAction("toggle_total", m_toggleTotal);
 
-    m_toggleDetailed = new KAction(i18n("toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new KAction(KIcon("office-chart-area-stacked"), i18n("toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     m_toggleDetailed->setEnabled(false);

@@ -142,9 +142,11 @@ void MainWindow::openFile(const KUrl& file)
     {
         TextAttributes textAttributes = m_header->textAttributes();
         textAttributes.setPen(foreground);
+        textAttributes.setFontSize(Measure(10));
         m_header->setTextAttributes(textAttributes);
         m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
         m_subheader->setText(i18n("peak of %1 bytes at snapshot %2", m_data->peak()->memHeap(), m_data->peak()->number()));
+        textAttributes.setFontSize(Measure(8));
         m_subheader->setTextAttributes(textAttributes);
     }
 
@@ -162,6 +164,7 @@ void MainWindow::openFile(const KUrl& file)
     CartesianAxis* bottomAxis = new CartesianAxis;
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
+    axisTextAttributes.setFontSize(Measure(10));
     bottomAxis->setTextAttributes(axisTextAttributes);
     TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
     axisTitleTextAttributes.setPen(foreground);

@@ -164,18 +164,19 @@ void MainWindow::openFile(const KUrl& file)
     CartesianAxis* bottomAxis = new CartesianAxis;
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
-    axisTextAttributes.setFontSize(Measure(10));
+    axisTextAttributes.setFontSize(Measure(8));
     bottomAxis->setTextAttributes(axisTextAttributes);
     TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
     axisTitleTextAttributes.setPen(foreground);
-    bottomAxis->setTitleTextAttributes(axisTextAttributes);
+    axisTitleTextAttributes.setFontSize(Measure(10));
+    bottomAxis->setTitleTextAttributes(axisTitleTextAttributes);
     bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
     CartesianAxis* leftAxis = new CartesianAxis;
     leftAxis->setTextAttributes(axisTextAttributes);
-    leftAxis->setTitleTextAttributes(axisTextAttributes);
+    leftAxis->setTitleTextAttributes(axisTitleTextAttributes);
     leftAxis->setTitleText(i18n("memory heap size in bytes"));
     leftAxis->setPosition ( CartesianAxis::Left );
     m_totalDiagram->addAxis(leftAxis);
@@ -204,14 +205,14 @@ void MainWindow::openFile(const KUrl& file)
 
     CartesianAxis* topAxis = new CartesianAxis;
     topAxis->setTextAttributes(axisTextAttributes);
-    topAxis->setTitleTextAttributes(axisTextAttributes);
+    topAxis->setTitleTextAttributes(axisTitleTextAttributes);
     topAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     topAxis->setPosition ( CartesianAxis::Top );
     m_detailedDiagram->addAxis(topAxis);
 
     CartesianAxis* rightAxis = new CartesianAxis;
     rightAxis->setTextAttributes(axisTextAttributes);
-    rightAxis->setTitleTextAttributes(axisTextAttributes);
+    rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
     rightAxis->setTitleText(i18n("memory heap size in bytes"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);

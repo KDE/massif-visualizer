@@ -3,15 +3,15 @@
 ## KDE4 includes needed for kdemacros.h
 include_directories(
         ${KDE4_INCLUDES}
-	${CMAKE_CURRENT_SOURCE_DIR}/../include
-	${CMAKE_CURRENT_SOURCE_DIR}/../kdablibfakes/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../include 
+	${CMAKE_CURRENT_SOURCE_DIR}/../kdablibfakes/include 
 )
 
 ADD_DEFINITIONS(-DKDCHART_BUILD_KDCHART_LIB)
 
 ########### next target ###############
 
-set(kdchart_LIB_SRCS
+set(kdchart_LIB_SRCS 
     KDChartAbstractArea.cpp
     KDChartAbstractAreaBase.cpp
     KDChartAbstractAreaWidget.cpp

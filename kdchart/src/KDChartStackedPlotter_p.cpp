@@ -142,7 +142,6 @@ void StackedPlotter::paint( PaintContext* ctx )
             const CartesianDiagramDataCompressor::CachePosition position( row, column );
             CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
             const QModelIndex sourceIndex = attributesModel()->mapToSource( point.index );
-            qDebug() << row << column << '|' << point.key << point.value;
 
             const LineAttributes laCell = diagram()->lineAttributes( sourceIndex );
             const bool bDisplayCellArea = laCell.displayArea();
@@ -187,12 +186,7 @@ void StackedPlotter::paint( PaintContext* ctx )
                 }
             }
             //qDebug() << stackedValues << endl;
-            qDebug() << point.key << stackedValues;
             const QPointF nextPoint = ctx->coordinatePlane()->translate( QPointF( point.key, stackedValues ) );
-            if (!points.isEmpty() && points.last().x() > nextPoint.x()) {
-                qDebug() << row << column << nextPoint << points.last();
-            }
-            Q_ASSERT(points.isEmpty() || points.last().x() < nextPoint.x());
             points << nextPoint;
 
             const QPointF ptNorthWest( nextPoint );

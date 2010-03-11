@@ -230,7 +230,7 @@ void PieDiagram::paintInternal(PaintContext* ctx, QRectF& textBoundingRect)
         const PieAttributes columnAttrs( pieAttributes( model()->index( 0, j, rootIndex() ) ) );
         maxExplode = qMax( maxExplode, columnAttrs.explodeFactor() );
     }
-    d->size /= ( 1.0 + 2.0 * maxExplode );
+    d->size /= ( 1.0 + 1.0 * maxExplode );
 
     if(!textBoundingRect.isEmpty())
     {
@@ -412,8 +412,8 @@ QRectF PieDiagram::piePosition( uint dataset, uint pie ) const
         qreal explodeAngleRad = DEGTORAD( explodeAngle );
         qreal cosAngle = cos( explodeAngleRad );
         qreal sinAngle = -sin( explodeAngleRad );
-        qreal explodeX = attrs.explodeFactor() * d->size * cosAngle;
-        qreal explodeY = attrs.explodeFactor() * d->size * sinAngle;
+        qreal explodeX = attrs.explodeFactor() * d->size / 2.0 * cosAngle;
+        qreal explodeY = attrs.explodeFactor() * d->size / 2.0 * sinAngle;
         drawPosition.translate( explodeX, explodeY );
     }
     return drawPosition;

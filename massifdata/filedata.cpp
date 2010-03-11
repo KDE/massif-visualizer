@@ -60,7 +60,7 @@ QString FileData::timeUnit() const
     return m_timeUnit;
 }
 
-void FileData::addSnapshot(Massif::SnapshotItem* snapshot)
+void FileData::addSnapshot(SnapshotItem* snapshot)
 {
     m_snapshots << snapshot;
 }

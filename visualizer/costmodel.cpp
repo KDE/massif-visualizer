@@ -32,7 +32,7 @@ CostModel::~CostModel()
 {
 }
 
-void CostModel::setSource(const Massif::FileData* data)
+void CostModel::setSource(const FileData* data)
 {
     if (m_data) {
         beginRemoveRows(QModelIndex(), 0, rowCount() - 1);

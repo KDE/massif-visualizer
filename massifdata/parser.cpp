@@ -56,12 +56,12 @@ FileData* Parser::parse(QIODevice* file)
     return data;
 }
 
-int Massif::Parser::errorLine() const
+int Parser::errorLine() const
 {
     return m_errorLine;
 }
 
-QString Massif::Parser::errorLineString() const
+QString Parser::errorLineString() const
 {
     return m_errorLineString;
 }

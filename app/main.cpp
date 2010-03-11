@@ -21,17 +21,6 @@
 #include <KCmdLineOptions>
 #include <KUrl>
 
-#include <QTextStream>
-#include <QFile>
-
-#include "massifdata/parser.h"
-#include "massifdata/filedata.h"
-#include "massifdata/snapshotitem.h"
-
-#include "visualizer/costmodel.h"
-
-#include "KDChartPlotter"
-
 #include <QtCore/QDebug>
 
 #include "mainwindow.h"

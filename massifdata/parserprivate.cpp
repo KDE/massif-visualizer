@@ -21,7 +21,6 @@
 #include "treeleafitem.h"
 
 #include <QtCore/QIODevice>
-#include <QtCore/QTextStream>
 
 #include <QtCore/QDebug>
 

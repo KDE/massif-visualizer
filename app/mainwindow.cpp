@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 {
     ui.setupUi(this);
 
+    setWindowTitle(i18n("Massif Visualizer"));
+
     m_header->setPosition(Position(KDChartEnums::PositionNorth));
     m_header->setTextAlignment(Qt::AlignHCenter);
     m_chart->addHeaderFooter(m_header);
@@ -150,6 +152,7 @@ void MainWindow::openFile(const KUrl& file)
         m_subheader->setTextAttributes(textAttributes);
     }
 
+    setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
 
     m_totalDiagram = new Plotter;
     m_toggleTotal->setEnabled(true);
@@ -241,6 +244,8 @@ void MainWindow::closeFile()
     m_totalDiagram = 0;
 
     m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
+
+    setWindowTitle(i18n("Massif Visualizer"));
 }
 
 Chart* MainWindow::chart()

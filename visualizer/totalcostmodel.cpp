@@ -65,14 +65,14 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
 
     SnapshotItem* snapshot = m_data->snapshots().at(index.row());
     if (index.column() == 0) {
-        return double(snapshot->time());
+        return snapshot->time();
     } else {
         Q_ASSERT(index.column() == 1);
         return double(snapshot->memHeap());
     }
 }
 
-int TotalCostModel::columnCount(const QModelIndex& parent) const
+int TotalCostModel::columnCount(const QModelIndex&) const
 {
     return 2;
 }

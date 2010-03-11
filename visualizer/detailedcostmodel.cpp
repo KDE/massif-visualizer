@@ -116,7 +116,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     }
 }
 
-int DetailedCostModel::columnCount(const QModelIndex& parent) const
+int DetailedCostModel::columnCount(const QModelIndex&) const
 {
     return m_columns.size() * 2;
 }

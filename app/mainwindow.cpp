@@ -40,6 +40,8 @@
 #include <KFilterDev>
 #include <KMessageBox>
 
+#include <KColorScheme>
+
 using namespace Massif;
 using namespace KDChart;
 
@@ -134,8 +136,17 @@ void MainWindow::openFile(const KUrl& file)
                              << m_data->peak()->memHeapExtra() << "bytes heap extra"
                              << m_data->peak()->memStacks() << "bytes stacks";
 
-    m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
-    m_subheader->setText(i18n("peak of %1 bytes at snapshot %2", m_data->peak()->memHeap(), m_data->peak()->number()));
+    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
+    QPen foreground(scheme.foreground().color());
+
+    {
+        TextAttributes textAttributes = m_header->textAttributes();
+        textAttributes.setPen(foreground);
+        m_header->setTextAttributes(textAttributes);
+        m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
+        m_subheader->setText(i18n("peak of %1 bytes at snapshot %2", m_data->peak()->memHeap(), m_data->peak()->number()));
+        m_subheader->setTextAttributes(textAttributes);
+    }
 
 
     m_totalDiagram = new Plotter;
@@ -149,11 +160,19 @@ void MainWindow::openFile(const KUrl& file)
     }
 
     CartesianAxis* bottomAxis = new CartesianAxis;
+    TextAttributes axisTextAttributes = bottomAxis->textAttributes();
+    axisTextAttributes.setPen(foreground);
+    bottomAxis->setTextAttributes(axisTextAttributes);
+    TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
+    axisTitleTextAttributes.setPen(foreground);
+    bottomAxis->setTitleTextAttributes(axisTextAttributes);
     bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
     CartesianAxis* leftAxis = new CartesianAxis;
+    leftAxis->setTextAttributes(axisTextAttributes);
+    leftAxis->setTitleTextAttributes(axisTextAttributes);
     leftAxis->setTitleText(i18n("memory heap size in bytes"));
     leftAxis->setPosition ( CartesianAxis::Left );
     m_totalDiagram->addAxis(leftAxis);
@@ -181,11 +200,15 @@ void MainWindow::openFile(const KUrl& file)
     m_detailedDiagram->setModel(detailedCostModel);
 
     CartesianAxis* topAxis = new CartesianAxis;
+    topAxis->setTextAttributes(axisTextAttributes);
+    topAxis->setTitleTextAttributes(axisTextAttributes);
     topAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     topAxis->setPosition ( CartesianAxis::Top );
     m_detailedDiagram->addAxis(topAxis);
 
     CartesianAxis* rightAxis = new CartesianAxis;
+    rightAxis->setTextAttributes(axisTextAttributes);
+    rightAxis->setTitleTextAttributes(axisTextAttributes);
     rightAxis->setTitleText(i18n("memory heap size in bytes"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);

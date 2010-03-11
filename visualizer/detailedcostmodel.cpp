@@ -98,7 +98,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 
     SnapshotItem* snapshot = m_rows[index.row()];
     if (index.column() % 2 == 0) {
-        return double(snapshot->time());
+        return snapshot->time();
     } else {
         TreeLeafItem* node = 0;
         const QString needle = m_columns.values().at(index.column() / 2);

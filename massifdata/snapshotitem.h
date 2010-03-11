@@ -42,13 +42,13 @@ public:
      * The time can be measured in different formats,
      * @see FileData::timeUnit()
      */
-    void setTime(const unsigned long time);
+    void setTime(const double time);
     /**
      * @return The time at which this snapshot was taken.
      * The time can be measured in different formats,
      * @see FileData::timeUnit()
      */
-    unsigned long time() const;
+    double time() const;
 
     /**
      * Sets the size of the memory heap in bytes.
@@ -88,7 +88,7 @@ public:
 
 private:
     unsigned int m_number;
-    unsigned long m_time;
+    double m_time;
     unsigned int m_memHeap;
     unsigned int m_memHeapExtra;
     unsigned int m_memStacks;

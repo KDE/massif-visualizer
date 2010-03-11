@@ -167,7 +167,7 @@ void ParserPrivate::parseSnapshotTime(const QByteArray& line)
     VALIDATE(line.startsWith("time="))
     QString timeStr(line.mid(5));
     bool ok;
-    unsigned long time = timeStr.toULong(&ok);
+    double time = timeStr.toDouble(&ok);
     VALIDATE(ok)
     m_snapshot->setTime(time);
     m_nextLine = SnapshotMemHeap;

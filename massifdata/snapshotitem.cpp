@@ -39,12 +39,12 @@ unsigned int SnapshotItem::number() const
     return m_number;
 }
 
-void SnapshotItem::setTime(const unsigned long time)
+void SnapshotItem::setTime(const double time)
 {
     m_time = time;
 }
 
-unsigned long SnapshotItem::time() const
+double SnapshotItem::time() const
 {
     return m_time;
 }

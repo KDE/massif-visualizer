@@ -21,4 +21,6 @@ target_link_libraries(massif-visualizer
     visualizer
 )
 
+install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+
 install( FILES massif-visualizerui.rc DESTINATION ${DATA_INSTALL_DIR}/massif-visualizer )

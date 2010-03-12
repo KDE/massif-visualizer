@@ -100,7 +100,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
     // custom background for peak snapshot
     if ( role == Qt::BackgroundRole && !index.parent().isValid() && m_data->peak() ) {
         SnapshotItem* snapshot = m_data->snapshots()[index.row()];
-        QColor c = QColor::fromHsv(255 - (double(snapshot->memHeap()) / m_data->peak()->memHeap()) * 255, 255, 255);
+        QColor c = QColor::fromHsv(120 - (double(snapshot->memHeap()) / m_data->peak()->memHeap()) * 120, 255, 255);
         c.setAlpha(125);
         return QBrush(c);
     }

@@ -22,6 +22,10 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include <KDChartGlobal>
+
+#include <QtGui/QPen>
+
 #include <KLocalizedString>
 
 using namespace Massif;
@@ -76,6 +80,12 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
+
+    if ( role == KDChart::DatasetPenRole ) {
+        return QPen(Qt::red);
+    } else if ( role == KDChart::DatasetBrushRole ) {
+        return QBrush(Qt::red);
+    }
 
     if ( role != Qt::DisplayRole ) {
         return QVariant();

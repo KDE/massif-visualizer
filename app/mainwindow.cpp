@@ -187,7 +187,7 @@ void MainWindow::openFile(const KUrl& file)
     {
         LineAttributes attributes = m_totalDiagram->lineAttributes();
         attributes.setDisplayArea(true);
-        attributes.setTransparency(127);
+        attributes.setTransparency(50);
         m_totalDiagram->setLineAttributes(attributes);
     }
 

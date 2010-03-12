@@ -176,7 +176,13 @@ QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation,
         if (endPos == -1) {
             return label;
         }
-        return label.mid(startPos + 1, endPos - startPos - 2);
+        label = label.mid(startPos + 1, endPos - startPos - 2);
+        const int maxLen = 40;
+        if (label.length() > maxLen) {
+            label.resize(maxLen - 3);
+            label.append("...");
+        }
+        return label;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

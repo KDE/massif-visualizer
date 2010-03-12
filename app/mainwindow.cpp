@@ -21,7 +21,7 @@
 #include "KDChartHeaderFooter"
 #include "KDChartCartesianCoordinatePlane"
 #include "KDChartPlotter"
-#include "KDChartLineDiagram"
+#include "KDChartLegend"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
@@ -41,13 +41,15 @@
 #include <KMessageBox>
 
 #include <KColorScheme>
+#include <KDChartDataValueAttributes>
+#include <KDChartBackgroundAttributes>
 
 using namespace Massif;
 using namespace KDChart;
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : KXmlGuiWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
-    , m_toggleTotal(0), m_totalDiagram(0), m_toggleDetailed(0), m_detailedDiagram(0)
+    , m_toggleTotal(0), m_totalDiagram(0), m_toggleDetailed(0), m_detailedDiagram(0), m_legend(new Legend(m_chart))
     , m_data(0)
 {
     ui.setupUi(this);
@@ -67,6 +69,18 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     // for axis labels to fit
     m_chart->setGlobalLeadingRight(10);
     m_chart->setGlobalLeadingLeft(10);
+
+    m_legend->setPosition(Position(KDChartEnums::PositionFloating));
+    m_legend->setTitleText("");
+    m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
+    m_chart->addLegend(m_legend);
+
+    //NOTE: this has to be set _after_ the legend was added to the chart...
+    TextAttributes att = m_legend->textAttributes();
+    att.setAutoShrink(true);
+    att.setFontSize( Measure(12) );
+    m_legend->setTextAttributes(att);
 
     setCentralWidget(m_chart);
 
@@ -143,6 +157,7 @@ void MainWindow::openFile(const KUrl& file)
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
+    //BEGIN Header
     {
         TextAttributes textAttributes = m_header->textAttributes();
         textAttributes.setPen(foreground);
@@ -156,6 +171,7 @@ void MainWindow::openFile(const KUrl& file)
 
     setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
 
+    //BEGIN TotalDiagram
     m_totalDiagram = new Plotter;
     m_toggleTotal->setEnabled(true);
     m_totalDiagram->setAntiAliasing(true);
@@ -191,7 +207,9 @@ void MainWindow::openFile(const KUrl& file)
     m_totalDiagram->setModel(totalCostModel);
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
+    m_legend->addDiagram(m_totalDiagram);
 
+    //BEGIN DetailedDiagram
     m_detailedDiagram = new Plotter;
     m_toggleDetailed->setEnabled(true);
     m_detailedDiagram->setAntiAliasing(true);
@@ -222,11 +240,14 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
 
+    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+
+//     m_legend->addDiagram(m_detailedDiagram);
+
+    //BEGIN TreeView
     DataTreeModel* treeModel =  new DataTreeModel;
     treeModel->setSource(m_data);
     ui.treeView->setModel(treeModel);
-
-    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
 }
 
 void MainWindow::closeFile()

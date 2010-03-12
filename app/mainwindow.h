@@ -26,6 +26,7 @@ class Chart;
 class HeaderFooter;
 class Plotter;
 class CartesianAxis;
+class Legend;
 }
 
 class KAction;
@@ -81,6 +82,7 @@ private:
     KDChart::Plotter* m_totalDiagram;
     KAction* m_toggleDetailed;
     KDChart::Plotter* m_detailedDiagram;
+    KDChart::Legend* m_legend;
     FileData* m_data;
 };
 

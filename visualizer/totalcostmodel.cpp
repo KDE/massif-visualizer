@@ -22,6 +22,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include <KLocalizedString>
+
 using namespace Massif;
 
 TotalCostModel::TotalCostModel(QObject* parent): QAbstractTableModel(parent), m_data(0)
@@ -44,6 +46,14 @@ void TotalCostModel::setSource(const FileData* data)
         m_data = data;
         endInsertRows();
     }
+}
+
+QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        return i18n("Total Memory Heap Consumption");
+    }
+    return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 QVariant TotalCostModel::data(const QModelIndex& index, int role) const

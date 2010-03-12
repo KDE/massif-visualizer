@@ -40,6 +40,7 @@ public:
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 private:
     const FileData* m_data;

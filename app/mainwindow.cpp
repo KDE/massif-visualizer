@@ -172,6 +172,9 @@ void MainWindow::openFile(const KUrl& file)
     bkgAtt.setBrush(QBrush(background));
     bkgAtt.setVisible(true);
     m_legend->setBackgroundAttributes(bkgAtt);
+    TextAttributes txtAttrs = m_legend->textAttributes();
+    txtAttrs.setPen(foreground);
+    m_legend->setTextAttributes(txtAttrs);
 
     //BEGIN Header
     {

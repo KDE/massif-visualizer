@@ -48,6 +48,38 @@
 using namespace Massif;
 using namespace KDChart;
 
+//BEGIN Helper Functions
+void markPeak(Plotter* p, const QModelIndex& peak, uint cost, QPen foreground)
+{
+    DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
+    dataAttributes.setDataLabel(i18n("Peak of %1 bytes", cost));
+    dataAttributes.setVisible(true);
+
+    MarkerAttributes a = dataAttributes.markerAttributes();
+    a.setMarkerSize(QSizeF(2, 2));
+    a.setPen(foreground);
+    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerCircle);
+    a.setVisible(true);
+    dataAttributes.setMarkerAttributes(a);
+
+    TextAttributes txtAttrs = dataAttributes.textAttributes();
+    txtAttrs.setPen(foreground);
+    dataAttributes.setTextAttributes(txtAttrs);
+
+    BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
+    QBrush brush = p->model()->data(peak, DatasetBrushRole).value<QBrush>();
+    QColor c = brush.color();
+    c.setAlpha(127);
+    brush.setColor(c);
+    brush.setStyle(Qt::CrossPattern);
+    bkgAtt.setBrush(brush);
+    bkgAtt.setVisible(true);
+    dataAttributes.setBackgroundAttributes(bkgAtt);
+
+    p->setDataValueAttributes(peak, dataAttributes);
+}
+//END Helper Functions
+
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : KXmlGuiWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
     , m_toggleTotal(0), m_totalDiagram(0), m_totalCostModel(new TotalCostModel(m_chart))
@@ -226,15 +258,7 @@ void MainWindow::openFile(const KUrl& file)
     if (m_data->peak()) {
         const QModelIndex peak = m_totalCostModel->peak();
         Q_ASSERT(peak.isValid());
-        // mark peak
-        DataValueAttributes dataAttributes = m_totalDiagram->dataValueAttributes(peak);
-        dataAttributes.setDataLabel(i18n("Peak of %1 bytes", m_data->peak()->memHeap()));
-        dataAttributes.setVisible(true);
-        TextAttributes txtAttrs = dataAttributes.textAttributes();
-        txtAttrs.setPen(foreground);
-        txtAttrs.setRotation(0);
-        dataAttributes.setTextAttributes(txtAttrs);
-        m_totalDiagram->setDataValueAttributes(peak, dataAttributes);
+        markPeak(m_totalDiagram, peak, m_data->peak()->memHeap(), foreground);
     }
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
@@ -275,17 +299,7 @@ void MainWindow::openFile(const KUrl& file)
         while (it != peaks.constEnd()) {
             const QModelIndex peak = it.key();
             Q_ASSERT(peak.isValid());
-            // mark peak
-            DataValueAttributes dataAttributes = m_detailedDiagram->dataValueAttributes(peak);
-            dataAttributes.setDataLabel(i18n("Peak of %1 bytes", it.value()->cost()));
-            dataAttributes.setVisible(true);
-            dataAttributes.setBackgroundAttributes(bkgAtt);
-            TextAttributes txtAttrs = dataAttributes.textAttributes();
-            QPen peakPen = m_detailedCostModel->data(peak, DatasetPenRole).value<QPen>();
-            peakPen.setColor(peakPen.color().darker());
-            txtAttrs.setPen(peakPen);
-            dataAttributes.setTextAttributes(txtAttrs);
-            m_detailedDiagram->setDataValueAttributes(peak, dataAttributes);
+            markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
             ++it;
         }
     }

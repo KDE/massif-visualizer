@@ -314,13 +314,11 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 void MainWindow::detailedItemClicked(const QModelIndex& item)
 {
     m_detailedCostModel->setSelection(item);
-    ui.treeView->selectionModel()->blockSignals(true);
-    QModelIndex oldIndex = ui.treeView->selectionModel()->currentIndex();
-    ui.treeView->selectionModel()->setCurrentIndex(m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item)), QItemSelectionModel::ClearAndSelect);
-    ui.treeView->selectionModel()->blockSignals(false);
     m_chart->update();
-    ui.treeView->update(oldIndex);
-    ui.treeView->update(ui.treeView->selectionModel()->currentIndex());
+
+    ui.treeView->selectionModel()->clearSelection();
+    const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item));
+    ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 }
 

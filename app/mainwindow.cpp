@@ -22,6 +22,8 @@
 #include "KDChartCartesianCoordinatePlane"
 #include "KDChartPlotter"
 #include "KDChartLegend"
+#include "KDChartDataValueAttributes"
+#include "KDChartBackgroundAttributes"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
@@ -42,8 +44,6 @@
 #include <KMessageBox>
 
 #include <KColorScheme>
-#include <KDChartDataValueAttributes>
-#include <KDChartBackgroundAttributes>
 
 using namespace Massif;
 using namespace KDChart;

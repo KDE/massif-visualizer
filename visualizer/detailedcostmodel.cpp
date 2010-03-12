@@ -71,7 +71,7 @@ void DetailedCostModel::setSource(const FileData* data)
                     } else {
                         unsigned int cost = m_columns.key(node->label());
                         m_columns.remove(cost, node->label());
-                        cost += node->cost();
+                        cost = node->cost();
                         m_columns.insert(cost, node->label());
                         if (m_peaks[node->label()].first->cost() < node->cost()) {
                             m_peaks[node->label()].first = node;

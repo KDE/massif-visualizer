@@ -98,9 +98,31 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
 
 
     // custom background for peak snapshot
-    if ( role == Qt::BackgroundRole && !index.parent().isValid() && m_data->peak() ) {
-        SnapshotItem* snapshot = m_data->snapshots()[index.row()];
-        QColor c = QColor::fromHsv(120 - (double(snapshot->memHeap()) / m_data->peak()->memHeap()) * 120, 255, 255);
+    if ( role == Qt::BackgroundRole ) {
+        double maxValue = 1;
+        double currentValue = 0;
+        if ( !index.parent().isValid() && m_data->peak() ) {
+            maxValue = m_data->peak()->memHeap();
+            SnapshotItem* snapshot = m_data->snapshots().at(index.row());
+            currentValue = snapshot->memHeap();
+        } else if (index.parent().isValid()) {
+            Q_ASSERT(index.parent().internalPointer());
+            QModelIndex p = index.parent();
+            while (p.parent().isValid()) {
+                p = p.parent();
+            }
+            TreeLeafItem* parent = static_cast<TreeLeafItem*>(p.internalPointer());
+            maxValue = parent->cost();
+
+            Q_ASSERT(index.internalPointer());
+            TreeLeafItem* node = static_cast<TreeLeafItem*>(index.internalPointer());
+            currentValue = node->cost();
+            // normalize
+            maxValue -= parent->children().last()->cost();
+            currentValue -= parent->children().last()->cost();
+
+        }
+        QColor c = QColor::fromHsv(120 - (currentValue / maxValue) * 120, 255, 255);
         c.setAlpha(125);
         return QBrush(c);
     }

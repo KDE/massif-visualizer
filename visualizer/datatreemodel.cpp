@@ -176,12 +176,12 @@ QModelIndex DataTreeModel::index(int row, int column, const QModelIndex& parent)
         if (parent.column() == 0) {
             Q_ASSERT(parent.internalPointer());
             // parent is a tree leaf item
-            return createIndex(row, column, static_cast<void*>(static_cast<TreeLeafItem*>(parent.internalPointer())->children()[row]));
+            return createIndex(row, column, static_cast<void*>(static_cast<TreeLeafItem*>(parent.internalPointer())->children().at(row)));
         } else {
             return QModelIndex();
         }
     } else {
-        return createIndex(row, column, static_cast<void*>(m_data->snapshots()[row]->heapTree()));
+        return createIndex(row, column, static_cast<void*>(m_data->snapshots().at(row)->heapTree()));
     }
 }
 

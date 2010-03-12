@@ -23,10 +23,12 @@
 #include "massifdata/treeleafitem.h"
 
 #include "KDChartGlobal"
+#include "KDChartDataValueAttributes"
 
 #include <QtGui/QColor>
 #include <QtGui/QPen>
 #include <QtGui/QBrush>
+#include <KDChartPosition>
 
 using namespace Massif;
 
@@ -47,6 +49,7 @@ void DetailedCostModel::setSource(const FileData* data)
         m_columns.clear();
         m_rows.clear();
         m_nodes.clear();
+        m_peaks.clear();
         endRemoveRows();
     }
     if (data) {
@@ -63,12 +66,17 @@ void DetailedCostModel::setSource(const FileData* data)
                         continue;
                     }
                     if (!m_columns.values().contains(node->label())) {
-                        m_columns[node->cost()] = node->label();
+                        m_columns.insert(node->cost(), node->label());
+                        m_peaks[node->label()] = qMakePair(node, snapshot);
                     } else {
                         unsigned int cost = m_columns.key(node->label());
-                        m_columns.remove(cost);
+                        m_columns.remove(cost, node->label());
                         cost += node->cost();
-                        m_columns[cost] = node->label();
+                        m_columns.insert(cost, node->label());
+                        if (m_peaks[node->label()].first->cost() < node->cost()) {
+                            m_peaks[node->label()].first = node;
+                            m_peaks[node->label()].second = snapshot;
+                        }
                     }
                     nodes << node;
                 }
@@ -79,10 +87,13 @@ void DetailedCostModel::setSource(const FileData* data)
         // limit number of colums
         const int maxColumns = 10;
         if ( m_columns.size() > maxColumns ) {
-            QMap< unsigned int, QString >::iterator it = m_columns.begin();
-            for ( int i = 0; i < m_columns.size() - maxColumns; ++i ) {
+            QMultiMap< unsigned int, QString >::iterator it = m_columns.begin();
+            for ( int i = 0, c = m_columns.size() - maxColumns; i < c; ++i ) {
+                m_peaks.remove(it.value());
                 it = m_columns.erase(it);
             }
+            Q_ASSERT(m_peaks.size() == m_columns.size());
+            Q_ASSERT(m_columns.size() == maxColumns);
         }
 
         if (m_rows.isEmpty()) {
@@ -179,7 +190,22 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-QList< QString > Massif::DetailedCostModel::labels() const
+QList< QString > DetailedCostModel::labels() const
 {
     return m_columns.values();
+}
+
+QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
+{
+    QMap< QModelIndex, TreeLeafItem* > peaks;
+    QMap< QString, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
+    while (it != m_peaks.end()) {
+        int row = m_rows.indexOf(it->second);
+        Q_ASSERT(row >= 0);
+        int column = m_columns.values().indexOf(it->first->label());
+        Q_ASSERT(column >= 0);
+        peaks[index(row, column*2)] = it->first;
+        ++it;
+    }
+    return peaks;
 }

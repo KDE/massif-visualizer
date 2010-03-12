@@ -51,15 +51,22 @@ public:
      */
     QList<QString> labels() const;
 
+    /**
+     * @return List of peaks with their heap tree leaf items.
+     */
+    QMap<QModelIndex, TreeLeafItem*> peaks() const;
+
 private:
     const FileData* m_data;
     // only a map to sort it by total cost
     // total cost => label
-    QMap<unsigned int, QString> m_columns;
+    QMultiMap<unsigned int, QString> m_columns;
     // only to sort snapshots by number
     QList<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
     QMap<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
+    // peaks: Label => TreeLeafItem,Snapshot
+    QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
 };
 
 }

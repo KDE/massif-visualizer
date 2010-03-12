@@ -26,6 +26,7 @@
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
@@ -260,6 +261,25 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setTitleText(i18n("memory heap size in bytes"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
+
+    {
+        QMap< QModelIndex, TreeLeafItem* > peaks = detailedCostModel->peaks();
+        QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
+        while (it != peaks.constEnd()) {
+            const QModelIndex peak = it.key();
+            Q_ASSERT(peak.isValid());
+            // mark peak
+            DataValueAttributes dataAttributes = m_detailedDiagram->dataValueAttributes(peak);
+            dataAttributes.setDataLabel(i18n("Peak of %1 bytes", it.value()->cost()));
+            dataAttributes.setVisible(true);
+            dataAttributes.setBackgroundAttributes(bkgAtt);
+            TextAttributes txtAttrs = dataAttributes.textAttributes();
+            txtAttrs.setPen(detailedCostModel->data(peak, DatasetPenRole).value<QPen>());
+            dataAttributes.setTextAttributes(txtAttrs);
+            m_detailedDiagram->setDataValueAttributes(peak, dataAttributes);
+            ++it;
+        }
+    }
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
 

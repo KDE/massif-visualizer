@@ -34,6 +34,9 @@ class KAction;
 namespace Massif {
 
 class FileData;
+class DetailedCostModel;
+class TotalCostModel;
+class DataTreeModel;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -73,6 +76,9 @@ public slots:
      */
     void showDetailedGraph(bool show);
 
+private slots:
+    void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
+
 private:
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;
@@ -80,9 +86,15 @@ private:
     KDChart::HeaderFooter* m_subheader;
     KAction* m_toggleTotal;
     KDChart::Plotter* m_totalDiagram;
+    TotalCostModel* m_totalCostModel;
+
     KAction* m_toggleDetailed;
     KDChart::Plotter* m_detailedDiagram;
+    DetailedCostModel* m_detailedCostModel;
+
     KDChart::Legend* m_legend;
+
+    DataTreeModel* m_dataTreeModel;
     FileData* m_data;
 };
 

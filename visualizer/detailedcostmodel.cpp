@@ -119,6 +119,15 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(!index.parent().isValid());
 
     if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+        if (m_selectedItem.first && m_selectedItem.first->label() == m_columns.values().at(index.column()/2)) {
+            if (role == KDChart::DatasetPenRole) {
+                QPen pen(Qt::DashLine);
+                pen.setColor(Qt::black);
+                return pen;
+            } else {
+                return QBrush(Qt::black);
+            }
+        }
         QColor c = QColor::fromHsv(255 - ((double(index.column()/2) + 1) / m_columns.size()) * 255, 255, 255);
         if (role == KDChart::DatasetBrushRole) {
             return QBrush(c);
@@ -190,11 +199,6 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-QList< QString > DetailedCostModel::labels() const
-{
-    return m_columns.values();
-}
-
 QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
 {
     QMap< QModelIndex, TreeLeafItem* > peaks;
@@ -208,4 +212,68 @@ QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
         ++it;
     }
     return peaks;
+}
+
+QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
+{
+    int row = m_rows.indexOf(snapshot);
+    if (row == -1) {
+        return QModelIndex();
+    }
+    return index(row, 0);
+}
+
+QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
+{
+    int column = m_columns.values().indexOf(node->label());
+    if (column == -1) {
+        return QModelIndex();
+    }
+    QMap< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
+    while (it != m_nodes.constEnd()) {
+        if (it->contains(node)) {
+            return index(m_rows.indexOf(it.key()), column);
+        }
+        ++it;
+    }
+    return QModelIndex();
+}
+
+QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QModelIndex& idx) const
+{
+    if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    }
+    SnapshotItem* snapshot = m_rows.at(idx.row());
+    if (idx.column() % 2 == 0) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, snapshot);
+    } else {
+        TreeLeafItem* node = 0;
+        const QString needle = m_columns.values().at(idx.column() / 2);
+        foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+            if (n->label() == needle) {
+                node = n;
+                break;
+            }
+        }
+        return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
+    }
+}
+
+QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+{
+    if (!item.first && !item.second) {
+        return QModelIndex();
+    }
+    Q_ASSERT((item.first && !item.second) || (!item.first && item.second));
+    if (item.first) {
+        return indexForTreeLeaf(item.first);
+    } else {
+        return indexForSnapshot(item.second);
+    }
+}
+
+void DetailedCostModel::selectItem(const QPair< TreeLeafItem*, SnapshotItem* >& item)
+{
+    m_selectedItem = item;
 }

@@ -208,9 +208,6 @@ QModelIndex DataTreeModel::parent(const QModelIndex& child) const
     if (child.internalPointer()) {
         TreeLeafItem* item = static_cast<TreeLeafItem*>(child.internalPointer());
         if (item->parent()) {
-            if (!item->parent()->parent()) {
-                // top-level
-            }
             Q_ASSERT(m_nodeToRow.contains(item));
             // somewhere in the detailed heap tree
             return createIndex(m_nodeToRow[item->parent()], 0, static_cast<void*>(item->parent()));
@@ -224,3 +221,30 @@ QModelIndex DataTreeModel::parent(const QModelIndex& child) const
     }
 }
 
+QModelIndex DataTreeModel::indexForSnapshot(SnapshotItem* snapshot) const
+{
+    int idx = m_data->snapshots().indexOf(snapshot);
+    if ( idx == -1 ) {
+        return QModelIndex();
+    }
+    return index(idx, 0);
+}
+
+QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
+{
+    if (!m_nodeToRow.contains(node) || !node->parent()) {
+        return QModelIndex();
+    }
+    QModelIndex parent = indexForTreeLeaf(node->parent());
+    return index(m_nodeToRow[node], 0, parent);
+}
+
+QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIndex& idx) const
+{
+    if (idx.parent().isValid()) {
+        Q_ASSERT(idx.internalPointer());
+        return QPair< TreeLeafItem*, SnapshotItem* >(static_cast<TreeLeafItem*>(idx.internalPointer()), 0);
+    } else {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, m_data->snapshots().at(idx.row()));
+    }
+}

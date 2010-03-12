@@ -47,15 +47,34 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     /**
-     * @return List of labels, sorted by total cost.
-     */
-    QList<QString> labels() const;
-
-    /**
      * @return List of peaks with their heap tree leaf items.
      */
     QMap<QModelIndex, TreeLeafItem*> peaks() const;
 
+    /**
+     * @return Item for given index. At maximum one of the pointers in the pair will be valid.
+     */
+    QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
+
+    /**
+     * @return Index for given item. Only one of the pointers in the pair should be valid.
+     */
+    QModelIndex indexForItem(const QPair<TreeLeafItem*, SnapshotItem*>& item) const;
+
+    /**
+     * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
+     */
+    QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;
+
+    /**
+     * @return Index for given TreeLeafItem, or invalid if it's not covered by this model.
+     */
+    QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
+
+    /**
+     * Select @p item, which changes the pen of it's data.
+     */
+    void selectItem(const QPair<TreeLeafItem*, SnapshotItem*>& item);
 private:
     const FileData* m_data;
     // only a map to sort it by total cost
@@ -67,6 +86,8 @@ private:
     QMap<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot
     QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
+    // selected item
+    QPair<TreeLeafItem*, SnapshotItem*> m_selectedItem;
 };
 
 }

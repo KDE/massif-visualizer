@@ -39,6 +39,21 @@ public:
      */
     void setSource(const FileData* data);
 
+    /**
+     * @return Item for given index. At maximum one of the pointers in the pair will be valid.
+     */
+    QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
+
+    /**
+     * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
+     */
+    QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;
+
+    /**
+     * @return Index for given TreeLeafItem, or invalid if it's not covered by this model.
+     */
+    QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
+
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;

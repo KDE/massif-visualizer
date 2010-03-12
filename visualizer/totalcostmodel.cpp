@@ -48,6 +48,14 @@ void TotalCostModel::setSource(const FileData* data)
     }
 }
 
+QModelIndex TotalCostModel::peak() const
+{
+    if (!m_data->peak()) {
+        return QModelIndex();
+    }
+    return index(m_data->snapshots().indexOf(m_data->peak()), 0);
+}
+
 QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole) {

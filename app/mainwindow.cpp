@@ -214,6 +214,19 @@ void MainWindow::openFile(const KUrl& file)
     TotalCostModel* totalCostModel = new TotalCostModel(m_chart->coordinatePlane());
     totalCostModel->setSource(m_data);
     m_totalDiagram->setModel(totalCostModel);
+    if (m_data->peak()) {
+        const QModelIndex peak = totalCostModel->peak();
+        Q_ASSERT(peak.isValid());
+        // mark peak
+        DataValueAttributes dataAttributes = m_totalDiagram->dataValueAttributes(peak);
+        dataAttributes.setDataLabel(i18n("Peak of %1 bytes", m_data->peak()->memHeap()));
+        dataAttributes.setVisible(true);
+        TextAttributes txtAttrs = dataAttributes.textAttributes();
+        txtAttrs.setPen(foreground);
+        txtAttrs.setRotation(0);
+        dataAttributes.setTextAttributes(txtAttrs);
+        m_totalDiagram->setDataValueAttributes(peak, dataAttributes);
+    }
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
     m_legend->addDiagram(m_totalDiagram);

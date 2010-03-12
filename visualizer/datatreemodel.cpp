@@ -127,12 +127,19 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         return QBrush(c);
     }
 
-    if ( role != Qt::DisplayRole ) {
+    if ( role != Qt::DisplayRole && role != Qt::ToolTipRole ) {
         return QVariant();
     }
 
     if (!index.parent().isValid()) {
         SnapshotItem* snapshot = m_data->snapshots()[index.row()];
+        if (role == Qt::ToolTipRole) {
+            if (snapshot == m_data->peak()) {
+                return i18n("peak snapshot: heap cost of %1 bytes", snapshot->memHeap());
+            } else {
+                return i18n("snapshot #%1: heap cost of %2 bytes", snapshot->number(), snapshot->memHeap());
+            }
+        }
         if (index.column() == 0) {
             return snapshot->memHeap();
         } else {
@@ -145,6 +152,9 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
     } else {
         Q_ASSERT(index.internalPointer());
         TreeLeafItem* item = static_cast<TreeLeafItem*>(index.internalPointer());
+        if (role == Qt::ToolTipRole) {
+            return i18n("memory consumption of %1 bytes\n%2", item->cost(), item->label());
+        }
         if (index.column() == 0) {
             return item->cost();
         } else {

@@ -73,6 +73,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     m_legend->setPosition(Position(KDChartEnums::PositionFloating));
     m_legend->setTitleText("");
     m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    m_legend->setSortOrder(Qt::DescendingOrder);
 
     m_chart->addLegend(m_legend);
 
@@ -157,6 +158,14 @@ void MainWindow::openFile(const KUrl& file)
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
+    //Begin Legend
+    BackgroundAttributes bkgAtt = m_legend->backgroundAttributes();
+    QColor background = scheme.background(KColorScheme::AlternateBackground).color();
+    background.setAlpha(200);
+    bkgAtt.setBrush(QBrush(background));
+    bkgAtt.setVisible(true);
+    m_legend->setBackgroundAttributes(bkgAtt);
+
     //BEGIN Header
     {
         TextAttributes textAttributes = m_header->textAttributes();
@@ -223,7 +232,6 @@ void MainWindow::openFile(const KUrl& file)
 
     DetailedCostModel* detailedCostModel = new DetailedCostModel(m_chart->coordinatePlane());
     detailedCostModel->setSource(m_data);
-    qDebug() << detailedCostModel->data(detailedCostModel->index(detailedCostModel->rowCount()-1, 0));
     m_detailedDiagram->setModel(detailedCostModel);
 
     CartesianAxis* topAxis = new CartesianAxis;
@@ -242,7 +250,7 @@ void MainWindow::openFile(const KUrl& file)
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
 
-//     m_legend->addDiagram(m_detailedDiagram);
+    m_legend->addDiagram(m_detailedDiagram);
 
     //BEGIN TreeView
     DataTreeModel* treeModel =  new DataTreeModel;

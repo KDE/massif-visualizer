@@ -70,6 +70,15 @@ void DetailedCostModel::setSource(const FileData* data)
                 m_nodes[snapshot] = nodes;
             }
         }
+        // limit number of colums
+        const int maxColumns = 10;
+        if ( m_columns.size() > maxColumns ) {
+            QMap< unsigned int, QString >::iterator it = m_columns.begin();
+            for ( int i = 0; i < m_columns.size() - maxColumns; ++i ) {
+                it = m_columns.erase(it);
+            }
+        }
+
         if (m_rows.isEmpty()) {
             return;
         }
@@ -114,6 +123,27 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
             return double(node->cost());
         }
     }
+}
+
+QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
+        QString label = m_columns.values().at(section / 2);
+        // only show name without memory address or location
+        int startPos = label.indexOf(':');
+        if (startPos == -1) {
+            return label;
+        }
+        if (label.indexOf("???") != -1) {
+            return label.mid(startPos + 1);
+        }
+        int endPos = label.lastIndexOf('(');
+        if (endPos == -1) {
+            return label;
+        }
+        return label.mid(startPos + 1, endPos - startPos - 2);
+    }
+    return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 int DetailedCostModel::columnCount(const QModelIndex&) const

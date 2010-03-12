@@ -22,6 +22,12 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include "KDChartGlobal"
+
+#include <QtGui/QColor>
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
+
 using namespace Massif;
 
 DetailedCostModel::DetailedCostModel(QObject* parent)
@@ -100,6 +106,15 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
+
+    if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+        QColor c = QColor::fromHsv(255 - ((double(index.column()/2) + 1) / m_columns.size()) * 255, 255, 255);
+        if (role == KDChart::DatasetBrushRole) {
+            return QBrush(c);
+        } else {
+            return QPen(c);
+        }
+    }
 
     if ( role != Qt::DisplayRole ) {
         return QVariant();

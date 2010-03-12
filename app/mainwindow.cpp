@@ -288,6 +288,8 @@ void MainWindow::openFile(const KUrl& file)
     }
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+    connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(detailedItemClicked(QModelIndex)));
 
     m_legend->addDiagram(m_detailedDiagram);
 
@@ -301,12 +303,25 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
         return;
     }
     if (now.parent().isValid()) {
-        m_detailedCostModel->selectItem(m_dataTreeModel->itemForIndex(now));
+        m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
     } else {
-        m_detailedCostModel->selectItem(QPair<TreeLeafItem*, SnapshotItem*>(0, 0));
+        m_detailedCostModel->setSelection(QModelIndex());
     }
 
     m_chart->update();
+}
+
+void MainWindow::detailedItemClicked(const QModelIndex& item)
+{
+    m_detailedCostModel->setSelection(item);
+    ui.treeView->selectionModel()->blockSignals(true);
+    QModelIndex oldIndex = ui.treeView->selectionModel()->currentIndex();
+    ui.treeView->selectionModel()->setCurrentIndex(m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item)), QItemSelectionModel::ClearAndSelect);
+    ui.treeView->selectionModel()->blockSignals(false);
+    m_chart->update();
+    ui.treeView->update(oldIndex);
+    ui.treeView->update(ui.treeView->selectionModel()->currentIndex());
+    ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 }
 
 void MainWindow::closeFile()

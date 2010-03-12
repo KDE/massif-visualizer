@@ -119,7 +119,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(!index.parent().isValid());
 
     if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
-        if (m_selectedItem.first && m_selectedItem.first->label() == m_columns.values().at(index.column()/2)) {
+        if (index.column() == m_selection.column()) {
             if (role == KDChart::DatasetPenRole) {
                 QPen pen(Qt::DashLine);
                 pen.setColor(Qt::black);
@@ -232,7 +232,7 @@ QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
     QMap< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
     while (it != m_nodes.constEnd()) {
         if (it->contains(node)) {
-            return index(m_rows.indexOf(it.key()), column);
+            return index(m_rows.indexOf(it.key()), column * 2);
         }
         ++it;
     }
@@ -245,19 +245,15 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
         return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
     }
     SnapshotItem* snapshot = m_rows.at(idx.row());
-    if (idx.column() % 2 == 0) {
-        return QPair< TreeLeafItem*, SnapshotItem* >(0, snapshot);
-    } else {
-        TreeLeafItem* node = 0;
-        const QString needle = m_columns.values().at(idx.column() / 2);
-        foreach(TreeLeafItem* n, m_nodes[snapshot]) {
-            if (n->label() == needle) {
-                node = n;
-                break;
-            }
+    TreeLeafItem* node = 0;
+    const QString needle = m_columns.values().at(idx.column() / 2);
+    foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+        if (n->label() == needle) {
+            node = n;
+            break;
         }
-        return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
     }
+    return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
 }
 
 QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
@@ -273,7 +269,7 @@ QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, Snapshot
     }
 }
 
-void DetailedCostModel::selectItem(const QPair< TreeLeafItem*, SnapshotItem* >& item)
+void DetailedCostModel::setSelection(const QModelIndex& index)
 {
-    m_selectedItem = item;
+    m_selection = index;
 }

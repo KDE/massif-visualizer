@@ -45,6 +45,11 @@ public:
     QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
 
     /**
+     * @return Index for given item. At maximum one of the pointers should be valid in the input pair.
+     */
+    QModelIndex indexForItem(const QPair<TreeLeafItem*, SnapshotItem*>& item) const;
+
+    /**
      * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
      */
     QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;

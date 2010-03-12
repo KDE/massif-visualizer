@@ -232,11 +232,10 @@ QModelIndex DataTreeModel::indexForSnapshot(SnapshotItem* snapshot) const
 
 QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
 {
-    if (!m_nodeToRow.contains(node) || !node->parent()) {
+    if (!m_nodeToRow.contains(node)) {
         return QModelIndex();
     }
-    QModelIndex parent = indexForTreeLeaf(node->parent());
-    return index(m_nodeToRow[node], 0, parent);
+    return createIndex(m_nodeToRow[node], 0, static_cast<void*>(node));
 }
 
 QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIndex& idx) const
@@ -246,5 +245,18 @@ QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIn
         return QPair< TreeLeafItem*, SnapshotItem* >(static_cast<TreeLeafItem*>(idx.internalPointer()), 0);
     } else {
         return QPair< TreeLeafItem*, SnapshotItem* >(0, m_data->snapshots().at(idx.row()));
+    }
+}
+
+QModelIndex DataTreeModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+{
+    if (!item.first && !item.second) {
+        return QModelIndex();
+    }
+    Q_ASSERT((item.first && !item.second) || (!item.first && item.second));
+    if (item.first) {
+        return indexForTreeLeaf(item.first);
+    } else {
+        return indexForSnapshot(item.second);
     }
 }

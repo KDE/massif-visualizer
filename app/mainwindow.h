@@ -78,6 +78,7 @@ public slots:
 
 private slots:
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
+    void detailedItemClicked(const QModelIndex& item);
 
 private:
     Ui::MainWindow ui;

@@ -72,9 +72,10 @@ public:
     QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
 
     /**
-     * Select @p item, which changes the pen of it's data.
+     * Select @p index, which changes the graphical representation of its data.
      */
-    void selectItem(const QPair<TreeLeafItem*, SnapshotItem*>& item);
+    void setSelection(const QModelIndex& index);
+
 private:
     const FileData* m_data;
     // only a map to sort it by total cost
@@ -87,7 +88,7 @@ private:
     // peaks: Label => TreeLeafItem,Snapshot
     QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
     // selected item
-    QPair<TreeLeafItem*, SnapshotItem*> m_selectedItem;
+    QModelIndex m_selection;
 };
 
 }

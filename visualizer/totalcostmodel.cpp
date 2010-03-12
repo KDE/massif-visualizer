@@ -22,6 +22,12 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include <KDChartGlobal>
+
+#include <QtGui/QPen>
+
+#include <KLocalizedString>
+
 using namespace Massif;
 
 TotalCostModel::TotalCostModel(QObject* parent): QAbstractTableModel(parent), m_data(0)
@@ -46,6 +52,22 @@ void TotalCostModel::setSource(const FileData* data)
     }
 }
 
+QModelIndex TotalCostModel::peak() const
+{
+    if (!m_data->peak()) {
+        return QModelIndex();
+    }
+    return index(m_data->snapshots().indexOf(m_data->peak()), 0);
+}
+
+QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        return i18n("Total Memory Heap Consumption");
+    }
+    return QAbstractItemModel::headerData(section, orientation, role);
+}
+
 QVariant TotalCostModel::data(const QModelIndex& index, int role) const
 {
     // FIXME kdchart queries (-1, -1) for empty models
@@ -58,6 +80,12 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
+
+    if ( role == KDChart::DatasetPenRole ) {
+        return QPen(Qt::red);
+    } else if ( role == KDChart::DatasetBrushRole ) {
+        return QBrush(Qt::red);
+    }
 
     if ( role != Qt::DisplayRole ) {
         return QVariant();

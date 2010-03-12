@@ -98,15 +98,33 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
 
 
     // custom background for peak snapshot
-    if ( role == Qt::BackgroundRole && !index.parent().isValid() ) {
-        SnapshotItem* snapshot = m_data->snapshots()[index.row()];
-        if ( snapshot == m_data->peak() ) {
-            QColor c(Qt::red);
-            c.setAlpha(125);
-            return QBrush(c);
-        } else {
-            return QVariant();
+    if ( role == Qt::BackgroundRole ) {
+        double maxValue = 1;
+        double currentValue = 0;
+        if ( !index.parent().isValid() && m_data->peak() ) {
+            maxValue = m_data->peak()->memHeap();
+            SnapshotItem* snapshot = m_data->snapshots().at(index.row());
+            currentValue = snapshot->memHeap();
+        } else if (index.parent().isValid()) {
+            Q_ASSERT(index.parent().internalPointer());
+            QModelIndex p = index.parent();
+            while (p.parent().isValid()) {
+                p = p.parent();
+            }
+            Q_ASSERT(p.internalPointer());
+            TreeLeafItem* parent = static_cast<TreeLeafItem*>(p.internalPointer());
+            maxValue = parent->cost();
+
+            Q_ASSERT(index.internalPointer());
+            TreeLeafItem* node = static_cast<TreeLeafItem*>(index.internalPointer());
+            currentValue = node->cost();
+            // normalize
+            maxValue -= parent->children().last()->cost();
+            currentValue -= parent->children().last()->cost();
         }
+        QColor c = QColor::fromHsv(120 - (currentValue / maxValue) * 120, 255, 255);
+        c.setAlpha(125);
+        return QBrush(c);
     }
 
     if ( role != Qt::DisplayRole ) {
@@ -190,9 +208,6 @@ QModelIndex DataTreeModel::parent(const QModelIndex& child) const
     if (child.internalPointer()) {
         TreeLeafItem* item = static_cast<TreeLeafItem*>(child.internalPointer());
         if (item->parent()) {
-            if (!item->parent()->parent()) {
-                // top-level
-            }
             Q_ASSERT(m_nodeToRow.contains(item));
             // somewhere in the detailed heap tree
             return createIndex(m_nodeToRow[item->parent()], 0, static_cast<void*>(item->parent()));
@@ -206,3 +221,42 @@ QModelIndex DataTreeModel::parent(const QModelIndex& child) const
     }
 }
 
+QModelIndex DataTreeModel::indexForSnapshot(SnapshotItem* snapshot) const
+{
+    int idx = m_data->snapshots().indexOf(snapshot);
+    if ( idx == -1 ) {
+        return QModelIndex();
+    }
+    return index(idx, 0);
+}
+
+QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
+{
+    if (!m_nodeToRow.contains(node)) {
+        return QModelIndex();
+    }
+    return createIndex(m_nodeToRow[node], 0, static_cast<void*>(node));
+}
+
+QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIndex& idx) const
+{
+    if (idx.parent().isValid()) {
+        Q_ASSERT(idx.internalPointer());
+        return QPair< TreeLeafItem*, SnapshotItem* >(static_cast<TreeLeafItem*>(idx.internalPointer()), 0);
+    } else {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, m_data->snapshots().at(idx.row()));
+    }
+}
+
+QModelIndex DataTreeModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+{
+    if (!item.first && !item.second) {
+        return QModelIndex();
+    }
+    Q_ASSERT((item.first && !item.second) || (!item.first && item.second));
+    if (item.first) {
+        return indexForTreeLeaf(item.first);
+    } else {
+        return indexForSnapshot(item.second);
+    }
+}

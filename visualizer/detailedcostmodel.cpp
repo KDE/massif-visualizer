@@ -22,6 +22,14 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include "KDChartGlobal"
+#include "KDChartDataValueAttributes"
+
+#include <QtGui/QColor>
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
+#include <KDChartPosition>
+
 using namespace Massif;
 
 DetailedCostModel::DetailedCostModel(QObject* parent)
@@ -41,6 +49,7 @@ void DetailedCostModel::setSource(const FileData* data)
         m_columns.clear();
         m_rows.clear();
         m_nodes.clear();
+        m_peaks.clear();
         endRemoveRows();
     }
     if (data) {
@@ -57,12 +66,17 @@ void DetailedCostModel::setSource(const FileData* data)
                         continue;
                     }
                     if (!m_columns.values().contains(node->label())) {
-                        m_columns[node->cost()] = node->label();
+                        m_columns.insert(node->cost(), node->label());
+                        m_peaks[node->label()] = qMakePair(node, snapshot);
                     } else {
                         unsigned int cost = m_columns.key(node->label());
-                        m_columns.remove(cost);
+                        m_columns.remove(cost, node->label());
                         cost += node->cost();
-                        m_columns[cost] = node->label();
+                        m_columns.insert(cost, node->label());
+                        if (m_peaks[node->label()].first->cost() < node->cost()) {
+                            m_peaks[node->label()].first = node;
+                            m_peaks[node->label()].second = snapshot;
+                        }
                     }
                     nodes << node;
                 }
@@ -70,6 +84,18 @@ void DetailedCostModel::setSource(const FileData* data)
                 m_nodes[snapshot] = nodes;
             }
         }
+        // limit number of colums
+        const int maxColumns = 10;
+        if ( m_columns.size() > maxColumns ) {
+            QMultiMap< unsigned int, QString >::iterator it = m_columns.begin();
+            for ( int i = 0, c = m_columns.size() - maxColumns; i < c; ++i ) {
+                m_peaks.remove(it.value());
+                it = m_columns.erase(it);
+            }
+            Q_ASSERT(m_peaks.size() == m_columns.size());
+            Q_ASSERT(m_columns.size() == maxColumns);
+        }
+
         if (m_rows.isEmpty()) {
             return;
         }
@@ -91,6 +117,24 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(index.column() >= 0 && index.column() < columnCount(index.parent()));
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
+
+    if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+        if (index.column() == m_selection.column()) {
+            if (role == KDChart::DatasetPenRole) {
+                QPen pen(Qt::DashLine);
+                pen.setColor(Qt::black);
+                return pen;
+            } else {
+                return QBrush(Qt::black);
+            }
+        }
+        QColor c = QColor::fromHsv(255 - ((double(index.column()/2) + 1) / m_columns.size()) * 255, 255, 255);
+        if (role == KDChart::DatasetBrushRole) {
+            return QBrush(c);
+        } else {
+            return QPen(c);
+        }
+    }
 
     if ( role != Qt::DisplayRole ) {
         return QVariant();
@@ -116,6 +160,27 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     }
 }
 
+QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
+        QString label = m_columns.values().at(section / 2);
+        // only show name without memory address or location
+        int startPos = label.indexOf(':');
+        if (startPos == -1) {
+            return label;
+        }
+        if (label.indexOf("???") != -1) {
+            return label.mid(startPos + 1);
+        }
+        int endPos = label.lastIndexOf('(');
+        if (endPos == -1) {
+            return label;
+        }
+        return label.mid(startPos + 1, endPos - startPos - 2);
+    }
+    return QAbstractItemModel::headerData(section, orientation, role);
+}
+
 int DetailedCostModel::columnCount(const QModelIndex&) const
 {
     return m_columns.size() * 2;
@@ -134,7 +199,77 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-QList< QString > Massif::DetailedCostModel::labels() const
+QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
 {
-    return m_columns.values();
+    QMap< QModelIndex, TreeLeafItem* > peaks;
+    QMap< QString, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
+    while (it != m_peaks.end()) {
+        int row = m_rows.indexOf(it->second);
+        Q_ASSERT(row >= 0);
+        int column = m_columns.values().indexOf(it->first->label());
+        Q_ASSERT(column >= 0);
+        peaks[index(row, column*2)] = it->first;
+        ++it;
+    }
+    return peaks;
+}
+
+QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
+{
+    int row = m_rows.indexOf(snapshot);
+    if (row == -1) {
+        return QModelIndex();
+    }
+    return index(row, 0);
+}
+
+QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
+{
+    int column = m_columns.values().indexOf(node->label());
+    if (column == -1) {
+        return QModelIndex();
+    }
+    QMap< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
+    while (it != m_nodes.constEnd()) {
+        if (it->contains(node)) {
+            return index(m_rows.indexOf(it.key()), column * 2);
+        }
+        ++it;
+    }
+    return QModelIndex();
+}
+
+QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QModelIndex& idx) const
+{
+    if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    }
+    SnapshotItem* snapshot = m_rows.at(idx.row());
+    TreeLeafItem* node = 0;
+    const QString needle = m_columns.values().at(idx.column() / 2);
+    foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+        if (n->label() == needle) {
+            node = n;
+            break;
+        }
+    }
+    return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
+}
+
+QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+{
+    if (!item.first && !item.second) {
+        return QModelIndex();
+    }
+    Q_ASSERT((item.first && !item.second) || (!item.first && item.second));
+    if (item.first) {
+        return indexForTreeLeaf(item.first);
+    } else {
+        return indexForSnapshot(item.second);
+    }
+}
+
+void DetailedCostModel::setSelection(const QModelIndex& index)
+{
+    m_selection = index;
 }

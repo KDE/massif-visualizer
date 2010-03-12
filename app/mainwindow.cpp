@@ -21,11 +21,12 @@
 #include "KDChartHeaderFooter"
 #include "KDChartCartesianCoordinatePlane"
 #include "KDChartPlotter"
-#include "KDChartLineDiagram"
+#include "KDChartLegend"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
@@ -41,14 +42,18 @@
 #include <KMessageBox>
 
 #include <KColorScheme>
+#include <KDChartDataValueAttributes>
+#include <KDChartBackgroundAttributes>
 
 using namespace Massif;
 using namespace KDChart;
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : KXmlGuiWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
-    , m_toggleTotal(0), m_totalDiagram(0), m_toggleDetailed(0), m_detailedDiagram(0)
-    , m_data(0)
+    , m_toggleTotal(0), m_totalDiagram(0), m_totalCostModel(new TotalCostModel(m_chart))
+    , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
+    , m_legend(new Legend(m_chart))
+    , m_dataTreeModel(new DataTreeModel(m_chart)), m_data(0)
 {
     ui.setupUi(this);
 
@@ -68,9 +73,26 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     m_chart->setGlobalLeadingRight(10);
     m_chart->setGlobalLeadingLeft(10);
 
+    m_legend->setPosition(Position(KDChartEnums::PositionFloating));
+    m_legend->setTitleText("");
+    m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    m_legend->setSortOrder(Qt::DescendingOrder);
+
+    m_chart->addLegend(m_legend);
+
+    //NOTE: this has to be set _after_ the legend was added to the chart...
+    TextAttributes att = m_legend->textAttributes();
+    att.setAutoShrink(true);
+    att.setFontSize( Measure(12) );
+    m_legend->setTextAttributes(att);
+
     setCentralWidget(m_chart);
 
     setWindowIcon(KIcon("office-chart-area"));
+
+    ui.treeView->setModel(m_dataTreeModel);
+    connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
     setupActions();
     setupGUI();
@@ -143,6 +165,15 @@ void MainWindow::openFile(const KUrl& file)
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
+    //Begin Legend
+    BackgroundAttributes bkgAtt = m_legend->backgroundAttributes();
+    QColor background = scheme.background(KColorScheme::AlternateBackground).color();
+    background.setAlpha(200);
+    bkgAtt.setBrush(QBrush(background));
+    bkgAtt.setVisible(true);
+    m_legend->setBackgroundAttributes(bkgAtt);
+
+    //BEGIN Header
     {
         TextAttributes textAttributes = m_header->textAttributes();
         textAttributes.setPen(foreground);
@@ -156,13 +187,14 @@ void MainWindow::openFile(const KUrl& file)
 
     setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
 
+    //BEGIN TotalDiagram
     m_totalDiagram = new Plotter;
     m_toggleTotal->setEnabled(true);
     m_totalDiagram->setAntiAliasing(true);
     {
         LineAttributes attributes = m_totalDiagram->lineAttributes();
         attributes.setDisplayArea(true);
-        attributes.setTransparency(127);
+        attributes.setTransparency(50);
         m_totalDiagram->setLineAttributes(attributes);
     }
 
@@ -186,12 +218,26 @@ void MainWindow::openFile(const KUrl& file)
     leftAxis->setPosition ( CartesianAxis::Left );
     m_totalDiagram->addAxis(leftAxis);
 
-    TotalCostModel* totalCostModel = new TotalCostModel(m_chart->coordinatePlane());
-    totalCostModel->setSource(m_data);
-    m_totalDiagram->setModel(totalCostModel);
+    m_totalCostModel->setSource(m_data);
+    m_totalDiagram->setModel(m_totalCostModel);
+    if (m_data->peak()) {
+        const QModelIndex peak = m_totalCostModel->peak();
+        Q_ASSERT(peak.isValid());
+        // mark peak
+        DataValueAttributes dataAttributes = m_totalDiagram->dataValueAttributes(peak);
+        dataAttributes.setDataLabel(i18n("Peak of %1 bytes", m_data->peak()->memHeap()));
+        dataAttributes.setVisible(true);
+        TextAttributes txtAttrs = dataAttributes.textAttributes();
+        txtAttrs.setPen(foreground);
+        txtAttrs.setRotation(0);
+        dataAttributes.setTextAttributes(txtAttrs);
+        m_totalDiagram->setDataValueAttributes(peak, dataAttributes);
+    }
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
+    m_legend->addDiagram(m_totalDiagram);
 
+    //BEGIN DetailedDiagram
     m_detailedDiagram = new Plotter;
     m_toggleDetailed->setEnabled(true);
     m_detailedDiagram->setAntiAliasing(true);
@@ -203,10 +249,8 @@ void MainWindow::openFile(const KUrl& file)
         m_detailedDiagram->setLineAttributes(attributes);
     }
 
-    DetailedCostModel* detailedCostModel = new DetailedCostModel(m_chart->coordinatePlane());
-    detailedCostModel->setSource(m_data);
-    qDebug() << detailedCostModel->data(detailedCostModel->index(detailedCostModel->rowCount()-1, 0));
-    m_detailedDiagram->setModel(detailedCostModel);
+    m_detailedCostModel->setSource(m_data);
+    m_detailedDiagram->setModel(m_detailedCostModel);
 
     CartesianAxis* topAxis = new CartesianAxis;
     topAxis->setTextAttributes(axisTextAttributes);
@@ -222,11 +266,60 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
 
-    DataTreeModel* treeModel =  new DataTreeModel;
-    treeModel->setSource(m_data);
-    ui.treeView->setModel(treeModel);
+    {
+        QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
+        QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
+        while (it != peaks.constEnd()) {
+            const QModelIndex peak = it.key();
+            Q_ASSERT(peak.isValid());
+            // mark peak
+            DataValueAttributes dataAttributes = m_detailedDiagram->dataValueAttributes(peak);
+            dataAttributes.setDataLabel(i18n("Peak of %1 bytes", it.value()->cost()));
+            dataAttributes.setVisible(true);
+            dataAttributes.setBackgroundAttributes(bkgAtt);
+            TextAttributes txtAttrs = dataAttributes.textAttributes();
+            QPen peakPen = m_detailedCostModel->data(peak, DatasetPenRole).value<QPen>();
+            peakPen.setColor(peakPen.color().darker());
+            txtAttrs.setPen(peakPen);
+            dataAttributes.setTextAttributes(txtAttrs);
+            m_detailedDiagram->setDataValueAttributes(peak, dataAttributes);
+            ++it;
+        }
+    }
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+    connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(detailedItemClicked(QModelIndex)));
+
+    m_legend->addDiagram(m_detailedDiagram);
+
+    //BEGIN TreeView
+    m_dataTreeModel->setSource(m_data);
+}
+
+void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
+{
+    if (now == before) {
+        return;
+    }
+    if (now.parent().isValid()) {
+        m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
+    } else {
+        m_detailedCostModel->setSelection(QModelIndex());
+    }
+
+    m_chart->update();
+}
+
+void MainWindow::detailedItemClicked(const QModelIndex& item)
+{
+    m_detailedCostModel->setSelection(item);
+    m_chart->update();
+
+    ui.treeView->selectionModel()->clearSelection();
+    const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item));
+    ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 }
 
 void MainWindow::closeFile()
@@ -236,6 +329,9 @@ void MainWindow::closeFile()
     }
     delete m_data;
     m_data = 0;
+    m_dataTreeModel->setSource(0);
+    m_detailedCostModel->setSource(0);
+    m_totalCostModel->setSource(0);
 
     m_toggleDetailed->setEnabled(false);
     m_toggleDetailed->setChecked(true);
@@ -246,8 +342,6 @@ void MainWindow::closeFile()
     m_totalDiagram = 0;
 
     m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
-
-    ui.treeView->setModel(0);
 
     setWindowTitle(i18n("Massif Visualizer"));
 }

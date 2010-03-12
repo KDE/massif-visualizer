@@ -38,6 +38,7 @@
 #include "KDChartAbstractDiagram.h"
 #include "KDChartAbstractCoordinatePlane.h"
 #include "KDChartDataValueAttributes.h"
+#include "KDChartBackgroundAttributes"
 #include "KDChartRelativePosition.h"
 #include "KDChartPosition.h"
 #include "KDChartPainterSaver_p.h"
@@ -322,6 +323,17 @@ namespace KDChart {
                     QAbstractTextDocumentLayout::PaintContext context;
                     context.palette = diag->palette();
                     context.palette.setColor(QPalette::Text, ta.pen().color() );
+
+                    BackgroundAttributes back(attrs.backgroundAttributes());
+                    if(back.isVisible())
+                    {
+                        QTextBlockFormat fmt;
+                        fmt.setBackground(back.brush().color());
+                        QTextCursor cursor(&doc);
+                        cursor.setPosition(0);
+                        cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor, 1);
+                        cursor.mergeBlockFormat(fmt);
+                    }
 
                     QAbstractTextDocumentLayout* const layout = doc.documentLayout();
 

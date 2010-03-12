@@ -44,21 +44,51 @@ public:
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     /**
-     * @return List of labels, sorted by total cost.
+     * @return List of peaks with their heap tree leaf items.
      */
-    QList<QString> labels() const;
+    QMap<QModelIndex, TreeLeafItem*> peaks() const;
+
+    /**
+     * @return Item for given index. At maximum one of the pointers in the pair will be valid.
+     */
+    QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
+
+    /**
+     * @return Index for given item. Only one of the pointers in the pair should be valid.
+     */
+    QModelIndex indexForItem(const QPair<TreeLeafItem*, SnapshotItem*>& item) const;
+
+    /**
+     * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
+     */
+    QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;
+
+    /**
+     * @return Index for given TreeLeafItem, or invalid if it's not covered by this model.
+     */
+    QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
+
+    /**
+     * Select @p index, which changes the graphical representation of its data.
+     */
+    void setSelection(const QModelIndex& index);
 
 private:
     const FileData* m_data;
     // only a map to sort it by total cost
     // total cost => label
-    QMap<unsigned int, QString> m_columns;
+    QMultiMap<unsigned int, QString> m_columns;
     // only to sort snapshots by number
     QList<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
     QMap<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
+    // peaks: Label => TreeLeafItem,Snapshot
+    QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
+    // selected item
+    QModelIndex m_selection;
 };
 
 }

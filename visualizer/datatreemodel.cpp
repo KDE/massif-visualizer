@@ -111,6 +111,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             while (p.parent().isValid()) {
                 p = p.parent();
             }
+            Q_ASSERT(p.internalPointer());
             TreeLeafItem* parent = static_cast<TreeLeafItem*>(p.internalPointer());
             maxValue = parent->cost();
 
@@ -120,7 +121,6 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             // normalize
             maxValue -= parent->children().last()->cost();
             currentValue -= parent->children().last()->cost();
-
         }
         QColor c = QColor::fromHsv(120 - (currentValue / maxValue) * 120, 255, 255);
         c.setAlpha(125);

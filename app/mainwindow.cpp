@@ -274,7 +274,9 @@ void MainWindow::openFile(const KUrl& file)
             dataAttributes.setVisible(true);
             dataAttributes.setBackgroundAttributes(bkgAtt);
             TextAttributes txtAttrs = dataAttributes.textAttributes();
-            txtAttrs.setPen(detailedCostModel->data(peak, DatasetPenRole).value<QPen>());
+            QPen peakPen = detailedCostModel->data(peak, DatasetPenRole).value<QPen>();
+            peakPen.setColor(peakPen.color().darker());
+            txtAttrs.setPen(peakPen);
             dataAttributes.setTextAttributes(txtAttrs);
             m_detailedDiagram->setDataValueAttributes(peak, dataAttributes);
             ++it;

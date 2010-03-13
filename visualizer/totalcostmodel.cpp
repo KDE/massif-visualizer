@@ -83,7 +83,7 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(!index.parent().isValid());
 
     if ( role == KDChart::LineAttributesRole ) {
-        KDChart::LineAttributes attributes;
+        static KDChart::LineAttributes attributes;
         attributes.setDisplayArea(true);
         if (index == m_selection) {
             attributes.setTransparency(255);

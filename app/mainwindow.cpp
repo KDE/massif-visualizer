@@ -265,12 +265,6 @@ void MainWindow::openFile(const KUrl& file)
     m_toggleDetailed->setEnabled(true);
     m_detailedDiagram->setAntiAliasing(true);
     m_detailedDiagram->setType(KDChart::Plotter::Stacked);
-    {
-        LineAttributes attributes = m_detailedDiagram->lineAttributes();
-        attributes.setDisplayArea(true);
-        attributes.setTransparency(127);
-        m_detailedDiagram->setLineAttributes(attributes);
-    }
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);

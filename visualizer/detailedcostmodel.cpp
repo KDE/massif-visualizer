@@ -24,6 +24,7 @@
 
 #include "KDChartGlobal"
 #include "KDChartDataValueAttributes"
+#include "KDChartLineAttributes"
 
 #include <QtGui/QColor>
 #include <QtGui/QPen>
@@ -118,16 +119,18 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
 
-    if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+    if ( role == KDChart::LineAttributesRole ) {
+        static KDChart::LineAttributes attributes;
+        attributes.setDisplayArea(true);
         if (index.column() == m_selection.column()) {
-            if (role == KDChart::DatasetPenRole) {
-                QPen pen(Qt::DashLine);
-                pen.setColor(Qt::black);
-                return pen;
-            } else {
-                return QBrush(Qt::black);
-            }
+            attributes.setTransparency(255);
+        } else {
+            attributes.setTransparency(127);
         }
+        return QVariant::fromValue(attributes);
+    }
+
+    if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
         QColor c = QColor::fromHsv(255 - ((double(index.column()/2) + 1) / m_columns.size()) * 255, 255, 255);
         if (role == KDChart::DatasetBrushRole) {
             return QBrush(c);

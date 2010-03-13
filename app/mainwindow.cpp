@@ -359,11 +359,11 @@ void MainWindow::closeFile()
     if (!m_data) {
         return;
     }
-    delete m_data;
-    m_data = 0;
-    m_dataTreeModel->setSource(0);
-    m_detailedCostModel->setSource(0);
-    m_totalCostModel->setSource(0);
+
+    m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
+    m_legend->removeDiagrams();
+    m_header->setText("");
+    m_subheader->setText("");
 
     m_toggleDetailed->setEnabled(false);
     m_toggleDetailed->setChecked(true);
@@ -373,7 +373,12 @@ void MainWindow::closeFile()
     m_toggleTotal->setChecked(true);
     m_totalDiagram = 0;
 
-    m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
+    m_dataTreeModel->setSource(0);
+    m_detailedCostModel->setSource(0);
+    m_totalCostModel->setSource(0);
+
+    delete m_data;
+    m_data = 0;
 
     setWindowTitle(i18n("Massif Visualizer"));
 }

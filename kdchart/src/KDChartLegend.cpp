@@ -10,12 +10,12 @@
  ** your option) use any later version of the GNU General Public
  ** License if such license has been publicly approved by
  ** Klarälvdalens Datakonsult AB (or its successors, if any).
- ** 
+ **
  ** This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
  ** INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
  ** A PARTICULAR PURPOSE. Klarälvdalens Datakonsult AB reserves all rights
  ** not expressly granted herein.
- ** 
+ **
  ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
  ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  **
@@ -77,7 +77,26 @@ Legend::Private::~Private()
     // this bloc left empty intentionally
 }
 
-
+/**
+ * Helper function that returs the brushes from a diagram
+ * and also queries the model if available.
+ */
+QList<QBrush> brushesFromDiagram(const AbstractDiagram* diagram)
+{
+    QList<QBrush> brushes = diagram->datasetBrushes();
+    if (diagram->model()) {
+        for (int c = 0; c < diagram->model()->columnCount(); c += diagram->datasetDimension()) {
+            QVariant v = diagram->model()->data(diagram->model()->index(0, c), DatasetBrushRole);
+            if (v.isValid() && v.canConvert<QBrush>()) {
+                QBrush b = v.value<QBrush>();
+                if (brushes[ c/2 ] != b) {
+                    brushes[ c/2 ] = b;
+                }
+            }
+        }
+    }
+    return brushes;
+}
 
 #define d d_func()
 
@@ -587,10 +606,11 @@ void Legend::setBrush( uint dataset, const QBrush& brush )
 
 QBrush Legend::brush( uint dataset ) const
 {
-    if( d->brushes.find( dataset ) != d->brushes.end() )
+    if( d->brushes.find( dataset ) != d->brushes.end() ) {
         return d->brushes[ dataset ];
-    else
+    } else {
         return d->modelBrushes[ dataset ];
+    }
 }
 
 const QMap<uint,QBrush> Legend::brushes() const
@@ -602,7 +622,7 @@ const QMap<uint,QBrush> Legend::brushes() const
 void Legend::setBrushesFromDiagram( KDChart::AbstractDiagram* diagram )
 {
     bool bChangesDone = false;
-    QList<QBrush> datasetBrushes = diagram->datasetBrushes();
+    QList<QBrush> datasetBrushes = brushesFromDiagram(diagram);
     for( int i = 0; i < datasetBrushes.count(); i++ ){
         if( d->brushes[ i ] != datasetBrushes[ i ] ){
             d->brushes[ i ]  = datasetBrushes[ i ];
@@ -851,7 +871,7 @@ void Legend::buildLegend()
         if( diagram ){
             //qDebug() << "accessing" << diagram;
             const QStringList             diagramLabels(  diagram->datasetLabels()  );
-            const QList<QBrush>           diagramBrushes( diagram->datasetBrushes() );
+            const QList<QBrush>           diagramBrushes( brushesFromDiagram(diagram) );
             const QList<QPen>             diagramPens(    diagram->datasetPens()    );
             const QList<MarkerAttributes> diagramMarkers( diagram->datasetMarkers() );
             const int begin = sortOrder() == Qt::AscendingOrder ? 0 : diagramLabels.count() - 1;

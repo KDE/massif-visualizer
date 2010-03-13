@@ -121,8 +121,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setCentralWidget(m_chart);
 
-    setWindowIcon(KIcon("office-chart-area"));
-
     ui.treeView->setModel(m_dataTreeModel);
     connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));

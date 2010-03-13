@@ -22,7 +22,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
-#include <KDChartGlobal>
+#include "KDChartGlobal"
+#include "KDChartLineAttributes"
 
 #include <QtGui/QPen>
 
@@ -81,6 +82,16 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
 
+    if ( role == KDChart::LineAttributesRole ) {
+        KDChart::LineAttributes attributes;
+        attributes.setDisplayArea(true);
+        if (index == m_selection) {
+            attributes.setTransparency(255);
+        } else {
+            attributes.setTransparency(50);
+        }
+        return QVariant::fromValue(attributes);
+    }
     if ( role == KDChart::DatasetPenRole ) {
         return QPen(Qt::red);
     } else if ( role == KDChart::DatasetBrushRole ) {
@@ -117,4 +128,40 @@ int TotalCostModel::rowCount(const QModelIndex& parent) const
         // snapshot item
         return m_data->snapshots().count();
     }
+}
+
+QModelIndex TotalCostModel::indexForSnapshot(SnapshotItem* snapshot) const
+{
+    int row = m_data->snapshots().indexOf(snapshot);
+    if (row == -1) {
+        return QModelIndex();
+    }
+    return index(row, 0);
+}
+
+QModelIndex TotalCostModel::indexForTreeLeaf(TreeLeafItem* node) const
+{
+    return QModelIndex();
+}
+
+QPair< TreeLeafItem*, SnapshotItem* > TotalCostModel::itemForIndex(const QModelIndex& idx) const
+{
+    if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    }
+    SnapshotItem* snapshot = m_data->snapshots().at(idx.row());
+    return QPair< TreeLeafItem*, SnapshotItem* >(0, snapshot);
+}
+
+QModelIndex TotalCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+{
+    if ((!item.first && !item.second) || item.first) {
+        return QModelIndex();
+    }
+    return indexForSnapshot(item.second);
+}
+
+void TotalCostModel::setSelection(const QModelIndex& index)
+{
+    m_selection = index;
 }

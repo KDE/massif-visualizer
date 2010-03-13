@@ -226,12 +226,6 @@ void MainWindow::openFile(const KUrl& file)
     m_totalDiagram = new Plotter;
     m_toggleTotal->setEnabled(true);
     m_totalDiagram->setAntiAliasing(true);
-    {
-        LineAttributes attributes = m_totalDiagram->lineAttributes();
-        attributes.setDisplayArea(true);
-        attributes.setTransparency(50);
-        m_totalDiagram->setLineAttributes(attributes);
-    }
 
     CartesianAxis* bottomAxis = new CartesianAxis;
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
@@ -263,6 +257,8 @@ void MainWindow::openFile(const KUrl& file)
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
     m_legend->addDiagram(m_totalDiagram);
+    connect(m_totalDiagram, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(totalItemClicked(QModelIndex)));
 
     //BEGIN DetailedDiagram
     m_detailedDiagram = new Plotter;
@@ -321,7 +317,9 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
     if (now.parent().isValid()) {
         m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
+    m_totalCostModel->setSelection(QModelIndex());
     } else {
+        m_totalCostModel->setSelection(m_totalCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
         m_detailedCostModel->setSelection(QModelIndex());
     }
 
@@ -331,12 +329,29 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 void MainWindow::detailedItemClicked(const QModelIndex& item)
 {
     m_detailedCostModel->setSelection(item);
-    m_chart->update();
+    m_totalCostModel->setSelection(QModelIndex());
 
     ui.treeView->selectionModel()->clearSelection();
     const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item));
     ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
+
+    m_chart->update();
+}
+
+void MainWindow::totalItemClicked(const QModelIndex& item)
+{
+    QModelIndex idx = item.model()->index(item.row() + 1, item.column(), item.parent());
+
+    m_detailedCostModel->setSelection(QModelIndex());
+    m_totalCostModel->setSelection(idx);
+
+    ui.treeView->selectionModel()->clearSelection();
+    const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_totalCostModel->itemForIndex(idx));
+    ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
+
+    m_chart->update();
 }
 
 void MainWindow::closeFile()

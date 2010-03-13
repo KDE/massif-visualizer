@@ -22,6 +22,8 @@
 namespace Massif {
 
 class FileData;
+class TreeLeafItem;
+class SnapshotItem;
 
 /**
  * A model that gives a tabular access on the costs in a massif output file.
@@ -47,8 +49,35 @@ public:
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
+    /**
+     * @return Item for given index. At maximum one of the pointers in the pair will be valid.
+     */
+    QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
+
+    /**
+     * @return Index for given item. Only one of the pointers in the pair should be valid.
+     */
+    QModelIndex indexForItem(const QPair<TreeLeafItem*, SnapshotItem*>& item) const;
+
+    /**
+     * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
+     */
+    QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;
+
+    /**
+     * @return Index for given TreeLeafItem, or invalid if it's not covered by this model.
+     */
+    QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
+
+    /**
+     * Select @p index, which changes the graphical representation of its data.
+     */
+    void setSelection(const QModelIndex& index);
+
 private:
     const FileData* m_data;
+    // selected item
+    QModelIndex m_selection;
 };
 
 }

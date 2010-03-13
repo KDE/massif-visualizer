@@ -38,6 +38,7 @@
 #include <KActionCollection>
 #include <KAction>
 #include <KFileDialog>
+#include <KRecentFilesAction>
 
 #include <KMimeType>
 #include <KFilterDev>
@@ -132,12 +133,15 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
 MainWindow::~MainWindow()
 {
+    m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
 }
 
 void MainWindow::setupActions()
 {
     KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
+    m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
+
     KStandardAction::close(this, SLOT(closeFile()), actionCollection());
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
@@ -302,6 +306,9 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN TreeView
     m_dataTreeModel->setSource(m_data);
+
+    //BEGIN RecentFiles
+    m_recentFiles->addUrl(file);
 }
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)

@@ -30,6 +30,7 @@ class Legend;
 }
 
 class KAction;
+class KRecentFilesAction;
 
 namespace Massif {
 
@@ -98,6 +99,8 @@ private:
 
     DataTreeModel* m_dataTreeModel;
     FileData* m_data;
+
+    KRecentFilesAction* m_recentFiles;
 };
 
 }

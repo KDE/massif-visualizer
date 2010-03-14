@@ -1,0 +1,11 @@
+To build this app, you'll need kdelibs headers from KDE 4 available.
+Than you simply do the usual CMake run:
+
+cd massif-visualizer
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+That should be it.

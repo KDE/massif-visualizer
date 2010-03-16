@@ -38,6 +38,7 @@ class FileData;
 class DetailedCostModel;
 class TotalCostModel;
 class DataTreeModel;
+class FilteredDataTreeModel;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -98,6 +99,7 @@ private:
     KDChart::Legend* m_legend;
 
     DataTreeModel* m_dataTreeModel;
+    FilteredDataTreeModel* m_dataTreeFilterModel;
     FileData* m_data;
 
     KRecentFilesAction* m_recentFiles;

@@ -7,6 +7,7 @@ set(visualizer_SRCS
     totalcostmodel.cpp
     detailedcostmodel.cpp
     datatreemodel.cpp
+    filtereddatatreemodel.cpp
 )
 
 kde4_add_library(visualizer ${visualizer_SRCS})

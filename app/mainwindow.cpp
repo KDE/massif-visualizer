@@ -33,6 +33,7 @@
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
+#include "visualizer/filtereddatatreemodel.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -47,6 +48,8 @@
 #include <KColorScheme>
 
 #include <KStatusBar>
+
+#include <QSortFilterProxyModel>
 
 using namespace Massif;
 using namespace KDChart;
@@ -88,8 +91,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_toggleTotal(0), m_totalDiagram(0), m_totalCostModel(new TotalCostModel(m_chart))
     , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
-    , m_dataTreeModel(new DataTreeModel(m_chart)), m_data(0)
-    , m_changingSelections(false)
+    , m_dataTreeModel(new DataTreeModel(m_chart)), m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
+    , m_data(0) , m_changingSelections(false)
 {
     ui.setupUi(this);
 
@@ -125,7 +128,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setCentralWidget(m_chart);
 
-    ui.treeView->setModel(m_dataTreeModel);
+    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
+            m_dataTreeFilterModel, SLOT(setFilter(QString)));
+    ui.treeView->setModel(m_dataTreeFilterModel);
     connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
@@ -328,11 +333,15 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
     m_changingSelections = true;
 
+    const QPair< TreeLeafItem*, SnapshotItem* >& item = m_dataTreeModel->itemForIndex(
+       m_dataTreeFilterModel->mapToSource(now)
+    );
+
     if (now.parent().isValid()) {
-        m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
+        m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(item));
         m_totalCostModel->setSelection(QModelIndex());
     } else {
-        m_totalCostModel->setSelection(m_totalCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
+        m_totalCostModel->setSelection(m_totalCostModel->indexForItem(item));
         m_detailedCostModel->setSelection(QModelIndex());
     }
 
@@ -353,7 +362,9 @@ void MainWindow::detailedItemClicked(const QModelIndex& item)
     m_totalCostModel->setSelection(QModelIndex());
 
     ui.treeView->selectionModel()->clearSelection();
-    const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item));
+    const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
+        m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item))
+    );
     ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
@@ -376,7 +387,9 @@ void MainWindow::totalItemClicked(const QModelIndex& item)
     m_totalCostModel->setSelection(idx);
 
     ui.treeView->selectionModel()->clearSelection();
-    const QModelIndex& newIndex = m_dataTreeModel->indexForItem(m_totalCostModel->itemForIndex(idx));
+    const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
+        m_dataTreeModel->indexForItem(m_totalCostModel->itemForIndex(item))
+    );
     ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
@@ -406,6 +419,7 @@ void MainWindow::closeFile()
     m_totalDiagram = 0;
 
     m_dataTreeModel->setSource(0);
+    m_dataTreeFilterModel->setFilter("");
     m_detailedCostModel->setSource(0);
     m_totalCostModel->setSource(0);
 

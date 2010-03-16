@@ -55,6 +55,7 @@ void TotalCostModel::setSource(const FileData* data)
 
 QModelIndex TotalCostModel::peak() const
 {
+    Q_ASSERT(m_data);
     if (!m_data->peak()) {
         return QModelIndex();
     }

@@ -29,7 +29,8 @@
 #include <QtGui/QColor>
 #include <QtGui/QPen>
 #include <QtGui/QBrush>
-#include <KDChartPosition>
+
+#include <KLocalizedString>
 
 using namespace Massif;
 
@@ -139,12 +140,12 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         }
     }
 
-    if ( role != Qt::DisplayRole ) {
+    if ( role != Qt::DisplayRole && role != Qt::ToolTipRole ) {
         return QVariant();
     }
 
     SnapshotItem* snapshot = m_rows[index.row()];
-    if (index.column() % 2 == 0) {
+    if (index.column() % 2 == 0 && role != Qt::ToolTipRole) {
         return snapshot->time();
     } else {
         TreeLeafItem* node = 0;
@@ -156,9 +157,22 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
             }
         }
         if (!node) {
-            return 0;
+            if (role == Qt::ToolTipRole) {
+                return QVariant();
+            } else {
+                return 0;
+            }
         } else {
-            return double(node->cost());
+            if (role == Qt::ToolTipRole) {
+                return i18n("cost of %1 bytes, i.e. %2% of snapshot %3\n%4",
+                            node->cost(),
+                            // yeah nice how I round to two decimals, right? :D
+                            double(int(double(node->cost())/snapshot->memHeap()*10000))/100,
+                            snapshot->number(),
+                            node->label());
+            } else {
+                return double(node->cost());
+            }
         }
     }
 }

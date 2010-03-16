@@ -46,6 +46,8 @@
 
 #include <KColorScheme>
 
+#include <KStatusBar>
+
 using namespace Massif;
 using namespace KDChart;
 
@@ -128,6 +130,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
+    statusBar()->hide();
 }
 
 MainWindow::~MainWindow()

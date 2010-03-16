@@ -1580,9 +1580,8 @@ bool Chart::event( QEvent* event )
         const QHelpEvent* const helpEvent = static_cast< QHelpEvent* >( event );
         KDAB_FOREACH( const AbstractCoordinatePlane* const plane, d->coordinatePlanes )
         {
-            KDAB_FOREACH( const AbstractDiagram* const diag, plane->diagrams() )
-            {
-                const QModelIndex index = diag->indexAt( helpEvent->pos() );
+            for (int i = plane->diagrams().count() - 1; i >= 0; --i) {
+                const QModelIndex index = plane->diagrams().at(i)->indexAt( helpEvent->pos() );
                 const QVariant toolTip = index.data( Qt::ToolTipRole );
                 if( toolTip.isValid() )
                 {

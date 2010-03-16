@@ -98,11 +98,19 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         return QBrush(Qt::red);
     }
 
-    if ( role != Qt::DisplayRole ) {
+    if ( role != Qt::DisplayRole && role != Qt::ToolTipRole ) {
         return QVariant();
     }
 
     SnapshotItem* snapshot = m_data->snapshots().at(index.row());
+    if ( role == Qt::ToolTipRole ) {
+        return i18n("snapshot #%1:\n"
+                    "heap cost of %2 bytes\n"
+                    "extra heap cost of %3 bytes\n"
+                    "stack cost of %4 bytes",
+                    snapshot->number(), snapshot->memHeap(), snapshot->memHeapExtra(),
+                    snapshot->memStacks());
+    }
     if (index.column() == 0) {
         return snapshot->time();
     } else {

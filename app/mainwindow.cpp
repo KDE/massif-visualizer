@@ -126,7 +126,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
     setupActions();
-    setupGUI();
+    setupGUI(StandardWindowOptions(Default ^ StatusBar));
 }
 
 MainWindow::~MainWindow()

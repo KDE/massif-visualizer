@@ -164,7 +164,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
             }
         } else {
             if (role == Qt::ToolTipRole) {
-                return i18n("cost of %1 bytes, i.e. %2% of snapshot %3\n%4",
+                return i18n("cost of %1 bytes, i.e. %2% of snapshot #%3\n%4",
                             node->cost(),
                             // yeah nice how I round to two decimals, right? :D
                             double(int(double(node->cost())/snapshot->memHeap()*10000))/100,

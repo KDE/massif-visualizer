@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     att.setAutoShrink(true);
     att.setFontSize( Measure(12) );
     m_legend->setTextAttributes(att);
+    m_legend->hide();
 
     setCentralWidget(m_chart);
 
@@ -306,6 +307,9 @@ void MainWindow::openFile(const KUrl& file)
 
     m_legend->addDiagram(m_detailedDiagram);
 
+    //BEGIN Legend
+    m_legend->show();
+
     //BEGIN TreeView
     m_dataTreeModel->setSource(m_data);
 
@@ -389,6 +393,7 @@ void MainWindow::closeFile()
 
     m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
     m_legend->removeDiagrams();
+    m_legend->hide();
     m_header->setText("");
     m_subheader->setText("");
 

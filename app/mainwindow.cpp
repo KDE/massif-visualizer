@@ -87,6 +87,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
     , m_dataTreeModel(new DataTreeModel(m_chart)), m_data(0)
+    , m_changingSelections(false)
 {
     ui.setupUi(this);
 
@@ -311,22 +312,36 @@ void MainWindow::openFile(const KUrl& file)
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
 {
+    if (m_changingSelections) {
+        return;
+    }
+
     if (now == before) {
         return;
     }
+    m_changingSelections = true;
+
     if (now.parent().isValid()) {
         m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
-    m_totalCostModel->setSelection(QModelIndex());
+        m_totalCostModel->setSelection(QModelIndex());
     } else {
         m_totalCostModel->setSelection(m_totalCostModel->indexForItem(m_dataTreeModel->itemForIndex(now)));
         m_detailedCostModel->setSelection(QModelIndex());
     }
 
     m_chart->update();
+
+    m_changingSelections = false;
 }
 
 void MainWindow::detailedItemClicked(const QModelIndex& item)
 {
+    if (m_changingSelections) {
+        return;
+    }
+
+    m_changingSelections = true;
+
     m_detailedCostModel->setSelection(item);
     m_totalCostModel->setSelection(QModelIndex());
 
@@ -336,10 +351,18 @@ void MainWindow::detailedItemClicked(const QModelIndex& item)
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+
+    m_changingSelections = false;
 }
 
 void MainWindow::totalItemClicked(const QModelIndex& item)
 {
+    if (m_changingSelections) {
+        return;
+    }
+
+    m_changingSelections = true;
+
     QModelIndex idx = item.model()->index(item.row() + 1, item.column(), item.parent());
 
     m_detailedCostModel->setSelection(QModelIndex());
@@ -351,6 +374,8 @@ void MainWindow::totalItemClicked(const QModelIndex& item)
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+
+    m_changingSelections = false;
 }
 
 void MainWindow::closeFile()

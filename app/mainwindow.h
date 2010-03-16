@@ -101,6 +101,8 @@ private:
     FileData* m_data;
 
     KRecentFilesAction* m_recentFiles;
+
+    bool m_changingSelections;
 };
 
 }

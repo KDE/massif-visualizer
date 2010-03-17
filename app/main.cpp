@@ -41,10 +41,10 @@ int main( int argc, char *argv[] )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
-    Massif::MainWindow* window = new Massif::MainWindow;
-    if (args->count()) {
-        window->openFile(args->url(0));
+    for ( int i = 0; i < args->count(); ++i ) {
+        Massif::MainWindow* window = new Massif::MainWindow;
+        window->openFile(args->url(i));
+        window->show();
     }
-    window->show();
     return app.exec();
 }

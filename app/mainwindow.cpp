@@ -183,6 +183,7 @@ void MainWindow::openFile(const KUrl& file)
     QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile(), mimeType, false);
     if (!device->open(QIODevice::ReadOnly)) {
         KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could not read file"));
+        delete device;
         return;
     }
     if (m_data) {
@@ -320,6 +321,8 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN RecentFiles
     m_recentFiles->addUrl(file);
+
+    delete device;
 }
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)

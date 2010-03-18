@@ -46,5 +46,10 @@ int main( int argc, char *argv[] )
         window->openFile(args->url(i));
         window->show();
     }
+    if (!args->count()) {
+        // at least one window has to be shown...
+        Massif::MainWindow* window = new Massif::MainWindow;
+        window->show();
+    }
     return app.exec();
 }

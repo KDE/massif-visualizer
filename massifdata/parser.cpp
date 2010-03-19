@@ -18,6 +18,7 @@
 
 #include "filedata.h"
 #include "parserprivate.h"
+#include "snapshotitem.h"
 
 #include <QtCore/QIODevice>
 
@@ -51,6 +52,20 @@ FileData* Parser::parse(QIODevice* file)
     } else {
         m_errorLine = -1;
         m_errorLineString.clear();
+    }
+
+    // if there is no peak marked, it might be that we have a massif file
+    // that got aborted somewhere in the middle. hence lets find it ourself
+    if (!data->peak() && !data->snapshots().isEmpty()) {
+        foreach ( SnapshotItem* snapshot, data->snapshots() ) {
+            if (!snapshot->heapTree()) {
+                // peak should have detailed info
+                continue;
+            }
+            if (!data->peak() || snapshot->memHeap() > data->peak()->memHeap()) {
+                data->setPeak(snapshot);
+            }
+        }
     }
 
     return data;

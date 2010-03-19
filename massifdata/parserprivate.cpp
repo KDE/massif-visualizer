@@ -253,6 +253,11 @@ TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, i
     for (unsigned int i = 0; i < children; ++i) {
         ++m_currentLine;
         QByteArray nextLine = m_file->readLine();
+        if (nextLine.isEmpty()) {
+            // fail gracefully if the tree is not complete, esp. useful for cases where
+            // an app run with massif crashes and massif doesn't finish the full tree dump.
+            return leaf;
+        }
         // remove trailing \n
         nextLine.chop(1);
         TreeLeafItem* child = parseheapTreeLeafInternal(nextLine, depth + 1);

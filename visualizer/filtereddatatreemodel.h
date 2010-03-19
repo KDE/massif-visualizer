@@ -17,32 +17,36 @@
 #ifndef MASSIF_FILTEREDDATATREEMODEL_H
 #define MASSIF_FILTEREDDATATREEMODEL_H
 
-#include <QSortFilterProxyModel>
-
+#include <QtGui/QSortFilterProxyModel>
 
 namespace Massif {
 
 class DataTreeModel;
 
 /**
- * Filter a DataTreeModel and show any branch that has a node
- * that matches the needle.
+ * Filter class for DataTreeModel
  */
 class FilteredDataTreeModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    explicit FilteredDataTreeModel(DataTreeModel* source);
+    explicit FilteredDataTreeModel(DataTreeModel* parent);
 
 public slots:
     void setFilter(const QString& needle);
 
 protected:
-    virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
+    /// true for any branch that has an item in it that matches m_needle
     virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
+    /// always true
+    virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
 
 private:
+    /// we don't want that
+    virtual void setSourceModel(QAbstractItemModel* sourceModel);
+
+    /// search string that should be contained in the data (case insensitively)
     QString m_needle;
 };
 

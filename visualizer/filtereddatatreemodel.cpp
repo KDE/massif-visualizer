@@ -15,17 +15,41 @@
 */
 
 #include "filtereddatatreemodel.h"
-
 #include "datatreemodel.h"
 
 #include <QDebug>
 
 using namespace Massif;
 
-FilteredDataTreeModel::FilteredDataTreeModel(DataTreeModel* source)
-    : QSortFilterProxyModel(source)
+FilteredDataTreeModel::FilteredDataTreeModel(DataTreeModel* parent)
+    : QSortFilterProxyModel(parent)
 {
-    setSourceModel(source);
+    setDynamicSortFilter(true);
+    setSourceModel(parent);
+}
+
+void FilteredDataTreeModel::setFilter(const QString& needle)
+{
+    m_needle = needle;
+    invalidate();
+}
+
+bool FilteredDataTreeModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+{
+    const QModelIndex& dataIdx = sourceModel()->index(source_row, 1, source_parent);
+    if (sourceModel()->data(dataIdx).toString().contains(m_needle, Qt::CaseInsensitive)) {
+        return true;
+    } else {
+        const QModelIndex& newParent = sourceModel()->index(source_row, 0, source_parent);
+        Q_ASSERT(newParent.isValid());
+        const int rows = sourceModel()->rowCount(newParent);
+        for ( int i = 0; i < rows; ++i ) {
+            if ( filterAcceptsRow(i, newParent) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 bool FilteredDataTreeModel::filterAcceptsColumn(int, const QModelIndex&) const
@@ -33,47 +57,9 @@ bool FilteredDataTreeModel::filterAcceptsColumn(int, const QModelIndex&) const
     return true;
 }
 
-bool FilteredDataTreeModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+void FilteredDataTreeModel::setSourceModel(QAbstractItemModel* sourceModel)
 {
-    if (m_needle.isEmpty()) {
-//         qDebug() << "empty needle:" << sourceModel()->index(source_row, 1, source_parent) << "is fine";
-        return true;
-    }
-    const QModelIndex& dataIdx = sourceModel()->index(source_row, 1, source_parent);
-    if (!dataIdx.isValid()) {
-//         qDebug() << "!!!!!!!!!invalid idx";
-        return false;
-    }
-//     int parents = 0;
-//     QModelIndex p = source_parent;
-//     while (p.isValid()) {
-//         p = p.parent();
-//         ++parents;
-//     }
-//     QString indent = QString().fill(' ', parents);
-
-    if (dataIdx.data().toString().contains(m_needle, Qt::CaseInsensitive)) {
-//         qDebug() << indent.fill('X') << "match in" << dataIdx << m_needle << "VS" << dataIdx.data();
-        return true;
-    } else {
-        const QModelIndex& newParent = sourceModel()->index(source_row, 0, source_parent);
-        const int rows = sourceModel()->rowCount(newParent);
-//         qDebug() << indent << "search in children of" << dataIdx.data().toString() << "with" << rows << "rows";
-        for (int i = 0; i < rows; ++i) {
-            if (filterAcceptsRow(i, newParent)) {
-//                 qDebug() << indent << "ÖÖÖÖÖÖÖÖÖÖÖÖÖchild matched";
-                return true;
-            }
-        }
-//         qDebug() << indent << "no match in" << dataIdx << dataIdx.data();
-        return false;
-    }
-}
-
-void FilteredDataTreeModel::setFilter(const QString& needle)
-{
-    m_needle = needle;
-    invalidateFilter();
+    QSortFilterProxyModel::setSourceModel(sourceModel);
 }
 
 #include "filtereddatatreemodel.moc"

@@ -242,7 +242,7 @@ QModelIndex DataTreeModel::indexForSnapshot(SnapshotItem* snapshot) const
 
 QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
 {
-    if (!m_nodeToRow.contains(node)) {
+    if (!m_data || !m_nodeToRow.contains(node)) {
         return QModelIndex();
     }
     return createIndex(m_nodeToRow[node], 0, static_cast<void*>(node));
@@ -250,6 +250,9 @@ QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
 
 QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIndex& idx) const
 {
+    if (!m_data || idx.row() >= m_data->snapshots().count()) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    }
     if (idx.parent().isValid()) {
         Q_ASSERT(idx.internalPointer());
         return QPair< TreeLeafItem*, SnapshotItem* >(static_cast<TreeLeafItem*>(idx.internalPointer()), 0);

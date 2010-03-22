@@ -313,6 +313,8 @@ void MainWindow::openFile(const KUrl& file)
 
     m_legend->addDiagram(m_detailedDiagram);
 
+    //BEGIN
+
     //BEGIN Legend
     m_legend->show();
 
@@ -327,7 +329,7 @@ void MainWindow::openFile(const KUrl& file)
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
 {
-    if (m_changingSelections) {
+    if (m_changingSelections || !m_data) {
         return;
     }
 
@@ -355,7 +357,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 
 void MainWindow::detailedItemClicked(const QModelIndex& item)
 {
-    if (m_changingSelections) {
+    if (m_changingSelections || !m_data) {
         return;
     }
 
@@ -378,7 +380,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& item)
 
 void MainWindow::totalItemClicked(const QModelIndex& item)
 {
-    if (m_changingSelections) {
+    if (m_changingSelections || !m_data) {
         return;
     }
 

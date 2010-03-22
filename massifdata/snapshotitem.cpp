@@ -84,7 +84,7 @@ void SnapshotItem::setHeapTree(TreeLeafItem* root)
     m_heapTree = root;
 }
 
-TreeLeafItem* SnapshotItem::heapTree()
+TreeLeafItem* SnapshotItem::heapTree() const
 {
     return m_heapTree;
 }

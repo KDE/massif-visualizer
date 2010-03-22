@@ -84,7 +84,7 @@ public:
     /**
      * @return The root node of the detailed heap tree or zero if none is set.
      */
-    TreeLeafItem* heapTree();
+    TreeLeafItem* heapTree() const;
 
 private:
     unsigned int m_number;

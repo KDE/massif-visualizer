@@ -17,7 +17,7 @@
 #ifndef MASSIF_MAINWINDOW_H
 #define MASSIF_MAINWINDOW_H
 
-#include <KXmlGuiWindow>
+#include <KParts/MainWindow>
 
 #include "ui_mainwindow.h"
 
@@ -30,6 +30,10 @@ class Legend;
 class BarDiagram;
 }
 
+namespace KParts {
+class ReadOnlyPart;
+}
+
 class KAction;
 class KRecentFilesAction;
 
@@ -40,8 +44,10 @@ class DetailedCostModel;
 class TotalCostModel;
 class DataTreeModel;
 class FilteredDataTreeModel;
+class DotGraphGenerator;
+class SnapshotItem;
 
-class MainWindow : public KXmlGuiWindow
+class MainWindow : public KParts::MainWindow
 {
     Q_OBJECT
 
@@ -78,6 +84,7 @@ public slots:
      * Depending on @p show, the detailed cost graph is shown or hidden.
      */
     void showDetailedGraph(bool show);
+    void showDotGraph();
 
 private slots:
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
@@ -85,6 +92,8 @@ private slots:
     void totalItemClicked(const QModelIndex& item);
 
 private:
+    void getDotGraph(SnapshotItem* snapshot);
+
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;
     KDChart::HeaderFooter* m_header;
@@ -106,6 +115,9 @@ private:
     KRecentFilesAction* m_recentFiles;
 
     bool m_changingSelections;
+    KParts::ReadOnlyPart* m_graphViewerPart;
+    DotGraphGenerator* m_dotGenerator;
+    QString m_lastFile;
 };
 
 }

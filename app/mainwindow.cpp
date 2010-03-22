@@ -34,6 +34,7 @@
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
 #include "visualizer/filtereddatatreemodel.h"
+#include "visualizer/dotgraphgenerator.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -48,6 +49,10 @@
 #include <KColorScheme>
 
 #include <KStatusBar>
+
+#include <KParts/Part>
+#include <KLibFactory>
+#include <KLibLoader>
 
 #include <QSortFilterProxyModel>
 
@@ -87,12 +92,12 @@ void markPeak(Plotter* p, const QModelIndex& peak, uint cost, QPen foreground)
 //END Helper Functions
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
-    : KXmlGuiWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
+    : KParts::MainWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
     , m_toggleTotal(0), m_totalDiagram(0), m_totalCostModel(new TotalCostModel(m_chart))
     , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
     , m_dataTreeModel(new DataTreeModel(m_chart)), m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
-    , m_data(0) , m_changingSelections(false)
+    , m_data(0) , m_changingSelections(false), m_graphViewerPart(0), m_dotGenerator(0)
 {
     ui.setupUi(this);
 
@@ -126,7 +131,20 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     m_legend->setTextAttributes(att);
     m_legend->hide();
 
-    setCentralWidget(m_chart);
+    ui.plotterTab->layout()->addWidget(m_chart);
+
+    //BEGIN KGraphViewer
+    KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    if (factory) {
+        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
+        if (m_graphViewerPart) {
+            QMetaObject::invokeMethod(m_graphViewerPart, "setReadWrite");
+            ui.dotGraphTab->layout()->addWidget(m_graphViewerPart->widget());
+        } else {
+            ui.tabWidget->removeTab(1);
+        }
+    }
+    //END KGraphViewer
 
     connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
             m_dataTreeFilterModel, SLOT(setFilter(QString)));
@@ -136,12 +154,19 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
+    if (m_graphViewerPart) {
+        createGUI(m_graphViewerPart);
+    }
     statusBar()->hide();
 }
 
 MainWindow::~MainWindow()
 {
     m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
+
+    if (!m_lastFile.isEmpty()) {
+        QFile::remove(m_lastFile);
+    }
 }
 
 void MainWindow::setupActions()
@@ -206,6 +231,8 @@ void MainWindow::openFile(const KUrl& file)
     qDebug() << "peak cost:" << m_data->peak()->memHeap() << "bytes heap"
                              << m_data->peak()->memHeapExtra() << "bytes heap extra"
                              << m_data->peak()->memStacks() << "bytes stacks";
+
+    getDotGraph(m_data->peak());
 
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
@@ -312,8 +339,6 @@ void MainWindow::openFile(const KUrl& file)
             this, SLOT(detailedItemClicked(QModelIndex)));
 
     m_legend->addDiagram(m_detailedDiagram);
-
-    //BEGIN
 
     //BEGIN Legend
     m_legend->show();
@@ -431,6 +456,12 @@ void MainWindow::closeFile()
     delete m_data;
     m_data = 0;
 
+    if (!m_lastFile.isEmpty()) {
+        qDebug() << "lcosing graph" << m_graphViewerPart->url() << m_lastFile;
+        m_graphViewerPart->closeUrl();
+        QFile::remove(m_lastFile);
+    }
+
     setWindowTitle(i18n("Massif Visualizer"));
 }
 
@@ -455,6 +486,37 @@ void MainWindow::showTotalGraph(bool show)
     m_totalDiagram->setHidden(!show);
     m_toggleTotal->setChecked(show);
     m_chart->update();
+}
+
+void MainWindow::getDotGraph(SnapshotItem* snapshot)
+{
+    if (m_dotGenerator) {
+        if (m_dotGenerator->isRunning()) {
+            m_dotGenerator->cancel();
+            m_dotGenerator->deleteLater();
+        }
+        m_dotGenerator = 0;
+    }
+    m_dotGenerator = new DotGraphGenerator(snapshot, this);
+    connect(m_dotGenerator, SIGNAL(finished()),
+            this, SLOT(showDotGraph()));
+    m_dotGenerator->start();
+}
+
+void MainWindow::showDotGraph()
+{
+    if (sender() != m_dotGenerator) {
+        return;
+    }
+    if (!m_dotGenerator->outputFile().isEmpty()) {
+        if (!m_lastFile.isEmpty()) {
+            QFile::remove(m_lastFile);
+        }
+        m_lastFile = m_dotGenerator->outputFile();
+        m_graphViewerPart->openUrl(KUrl(m_lastFile));
+    }
+    m_dotGenerator->deleteLater();
+    m_dotGenerator = 0;
 }
 
 #include "mainwindow.moc"

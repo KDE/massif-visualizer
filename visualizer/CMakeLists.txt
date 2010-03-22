@@ -8,6 +8,7 @@ set(visualizer_SRCS
     detailedcostmodel.cpp
     datatreemodel.cpp
     filtereddatatreemodel.cpp
+    dotgraphgenerator.cpp
 )
 
 kde4_add_library(visualizer ${visualizer_SRCS})

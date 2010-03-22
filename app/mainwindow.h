@@ -40,7 +40,6 @@ class DetailedCostModel;
 class TotalCostModel;
 class DataTreeModel;
 class FilteredDataTreeModel;
-class SnapshotDetailModel;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -103,11 +102,6 @@ private:
     DataTreeModel* m_dataTreeModel;
     FilteredDataTreeModel* m_dataTreeFilterModel;
     FileData* m_data;
-
-    KAction* m_toggleSnapshotDetail;
-    SnapshotDetailModel* m_snapshotDetailModel;
-    KDChart::BarDiagram* m_snapshotDetailDiagram;
-
 
     KRecentFilesAction* m_recentFiles;
 

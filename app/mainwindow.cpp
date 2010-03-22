@@ -441,28 +441,18 @@ void MainWindow::showDetailedGraph(bool show)
 {
     Q_ASSERT(m_data);
     Q_ASSERT(m_detailedDiagram);
-    if (show) {
-        Q_ASSERT(!m_chart->coordinatePlane()->diagrams().contains(m_detailedDiagram));
-        m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
-    } else {
-        Q_ASSERT(m_chart->coordinatePlane()->diagrams().contains(m_detailedDiagram));
-        m_chart->coordinatePlane()->takeDiagram(m_detailedDiagram);
-    }
+    m_detailedDiagram->setHidden(!show);
     m_toggleDetailed->setChecked(show);
+    m_chart->update();
 }
 
 void MainWindow::showTotalGraph(bool show)
 {
     Q_ASSERT(m_data);
     Q_ASSERT(m_totalDiagram);
-    if (show) {
-        Q_ASSERT(!m_chart->coordinatePlane()->diagrams().contains(m_totalDiagram));
-        m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
-    } else {
-        Q_ASSERT(m_chart->coordinatePlane()->diagrams().contains(m_totalDiagram));
-        m_chart->coordinatePlane()->takeDiagram(m_totalDiagram);
-    }
+    m_totalDiagram->setHidden(!show);
     m_toggleTotal->setChecked(show);
+    m_chart->update();
 }
 
 #include "mainwindow.moc"

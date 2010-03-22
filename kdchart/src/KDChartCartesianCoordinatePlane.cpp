@@ -127,6 +127,9 @@ void CartesianCoordinatePlane::paint ( QPainter* painter )
         // paint the diagrams:
         for ( int i = 0; i < diags.size(); i++ )
         {
+            if (diags[i]->isHidden()) {
+                continue;
+            }
 //qDebug("  start diags[i]->paint ( &ctx );");
             PainterSaver diagramPainterSaver( painter );
             diags[i]->paint ( &ctx );

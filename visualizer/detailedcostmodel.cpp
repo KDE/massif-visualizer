@@ -182,20 +182,16 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
-        QString label = m_columns.values().at(section / 2);
         // only show name without memory address or location
-        int startPos = label.indexOf(':');
-        if (startPos == -1) {
-            return label;
-        }
+        QString label = prettyLabel(m_columns.values().at(section / 2));
         if (label.indexOf("???") != -1) {
-            return label.mid(startPos + 1);
+            return label;
         }
         int endPos = label.lastIndexOf('(');
         if (endPos == -1) {
             return label;
         }
-        label = label.mid(startPos + 1, endPos - startPos - 2);
+        label = label.mid(0, endPos - 1);
         const int maxLen = 40;
         if (label.length() > maxLen) {
             label.resize(maxLen - 3);

@@ -26,6 +26,8 @@
 
 #include <QtGui/QBrush>
 
+#include "util.h"
+
 using namespace Massif;
 
 DataTreeModel::DataTreeModel(QObject* parent)
@@ -135,13 +137,13 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         SnapshotItem* snapshot = m_data->snapshots()[index.row()];
         if (role == Qt::ToolTipRole) {
             if (snapshot == m_data->peak()) {
-                return i18n("peak snapshot: heap cost of %1 bytes", snapshot->memHeap());
+                return i18n("peak snapshot: heap cost of %1", prettyCost(snapshot->memHeap()));
             } else {
-                return i18n("snapshot #%1: heap cost of %2 bytes", snapshot->number(), snapshot->memHeap());
+                return i18n("snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
             }
         }
         if (index.column() == 0) {
-            return snapshot->memHeap();
+            return prettyCost(snapshot->memHeap());
         } else {
             if (snapshot == m_data->peak()) {
                 return i18n("snapshot #%1 (peak)", snapshot->number());
@@ -156,9 +158,9 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             return i18n("memory consumption of %1 bytes\n%2", item->cost(), item->label());
         }
         if (index.column() == 0) {
-            return item->cost();
+            return prettyCost(item->cost());
         } else {
-            return item->label();
+            return prettyLabel(item->label());
         }
     }
     return QVariant();

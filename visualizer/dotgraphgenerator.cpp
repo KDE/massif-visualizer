@@ -48,6 +48,30 @@ void DotGraphGenerator::cancel()
     m_canceled = true;
 }
 
+QString getLabel(TreeLeafItem* node)
+{
+    QString label = prettyLabel(node->label());
+    const int lineWidth = 40;
+    if (label.length() > lineWidth) {
+        int lastPos = 0;
+        int lastBreak = 0;
+        while (true) {
+            lastPos = label.indexOf(',', lastPos);
+            if (lastPos == -1) {
+                break;
+            } else if (lastPos - lastBreak > lineWidth) {
+                label.insert(lastPos, "\\n  ");
+                lastPos = lastPos + 4;
+                lastBreak = lastPos;
+                continue;
+            } else {
+                lastPos++;
+            }
+        }
+    }
+    return i18n("%1\\ncost: %2", label, prettyCost(node->cost()));
+}
+
 void DotGraphGenerator::run()
 {
     if (!m_file.open()) {
@@ -71,7 +95,7 @@ void DotGraphGenerator::run()
                 return;
             }
 
-            const QString label = i18n("%1\\ncost: %2", node->label(), prettyCost(node->cost()));
+            const QString label = getLabel(node);
             const QString id = QUuid::createUuid().toString();
             out << '"' << id << "\" [shape=box,label=\"" << label << "\"];\n";
             nodeToDot(node, out, id);
@@ -88,7 +112,7 @@ void DotGraphGenerator::run()
 void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
 {
     const QString id = QUuid::createUuid().toString();
-    out << '"' << id << "\" [label=\"" << i18n("%1\\ncost: %2", node->label(), prettyCost(node->cost())) << "\"];\n";
+    out << '"' << id << "\" [label=\"" << getLabel(node) << "\"];\n";
     out << '"' << parent << "\" -> \"" << id << "\";\n";
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {

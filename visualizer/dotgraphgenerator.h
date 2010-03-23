@@ -56,6 +56,7 @@ private:
     const SnapshotItem* m_snapshot;
     KTemporaryFile m_file;
     bool m_canceled;
+    unsigned int m_maxCost;
 };
 
 }

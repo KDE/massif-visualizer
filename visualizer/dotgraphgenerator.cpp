@@ -25,6 +25,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QUuid>
+#include <QColor>
 
 #include <KLocalizedString>
 #include <KTemporaryFile>
@@ -33,8 +34,8 @@
 
 using namespace Massif;
 
-DotGraphGenerator::DotGraphGenerator(const SnapshotItem* m_snapshot, QObject* parent)
-    : QThread(parent), m_snapshot(m_snapshot), m_canceled(false)
+DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, QObject* parent)
+    : QThread(parent), m_snapshot(snapshot), m_canceled(false)
 {
 }
 
@@ -72,6 +73,11 @@ QString getLabel(TreeLeafItem* node)
     return i18n("%1\\ncost: %2", label, prettyCost(node->cost()));
 }
 
+QString getColor(unsigned int cost, unsigned int maxCost)
+{
+    return QColor::fromHsv(120 - (double(cost) / maxCost) * 120, 255, 255).name();
+}
+
 void DotGraphGenerator::run()
 {
     if (!m_file.open()) {
@@ -89,7 +95,8 @@ void DotGraphGenerator::run()
     if (m_canceled) {
         return;
     }
-    if (m_snapshot->heapTree()) {
+    if (m_snapshot->heapTree() && !m_snapshot->heapTree()->children().isEmpty()) {
+        m_maxCost = m_snapshot->heapTree()->children().first()->cost();
         foreach (TreeLeafItem* node, m_snapshot->heapTree()->children()) {
             if (m_canceled) {
                 return;
@@ -97,7 +104,7 @@ void DotGraphGenerator::run()
 
             const QString label = getLabel(node);
             const QString id = QUuid::createUuid().toString();
-            out << '"' << id << "\" [shape=box,label=\"" << label << "\"];\n";
+            out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
             nodeToDot(node, out, id);
         }
     } else {
@@ -112,7 +119,7 @@ void DotGraphGenerator::run()
 void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
 {
     const QString id = QUuid::createUuid().toString();
-    out << '"' << id << "\" [label=\"" << getLabel(node) << "\"];\n";
+    out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
     out << '"' << parent << "\" -> \"" << id << "\";\n";
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {

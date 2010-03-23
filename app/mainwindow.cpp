@@ -35,6 +35,7 @@
 #include "visualizer/datatreemodel.h"
 #include "visualizer/filtereddatatreemodel.h"
 #include "visualizer/dotgraphgenerator.h"
+#include "visualizer/util.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -65,7 +66,7 @@ using namespace KDChart;
 void markPeak(Plotter* p, const QModelIndex& peak, uint cost, QPen foreground)
 {
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
-    dataAttributes.setDataLabel(i18n("Peak of %1 bytes", cost));
+    dataAttributes.setDataLabel(i18n("Peak of %1", prettyCost(cost)));
     dataAttributes.setVisible(true);
 
     MarkerAttributes a = dataAttributes.markerAttributes();
@@ -227,9 +228,9 @@ void MainWindow::openFile(const KUrl& file)
     qDebug() << "time unit:" << m_data->timeUnit();
     qDebug() << "snapshots:" << m_data->snapshots().size();
     qDebug() << "peak: snapshot #" << m_data->peak()->number() << "after" << QString("%1%2").arg(m_data->peak()->time()).arg(m_data->timeUnit());
-    qDebug() << "peak cost:" << m_data->peak()->memHeap() << "bytes heap"
-                             << m_data->peak()->memHeapExtra() << "bytes heap extra"
-                             << m_data->peak()->memStacks() << "bytes stacks";
+    qDebug() << "peak cost:" << prettyCost(m_data->peak()->memHeap()) << " heap"
+                             << prettyCost(m_data->peak()->memHeapExtra()) << " heap extra"
+                             << prettyCost(m_data->peak()->memStacks()) << " stacks";
 
     //BEGIN DotGraph
     getDotGraph(m_data->peak());
@@ -256,7 +257,7 @@ void MainWindow::openFile(const KUrl& file)
         textAttributes.setFontSize(Measure(10));
         m_header->setTextAttributes(textAttributes);
         m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
-        m_subheader->setText(i18n("peak of %1 bytes at snapshot %2", m_data->peak()->memHeap(), m_data->peak()->number()));
+        m_subheader->setText(i18n("peak of %1 at snapshot %2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()));
         textAttributes.setFontSize(Measure(8));
         m_subheader->setTextAttributes(textAttributes);
     }

@@ -20,6 +20,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include "util.h"
+
 #include <QTextStream>
 #include <QFile>
 #include <QUuid>
@@ -69,13 +71,13 @@ void DotGraphGenerator::run()
                 return;
             }
 
-            const QString label = i18n("%1\\ncost: %2 bytes", node->label(), node->cost());
+            const QString label = i18n("%1\\ncost: %2", node->label(), prettyCost(node->cost()));
             const QString id = QUuid::createUuid().toString();
             out << '"' << id << "\" [shape=box,label=\"" << label << "\"];\n";
             nodeToDot(node, out, id);
         }
     } else {
-        const QString label = i18n("snapshot #%1 (taken at %2)\\nheap cost: %3 bytes", m_snapshot->number(), m_snapshot->time(), m_snapshot->memHeap());
+        const QString label = i18n("snapshot #%1 (taken at %2)\\nheap cost: %3", m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()));
         const QString id = QUuid::createUuid().toString();
         out << '"' << id << "\" [shape=box,label=\"" << label << "\"];\n";
     }
@@ -86,7 +88,7 @@ void DotGraphGenerator::run()
 void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
 {
     const QString id = QUuid::createUuid().toString();
-    out << '"' << id << "\" [label=\"" << i18n("%1\\ncost: %2 bytes", node->label(), node->cost()) << "\"];\n";
+    out << '"' << id << "\" [label=\"" << i18n("%1\\ncost: %2", node->label(), prettyCost(node->cost())) << "\"];\n";
     out << '"' << parent << "\" -> \"" << id << "\";\n";
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {

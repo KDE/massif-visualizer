@@ -22,6 +22,8 @@
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 
+#include "util.h"
+
 #include "KDChartGlobal"
 #include "KDChartLineAttributes"
 
@@ -106,11 +108,11 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     SnapshotItem* snapshot = m_data->snapshots().at(index.row());
     if ( role == Qt::ToolTipRole ) {
         return i18n("snapshot #%1:\n"
-                    "heap cost of %2 bytes\n"
-                    "extra heap cost of %3 bytes\n"
-                    "stack cost of %4 bytes",
-                    snapshot->number(), snapshot->memHeap(), snapshot->memHeapExtra(),
-                    snapshot->memStacks());
+                    "heap cost of %2\n"
+                    "extra heap cost of %3\n"
+                    "stack cost of %4",
+                    snapshot->number(), prettyCost(snapshot->memHeap()), prettyCost(snapshot->memHeapExtra()),
+                    prettyCost(snapshot->memStacks()));
     }
     if (index.column() == 0) {
         return snapshot->time();

@@ -26,6 +26,8 @@
 #include "KDChartDataValueAttributes"
 #include "KDChartLineAttributes"
 
+#include "util.h"
+
 #include <QtGui/QColor>
 #include <QtGui/QPen>
 #include <QtGui/QBrush>
@@ -64,7 +66,7 @@ void DetailedCostModel::setSource(const FileData* data)
                     while (node->children().size() == 1) {
                         node = node->children().first();
                     }
-                    if (node->label().contains(QString("all below massif's threshold"), Qt::CaseSensitive)) {
+                    if (isBelowThreshold(node->label())) {
                         continue;
                     }
                     if (!m_columns.values().contains(node->label())) {
@@ -164,8 +166,8 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
             }
         } else {
             if (role == Qt::ToolTipRole) {
-                return i18n("cost of %1 bytes, i.e. %2% of snapshot #%3\n%4",
-                            node->cost(),
+                return i18n("cost of %1, i.e. %2% of snapshot #%3\n%4",
+                            prettyCost(node->cost()),
                             // yeah nice how I round to two decimals, right? :D
                             double(int(double(node->cost())/snapshot->memHeap()*10000))/100,
                             snapshot->number(),

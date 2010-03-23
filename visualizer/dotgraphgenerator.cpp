@@ -34,12 +34,11 @@ using namespace Massif;
 DotGraphGenerator::DotGraphGenerator(const SnapshotItem* m_snapshot, QObject* parent)
     : QThread(parent), m_snapshot(m_snapshot), m_canceled(false)
 {
-
 }
 
 DotGraphGenerator::~DotGraphGenerator()
 {
-
+    kDebug() << "closing generator, file will get removed";
 }
 
 void DotGraphGenerator::cancel()
@@ -92,5 +91,5 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
 
 QString DotGraphGenerator::outputFile() const
 {
-    return m_file;
+    return m_file.fileName();
 }

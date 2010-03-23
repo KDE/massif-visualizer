@@ -117,7 +117,6 @@ private:
     bool m_changingSelections;
     KParts::ReadOnlyPart* m_graphViewerPart;
     DotGraphGenerator* m_dotGenerator;
-    QString m_lastFile;
 };
 
 }

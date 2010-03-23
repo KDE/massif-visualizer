@@ -19,6 +19,7 @@
 
 #include <QTextStream>
 #include <QThread>
+#include <KTemporaryFile>
 
 namespace Massif {
 
@@ -53,7 +54,7 @@ public:
 private:
     void nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent);
     const SnapshotItem* m_snapshot;
-    QString m_file;
+    KTemporaryFile m_file;
     bool m_canceled;
 };
 

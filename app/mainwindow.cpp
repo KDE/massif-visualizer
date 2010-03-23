@@ -56,6 +56,8 @@
 
 #include <QSortFilterProxyModel>
 
+#include <KDebug>
+
 using namespace Massif;
 using namespace KDChart;
 
@@ -163,10 +165,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 MainWindow::~MainWindow()
 {
     m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
-
-    if (!m_lastFile.isEmpty()) {
-        QFile::remove(m_lastFile);
-    }
 }
 
 void MainWindow::setupActions()
@@ -223,6 +221,7 @@ void MainWindow::openFile(const KUrl& file)
         return;
     }
 
+    kDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << m_data->description();
     qDebug() << "command:" << m_data->cmd();
     qDebug() << "time unit:" << m_data->timeUnit();
@@ -232,8 +231,10 @@ void MainWindow::openFile(const KUrl& file)
                              << m_data->peak()->memHeapExtra() << "bytes heap extra"
                              << m_data->peak()->memStacks() << "bytes stacks";
 
+    //BEGIN DotGraph
     getDotGraph(m_data->peak());
 
+    //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
@@ -434,6 +435,8 @@ void MainWindow::closeFile()
         return;
     }
 
+    kDebug() << "closing file";
+
     m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
     m_legend->removeDiagrams();
     m_legend->hide();
@@ -456,10 +459,17 @@ void MainWindow::closeFile()
     delete m_data;
     m_data = 0;
 
-    if (!m_lastFile.isEmpty()) {
-        qDebug() << "lcosing graph" << m_graphViewerPart->url() << m_lastFile;
+    if (m_dotGenerator) {
+        if (m_dotGenerator->isRunning()) {
+            m_dotGenerator->cancel();
+            m_dotGenerator->deleteLater();
+        } else {
+            delete m_dotGenerator;
+        }
+        m_dotGenerator = 0;
+    }
+    if (m_graphViewerPart) {
         m_graphViewerPart->closeUrl();
-        QFile::remove(m_lastFile);
     }
 
     setWindowTitle(i18n("Massif Visualizer"));
@@ -490,10 +500,14 @@ void MainWindow::showTotalGraph(bool show)
 
 void MainWindow::getDotGraph(SnapshotItem* snapshot)
 {
+    kDebug() << "new dot graph for snapshot" << snapshot->number();
     if (m_dotGenerator) {
+        kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
             m_dotGenerator->cancel();
             m_dotGenerator->deleteLater();
+        } else {
+            delete m_dotGenerator;
         }
         m_dotGenerator = 0;
     }
@@ -508,15 +522,10 @@ void MainWindow::showDotGraph()
     if (sender() != m_dotGenerator) {
         return;
     }
+    kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
     if (!m_dotGenerator->outputFile().isEmpty()) {
-        if (!m_lastFile.isEmpty()) {
-            QFile::remove(m_lastFile);
-        }
-        m_lastFile = m_dotGenerator->outputFile();
-        m_graphViewerPart->openUrl(KUrl(m_lastFile));
+        m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
     }
-    m_dotGenerator->deleteLater();
-    m_dotGenerator = 0;
 }
 
 #include "mainwindow.moc"

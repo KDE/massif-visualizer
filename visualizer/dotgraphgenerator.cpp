@@ -61,7 +61,7 @@ QString getLabel(TreeLeafItem* node)
             if (lastPos == -1) {
                 break;
             } else if (lastPos - lastBreak > lineWidth) {
-                label.insert(lastPos, "\\n  ");
+                label.insert(lastPos, "\\n\\ \\ ");
                 lastPos = lastPos + 4;
                 lastBreak = lastPos;
                 continue;

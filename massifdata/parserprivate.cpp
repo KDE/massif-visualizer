@@ -262,7 +262,11 @@ TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, i
         nextLine.chop(1);
         TreeLeafItem* child = parseheapTreeLeafInternal(nextLine, depth + 1);
         VALIDATE_RETURN(child, leaf)
-        leaf->addChild(child);
+        if (!child->cost()) {
+            delete child;
+        } else {
+            leaf->addChild(child);
+        }
     }
 
     return leaf;

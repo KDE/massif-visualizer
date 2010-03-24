@@ -34,8 +34,6 @@ public:
     /**
      * Generates a Dot graph file representing @p snapshot
      * and writes it to a temporary file.
-     * NOTE: The file will not get deleted automatically, you have to do that!
-     * @see outputFile()
      */
     DotGraphGenerator(const SnapshotItem* snapshot, QObject* parent = 0);
     ~DotGraphGenerator();

@@ -101,32 +101,37 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
 
     // custom background for peak snapshot
     if ( role == Qt::BackgroundRole ) {
-        double maxValue = 1;
+//         double maxValue = 1;
+        const double maxValue = m_data->peak()->memHeap();
         double currentValue = 0;
         if ( !index.parent().isValid() && m_data->peak() ) {
-            maxValue = m_data->peak()->memHeap();
+//             maxValue = m_data->peak()->memHeap();
             SnapshotItem* snapshot = m_data->snapshots().at(index.row());
             currentValue = snapshot->memHeap();
         } else if (index.parent().isValid()) {
-            Q_ASSERT(index.parent().internalPointer());
-            QModelIndex p = index.parent();
-            while (p.parent().isValid()) {
-                p = p.parent();
-            }
-            Q_ASSERT(p.internalPointer());
-            TreeLeafItem* parent = static_cast<TreeLeafItem*>(p.internalPointer());
-            maxValue = parent->cost();
-
             Q_ASSERT(index.internalPointer());
             TreeLeafItem* node = static_cast<TreeLeafItem*>(index.internalPointer());
             currentValue = node->cost();
+            Q_ASSERT(node->parent());
+            /*
+            TreeLeafItem* parent = node->parent();
+            while (parent->parent()) {
+                parent = parent->parent();
+            }
+            maxValue = parent->cost();
             // normalize
             maxValue -= parent->children().last()->cost();
             currentValue -= parent->children().last()->cost();
+            */
         }
-        QColor c = QColor::fromHsv(120 - (currentValue / maxValue) * 120, 255, 255);
-        c.setAlpha(125);
-        return QBrush(c);
+        if (currentValue > 0) {
+            const double ratio = (currentValue / maxValue);
+            QColor c = QColor::fromHsv(120 - ratio * 120, 255, 255, (-((ratio-1) * (ratio-1))) * 120 + 120);
+//             QColor c = QColor::fromHsv(120 - ratio * 120, 255, 255, 120);
+            return QBrush(c);
+        } else {
+            return QVariant();
+        }
     }
 
     if ( role != Qt::DisplayRole && role != Qt::ToolTipRole ) {

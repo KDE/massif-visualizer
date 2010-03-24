@@ -75,7 +75,9 @@ QString getLabel(TreeLeafItem* node)
 
 QString getColor(unsigned int cost, unsigned int maxCost)
 {
-    return QColor::fromHsv(120 - (double(cost) / maxCost) * 120, 255, 255).name();
+    const double ratio = (double(cost) / maxCost);
+    return QColor::fromHsv(120 - ratio * 120, (-((ratio-1) * (ratio-1))) * 255 + 255, 255, 255).name();
+//     return QColor::fromHsv(120 - ratio * 120, 255, 255).name();
 }
 
 void DotGraphGenerator::run()
@@ -96,7 +98,7 @@ void DotGraphGenerator::run()
         return;
     }
     if (m_snapshot->heapTree() && !m_snapshot->heapTree()->children().isEmpty()) {
-        m_maxCost = m_snapshot->heapTree()->children().first()->cost();
+        m_maxCost = m_snapshot->heapTree()->cost();
         foreach (TreeLeafItem* node, m_snapshot->heapTree()->children()) {
             if (m_canceled) {
                 return;

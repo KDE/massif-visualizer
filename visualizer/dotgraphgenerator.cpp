@@ -37,6 +37,7 @@ using namespace Massif;
 DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, QObject* parent)
     : QThread(parent), m_snapshot(snapshot), m_canceled(false)
 {
+    m_file.open();
 }
 
 DotGraphGenerator::~DotGraphGenerator()
@@ -82,7 +83,7 @@ QString getColor(unsigned int cost, unsigned int maxCost)
 
 void DotGraphGenerator::run()
 {
-    if (!m_file.open()) {
+    if (!m_file.isOpen()) {
         kWarning() << "could not create temp file for writing Dot-graph";
         return;
     }

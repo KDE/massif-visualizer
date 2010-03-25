@@ -35,7 +35,13 @@
 using namespace Massif;
 
 DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent)
-    : QThread(parent), m_snapshot(snapshot), m_canceled(false), m_timeUnit(timeUnit)
+    : QThread(parent), m_snapshot(snapshot), m_node(snapshot->heapTree()), m_canceled(false), m_timeUnit(timeUnit)
+{
+    m_file.open();
+}
+
+DotGraphGenerator::DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent)
+    : QThread(parent), m_snapshot(0), m_node(node), m_canceled(false), m_timeUnit(timeUnit)
 {
     m_file.open();
 }
@@ -50,7 +56,7 @@ void DotGraphGenerator::cancel()
     m_canceled = true;
 }
 
-QString getLabel(TreeLeafItem* node)
+QString getLabel(const TreeLeafItem* node)
 {
     QString label = prettyLabel(node->label());
     const int lineWidth = 40;
@@ -94,18 +100,31 @@ void DotGraphGenerator::run()
 
     kDebug() << "creating new dot file in" << m_file.fileName();
     QTextStream out(&m_file);
-    out << "digraph " << "m_snapshot" << m_snapshot->number() << " {\n";
+
+    out << "digraph callgraph {\n";
     if (m_canceled) {
         return;
     }
-    const QString label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
-                               m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()),
-                               m_timeUnit);
     const QString id = QUuid::createUuid().toString();
+    QString label;
+    if (m_snapshot) {
+        label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
+                                m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()),
+                                m_timeUnit);
+
+        m_maxCost = m_snapshot->memHeap();
+    } else if (m_node) {
+        const TreeLeafItem* topMost = m_node;
+        while (topMost->parent()) {
+            topMost = topMost->parent();
+        }
+        m_maxCost = topMost->cost();
+        label = getLabel(m_node);
+    }
     out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=white];\n";
-    if (m_snapshot->heapTree()) {
-        m_maxCost = m_snapshot->heapTree()->cost();
-        foreach (TreeLeafItem* child, m_snapshot->heapTree()->children()) {
+
+    if (m_node) {
+        foreach (TreeLeafItem* child, m_node->children()) {
             nodeToDot(child, out, id);
         }
     }

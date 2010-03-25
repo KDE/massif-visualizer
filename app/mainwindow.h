@@ -46,6 +46,7 @@ class DataTreeModel;
 class FilteredDataTreeModel;
 class DotGraphGenerator;
 class SnapshotItem;
+class TreeLeafItem;
 
 class MainWindow : public KParts::MainWindow
 {
@@ -93,7 +94,7 @@ private slots:
     void slotTabChanged(int index);
 
 private:
-    void getDotGraph(SnapshotItem* snapshot);
+    void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
 
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;

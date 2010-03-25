@@ -35,6 +35,11 @@ public:
      * and writes it to a temporary file.
      */
     DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent = 0);
+    /**
+     * Generates a Dot graph file representing @p node
+     * and writes it to a temporary file.
+     */
+    DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent = 0);
     ~DotGraphGenerator();
 
     /**
@@ -51,6 +56,7 @@ public:
 private:
     void nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent);
     const SnapshotItem* m_snapshot;
+    const TreeLeafItem* m_node;
     KTemporaryFile m_file;
     bool m_canceled;
     unsigned int m_maxCost;

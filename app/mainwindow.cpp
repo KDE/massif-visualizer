@@ -235,7 +235,7 @@ void MainWindow::openFile(const KUrl& file)
                              << prettyCost(m_data->peak()->memStacks()) << " stacks";
 
     //BEGIN DotGraph
-    getDotGraph(m_data->peak());
+    getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
 
     //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
@@ -380,14 +380,12 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
 
     m_chart->update();
-    if (item.second) {
-        getDotGraph(item.second);
-    }
+    getDotGraph(item);
 
     m_changingSelections = false;
 }
 
-void MainWindow::detailedItemClicked(const QModelIndex& item)
+void MainWindow::detailedItemClicked(const QModelIndex& idx)
 {
     if (m_changingSelections || !m_data) {
         return;
@@ -395,17 +393,19 @@ void MainWindow::detailedItemClicked(const QModelIndex& item)
 
     m_changingSelections = true;
 
-    m_detailedCostModel->setSelection(item);
+    m_detailedCostModel->setSelection(idx);
     m_totalCostModel->setSelection(QModelIndex());
 
     ui.treeView->selectionModel()->clearSelection();
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(idx);
     const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
-        m_dataTreeModel->indexForItem(m_detailedCostModel->itemForIndex(item))
+        m_dataTreeModel->indexForItem(item)
     );
     ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+    getDotGraph(item);
 
     m_changingSelections = false;
 }
@@ -433,9 +433,7 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
-    if (item.second) {
-        getDotGraph(item.second);
-    }
+    getDotGraph(item);
 
     m_changingSelections = false;
 }
@@ -515,9 +513,9 @@ void MainWindow::slotTabChanged(int index)
     showDotGraph();
 }
 
-void MainWindow::getDotGraph(SnapshotItem* snapshot)
+void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 {
-    kDebug() << "new dot graph for snapshot" << snapshot->number();
+    kDebug() << "new dot graph requested" << item;
     if (m_dotGenerator) {
         kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
@@ -528,7 +526,14 @@ void MainWindow::getDotGraph(SnapshotItem* snapshot)
         }
         m_dotGenerator = 0;
     }
-    m_dotGenerator = new DotGraphGenerator(snapshot, m_data->timeUnit(), this);
+    if (!item.first && !item.second) {
+        return;
+    }
+    if (item.second) {
+        m_dotGenerator = new DotGraphGenerator(item.second, m_data->timeUnit(), this);
+    } else {
+        m_dotGenerator = new DotGraphGenerator(item.first, m_data->timeUnit(), this);
+    }
     connect(m_dotGenerator, SIGNAL(finished()),
             this, SLOT(showDotGraph()));
     m_dotGenerator->start();

@@ -107,7 +107,9 @@ void DotGraphGenerator::run()
             const QString label = getLabel(node);
             const QString id = QUuid::createUuid().toString();
             out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-            nodeToDot(node, out, id);
+            foreach (TreeLeafItem* child, node->children()) {
+                nodeToDot(child, out, id);
+            }
         }
     } else {
         const QString label = i18n("snapshot #%1 (taken at %2)\\nheap cost: %3", m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()));

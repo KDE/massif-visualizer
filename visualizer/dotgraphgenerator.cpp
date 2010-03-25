@@ -120,18 +120,42 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
     if (m_canceled) {
         return;
     }
-    QString id;
 
-    if (!parent.isEmpty() && node->parent()->cost() == node->cost() && prettyLabel(node->label()) == prettyLabel(node->parent()->label())) {
-        // don't add this node
-        id = parent;
-    } else {
-        id = QUuid::createUuid().toString();
-        out << '"' << id << "\" [shape=box,label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-        if (!parent.isEmpty()) {
-            out << '"' << parent << "\" -> \"" << id << "\";\n";
+    const QString id = QUuid::createUuid().toString();
+    if (!parent.isEmpty()) {
+        // edge
+        out << '"' << parent << "\" -> \"" << id << "\";\n";
+    }
+
+    QString label = getLabel(node);
+    const QString color = getColor(node->cost(), m_maxCost);
+    // group nodes with same cost but different label
+    bool wasGrouped = false;
+    while (node && node->children().count() == 1 && node->children().first()->cost() == node->cost()) {
+        if (m_canceled) {
+            return;
+        }
+        node = node->children().first();
+
+        if (prettyLabel(node->label()) != prettyLabel(node->parent()->label())) {
+            label += " | " + prettyLabel(node->label());
+            wasGrouped = true;
         }
     }
+    QString shape;
+    if (wasGrouped) {
+        label = "{" + label + "}";
+        shape = "record";
+    } else {
+        shape = "box";
+    }
+
+    // node
+    out << '"' << id << "\" [shape=" << shape << ",label=\"" << label << "\",fillcolor=\"" << color << "\"];\n";
+    if (!node) {
+        return;
+    }
+
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {
             return;

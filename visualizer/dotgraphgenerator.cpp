@@ -34,8 +34,8 @@
 
 using namespace Massif;
 
-DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, QObject* parent)
-    : QThread(parent), m_snapshot(snapshot), m_canceled(false)
+DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent)
+    : QThread(parent), m_snapshot(snapshot), m_canceled(false), m_timeUnit(timeUnit)
 {
     m_file.open();
 }
@@ -98,18 +98,16 @@ void DotGraphGenerator::run()
     if (m_canceled) {
         return;
     }
-    if (m_snapshot->heapTree() && !m_snapshot->heapTree()->children().isEmpty()) {
+    const QString label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
+                               m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()),
+                               m_timeUnit);
+    const QString id = QUuid::createUuid().toString();
+    out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=white];\n";
+    if (m_snapshot->heapTree()) {
         m_maxCost = m_snapshot->heapTree()->cost();
-        foreach (TreeLeafItem* node, m_snapshot->heapTree()->children()) {
-            if (m_canceled) {
-                return;
-            }
-            nodeToDot(node, out, QString());
+        foreach (TreeLeafItem* child, m_snapshot->heapTree()->children()) {
+            nodeToDot(child, out, id);
         }
-    } else {
-        const QString label = i18n("snapshot #%1 (taken at %2)\\nheap cost: %3", m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()));
-        const QString id = QUuid::createUuid().toString();
-        out << '"' << id << "\" [shape=box,label=\"" << label << "\"];\n";
     }
     out << "}\n";
     m_file.flush();

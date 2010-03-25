@@ -29,13 +29,12 @@ class TreeLeafItem;
 class DotGraphGenerator : public QThread
 {
     Q_OBJECT
-
 public:
     /**
      * Generates a Dot graph file representing @p snapshot
      * and writes it to a temporary file.
      */
-    DotGraphGenerator(const SnapshotItem* snapshot, QObject* parent = 0);
+    DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent = 0);
     ~DotGraphGenerator();
 
     /**
@@ -55,6 +54,7 @@ private:
     KTemporaryFile m_file;
     bool m_canceled;
     unsigned int m_maxCost;
+    QString m_timeUnit;
 };
 
 }

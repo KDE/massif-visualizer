@@ -528,7 +528,7 @@ void MainWindow::getDotGraph(SnapshotItem* snapshot)
         }
         m_dotGenerator = 0;
     }
-    m_dotGenerator = new DotGraphGenerator(snapshot, this);
+    m_dotGenerator = new DotGraphGenerator(snapshot, m_data->timeUnit(), this);
     connect(m_dotGenerator, SIGNAL(finished()),
             this, SLOT(showDotGraph()));
     m_dotGenerator->start();

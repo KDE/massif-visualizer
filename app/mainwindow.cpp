@@ -154,6 +154,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.treeView->setModel(m_dataTreeFilterModel);
     connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+    connect(ui.tabWidget, SIGNAL(currentChanged(int)),
+            this, SLOT(slotTabChanged(int)));
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
@@ -507,6 +509,12 @@ void MainWindow::showTotalGraph(bool show)
     m_chart->update();
 }
 
+void MainWindow::slotTabChanged(int index)
+{
+    // if we parsed a dot graph we might want to show it now
+    showDotGraph();
+}
+
 void MainWindow::getDotGraph(SnapshotItem* snapshot)
 {
     kDebug() << "new dot graph for snapshot" << snapshot->number();
@@ -528,11 +536,11 @@ void MainWindow::getDotGraph(SnapshotItem* snapshot)
 
 void MainWindow::showDotGraph()
 {
-    if (sender() != m_dotGenerator) {
+    if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
         return;
     }
     kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
-    if (!m_dotGenerator->outputFile().isEmpty()) {
+    if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
         m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
     }
 }

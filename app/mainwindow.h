@@ -84,12 +84,13 @@ public slots:
      * Depending on @p show, the detailed cost graph is shown or hidden.
      */
     void showDetailedGraph(bool show);
-    void showDotGraph();
 
 private slots:
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
     void detailedItemClicked(const QModelIndex& item);
     void totalItemClicked(const QModelIndex& item);
+    void showDotGraph();
+    void slotTabChanged(int index);
 
 private:
     void getDotGraph(SnapshotItem* snapshot);

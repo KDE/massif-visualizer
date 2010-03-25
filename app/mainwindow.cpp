@@ -378,6 +378,9 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
 
     m_chart->update();
+    if (item.second) {
+        getDotGraph(item.second);
+    }
 
     m_changingSelections = false;
 }
@@ -405,7 +408,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& item)
     m_changingSelections = false;
 }
 
-void MainWindow::totalItemClicked(const QModelIndex& item)
+void MainWindow::totalItemClicked(const QModelIndex& idx_)
 {
     if (m_changingSelections || !m_data) {
         return;
@@ -413,19 +416,24 @@ void MainWindow::totalItemClicked(const QModelIndex& item)
 
     m_changingSelections = true;
 
-    QModelIndex idx = item.model()->index(item.row() + 1, item.column(), item.parent());
+    QModelIndex idx = idx_.model()->index(idx_.row() + 1, idx_.column(), idx_.parent());
 
     m_detailedCostModel->setSelection(QModelIndex());
     m_totalCostModel->setSelection(idx);
 
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_totalCostModel->itemForIndex(idx);
+
     ui.treeView->selectionModel()->clearSelection();
     const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
-        m_dataTreeModel->indexForItem(m_totalCostModel->itemForIndex(item))
+        m_dataTreeModel->indexForItem(item)
     );
     ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+    if (item.second) {
+        getDotGraph(item.second);
+    }
 
     m_changingSelections = false;
 }

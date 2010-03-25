@@ -104,13 +104,7 @@ void DotGraphGenerator::run()
             if (m_canceled) {
                 return;
             }
-
-            const QString label = getLabel(node);
-            const QString id = QUuid::createUuid().toString();
-            out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-            foreach (TreeLeafItem* child, node->children()) {
-                nodeToDot(child, out, id);
-            }
+            nodeToDot(node, out, QString());
         }
     } else {
         const QString label = i18n("snapshot #%1 (taken at %2)\\nheap cost: %3", m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()));
@@ -123,21 +117,20 @@ void DotGraphGenerator::run()
 
 void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
 {
+    if (m_canceled) {
+        return;
+    }
     QString id;
-    if (node->parent()->cost() == node->cost()) {
-        if (prettyLabel(node->label()) == prettyLabel(node->parent()->label())) {
-            id = parent;
-            // don't add this node
-        } else {
-            // TODO: group nodes
-            id = QUuid::createUuid().toString();
-            out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-            out << '"' << parent << "\" -> \"" << id << "\";\n";
-        }
+
+    if (!parent.isEmpty() && node->parent()->cost() == node->cost() && prettyLabel(node->label()) == prettyLabel(node->parent()->label())) {
+        // don't add this node
+        id = parent;
     } else {
         id = QUuid::createUuid().toString();
-        out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-        out << '"' << parent << "\" -> \"" << id << "\";\n";
+        out << '"' << id << "\" [shape=box,label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
+        if (!parent.isEmpty()) {
+            out << '"' << parent << "\" -> \"" << id << "\";\n";
+        }
     }
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {

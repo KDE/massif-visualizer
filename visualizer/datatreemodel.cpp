@@ -257,7 +257,7 @@ QModelIndex DataTreeModel::indexForTreeLeaf(TreeLeafItem* node) const
 
 QPair< TreeLeafItem*, SnapshotItem* > DataTreeModel::itemForIndex(const QModelIndex& idx) const
 {
-    if (!m_data || idx.row() >= m_data->snapshots().count()) {
+    if (!m_data || !idx.isValid() || idx.row() >= m_data->snapshots().count()) {
         return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
     }
     if (idx.parent().isValid()) {

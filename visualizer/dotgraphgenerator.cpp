@@ -123,9 +123,22 @@ void DotGraphGenerator::run()
 
 void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
 {
-    const QString id = QUuid::createUuid().toString();
-    out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
-    out << '"' << parent << "\" -> \"" << id << "\";\n";
+    QString id;
+    if (node->parent()->cost() == node->cost()) {
+        if (prettyLabel(node->label()) == prettyLabel(node->parent()->label())) {
+            id = parent;
+            // don't add this node
+        } else {
+            // TODO: group nodes
+            id = QUuid::createUuid().toString();
+            out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
+            out << '"' << parent << "\" -> \"" << id << "\";\n";
+        }
+    } else {
+        id = QUuid::createUuid().toString();
+        out << '"' << id << "\" [label=\"" << getLabel(node) << "\",fillcolor=\"" << getColor(node->cost(), m_maxCost) << "\"];\n";
+        out << '"' << parent << "\" -> \"" << id << "\";\n";
+    }
     foreach (TreeLeafItem* child, node->children()) {
         if (m_canceled) {
             return;

@@ -36,6 +36,7 @@ class ReadOnlyPart;
 
 class KAction;
 class KRecentFilesAction;
+class KGraphViewerInterface;
 
 namespace Massif {
 
@@ -92,6 +93,7 @@ private slots:
     void totalItemClicked(const QModelIndex& item);
     void showDotGraph();
     void slotTabChanged(int index);
+    void slotGraphLoaded();
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -118,6 +120,7 @@ private:
 
     bool m_changingSelections;
     KParts::ReadOnlyPart* m_graphViewerPart;
+    KGraphViewerInterface* m_graphViewer;
     DotGraphGenerator* m_dotGenerator;
 };
 

@@ -113,7 +113,11 @@ void DotGraphGenerator::run()
                                 m_timeUnit);
 
         m_maxCost = m_snapshot->memHeap();
+        if (m_node->children().isEmpty()) {
+            m_costlyGraphvizId = id;
+        }
     } else if (m_node) {
+        m_costlyGraphvizId = id;
         const TreeLeafItem* topMost = m_node;
         while (topMost->parent()) {
             topMost = topMost->parent();
@@ -139,6 +143,9 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
     }
 
     const QString id = QUuid::createUuid().toString();
+    if (m_costlyGraphvizId.isEmpty()) {
+        m_costlyGraphvizId = id;
+    }
     if (!parent.isEmpty()) {
         // edge
         out << '"' << parent << "\" -> \"" << id << "\";\n";
@@ -187,4 +194,9 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
 QString DotGraphGenerator::outputFile() const
 {
     return m_file.fileName();
+}
+
+QString DotGraphGenerator::mostCostIntensiveGraphvizId() const
+{
+    return m_costlyGraphvizId;
 }

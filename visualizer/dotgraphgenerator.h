@@ -52,6 +52,10 @@ public:
      * @return A path to the generated Dot graph file. Path might be empty if errors occurred.
      */
     QString outputFile() const;
+    /**
+     * @return The GraphViz node ID for the most cost-intensive tree leaf item.
+     */
+    QString mostCostIntensiveGraphvizId() const;
 
 private:
     void nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent);
@@ -61,6 +65,7 @@ private:
     bool m_canceled;
     unsigned int m_maxCost;
     QString m_timeUnit;
+    QString m_costlyGraphvizId;
 };
 
 }

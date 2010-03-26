@@ -60,6 +60,8 @@
 #include <KDebug>
 #include <KToolBar>
 
+#include <kgraphviewer/kgraphviewer_interface.h>
+
 using namespace Massif;
 using namespace KDChart;
 
@@ -142,8 +144,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
         if (m_graphViewerPart) {
-            QMetaObject::invokeMethod(m_graphViewerPart, "setReadWrite");
+            m_graphViewer = qobject_cast< KGraphViewerInterface* >(m_graphViewerPart);
             ui.dotGraphTab->layout()->addWidget(m_graphViewerPart->widget());
+            connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
         } else {
             ui.tabWidget->removeTab(1);
         }
@@ -551,7 +554,18 @@ void MainWindow::showDotGraph()
     kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
     if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
         m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
+        m_graphViewer->setPannerPosition(KGraphViewerInterface::BottomRight);
+        m_graphViewer->setPannerEnabled(true);
+        m_graphViewer->setZoomFactor(0.75);
     }
+}
+
+void MainWindow::slotGraphLoaded()
+{
+    if (!m_dotGenerator) {
+        return;
+    }
+    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 
 #include "mainwindow.moc"

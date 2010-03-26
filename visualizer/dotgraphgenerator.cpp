@@ -162,6 +162,9 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
     QString shape;
     if (wasGrouped) {
         label = "{" + label + "}";
+        // <...> would be an id, escape it
+        label = label.replace('<', "\\<");
+        label = label.replace('>', "\\>");
         shape = "record";
     } else {
         shape = "box";

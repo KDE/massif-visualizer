@@ -527,7 +527,6 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
         kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
             m_dotGenerator->cancel();
-            m_dotGenerator->deleteLater();
         } else {
             delete m_dotGenerator;
         }
@@ -548,6 +547,9 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 
 void MainWindow::showDotGraph()
 {
+    if (sender() && sender() != m_dotGenerator) {
+        sender()->deleteLater();
+    }
     if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
         return;
     }

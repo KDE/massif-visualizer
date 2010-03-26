@@ -159,9 +159,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
-    if (m_graphViewerPart) {
-        createGUI(m_graphViewerPart);
-    }
     statusBar()->hide();
 }
 

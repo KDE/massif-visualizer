@@ -113,7 +113,7 @@ void DotGraphGenerator::run()
                                 m_timeUnit);
 
         m_maxCost = m_snapshot->memHeap();
-        if (m_node->children().isEmpty()) {
+        if (m_node && m_node->children().isEmpty()) {
             m_costlyGraphvizId = id;
         }
     } else if (m_node) {

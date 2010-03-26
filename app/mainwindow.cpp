@@ -58,6 +58,7 @@
 #include <QSortFilterProxyModel>
 
 #include <KDebug>
+#include <KToolBar>
 
 using namespace Massif;
 using namespace KDChart;
@@ -506,8 +507,14 @@ void MainWindow::showTotalGraph(bool show)
 
 void MainWindow::slotTabChanged(int index)
 {
-    // if we parsed a dot graph we might want to show it now
-    showDotGraph();
+    if (index == 0) {
+        toolBar()->addActions(QList<QAction*>() << m_toggleDetailed << m_toggleTotal);
+    } else {
+        toolBar()->removeAction(m_toggleDetailed);
+        toolBar()->removeAction(m_toggleTotal);
+        // if we parsed a dot graph we might want to show it now
+        showDotGraph();
+    }
 }
 
 void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)

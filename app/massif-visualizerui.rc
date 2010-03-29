@@ -40,9 +40,18 @@
   <Action name="file_open" />
   <Separator />
   <Action name="file_close" />
-  <Separator />
-  <Action name="toggle_total"/>
-  <Action name="toggle_detailed"/>
+</ToolBar>
+
+<ToolBar name="chartToolBar">
+    <text>Chart Toolbar</text>
+    <Action name="toggle_total"/>
+    <Action name="toggle_detailed"/>
+</ToolBar>
+
+<ToolBar name="callgraphToolBar">
+    <text>CallGraph Toolbar</text>
+    <Action name="zoomIn"/>
+    <Action name="zoomOut"/>
 </ToolBar>
 
 </kpartgui>

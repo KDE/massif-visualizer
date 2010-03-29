@@ -164,6 +164,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
     statusBar()->hide();
+
+    slotTabChanged(ui.tabWidget->currentIndex());
 }
 
 MainWindow::~MainWindow()
@@ -194,6 +196,13 @@ void MainWindow::setupActions()
     m_toggleDetailed->setEnabled(false);
     connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
+
+    if (m_graphViewer) {
+        m_zoomIn = KStandardAction::zoomIn(this, SLOT(zoomIn()), actionCollection());
+        actionCollection()->addAction("zoomIn", m_zoomIn);
+        m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
+        actionCollection()->addAction("zoomOut", m_zoomOut);
+    }
 }
 
 void MainWindow::openFile()
@@ -237,6 +246,8 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN DotGraph
     getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+    m_zoomIn->setEnabled(true);
+    m_zoomOut->setEnabled(true);
 
     //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
@@ -480,6 +491,8 @@ void MainWindow::closeFile()
     }
     if (m_graphViewerPart) {
         m_graphViewerPart->closeUrl();
+        m_zoomIn->setEnabled(false);
+        m_zoomOut->setEnabled(false);
     }
 
     setWindowTitle(i18n("Massif Visualizer"));
@@ -511,10 +524,11 @@ void MainWindow::showTotalGraph(bool show)
 void MainWindow::slotTabChanged(int index)
 {
     if (index == 0) {
-        toolBar()->addActions(QList<QAction*>() << m_toggleDetailed << m_toggleTotal);
+        toolBar("chartToolBar")->setVisible(true);
+        toolBar("callgraphToolBar")->setVisible(false);
     } else {
-        toolBar()->removeAction(m_toggleDetailed);
-        toolBar()->removeAction(m_toggleTotal);
+        toolBar("chartToolBar")->setVisible(false);
+        toolBar("callgraphToolBar")->setVisible(true);
         // if we parsed a dot graph we might want to show it now
         showDotGraph();
     }
@@ -547,7 +561,8 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 
 void MainWindow::showDotGraph()
 {
-    if (sender() && sender() != m_dotGenerator) {
+    if (sender() && sender() != m_dotGenerator && sender() != ui.tabWidget) {
+        kDebug() << "deleting sender:" << sender() << sender()->metaObject()->className();
         sender()->deleteLater();
     }
     if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
@@ -556,9 +571,6 @@ void MainWindow::showDotGraph()
     kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
     if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
         m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
-        m_graphViewer->setPannerPosition(KGraphViewerInterface::BottomRight);
-        m_graphViewer->setPannerEnabled(true);
-        m_graphViewer->setZoomFactor(0.75);
     }
 }
 
@@ -567,7 +579,20 @@ void MainWindow::slotGraphLoaded()
     if (!m_dotGenerator) {
         return;
     }
+    m_graphViewer->setZoomFactor(0.75);
+    m_graphViewer->setPannerPosition(KGraphViewerInterface::BottomRight);
+    m_graphViewer->setPannerEnabled(true);
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
+}
+
+void MainWindow::zoomIn()
+{
+    m_graphViewer->zoomIn();
+}
+
+void MainWindow::zoomOut()
+{
+    m_graphViewer->zoomOut();
 }
 
 #include "mainwindow.moc"

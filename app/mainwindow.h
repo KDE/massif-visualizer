@@ -94,6 +94,8 @@ private slots:
     void showDotGraph();
     void slotTabChanged(int index);
     void slotGraphLoaded();
+    void zoomIn();
+    void zoomOut();
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -122,6 +124,8 @@ private:
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewerInterface* m_graphViewer;
     DotGraphGenerator* m_dotGenerator;
+    KAction* m_zoomIn;
+    KAction* m_zoomOut;
 };
 
 }

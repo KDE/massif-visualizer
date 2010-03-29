@@ -101,7 +101,8 @@ void DotGraphGenerator::run()
     kDebug() << "creating new dot file in" << m_file.fileName();
     QTextStream out(&m_file);
 
-    out << "digraph callgraph {\n";
+    out << "digraph callgraph {\n"
+           "rankdir = BT;\n";
     if (m_canceled) {
         return;
     }
@@ -148,7 +149,7 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
     }
     if (!parent.isEmpty()) {
         // edge
-        out << '"' << parent << "\" -> \"" << id << "\";\n";
+        out << '"' << id << "\" -> \"" << parent << "\";\n";
     }
 
     QString label = getLabel(node);

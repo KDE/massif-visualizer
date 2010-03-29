@@ -482,8 +482,9 @@ void MainWindow::closeFile()
 
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
+            disconnect(m_dotGenerator, 0, this, 0);
+            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
             m_dotGenerator->cancel();
-            m_dotGenerator->deleteLater();
         } else {
             delete m_dotGenerator;
         }
@@ -540,6 +541,8 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
     if (m_dotGenerator) {
         kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
+            disconnect(m_dotGenerator, 0, this, 0);
+            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
             m_dotGenerator->cancel();
         } else {
             delete m_dotGenerator;
@@ -561,10 +564,6 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 
 void MainWindow::showDotGraph()
 {
-    if (sender() && sender() != m_dotGenerator && sender() != ui.tabWidget) {
-        kDebug() << "deleting sender:" << sender() << sender()->metaObject()->className();
-        sender()->deleteLater();
-    }
     if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
         return;
     }

@@ -202,6 +202,10 @@ void MainWindow::setupActions()
         actionCollection()->addAction("zoomIn", m_zoomIn);
         m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
         actionCollection()->addAction("zoomOut", m_zoomOut);
+        m_focusExpensive = new KAction(KIcon("flag-red"), i18n("focus most expensive node"), actionCollection());
+        m_toggleDetailed->setEnabled(false);
+        connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
+        actionCollection()->addAction("focusExpensive", m_focusExpensive);
     }
 }
 
@@ -245,9 +249,12 @@ void MainWindow::openFile(const KUrl& file)
                              << prettyCost(m_data->peak()->memStacks()) << " stacks";
 
     //BEGIN DotGraph
-    getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
-    m_zoomIn->setEnabled(true);
-    m_zoomOut->setEnabled(true);
+    if (m_graphViewerPart) {
+        getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+        m_zoomIn->setEnabled(true);
+        m_zoomOut->setEnabled(true);
+        m_focusExpensive->setEnabled(true);
+    }
 
     //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
@@ -494,6 +501,7 @@ void MainWindow::closeFile()
         m_graphViewerPart->closeUrl();
         m_zoomIn->setEnabled(false);
         m_zoomOut->setEnabled(false);
+        m_focusExpensive->setEnabled(false);
     }
 
     setWindowTitle(i18n("Massif Visualizer"));
@@ -592,6 +600,11 @@ void MainWindow::zoomIn()
 void MainWindow::zoomOut()
 {
     m_graphViewer->zoomOut();
+}
+
+void MainWindow::focusExpensiveGraphNode()
+{
+    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 
 #include "mainwindow.moc"

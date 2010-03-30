@@ -96,6 +96,7 @@ private slots:
     void slotGraphLoaded();
     void zoomIn();
     void zoomOut();
+    void focusExpensiveGraphNode();
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -126,6 +127,7 @@ private:
     DotGraphGenerator* m_dotGenerator;
     KAction* m_zoomIn;
     KAction* m_zoomOut;
+    KAction* m_focusExpensive;
 };
 
 }

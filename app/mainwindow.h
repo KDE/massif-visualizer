@@ -97,6 +97,7 @@ private slots:
     void zoomIn();
     void zoomOut();
     void focusExpensiveGraphNode();
+    void selectPeakSnapshot();
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -118,6 +119,7 @@ private:
     DataTreeModel* m_dataTreeModel;
     FilteredDataTreeModel* m_dataTreeFilterModel;
     FileData* m_data;
+    KAction* m_selectPeak;
 
     KRecentFilesAction* m_recentFiles;
 

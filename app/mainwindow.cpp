@@ -207,6 +207,11 @@ void MainWindow::setupActions()
         connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
         actionCollection()->addAction("focusExpensive", m_focusExpensive);
     }
+
+    m_selectPeak = new KAction(KIcon("flag-red"), i18n("select peak snapshot"), ui.dataTreeDock);
+    m_selectPeak->setEnabled(false);
+    connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
+    actionCollection()->addAction("selectPeak", m_selectPeak);
 }
 
 void MainWindow::openFile()
@@ -368,6 +373,7 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN TreeView
     m_dataTreeModel->setSource(m_data);
+    m_selectPeak->setEnabled(true);
 
     //BEGIN RecentFiles
     m_recentFiles->addUrl(file);
@@ -605,6 +611,16 @@ void MainWindow::zoomOut()
 void MainWindow::focusExpensiveGraphNode()
 {
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
+}
+
+void MainWindow::selectPeakSnapshot()
+{
+    ui.treeView->selectionModel()->clearSelection();
+    ui.treeView->selectionModel()->setCurrentIndex(
+        m_dataTreeFilterModel->mapFromSource(
+            m_dataTreeModel->indexForSnapshot(m_data->peak())
+        ), QItemSelectionModel::Select | QItemSelectionModel::Rows
+    );
 }
 
 #include "mainwindow.moc"

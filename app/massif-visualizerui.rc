@@ -46,6 +46,7 @@
     <text>Chart Toolbar</text>
     <Action name="toggle_total"/>
     <Action name="toggle_detailed"/>
+    <Action name="selectPeak"/>
 </ToolBar>
 
 <ToolBar name="callgraphToolBar">

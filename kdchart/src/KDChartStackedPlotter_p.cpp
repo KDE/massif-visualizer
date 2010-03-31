@@ -133,9 +133,6 @@ void StackedPlotter::paint( PaintContext* ctx )
         CartesianDiagramDataCompressor::CachePosition previousCellPosition;
 
         //display area can be set by dataset ( == column) and/or by cell
-        LineAttributes laPreviousCell; // by default no area is drawn
-        QModelIndex indexPreviousCell;
-        QList<QPolygonF> areas;
         QList<QPointF> points;
 
         for ( int row = 0; row < rowCount; ++row ) {
@@ -211,16 +208,12 @@ void StackedPlotter::paint( PaintContext* ctx )
                         : bottomPoints.at( row + 1 )
                         )
                     : toPoint;
-                if( areas.count() && laCell != laPreviousCell ){
-                    paintAreas( ctx, indexPreviousCell, areas, laPreviousCell.transparency() );
-                    areas.clear();
-                }
                 if( bDisplayCellArea ){
                     QPolygonF poly;
                     poly << ptNorthWest << ptNorthEast << ptSouthEast << ptSouthWest;
+                    QList<QPolygonF> areas;
                     areas << poly;
-                    laPreviousCell = laCell;
-                    indexPreviousCell = sourceIndex;
+                    paintAreas( ctx, sourceIndex, areas, laCell.transparency() );
                 }else{
                     //qDebug() << "no area shown for row"<<iRow<<"  column"<<iColumn;
                 }
@@ -234,10 +227,6 @@ void StackedPlotter::paint( PaintContext* ctx )
                 appendDataValueTextInfoToList( diagram(), list, sourceIndex,
                                                pts, Position::NorthWest, Position::SouthWest,
                                                point.value );
-        }
-        if( areas.count() ){
-            paintAreas( ctx, indexPreviousCell, areas, laPreviousCell.transparency() );
-            areas.clear();
         }
         bottomPoints = points;
         bFirstDataset = false;

@@ -274,6 +274,10 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
             break;
         }
     }
+    if (!node) {
+        // this sucks, KDChart sometimes reports quite a strange row :-/
+        node = m_peaks[needle].first;
+    }
     return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
 }
 

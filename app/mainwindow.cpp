@@ -57,6 +57,9 @@
 
 #include <QSortFilterProxyModel>
 
+#include <QLabel>
+#include <QSpinBox>
+
 #include <KDebug>
 #include <KToolBar>
 
@@ -212,6 +215,16 @@ void MainWindow::setupActions()
     m_selectPeak->setEnabled(false);
     connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
     actionCollection()->addAction("selectPeak", m_selectPeak);
+
+    KAction* stackNumAction = actionCollection()->addAction("stackNum");
+    stackNumAction->setText(i18n("stacked diagrams"));
+    QSpinBox* box = new QSpinBox;
+    box->setMinimum(0);
+    box->setMaximum(50);
+    box->setValue(10);
+    connect(box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
+    box->setHidden(false);
+    stackNumAction->setDefaultWidget(box);
 }
 
 void MainWindow::openFile()
@@ -621,6 +634,13 @@ void MainWindow::selectPeakSnapshot()
             m_dataTreeModel->indexForSnapshot(m_data->peak())
         ), QItemSelectionModel::Select | QItemSelectionModel::Rows
     );
+}
+
+void MainWindow::setStackNum(int num)
+{
+    if (m_detailedCostModel) {
+        m_detailedCostModel->setMaximumDatasetCount(num);
+    }
 }
 
 #include "mainwindow.moc"

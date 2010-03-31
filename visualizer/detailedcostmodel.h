@@ -18,7 +18,6 @@
 #define MASSIF_DETAILEDCOSTMODEL_H
 
 #include <QtCore/QAbstractTableModel>
-#include <QtCore/QMultiMap>
 #include <QtCore/QStringList>
 
 namespace Massif {
@@ -45,6 +44,11 @@ public:
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+
+    /**
+     * Sets the maximum number of datasets in this model to @p count.
+     */
+    void setMaximumDatasetCount(int count);
 
     /**
      * @return List of peaks with their heap tree leaf items.
@@ -78,9 +82,8 @@ public:
 
 private:
     const FileData* m_data;
-    // only a map to sort it by total cost
-    // total cost => label
-    QMultiMap<unsigned int, QString> m_columns;
+    // columns => label
+    QList<QString> m_columns;
     // only to sort snapshots by number
     QList<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
@@ -89,6 +92,7 @@ private:
     QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
     // selected item
     QModelIndex m_selection;
+    int m_maxDatasetCount;
 };
 
 }

@@ -98,6 +98,7 @@ private slots:
     void zoomOut();
     void focusExpensiveGraphNode();
     void selectPeakSnapshot();
+    void setStackNum(int num);
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);

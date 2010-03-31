@@ -32,12 +32,15 @@
 #include <QtGui/QPen>
 #include <QtGui/QBrush>
 
+#include <QtCore/QMultiMap>
+#include <QtCore/qalgorithms.h>
+
 #include <KLocalizedString>
 
 using namespace Massif;
 
 DetailedCostModel::DetailedCostModel(QObject* parent)
-    : QAbstractTableModel(parent), m_data(0)
+    : QAbstractTableModel(parent), m_data(0), m_maxDatasetCount(10)
 {
 }
 
@@ -59,6 +62,7 @@ void DetailedCostModel::setSource(const FileData* data)
     if (data) {
         // get top cost points:
         // we traverse the detailed heap trees until the first fork
+        QMultiMap<int, QString> sortColumnMap;
         foreach (SnapshotItem* snapshot, data->snapshots()) {
             if (snapshot->heapTree()) {
                 QList<TreeLeafItem*> nodes;
@@ -69,14 +73,14 @@ void DetailedCostModel::setSource(const FileData* data)
                     if (isBelowThreshold(node->label())) {
                         continue;
                     }
-                    if (!m_columns.values().contains(node->label())) {
-                        m_columns.insert(node->cost(), node->label());
+                    if (!sortColumnMap.values().contains(node->label())) {
+                        sortColumnMap.insert(node->cost(), node->label());
                         m_peaks[node->label()] = qMakePair(node, snapshot);
                     } else {
-                        unsigned int cost = m_columns.key(node->label());
-                        m_columns.remove(cost, node->label());
+                        unsigned int cost = sortColumnMap.key(node->label());
+                        sortColumnMap.remove(cost, node->label());
                         cost = node->cost();
-                        m_columns.insert(cost, node->label());
+                        sortColumnMap.insert(cost, node->label());
                         if (m_peaks[node->label()].first->cost() < node->cost()) {
                             m_peaks[node->label()].first = node;
                             m_peaks[node->label()].second = snapshot;
@@ -88,17 +92,8 @@ void DetailedCostModel::setSource(const FileData* data)
                 m_nodes[snapshot] = nodes;
             }
         }
-        // limit number of colums
-        const int maxColumns = 15;
-        if ( m_columns.size() > maxColumns ) {
-            QMultiMap< unsigned int, QString >::iterator it = m_columns.begin();
-            for ( int i = 0, c = m_columns.size() - maxColumns; i < c; ++i ) {
-                m_peaks.remove(it.value());
-                it = m_columns.erase(it);
-            }
-            Q_ASSERT(m_peaks.size() == m_columns.size());
-            Q_ASSERT(m_columns.size() == maxColumns);
-        }
+        m_columns = sortColumnMap.values();
+        QAlgorithmsPrivate::qReverse(m_columns.begin(), m_columns.end());
 
         if (m_rows.isEmpty()) {
             return;
@@ -106,6 +101,28 @@ void DetailedCostModel::setSource(const FileData* data)
         beginInsertRows(QModelIndex(), 0, m_rows.size() - 1);
         m_data = data;
         endInsertRows();
+    }
+}
+
+void DetailedCostModel::setMaximumDatasetCount(int count)
+{
+    Q_ASSERT(count >= 0);
+    if (count == m_maxDatasetCount) {
+        return;
+    }
+    const int currentCols = qMin(m_columns.size(), m_maxDatasetCount);
+    const int newCols = qMin(m_columns.size(), count);
+    Q_ASSERT(currentCols != newCols);
+    if (newCols < currentCols) {
+        beginRemoveColumns(QModelIndex(), newCols * 2, currentCols * 2 - 1);
+    } else {
+        beginInsertColumns(QModelIndex(), currentCols * 2, newCols * 2 - 1);
+    }
+    m_maxDatasetCount = count;
+    if (newCols < currentCols) {
+        endRemoveColumns();
+    } else {
+        endInsertColumns();
     }
 }
 
@@ -134,7 +151,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     }
 
     if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
-        QColor c = QColor::fromHsv(255 - ((double(index.column()/2) + 1) / m_columns.size()) * 255, 255, 255);
+        QColor c = QColor::fromHsv(double(index.column() + 1) / columnCount() * 255, 255, 255);
         if (role == KDChart::DatasetBrushRole) {
             return QBrush(c);
         } else {
@@ -151,7 +168,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         return snapshot->time();
     } else {
         TreeLeafItem* node = 0;
-        const QString needle = m_columns.values().at(index.column() / 2);
+        const QString needle = m_columns.at(index.column() / 2);
         foreach(TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
                 node = n;
@@ -183,7 +200,7 @@ QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation,
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
         // only show name without memory address or location
-        QString label = prettyLabel(m_columns.values().at(section / 2));
+        QString label = prettyLabel(m_columns.at(section / 2));
         if (label.indexOf("???") != -1) {
             return label;
         }
@@ -204,7 +221,7 @@ QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation,
 
 int DetailedCostModel::columnCount(const QModelIndex&) const
 {
-    return m_columns.size() * 2;
+    return qMin(m_maxDatasetCount, m_columns.size()) * 2;
 }
 
 int DetailedCostModel::rowCount(const QModelIndex& parent) const
@@ -227,11 +244,16 @@ QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
     while (it != m_peaks.end()) {
         int row = m_rows.indexOf(it->second);
         Q_ASSERT(row >= 0);
-        int column = m_columns.values().indexOf(it->first->label());
+        int column = m_columns.indexOf(it->first->label());
+        if (column >= m_maxDatasetCount) {
+            ++it;
+            continue;
+        }
         Q_ASSERT(column >= 0);
         peaks[index(row, column*2)] = it->first;
         ++it;
     }
+    Q_ASSERT(peaks.size() == qMin(m_maxDatasetCount, m_columns.size()));
     return peaks;
 }
 
@@ -246,8 +268,8 @@ QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
 
 QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
 {
-    int column = m_columns.values().indexOf(node->label());
-    if (column == -1) {
+    int column = m_columns.indexOf(node->label());
+    if (column == -1 || column >= m_maxDatasetCount) {
         return QModelIndex();
     }
     QMap< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
@@ -267,7 +289,7 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
     }
     SnapshotItem* snapshot = m_rows.at(idx.row());
     TreeLeafItem* node = 0;
-    const QString needle = m_columns.values().at(idx.column() / 2);
+    const QString needle = m_columns.at(idx.column() / 2);
     foreach(TreeLeafItem* n, m_nodes[snapshot]) {
         if (n->label() == needle) {
             node = n;

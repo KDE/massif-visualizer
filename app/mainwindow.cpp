@@ -218,13 +218,17 @@ void MainWindow::setupActions()
 
     KAction* stackNumAction = actionCollection()->addAction("stackNum");
     stackNumAction->setText(i18n("stacked diagrams"));
+    QWidget *stackNumWidget = new QWidget;
+    QHBoxLayout* stackNumLayout = new QHBoxLayout;
+    stackNumLayout->addWidget(new QLabel(i18n("stacked diagrams:")));
     QSpinBox* box = new QSpinBox;
     box->setMinimum(0);
     box->setMaximum(50);
     box->setValue(10);
     connect(box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
-    box->setHidden(false);
-    stackNumAction->setDefaultWidget(box);
+    stackNumLayout->addWidget(box);
+    stackNumWidget->setLayout(stackNumLayout);
+    stackNumAction->setDefaultWidget(stackNumWidget);
 }
 
 void MainWindow::openFile()

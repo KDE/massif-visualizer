@@ -67,11 +67,18 @@ void DetailedCostModel::setSource(const FileData* data)
             if (snapshot->heapTree()) {
                 QList<TreeLeafItem*> nodes;
                 foreach (TreeLeafItem* node, snapshot->heapTree()->children()) {
-                    while (node->children().size() == 1) {
-                        node = node->children().first();
-                    }
                     if (isBelowThreshold(node->label())) {
                         continue;
+                    }
+                    // find interesting node, i.e. until first fork
+                    TreeLeafItem* firstNode = node;
+                    while (node->children().size() == 1 && node->children().first()->cost() == node->cost()) {
+                        node = node->children().first();
+                    }
+                    if (node->children().isEmpty()) {
+                        // when we traverse the tree down until the end (i.e. no forks),
+                        // we end up in main() most probably, and that's uninteresting
+                        node = firstNode;
                     }
                     if (!sortColumnMap.values().contains(node->label())) {
                         sortColumnMap.insert(node->cost(), node->label());

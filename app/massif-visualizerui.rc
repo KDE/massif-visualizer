@@ -16,6 +16,11 @@
   <Menu name="view" noMerge="1"><text>&amp;View</text>
     <Action name="toggle_total"/>
     <Action name="toggle_detailed"/>
+    <Action name="selectPeak"/>
+    <Separator/>
+    <Action name="zoomIn"/>
+    <Action name="zoomOut"/>
+    <Action name="focusExpensive"/>
   </Menu>
 
   <Menu name="settings"><text>&amp;Settings</text>

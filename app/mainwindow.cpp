@@ -555,12 +555,15 @@ void MainWindow::showTotalGraph(bool show)
 
 void MainWindow::slotTabChanged(int index)
 {
-    if (index == 0) {
-        toolBar("chartToolBar")->setVisible(true);
-        toolBar("callgraphToolBar")->setVisible(false);
-    } else {
-        toolBar("chartToolBar")->setVisible(false);
-        toolBar("callgraphToolBar")->setVisible(true);
+    toolBar("chartToolBar")->setVisible(index == 0);
+    foreach(QAction* action, toolBar("chartToolBar")->actions()) {
+        action->setEnabled(index == 0);
+    }
+    toolBar("callgraphToolBar")->setVisible(index == 1);
+    foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
+        action->setEnabled(index == 1);
+    }
+    if (index == 1) {
         // if we parsed a dot graph we might want to show it now
         showDotGraph();
     }

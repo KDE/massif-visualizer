@@ -89,7 +89,7 @@ void DetailedCostModel::setSource(const FileData* data)
             }
         }
         // limit number of colums
-        const int maxColumns = 10;
+        const int maxColumns = 15;
         if ( m_columns.size() > maxColumns ) {
             QMultiMap< unsigned int, QString >::iterator it = m_columns.begin();
             for ( int i = 0, c = m_columns.size() - maxColumns; i < c; ++i ) {

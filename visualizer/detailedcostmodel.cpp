@@ -280,7 +280,7 @@ QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
     if (row == -1) {
         return QModelIndex();
     }
-    return index(row, 0);
+    return index(row + 1, 0);
 }
 
 QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const

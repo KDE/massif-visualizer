@@ -152,6 +152,8 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         attributes.setDisplayArea(true);
         if (index == m_selection) {
             attributes.setTransparency(255);
+        } else if (index.column() == m_selection.column()) {
+            attributes.setTransparency(152);
         } else {
             attributes.setTransparency(127);
         }

@@ -222,11 +222,12 @@ void StackedPlotter::paint( PaintContext* ctx )
                 ptSouthEast = ptSouthWest;
             }
 
-            const PositionPoints pts( ptNorthWest, ptNorthEast, ptSouthEast, ptSouthWest );
-            if( !ISNAN( point.value ) )
+            if( !ISNAN( point.value ) ) {
+                const PositionPoints pts( ptNorthWest, ptNorthEast, ptSouthEast, ptSouthWest );
                 appendDataValueTextInfoToList( diagram(), list, sourceIndex,
                                                pts, Position::NorthWest, Position::SouthWest,
                                                point.value );
+            }
         }
         bottomPoints = points;
         bFirstDataset = false;

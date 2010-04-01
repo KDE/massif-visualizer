@@ -438,8 +438,11 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     m_detailedCostModel->setSelection(idx);
     m_totalCostModel->setSelection(QModelIndex());
 
+    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // left index, but we want it to query the right one
+    const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
     ui.treeView->selectionModel()->clearSelection();
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(idx);
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(_idx);
     const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
         m_dataTreeModel->indexForItem(item)
     );

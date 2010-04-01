@@ -149,7 +149,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     if ( role == KDChart::LineAttributesRole ) {
         static KDChart::LineAttributes attributes;
         attributes.setDisplayArea(true);
-        if (index.column() == m_selection.column()) {
+        if (index == m_selection) {
             attributes.setTransparency(255);
         } else {
             attributes.setTransparency(127);
@@ -170,7 +170,24 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    SnapshotItem* snapshot = m_rows[index.row()];
+    if (index.row() == 0) {
+        if (role == Qt::ToolTipRole) {
+            return QVariant();
+        } else {
+            return 0;
+        }
+    }
+
+    SnapshotItem* snapshot;
+    if (role == Qt::ToolTipRole) {
+        // hack: the ToolTip will only be queried by KDChart and that one uses the
+        // left index, but we want it to query the right one
+        Q_ASSERT(index.row() < m_rows.size());
+        snapshot = m_rows.at(index.row());
+    } else {
+        snapshot = m_rows.at(index.row() - 1);
+    }
+
     if (index.column() % 2 == 0 && role != Qt::ToolTipRole) {
         return snapshot->time();
     } else {
@@ -240,7 +257,8 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
     if (parent.isValid()) {
         return 0;
     } else {
-        return m_rows.count();
+        // +1 to get a zero row first
+        return m_rows.count() + 1;
     }
 }
 
@@ -294,7 +312,10 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
     if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
         return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
     }
-    SnapshotItem* snapshot = m_rows.at(idx.row());
+    if (idx.row() == 0) {
+        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    }
+    SnapshotItem* snapshot = m_rows.at(idx.row() - 1);
     TreeLeafItem* node = 0;
     const QString needle = m_columns.at(idx.column() / 2);
     foreach(TreeLeafItem* n, m_nodes[snapshot]) {

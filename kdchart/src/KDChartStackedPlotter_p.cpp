@@ -119,7 +119,6 @@ void StackedPlotter::paint( PaintContext* ctx )
 
     DataValueTextInfoList list;
     LineAttributesInfoList lineList;
-    LineAttributes::MissingValuesPolicy policy;
 
     //FIXME(khz): add LineAttributes::MissingValuesPolicy support for LineDiagram::Stacked and ::Percent
 
@@ -232,7 +231,7 @@ void StackedPlotter::paint( PaintContext* ctx )
         bottomPoints = points;
         bFirstDataset = false;
     }
-    paintElements( ctx, list, lineList, policy );
+    paintElements( ctx, list, lineList, KDChart::LineAttributes::MissingValuesAreBridged );
 }
 
 double StackedPlotter::interpolateMissingValue( const CartesianDiagramDataCompressor::CachePosition& pos ) const

@@ -307,20 +307,16 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
     if (idx.row() == 0) {
         return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
     }
-    SnapshotItem* snapshot = m_rows.at(idx.row() - 1);
-    TreeLeafItem* node = 0;
     const QString needle = m_columns.at(idx.column() / 2);
-    foreach(TreeLeafItem* n, m_nodes[snapshot]) {
-        if (n->label() == needle) {
-            node = n;
-            break;
+    for (int i = 1; i < 3 && idx.row() - i >= 0; ++i) {
+        SnapshotItem* snapshot = m_rows.at(idx.row() - i);
+        foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+            if (n->label() == needle) {
+                return QPair< TreeLeafItem*, SnapshotItem* >(n, 0);
+            }
         }
     }
-    if (!node) {
-        // this sucks, KDChart sometimes reports quite a strange row :-/
-        node = m_peaks[needle].first;
-    }
-    return QPair< TreeLeafItem*, SnapshotItem* >(node, 0);
+    return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
 }
 
 QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const

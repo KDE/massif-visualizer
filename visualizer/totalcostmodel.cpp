@@ -105,8 +105,11 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    SnapshotItem* snapshot = m_data->snapshots().at(index.row());
     if ( role == Qt::ToolTipRole ) {
+        // hack: the ToolTip will only be queried by KDChart and that one uses the
+        // left index, but we want it to query the right one
+        Q_ASSERT(index.row() + 1 < m_data->snapshots().size());
+        SnapshotItem* snapshot = m_data->snapshots().at(index.row() + 1);
         return i18n("snapshot #%1:\n"
                     "heap cost of %2\n"
                     "extra heap cost of %3\n"
@@ -114,6 +117,8 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
                     snapshot->number(), prettyCost(snapshot->memHeap()), prettyCost(snapshot->memHeapExtra()),
                     prettyCost(snapshot->memStacks()));
     }
+
+    SnapshotItem* snapshot = m_data->snapshots().at(index.row());
     if (index.column() == 0) {
         return snapshot->time();
     } else {

@@ -102,6 +102,7 @@ private slots:
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
+    void updateDetailedPeaks();
 
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;

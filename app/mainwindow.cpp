@@ -368,16 +368,7 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
 
-    {
-        QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
-        QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
-        while (it != peaks.constEnd()) {
-            const QModelIndex peak = it.key();
-            Q_ASSERT(peak.isValid());
-            markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
-            ++it;
-        }
-    }
+    updateDetailedPeaks();
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
     connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
@@ -650,6 +641,22 @@ void MainWindow::setStackNum(int num)
 {
     if (m_detailedCostModel) {
         m_detailedCostModel->setMaximumDatasetCount(num);
+        updateDetailedPeaks();
+    }
+}
+
+void MainWindow::updateDetailedPeaks()
+{
+    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
+    QPen foreground(scheme.foreground().color());
+
+    QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
+    QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
+    while (it != peaks.constEnd()) {
+        const QModelIndex peak = it.key();
+        Q_ASSERT(peak.isValid());
+        markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
+        ++it;
     }
 }
 

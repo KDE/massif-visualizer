@@ -268,7 +268,7 @@ QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
             continue;
         }
         Q_ASSERT(column >= 0);
-        peaks[index(row, column*2)] = it->first;
+        peaks[index(row + 1, column*2)] = it->first;
         ++it;
     }
     Q_ASSERT(peaks.size() == qMin(m_maxDatasetCount, m_columns.size()));

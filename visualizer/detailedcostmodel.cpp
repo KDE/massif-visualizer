@@ -177,7 +177,19 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         if (role == Qt::ToolTipRole) {
             return QVariant();
         } else {
-            return 0;
+            if (index.column() % 2 == 0) {
+                // get x-coordinate of the last snapshot with cost below 0.1% of peak cost
+                QList< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
+                double time = 0;
+                while (it != m_data->snapshots().constEnd() && (*it)->memHeap() < m_data->peak()->memHeap() * 0.001) {
+                    time = (*it)->time();
+                    ++it;
+                }
+                return time;
+            } else {
+                // cost to 0
+                return 0;
+            }
         }
     }
 

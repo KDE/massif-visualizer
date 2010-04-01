@@ -105,7 +105,8 @@ void DetailedCostModel::setSource(const FileData* data)
         if (m_rows.isEmpty()) {
             return;
         }
-        beginInsertRows(QModelIndex(), 0, m_rows.size() - 1);
+        // +1 for the offset (+0 would be m_rows.size() -1)
+        beginInsertRows(QModelIndex(), 0, m_rows.size());
         m_data = data;
         endInsertRows();
     }

@@ -1,5 +1,13 @@
 To build this app, you'll need kdelibs headers from KDE 4 available.
-Than you simply do the usual CMake run:
+
+Furthermore there is (for now) a dependency on KGraphViewer and
+hence the Graphviz bundle. The former you must compile from
+sources since I had to make quite a few changes to make it applicable
+for this usecase. See also: http://extragear.kde.org/apps/kgraphviewer/
+
+I plan to make the graphviewer dependency optional in future.
+
+When you got all this, you simply do the usual CMake run:
 
 cd massif-visualizer
 mkdir build

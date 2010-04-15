@@ -115,12 +115,11 @@ void DetailedCostModel::setSource(const FileData* data)
 void DetailedCostModel::setMaximumDatasetCount(int count)
 {
     Q_ASSERT(count >= 0);
-    if (count == m_maxDatasetCount) {
-        return;
-    }
     const int currentCols = qMin(m_columns.size(), m_maxDatasetCount);
     const int newCols = qMin(m_columns.size(), count);
-    Q_ASSERT(currentCols != newCols);
+    if (currentCols == newCols) {
+        return;
+    }
     if (newCols < currentCols) {
         beginRemoveColumns(QModelIndex(), newCols * 2, currentCols * 2 - 1);
     } else {

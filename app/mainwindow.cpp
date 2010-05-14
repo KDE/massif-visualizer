@@ -147,7 +147,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
         if (m_graphViewerPart) {
-            m_graphViewer = qobject_cast< KGraphViewerInterface* >(m_graphViewerPart);
+            m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             ui.dotGraphTab->layout()->addWidget(m_graphViewerPart->widget());
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
         } else {
@@ -607,7 +607,7 @@ void MainWindow::slotGraphLoaded()
         return;
     }
     m_graphViewer->setZoomFactor(0.75);
-    m_graphViewer->setPannerPosition(KGraphViewerInterface::BottomRight);
+    m_graphViewer->setPannerPosition(KGraphViewer::KGraphViewerInterface::BottomRight);
     m_graphViewer->setPannerEnabled(true);
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }

@@ -36,7 +36,12 @@ class ReadOnlyPart;
 
 class KAction;
 class KRecentFilesAction;
+
+namespace KGraphViewer {
+
 class KGraphViewerInterface;
+
+}
 
 namespace Massif {
 
@@ -127,7 +132,7 @@ private:
 
     bool m_changingSelections;
     KParts::ReadOnlyPart* m_graphViewerPart;
-    KGraphViewerInterface* m_graphViewer;
+    KGraphViewer::KGraphViewerInterface* m_graphViewer;
     DotGraphGenerator* m_dotGenerator;
     KAction* m_zoomIn;
     KAction* m_zoomOut;

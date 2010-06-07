@@ -271,7 +271,7 @@ void MainWindow::openFile(const KUrl& file)
                              << prettyCost(m_data->peak()->memStacks()) << " stacks";
 
     //BEGIN DotGraph
-    if (m_graphViewerPart) {
+    if (m_graphViewer) {
         getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
         m_zoomIn->setEnabled(true);
         m_zoomOut->setEnabled(true);
@@ -514,7 +514,7 @@ void MainWindow::closeFile()
         }
         m_dotGenerator = 0;
     }
-    if (m_graphViewerPart) {
+    if (m_graphViewer) {
         m_graphViewerPart->closeUrl();
         m_zoomIn->setEnabled(false);
         m_zoomOut->setEnabled(false);

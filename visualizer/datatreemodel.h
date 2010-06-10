@@ -17,6 +17,8 @@
 #ifndef MASSIF_DATATREEMODEL_H
 #define MASSIF_DATATREEMODEL_H
 
+#include <QBrush>
+#include <QPair>
 #include <QtCore/QAbstractItemModel>
 
 namespace Massif {

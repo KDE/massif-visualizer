@@ -17,6 +17,8 @@
 #ifndef MASSIF_DETAILEDCOSTMODEL_H
 #define MASSIF_DETAILEDCOSTMODEL_H
 
+#include <QBrush>
+#include <QPair>
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QStringList>
 

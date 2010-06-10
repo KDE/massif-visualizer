@@ -17,6 +17,8 @@
 #ifndef MASSIF_TOTALCOSTMODEL_H
 #define MASSIF_TOTALCOSTMODEL_H
 
+#include <QBrush>
+#include <QPair>
 #include <QtCore/QAbstractTableModel>
 
 namespace Massif {

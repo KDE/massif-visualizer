@@ -49,22 +49,22 @@ double SnapshotItem::time() const
     return m_time;
 }
 
-void SnapshotItem::setMemHeap(const unsigned int bytes)
+void SnapshotItem::setMemHeap(const unsigned long bytes)
 {
     m_memHeap = bytes;
 }
 
-unsigned int SnapshotItem::memHeap() const
+unsigned long SnapshotItem::memHeap() const
 {
     return m_memHeap;
 }
 
-void SnapshotItem::setMemHeapExtra(const unsigned int bytes)
+void SnapshotItem::setMemHeapExtra(const unsigned long bytes)
 {
     m_memHeapExtra = bytes;
 }
 
-unsigned int SnapshotItem::memHeapExtra() const
+unsigned long SnapshotItem::memHeapExtra() const
 {
     return m_memHeapExtra;
 }

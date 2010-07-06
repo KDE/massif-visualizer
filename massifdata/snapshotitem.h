@@ -53,20 +53,20 @@ public:
     /**
      * Sets the size of the memory heap in bytes.
      */
-    void setMemHeap(const unsigned int bytes);
+    void setMemHeap(const unsigned long bytes);
     /**
      * @return The size of the memory heap in bytes.
      */
-    unsigned int memHeap() const;
+    unsigned long memHeap() const;
 
     /**
      * Sets the size of the extra memory heap in bytes.
      */
-    void setMemHeapExtra(const unsigned int bytes);
+    void setMemHeapExtra(const unsigned long bytes);
     /**
      * @return The size of the extra memory heap in bytes.
      */
-    unsigned int memHeapExtra() const;
+    unsigned long memHeapExtra() const;
 
     /**
      * Sets the size of the memory stacks in bytes.
@@ -89,8 +89,8 @@ public:
 private:
     unsigned int m_number;
     double m_time;
-    unsigned int m_memHeap;
-    unsigned int m_memHeapExtra;
+    unsigned long m_memHeap;
+    unsigned long  m_memHeapExtra;
     unsigned int m_memStacks;
     TreeLeafItem* m_heapTree;
 };

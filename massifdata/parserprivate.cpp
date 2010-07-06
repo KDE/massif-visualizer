@@ -178,7 +178,7 @@ void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
     VALIDATE(line.startsWith("mem_heap_B="))
     QString byteStr(line.mid(11));
     bool ok;
-    unsigned int bytes = byteStr.toUInt(&ok);
+    unsigned long bytes = byteStr.toULong(&ok);
     VALIDATE(ok)
     m_snapshot->setMemHeap(bytes);
     m_nextLine = SnapshotMemHeapExtra;
@@ -189,7 +189,7 @@ void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
     VALIDATE(line.startsWith("mem_heap_extra_B="))
     QString byteStr(line.mid(17));
     bool ok;
-    unsigned int bytes = byteStr.toUInt(&ok);
+    unsigned long bytes = byteStr.toULong(&ok);
     VALIDATE(ok)
     m_snapshot->setMemHeapExtra(bytes);
     m_nextLine = SnapshotMemStacks;
@@ -243,7 +243,7 @@ TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, i
     int spacePos = line.indexOf(' ', colonPos + 2);
     VALIDATE_RETURN(spacePos != -1, 0)
     tmpStr = line.mid(colonPos + 2, spacePos - colonPos - 2);
-    unsigned int cost = tmpStr.toUInt(&ok);
+    unsigned long cost = tmpStr.toULong(&ok);
     VALIDATE_RETURN(ok, 0)
 
     TreeLeafItem* leaf = new TreeLeafItem;

@@ -22,7 +22,7 @@
 /**
  * Returns a prettified cost string.
  */
-QString prettyCost(unsigned int cost);
+QString prettyCost(unsigned long cost);
 
 /**
  * Prepares a tree node's label for the UI.

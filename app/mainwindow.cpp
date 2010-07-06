@@ -69,7 +69,7 @@ using namespace Massif;
 using namespace KDChart;
 
 //BEGIN Helper Functions
-void markPeak(Plotter* p, const QModelIndex& peak, uint cost, QPen foreground)
+void markPeak(Plotter* p, const QModelIndex& peak, unsigned long cost, QPen foreground)
 {
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
     dataAttributes.setDataLabel(i18n("Peak of %1", prettyCost(cost)));

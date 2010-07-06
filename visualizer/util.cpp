@@ -19,7 +19,7 @@
 #include <KGlobal>
 #include <KLocale>
 
-QString prettyCost(unsigned int cost)
+QString prettyCost(unsigned long cost)
 {
     return KGlobal::locale()->formatByteSize(cost);
 }

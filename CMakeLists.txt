@@ -13,6 +13,8 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}/kdchart/src/
 )
 
+add_definitions(-Wall)
+
 add_subdirectory(kdchart)
 add_subdirectory(massifdata)
 add_subdirectory(visualizer)

@@ -80,7 +80,7 @@ QString getLabel(const TreeLeafItem* node)
     return i18n("%1\\ncost: %2", label, prettyCost(node->cost()));
 }
 
-QString getColor(unsigned int cost, unsigned int maxCost)
+QString getColor(unsigned long cost, unsigned long maxCost)
 {
     const double ratio = (double(cost) / maxCost);
     return QColor::fromHsv(120 - ratio * 120, (-((ratio-1) * (ratio-1))) * 255 + 255, 255, 255).name();

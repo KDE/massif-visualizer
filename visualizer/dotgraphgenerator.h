@@ -63,7 +63,7 @@ private:
     const TreeLeafItem* m_node;
     KTemporaryFile m_file;
     bool m_canceled;
-    unsigned int m_maxCost;
+    unsigned long m_maxCost;
     QString m_timeUnit;
     QString m_costlyGraphvizId;
 };

@@ -1,9 +1,7 @@
-find_path(KGRAPHVIEWER_INCLUDE_PATH "kgraphviewer/kgraphviewer_interface.h")
-
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${KGRAPHVIEWER_INCLUDE_PATH}
+    ${KGRAPHVIEWER_INCLUDE_DIRECTORIES}
 )
 
 set(massif-visualizer_SRCS

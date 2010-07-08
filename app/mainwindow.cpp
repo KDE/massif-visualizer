@@ -63,7 +63,7 @@
 #include <KDebug>
 #include <KToolBar>
 
-#include <kgraphviewer/kgraphviewer_interface.h>
+#include <kgraphviewer_interface.h>
 
 using namespace Massif;
 using namespace KDChart;

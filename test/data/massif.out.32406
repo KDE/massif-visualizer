@@ -1,0 +1,19 @@
+desc: (none)
+cmd: ./a.out
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=123667
+mem_heap_B=100
+mem_heap_extra_B=20
+mem_stacks_B=0
+heap_tree=empty

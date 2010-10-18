@@ -174,7 +174,8 @@ void MainWindow::setupActions()
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
 
-    KStandardAction::close(this, SLOT(closeFile()), actionCollection());
+    m_close = KStandardAction::close(this, SLOT(closeFile()), actionCollection());
+    m_close->setEnabled(false);
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
@@ -251,6 +252,8 @@ void MainWindow::openFile(const KUrl& file)
                            i18n("Could not parse file"));
         return;
     }
+
+    m_close->setEnabled(true);
 
     kDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << m_data->description();
@@ -470,6 +473,8 @@ void MainWindow::closeFile()
     if (!m_data) {
         return;
     }
+
+    m_close->setEnabled(false);
 
     kDebug() << "closing file";
 

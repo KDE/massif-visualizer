@@ -137,6 +137,7 @@ private:
     KAction* m_zoomIn;
     KAction* m_zoomOut;
     KAction* m_focusExpensive;
+    KAction* m_close;
 };
 
 }

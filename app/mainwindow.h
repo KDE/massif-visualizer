@@ -21,6 +21,7 @@
 
 #include "ui_mainwindow.h"
 
+class QLabel;
 namespace KDChart {
 class Chart;
 class HeaderFooter;
@@ -111,8 +112,7 @@ private:
 
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;
-    KDChart::HeaderFooter* m_header;
-    KDChart::HeaderFooter* m_subheader;
+    QLabel* m_header;
     KAction* m_toggleTotal;
     KDChart::Plotter* m_totalDiagram;
     TotalCostModel* m_totalCostModel;

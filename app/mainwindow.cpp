@@ -101,7 +101,7 @@ void markPeak(Plotter* p, const QModelIndex& peak, unsigned long cost, QPen fore
 //END Helper Functions
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
-    : KParts::MainWindow(parent, f), m_chart(new Chart(this)), m_header(new HeaderFooter(m_chart)), m_subheader(new HeaderFooter(m_chart))
+    : KParts::MainWindow(parent, f), m_chart(new Chart(this)), m_header(new QLabel(this))
     , m_toggleTotal(0), m_totalDiagram(0), m_totalCostModel(new TotalCostModel(m_chart))
     , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
@@ -112,19 +112,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     setWindowTitle(i18n("Massif Visualizer"));
 
-    m_header->setPosition(Position(KDChartEnums::PositionNorth));
-    m_header->setTextAlignment(Qt::AlignHCenter);
-    m_chart->addHeaderFooter(m_header);
-
-    m_subheader->setTextAlignment(Qt::AlignHCenter);
-    TextAttributes textAttributes = m_subheader->textAttributes();
-    textAttributes.setFontSize(Measure(0.5));
-    m_subheader->setTextAttributes(textAttributes);
-    m_chart->addHeaderFooter(m_subheader);
-
     // for axis labels to fit
     m_chart->setGlobalLeadingRight(10);
     m_chart->setGlobalLeadingLeft(10);
+    m_chart->setGlobalLeadingTop(20);
 
     m_legend->setPosition(Position(KDChartEnums::PositionFloating));
     m_legend->setTitleText("");
@@ -140,6 +131,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     m_legend->setTextAttributes(att);
     m_legend->hide();
 
+    ui.plotterTab->layout()->addWidget(m_header);
     ui.plotterTab->layout()->addWidget(m_chart);
 
     //BEGIN KGraphViewer
@@ -295,14 +287,13 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN Header
     {
-        TextAttributes textAttributes = m_header->textAttributes();
-        textAttributes.setPen(foreground);
-        textAttributes.setFontSize(Measure(10));
-        m_header->setTextAttributes(textAttributes);
-        m_header->setText(i18n("memory consumption of '%1' %2", m_data->cmd(), m_data->description() != "(none)" ? m_data->description() : ""));
-        m_subheader->setText(i18n("peak of %1 at snapshot %2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()));
-        textAttributes.setFontSize(Measure(8));
-        m_subheader->setTextAttributes(textAttributes);
+        m_header->setAlignment(Qt::AlignCenter);
+        const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
+        m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
+                            .arg(i18n("Memory consumption of %1", app))
+                            .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()))
+        );
+        m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
     }
 
     setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
@@ -486,7 +477,6 @@ void MainWindow::closeFile()
     m_legend->removeDiagrams();
     m_legend->hide();
     m_header->setText("");
-    m_subheader->setText("");
 
     m_toggleDetailed->setEnabled(false);
     m_toggleDetailed->setChecked(true);

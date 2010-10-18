@@ -106,7 +106,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_toggleDetailed(0), m_detailedDiagram(0), m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
     , m_dataTreeModel(new DataTreeModel(m_chart)), m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
-    , m_data(0) , m_changingSelections(false), m_graphViewerPart(0), m_dotGenerator(0)
+    , m_data(0) , m_changingSelections(false), m_graphViewerPart(0), m_selectPeak(0)
+    , m_dotGenerator(0), m_recentFiles(0), m_graphViewer(0), m_zoomIn(0)
+    , m_zoomOut(0), m_focusExpensive(0), m_close(0)
 {
     ui.setupUi(this);
 

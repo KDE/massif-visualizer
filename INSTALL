@@ -1,9 +1,7 @@
-To build this app, you'll need kdelibs headers from KDE 4 available.
+Build requirements:
 
-Furthermore there is (for now) a dependency on KGraphViewer and
-hence the Graphviz bundle. The former you must compile from
-sources since I had to make quite a few changes to make it applicable
-for this usecase. See also: http://extragear.kde.org/apps/kgraphviewer/
+- kdelibs headers from KDE4
+- kgraphviewer 2.1: http://kde-apps.org/content/show.php/KGraphViewer+and+KGraphEditor?content=23999
 
 I plan to make the graphviewer dependency optional in future.
 

@@ -5,7 +5,7 @@ enable_testing()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 find_package(KDE4 REQUIRED)
-find_package(KGraphViewer REQUIRED)
+find_package(KGraphViewer 2.1 REQUIRED)
 
 include_directories(
     ${KDE4_INCLUDES}

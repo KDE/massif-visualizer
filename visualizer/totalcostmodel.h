@@ -21,6 +21,8 @@
 #include <QPair>
 #include <QtCore/QAbstractTableModel>
 
+#include "visualizer_export.h"
+
 namespace Massif {
 
 class FileData;
@@ -30,7 +32,7 @@ class SnapshotItem;
 /**
  * A model that gives a tabular access on the costs in a massif output file.
  */
-class TotalCostModel : public QAbstractTableModel
+class VISUALIZER_EXPORT TotalCostModel : public QAbstractTableModel
 {
 public:
     TotalCostModel(QObject* parent = 0);

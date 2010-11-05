@@ -19,21 +19,27 @@
 
 #include <QString>
 
+#include "visualizer_export.h"
+
+namespace Massif {
+
 /**
  * Returns a prettified cost string.
  */
-QString prettyCost(unsigned long cost);
+VISUALIZER_EXPORT QString prettyCost(unsigned long cost);
 
 /**
  * Prepares a tree node's label for the UI.
  * So far, only the Mem-Adress will get stripped.
  */
-QString prettyLabel(const QString& label);
+VISUALIZER_EXPORT QString prettyLabel(const QString& label);
 
 /**
  * Checks whether this label denotes a tree node
  * with aggregated items below massif's threshold.
  */
-bool isBelowThreshold(const QString& label);
+VISUALIZER_EXPORT bool isBelowThreshold(const QString& label);
+
+}
 
 #endif // VISUALIZER_UTIL_H

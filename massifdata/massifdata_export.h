@@ -14,31 +14,18 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "util.h"
+#ifndef MASSIFDATA_EXPORT_H
+#define MASSIFDATA_EXPORT_H
 
-#include <KGlobal>
-#include <KLocale>
+/* needed for KDE_EXPORT macros */
+#include <kdemacros.h>
 
-namespace Massif {
+#ifndef MASSIFDATA_EXPORT
+# ifdef MAKE_MASSIFDATA_LIB
+#  define MASSIFDATA_EXPORT KDE_EXPORT
+# else
+#  define MASSIFDATA_EXPORT KDE_IMPORT
+# endif
+#endif
 
-QString prettyCost(unsigned long cost)
-{
-    return KGlobal::locale()->formatByteSize(cost);
-}
-
-QString prettyLabel(const QString& label)
-{
-    int colonPos = label.indexOf(':');
-    if (colonPos == -1) {
-        return label;
-    } else {
-        return label.mid(colonPos + 1);
-    }
-}
-
-bool isBelowThreshold(const QString& label)
-{
-    return label.indexOf("all below massif's threshold") != -1;
-}
-
-}
+#endif // MASSIFDATA_EXPORT_H

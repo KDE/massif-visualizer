@@ -20,9 +20,11 @@
 #include <QtCore/QString>
 #include <QtCore/QList>
 
+#include "massifdata_export.h"
+
 namespace Massif {
 
-class TreeLeafItem
+class MASSIFDATA_EXPORT TreeLeafItem
 {
 public:
     TreeLeafItem();

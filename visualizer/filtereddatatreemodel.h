@@ -19,6 +19,8 @@
 
 #include <QtGui/QSortFilterProxyModel>
 
+#include "visualizer_export.h"
+
 namespace Massif {
 
 class DataTreeModel;
@@ -26,7 +28,7 @@ class DataTreeModel;
 /**
  * Filter class for DataTreeModel
  */
-class FilteredDataTreeModel : public QSortFilterProxyModel
+class VISUALIZER_EXPORT FilteredDataTreeModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 

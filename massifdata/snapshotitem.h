@@ -17,12 +17,14 @@
 #ifndef SNAPSHOTITEM_H
 #define SNAPSHOTITEM_H
 
+#include "massifdata_export.h"
+
 namespace Massif
 {
 
 class TreeLeafItem;
 
-class SnapshotItem
+class MASSIFDATA_EXPORT SnapshotItem
 {
 public:
     SnapshotItem();

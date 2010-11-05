@@ -21,6 +21,8 @@ class QIODevice;
 
 #include <QtCore/QString>
 
+#include "massifdata_export.h"
+
 namespace Massif {
 
 class FileData;
@@ -28,7 +30,7 @@ class FileData;
 /**
  * This class parses a Massif output file and stores it's information.
  */
-class Parser
+class MASSIFDATA_EXPORT Parser
 {
 public:
     Parser();

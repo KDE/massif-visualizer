@@ -21,12 +21,14 @@
 #include <QThread>
 #include <KTemporaryFile>
 
+#include "visualizer_export.h"
+
 namespace Massif {
 
 class SnapshotItem;
 class TreeLeafItem;
 
-class DotGraphGenerator : public QThread
+class VISUALIZER_EXPORT DotGraphGenerator : public QThread
 {
     Q_OBJECT
 public:

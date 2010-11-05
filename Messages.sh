@@ -12,5 +12,5 @@ fi
 if [[ "$kcfgfiles" != "" ]] ; then
     $EXTRACTRC $kcfgfiles >> rc.cpp || exit 13
 fi
-$XGETTEXT -kaliasLocal `find $subdirs -name \*.cc -o -name \*.cpp -o -name \*.h` rc.cpp -o $podir/massifvisualizer.pot
+$XGETTEXT `find $subdirs -name \*.cc -o -name \*.cpp -o -name \*.h` rc.cpp -o $podir/massifvisualizer.pot
 rm -f rc.cpp

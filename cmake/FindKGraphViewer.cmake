@@ -31,7 +31,7 @@
 find_path( KGRAPHVIEWER_INCLUDE_DIRECTORIES
     NAMES kgraphviewer_interface.h
     PATHS
-    ${graphviz_INCLUDE_DIRS}
+    ${KGRAPHVIEWER_INCLUDE_DIRS}
     /usr/local/include
     /usr/include
     PATH_SUFFIXES kgraphviewer

@@ -21,3 +21,4 @@ target_link_libraries(visualizer
     ${QT_QTGUI_LIBRARY}
     ${KDE4_KDECORE_LIBS}
 )
+install(TARGETS visualizer ${INSTALL_TARGETS_DEFAULT_ARGS})

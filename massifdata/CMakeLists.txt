@@ -16,3 +16,4 @@ kde4_add_library(massifdata ${massifdata_SRCS})
 target_link_libraries(massifdata
     ${QT_QTCORE_LIBRARY}
 )
+install(TARGETS massifdata ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -97,14 +97,17 @@ private slots:
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
     void detailedItemClicked(const QModelIndex& item);
     void totalItemClicked(const QModelIndex& item);
+    void selectPeakSnapshot();
+    void setStackNum(int num);
+
+#ifdef HAVE_KGRAPHVIEWER
     void showDotGraph();
     void slotTabChanged(int index);
     void slotGraphLoaded();
     void zoomIn();
     void zoomOut();
     void focusExpensiveGraphNode();
-    void selectPeakSnapshot();
-    void setStackNum(int num);
+#endif
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -131,9 +134,11 @@ private:
     KRecentFilesAction* m_recentFiles;
 
     bool m_changingSelections;
+#ifdef HAVE_KGRAPHVIEWER
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
     DotGraphGenerator* m_dotGenerator;
+#endif
     KAction* m_zoomIn;
     KAction* m_zoomOut;
     KAction* m_focusExpensive;

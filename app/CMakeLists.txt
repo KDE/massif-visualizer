@@ -1,8 +1,14 @@
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${KGRAPHVIEWER_INCLUDE_DIRECTORIES}
 )
+
+if(${KGRAPHVIEWER_FOUND})
+    include_directories(
+        ${KGRAPHVIEWER_INCLUDE_DIRECTORIES}
+    )
+    add_definitions(-DHAVE_KGRAPHVIEWER)
+endif(${KGRAPHVIEWER_FOUND})
 
 set(massif-visualizer_SRCS
     main.cpp

@@ -63,7 +63,9 @@
 #include <KDebug>
 #include <KToolBar>
 
+#ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
+#endif
 
 using namespace Massif;
 using namespace KDChart;
@@ -115,9 +117,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_selectPeak(0)
     , m_recentFiles(0)
     , m_changingSelections(false)
+#ifdef HAVE_KGRAPHVIEWER
     , m_graphViewerPart(0)
     , m_graphViewer(0)
     , m_dotGenerator(0)
+#endif
     , m_zoomIn(0)
     , m_zoomOut(0)
     , m_focusExpensive(0)
@@ -150,6 +154,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.plotterTab->layout()->addWidget(m_chart);
 
     //BEGIN KGraphViewer
+#ifdef HAVE_KGRAPHVIEWER
     KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
@@ -161,6 +166,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
             ui.tabWidget->removeTab(1);
         }
     }
+#endif
     //END KGraphViewer
 
     connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
@@ -168,14 +174,19 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.treeView->setModel(m_dataTreeFilterModel);
     connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
-    connect(ui.tabWidget, SIGNAL(currentChanged(int)),
-            this, SLOT(slotTabChanged(int)));
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
     statusBar()->hide();
 
+#ifdef HAVE_KGRAPHVIEWER
+    connect(ui.tabWidget, SIGNAL(currentChanged(int)),
+            this, SLOT(slotTabChanged(int)));
     slotTabChanged(ui.tabWidget->currentIndex());
+#else
+    ui.tabWidget->removeTab(1);
+    toolBar("callgraphToolBar")->setVisible(false);
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -208,6 +219,7 @@ void MainWindow::setupActions()
     connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 
+#ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
         m_zoomIn = KStandardAction::zoomIn(this, SLOT(zoomIn()), actionCollection());
         actionCollection()->addAction("zoomIn", m_zoomIn);
@@ -218,6 +230,7 @@ void MainWindow::setupActions()
         connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
         actionCollection()->addAction("focusExpensive", m_focusExpensive);
     }
+#endif
 
     m_selectPeak = new KAction(KIcon("flag-red"), i18n("select peak snapshot"), ui.dataTreeDock);
     m_selectPeak->setEnabled(false);
@@ -281,12 +294,14 @@ void MainWindow::openFile(const KUrl& file)
                              << prettyCost(m_data->peak()->memStacks()) << " stacks";
 
     //BEGIN DotGraph
+#ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
         getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
         m_zoomIn->setEnabled(true);
         m_zoomOut->setEnabled(true);
         m_focusExpensive->setEnabled(true);
     }
+#endif
 
     //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
@@ -422,7 +437,9 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
 
     m_chart->update();
+#ifdef HAVE_KGRAPHVIEWER
     getDotGraph(item);
+#endif
 
     m_changingSelections = false;
 }
@@ -450,7 +467,9 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+#ifdef HAVE_KGRAPHVIEWER
     getDotGraph(item);
+#endif
 
     m_changingSelections = false;
 }
@@ -478,7 +497,9 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
     ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
 
     m_chart->update();
+#ifdef HAVE_KGRAPHVIEWER
     getDotGraph(item);
+#endif
 
     m_changingSelections = false;
 }
@@ -514,6 +535,7 @@ void MainWindow::closeFile()
     delete m_data;
     m_data = 0;
 
+#ifdef HAVE_KGRAPHVIEWER
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
             disconnect(m_dotGenerator, 0, this, 0);
@@ -530,6 +552,7 @@ void MainWindow::closeFile()
         m_zoomOut->setEnabled(false);
         m_focusExpensive->setEnabled(false);
     }
+#endif
 
     setWindowTitle(i18n("Massif Visualizer"));
 }
@@ -557,6 +580,7 @@ void MainWindow::showTotalGraph(bool show)
     m_chart->update();
 }
 
+#ifdef HAVE_KGRAPHVIEWER
 void MainWindow::slotTabChanged(int index)
 {
     toolBar("chartToolBar")->setVisible(index == 0);
@@ -636,6 +660,8 @@ void MainWindow::focusExpensiveGraphNode()
 {
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
+
+#endif
 
 void MainWindow::selectPeakSnapshot()
 {

@@ -532,6 +532,8 @@ void MainWindow::closeFile()
     m_detailedCostModel->setSource(0);
     m_totalCostModel->setSource(0);
 
+    m_selectPeak->setEnabled(false);
+
     delete m_data;
     m_data = 0;
 
@@ -585,11 +587,11 @@ void MainWindow::slotTabChanged(int index)
 {
     toolBar("chartToolBar")->setVisible(index == 0);
     foreach(QAction* action, toolBar("chartToolBar")->actions()) {
-        action->setEnabled(index == 0);
+        action->setEnabled(m_data && index == 0);
     }
     toolBar("callgraphToolBar")->setVisible(index == 1);
     foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
-        action->setEnabled(index == 1);
+        action->setEnabled(m_data && index == 1);
     }
     if (index == 1) {
         // if we parsed a dot graph we might want to show it now
@@ -665,6 +667,8 @@ void MainWindow::focusExpensiveGraphNode()
 
 void MainWindow::selectPeakSnapshot()
 {
+    Q_ASSERT(m_data);
+
     ui.treeView->selectionModel()->clearSelection();
     ui.treeView->selectionModel()->setCurrentIndex(
         m_dataTreeFilterModel->mapFromSource(

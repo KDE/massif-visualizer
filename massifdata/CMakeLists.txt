@@ -11,9 +11,9 @@ set(massifdata_SRCS
     parserprivate.cpp
 )
 
-kde4_add_library(massifdata ${massifdata_SRCS})
+kde4_add_library(mv-massifdata ${massifdata_SRCS})
 
-target_link_libraries(massifdata
+target_link_libraries(mv-massifdata
     ${QT_QTCORE_LIBRARY}
 )
-install(TARGETS massifdata ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS mv-massifdata ${INSTALL_TARGETS_DEFAULT_ARGS})

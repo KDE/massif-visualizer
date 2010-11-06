@@ -12,13 +12,13 @@ set(visualizer_SRCS
     util.cpp
 )
 
-kde4_add_library(visualizer ${visualizer_SRCS})
+kde4_add_library(mv-visualizer ${visualizer_SRCS})
 
-target_link_libraries(visualizer
-    massifdata
-    kdchart
+target_link_libraries(mv-visualizer
+    mv-massifdata
+    mv-kdchart
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
     ${KDE4_KDECORE_LIBS}
 )
-install(TARGETS visualizer ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS mv-visualizer ${INSTALL_TARGETS_DEFAULT_ARGS})

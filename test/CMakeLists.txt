@@ -4,7 +4,7 @@ set(datamodeltest_SRCS
 )
 kde4_add_unit_test(datamodeltest ${datamodeltest_SRCS})
 target_link_libraries(datamodeltest
-    massifdata
-    visualizer
+    mv-massifdata
+    mv-visualizer
     ${QT_QTTEST_LIBRARY}
 )

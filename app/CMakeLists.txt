@@ -23,9 +23,9 @@ target_link_libraries(massif-visualizer
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KPARTS_LIBS}
-    kdchart
-    massifdata
-    visualizer
+    mv-kdchart
+    mv-massifdata
+    mv-visualizer
 )
 
 install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )

@@ -49,6 +49,7 @@ FileData* Parser::parse(QIODevice* file)
         data = 0;
         m_errorLine = p.errorLine();
         m_errorLineString = p.errorLineString();
+        return 0;
     } else {
         m_errorLine = -1;
         m_errorLineString.clear();

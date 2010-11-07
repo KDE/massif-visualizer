@@ -438,7 +438,9 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
-    getDotGraph(item);
+    if (m_graphViewer) {
+        getDotGraph(item);
+    }
 #endif
 
     m_changingSelections = false;
@@ -468,7 +470,9 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
 
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
-    getDotGraph(item);
+    if (m_graphViewer) {
+        getDotGraph(item);
+    }
 #endif
 
     m_changingSelections = false;
@@ -498,7 +502,9 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
 
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
-    getDotGraph(item);
+    if (m_graphViewer) {
+        getDotGraph(item);
+    }
 #endif
 
     m_changingSelections = false;
@@ -601,6 +607,8 @@ void MainWindow::slotTabChanged(int index)
 
 void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 {
+    Q_ASSERT(m_graphViewer);
+
     kDebug() << "new dot graph requested" << item;
     if (m_dotGenerator) {
         kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
@@ -639,6 +647,8 @@ void MainWindow::showDotGraph()
 
 void MainWindow::slotGraphLoaded()
 {
+    Q_ASSERT(m_graphViewer);
+
     if (!m_dotGenerator) {
         return;
     }
@@ -650,16 +660,22 @@ void MainWindow::slotGraphLoaded()
 
 void MainWindow::zoomIn()
 {
+    Q_ASSERT(m_graphViewer);
+
     m_graphViewer->zoomIn();
 }
 
 void MainWindow::zoomOut()
 {
+    Q_ASSERT(m_graphViewer);
+
     m_graphViewer->zoomOut();
 }
 
 void MainWindow::focusExpensiveGraphNode()
 {
+    Q_ASSERT(m_graphViewer);
+
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 

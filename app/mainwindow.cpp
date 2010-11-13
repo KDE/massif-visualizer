@@ -209,14 +209,14 @@ void MainWindow::setupActions()
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
-    m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("toggle total cost graph"), actionCollection());
+    m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     m_toggleTotal->setEnabled(false);
     connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
     actionCollection()->addAction("toggle_total", m_toggleTotal);
 
-    m_toggleDetailed = new KAction(KIcon("office-chart-area-stacked"), i18n("toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new KAction(KIcon("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     m_toggleDetailed->setEnabled(false);
@@ -229,23 +229,23 @@ void MainWindow::setupActions()
         actionCollection()->addAction("zoomIn", m_zoomIn);
         m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
         actionCollection()->addAction("zoomOut", m_zoomOut);
-        m_focusExpensive = new KAction(KIcon("flag-red"), i18n("focus most expensive node"), actionCollection());
+        m_focusExpensive = new KAction(KIcon("flag-red"), i18n("Focus most expensive node"), actionCollection());
         m_toggleDetailed->setEnabled(false);
         connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
         actionCollection()->addAction("focusExpensive", m_focusExpensive);
     }
 #endif
 
-    m_selectPeak = new KAction(KIcon("flag-red"), i18n("select peak snapshot"), ui.dataTreeDock);
+    m_selectPeak = new KAction(KIcon("flag-red"), i18n("Select peak snapshot"), ui.dataTreeDock);
     m_selectPeak->setEnabled(false);
     connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
     actionCollection()->addAction("selectPeak", m_selectPeak);
 
     KAction* stackNumAction = actionCollection()->addAction("stackNum");
-    stackNumAction->setText(i18n("stacked diagrams"));
+    stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
-    stackNumLayout->addWidget(new QLabel(i18n("stacked diagrams:")));
+    stackNumLayout->addWidget(new QLabel(i18n("Stacked diagrams:")));
     QSpinBox* box = new QSpinBox;
     box->setMinimum(0);
     box->setMaximum(50);
@@ -270,7 +270,7 @@ void MainWindow::openFile(const KUrl& file)
 {
     QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile());
     if (!device->open(QIODevice::ReadOnly)) {
-        KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could not read file"));
+        KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could Not Read File"));
         delete device;
         return;
     }
@@ -282,7 +282,7 @@ void MainWindow::openFile(const KUrl& file)
     if (!m_data) {
         KMessageBox::error(this, i18n("Could not parse file <i>%1</i>.<br>"
                                       "Parse error in line %2:<br>%3", file.toLocalFile(), p.errorLine() + 1, p.errorLineString()),
-                           i18n("Could not parse file"));
+                           i18n("Could Not Parse File"));
         return;
     }
 

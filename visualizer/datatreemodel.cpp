@@ -146,25 +146,25 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         SnapshotItem* snapshot = m_data->snapshots()[index.row()];
         if (role == Qt::ToolTipRole) {
             if (snapshot == m_data->peak()) {
-                return i18n("peak snapshot: heap cost of %1", prettyCost(snapshot->memHeap()));
+                return i18n("Peak snapshot: heap cost of %1", prettyCost(snapshot->memHeap()));
             } else {
-                return i18n("snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
+                return i18n("Snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
             }
         }
         if (index.column() == 0) {
             return prettyCost(snapshot->memHeap());
         } else {
             if (snapshot == m_data->peak()) {
-                return i18n("snapshot #%1 (peak)", snapshot->number());
+                return i18n("Snapshot #%1 (peak)", snapshot->number());
             } else {
-                return i18n("snapshot #%1", snapshot->number());
+                return i18n("Snapshot #%1", snapshot->number());
             }
         }
     } else {
         Q_ASSERT(index.internalPointer());
         TreeLeafItem* item = static_cast<TreeLeafItem*>(index.internalPointer());
         if (role == Qt::ToolTipRole) {
-            return i18n("memory consumption of %1 bytes\n%2", item->cost(), item->label());
+            return i18n("Memory consumption of %1 bytes\n%2", item->cost(), item->label());
         }
         if (index.column() == 0) {
             return prettyCost(item->cost());

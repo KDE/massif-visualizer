@@ -114,10 +114,10 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         // left index, but we want it to query the right one
         Q_ASSERT(index.row() + 1 < m_data->snapshots().size());
         SnapshotItem* snapshot = m_data->snapshots().at(index.row() + 1);
-        return i18n("snapshot #%1:\n"
-                    "heap cost of %2\n"
-                    "extra heap cost of %3\n"
-                    "stack cost of %4",
+        return i18n("Snapshot #%1:\n"
+                    "Heap cost of %2\n"
+                    "Extra heap cost of %3\n"
+                    "Stack cost of %4",
                     snapshot->number(), prettyCost(snapshot->memHeap()), prettyCost(snapshot->memHeapExtra()),
                     prettyCost(snapshot->memStacks()));
     }

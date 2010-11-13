@@ -1,36 +1,23 @@
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
 #
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.  A copy of the full
-# GNU Lesser General Public License can be found at
-# http://www.gnu.org/copyleft/lesser.html.
+# Find the KGraphViewer library and sets various variables accordingly
 #
-# For more information, contact the authors of this software at
-# Milian Wolff <mail@milianw.de>
+# Example usage of this module:
+# find_package(KGraphViewer 2.1 REQUIRED)
+#
+# The version number and REQUIRED flag are optional. You can set CMAKE_PREFIX_PATH
+# variable to help it find the required files and directories
 #
 # this will set the following variables:
-# KGRAPHVIEWER_LIBRARIES
-# KGRAPHVIEWER_FOUND
-# KGRAPHVIEWER_INCLUDE_DIRECTORIES
-
-# if ( NOT WIN32 )
-
-#   find_package(PkgConfig)
-#   pkg_check_modules( temp ${REQUIRED} kgraphviewer )
-#   if ( temp_FOUND )
-#     set ( KGRAPHVIEWER_INCLUDE_DIRECTORIES ${temp_INCLUDE_DIRS} )
-#   endif ( temp_FOUND )
-
-# endif ( NOT WIN32 )
+# KGRAPHVIEWER_LIBRARIES           - KGraphViewer library
+# KGRAPHVIEWER_FOUND               - Whether KGraphViewer was found
+# KGRAPHVIEWER_INCLUDE_DIRECTORIES - Include directories for the KGraphViewer library
+#
+# Copyright 2010 Milian Wolff <mail@milianw.de>
+# Redistribution and use is allowed according to the terms of the BSD license.
 
 find_path( KGRAPHVIEWER_INCLUDE_DIRECTORIES
     NAMES kgraphviewer_interface.h
-    PATHS
+    HINTS
     ${KGRAPHVIEWER_INCLUDE_DIRS}
     /usr/local/include
     /usr/include
@@ -39,7 +26,7 @@ find_path( KGRAPHVIEWER_INCLUDE_DIRECTORIES
 
 find_library( KGRAPHVIEWER_LIBRARIES
     NAMES kgraphviewer
-    PATHS
+    HINTS
     ${KGRAPHVIEWER_LIBRARY_DIRS}
     /usr/local/lib64
     /usr/lib64

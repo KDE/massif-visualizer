@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-valgrind-massif">
+    <sub-class-of type="text/plain"/>
+    <comment>Valgrind Massif data file</comment>
+    <magic priority="50">
+      <match value="desc: " type="string" offset="0"/>
+    </magic>
+    <glob pattern="massif.out.*"/>
+  </mime-type>
+</mime-info>

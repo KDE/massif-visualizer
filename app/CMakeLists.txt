@@ -31,3 +31,12 @@ target_link_libraries(massif-visualizer
 install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( FILES massif-visualizerui.rc DESTINATION ${DATA_INSTALL_DIR}/massif-visualizer )
+
+# XML mime type
+set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )
+set( XDG_MIME_INSTALL_DIR "share/mime/packages" )
+find_package( SharedMimeInfo )
+if( SHARED_MIME_INFO_FOUND )
+    install( FILES massif.xml DESTINATION ${XDG_MIME_INSTALL_DIR} )
+    update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
+endif( SHARED_MIME_INFO_FOUND )

@@ -254,7 +254,9 @@ void MainWindow::setupActions()
 
 void MainWindow::openFile()
 {
-    QString file = KFileDialog::getOpenFileName(KUrl("kfiledialog:///massif-visualizer"), QString(), this, i18n("Open Massif Output File"));
+    QString file = KFileDialog::getOpenFileName(KUrl("kfiledialog:///massif-visualizer"),
+                                                QString("application/x-valgrind-massif"),
+                                                this, i18n("Open Massif Output File"));
     if (!file.isEmpty()) {
         openFile(KUrl(file));
     }
@@ -262,8 +264,7 @@ void MainWindow::openFile()
 
 void MainWindow::openFile(const KUrl& file)
 {
-    QString mimeType = KMimeType::findByPath(file.toLocalFile(), 0, false)->name ();
-    QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile(), mimeType, false);
+    QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile());
     if (!device->open(QIODevice::ReadOnly)) {
         KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could not read file"));
         delete device;

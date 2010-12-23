@@ -71,7 +71,16 @@ FileData* Parser::parse(QIODevice* file)
                 data->setPeak(snapshot);
             }
         }
+        // still not found? pick any other snapshot
+        if (!data->peak()) {
+            foreach( SnapshotItem* snapshot, data->snapshots() ) {
+                if (!data->peak() || snapshot->memHeap() > data->peak()->memHeap()) {
+                    data->setPeak(snapshot);
+                }
+            }
+        }
     }
+    // peak might still be zero if we have no snapshots, should be handled in the UI then
 
     return data;
 }

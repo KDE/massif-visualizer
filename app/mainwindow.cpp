@@ -287,7 +287,15 @@ void MainWindow::openFile(const KUrl& file)
                                       "Parse error in line %2:<br>%3", file.toLocalFile(), p.errorLine() + 1, p.errorLineString()),
                            i18n("Could Not Parse File"));
         return;
+    } else if (m_data->snapshots().isEmpty()) {
+        KMessageBox::error(this, i18n("Empty data file <i>%1</i>.", file.toLocalFile()),
+                           i18n("Empty Data File"));
+        delete m_data;
+        m_data = 0;
+        return;
     }
+
+    Q_ASSERT(m_data->peak());
 
     m_close->setEnabled(true);
 

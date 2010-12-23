@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="massif-visualizer" version="4">
+<kpartgui name="massif-visualizer" version="5">
 
 <MenuBar>
   <Menu name="file" noMerge="1"><text>&amp;File</text>
@@ -25,6 +25,9 @@
 
   <Menu name="settings"><text>&amp;Settings</text>
     <Merge name="StandardToolBarMenuHandler" />
+    <Menu name="dockWidgets"><text>&amp;Dock Widgets</text>
+        <Action name="toggleDataTree" />
+    </Menu>
     <DefineGroup name="show_toolbar_merge" />
     <Action name="set_configure_toolbars" />
     <Action name="settings_configure" />

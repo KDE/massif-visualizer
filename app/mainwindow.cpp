@@ -254,6 +254,9 @@ void MainWindow::setupActions()
     stackNumLayout->addWidget(box);
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
+
+    //dock actions
+    actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
 }
 
 void MainWindow::openFile()

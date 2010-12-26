@@ -567,11 +567,6 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
     ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
     m_chart->update();
-#ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
-        getDotGraph(item);
-    }
-#endif
 
     m_changingSelections = false;
 }
@@ -628,6 +623,8 @@ void MainWindow::closeFile()
         m_zoomOut->setEnabled(false);
         m_focusExpensive->setEnabled(false);
     }
+    m_lastDotItem.first = 0;
+    m_lastDotItem.second = 0;
 #endif
 
     setWindowTitle(i18n("Massif Visualizer"));
@@ -675,6 +672,11 @@ void MainWindow::slotTabChanged(int index)
 
 void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
 {
+    if (item == m_lastDotItem) {
+        return;
+    }
+    m_lastDotItem = item;
+
     Q_ASSERT(m_graphViewer);
 
     kDebug() << "new dot graph requested" << item;

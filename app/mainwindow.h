@@ -151,6 +151,7 @@ private:
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
     DotGraphGenerator* m_dotGenerator;
+    QPair<TreeLeafItem*, SnapshotItem*> m_lastDotItem;
 #endif
     KAction* m_zoomIn;
     KAction* m_zoomOut;

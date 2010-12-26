@@ -398,8 +398,10 @@ void Legend::removeDiagram( AbstractDiagram* oldDiagram )
 
 void Legend::removeDiagrams()
 {
-    for (int i = 0; i < d->observers.size(); ++i)
-        removeDiagram( d->observers.at(i)->diagram() );
+    foreach(DiagramObserver* obs, d->observers) {
+        removeDiagram( obs->diagram() );
+    }
+    Q_ASSERT(d->observers.isEmpty());
 }
 
 void Legend::replaceDiagram( AbstractDiagram* newDiagram,

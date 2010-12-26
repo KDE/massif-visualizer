@@ -352,7 +352,7 @@ void MainWindow::openFile(const KUrl& file)
     m_toggleTotal->setEnabled(true);
     m_totalDiagram->setAntiAliasing(true);
 
-    CartesianAxis* bottomAxis = new CartesianAxis;
+    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
     axisTextAttributes.setFontSize(Measure(8));
@@ -365,7 +365,7 @@ void MainWindow::openFile(const KUrl& file)
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis* leftAxis = new CartesianAxis;
+    CartesianAxis* leftAxis = new CartesianAxis(m_totalDiagram);
     leftAxis->setTextAttributes(axisTextAttributes);
     leftAxis->setTitleTextAttributes(axisTitleTextAttributes);
     leftAxis->setTitleText(i18n("memory heap size in bytes"));
@@ -543,10 +543,12 @@ void MainWindow::closeFile()
 
     m_toggleDetailed->setEnabled(false);
     m_toggleDetailed->setChecked(true);
+    delete m_detailedDiagram;
     m_detailedDiagram = 0;
 
     m_toggleTotal->setEnabled(false);
     m_toggleTotal->setChecked(true);
+    delete m_totalDiagram;
     m_totalDiagram = 0;
 
     m_dataTreeModel->setSource(0);

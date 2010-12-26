@@ -966,6 +966,7 @@ void Chart::takeCoordinatePlane( AbstractCoordinatePlane* plane )
                     d, SLOT( slotUnregisterDestroyedPlane( AbstractCoordinatePlane* ) ) );
         plane->removeFromParentLayout();
         plane->setParent( 0 );
+        d->mouseClickedPlanes.removeAll(plane);
     }
     d->slotLayoutPlanes();
     // Need to emit the signal: In case somebody has connected the signal

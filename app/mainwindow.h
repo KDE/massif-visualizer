@@ -120,8 +120,11 @@ private slots:
     void dataTreeContextMenuRequested(const QPoint &pos);
     void slotNewAllocator();
     void slotRemoveAllocator();
+    /// operates on data of @c m_markCustomAllocator
+    void slotMarkCustomAllocator();
     void allocatorViewContextMenuRequested(const QPoint &pos);
 
+    void chartContextMenuRequested(const QPoint &pos);
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
     void updateDetailedPeaks();
@@ -162,6 +165,7 @@ private:
     QStringListModel* m_allocatorModel;
     KAction* m_newAllocator;
     KAction* m_removeAllocator;
+    KAction* m_markCustomAllocator;
 };
 
 }

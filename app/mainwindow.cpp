@@ -106,6 +106,17 @@ KConfigGroup allocatorConfig()
 {
     return KGlobal::config()->group("Allocators");
 }
+
+void prepareCustomMarkAction(KAction* action, TreeLeafItem* item)
+{
+    QString func = functionInLabel(item->label());
+    action->setData(func);
+    if (func.length() > 40) {
+        func.resize(40);
+        func.append("...");
+    }
+    action->setText(i18n("mark `%1` as custom allocator", func));
+}
 //END Helper Functions
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -302,6 +313,10 @@ void MainWindow::setupActions()
             this, SLOT(allocatorSelectionChanged()));
     m_removeAllocator->setEnabled(false);
     ui.dockMenuBar->addAction(m_removeAllocator);
+
+    m_markCustomAllocator = new KAction(KIcon("list-remove"), i18n("mark as custom allocator"), ui.allocatorDock);
+    connect(m_markCustomAllocator, SIGNAL(triggered()),
+            this, SLOT(slotMarkCustomAllocator()), Qt::QueuedConnection);
     //END custom allocators
 
     //dock actions
@@ -439,6 +454,9 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN DetailedDiagram
     m_detailedDiagram = new Plotter;
+    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(chartContextMenuRequested(QPoint)));
+    m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
     m_toggleDetailed->setEnabled(true);
     m_detailedDiagram->setAntiAliasing(true);
     m_detailedDiagram->setType(KDChart::Plotter::Stacked);
@@ -579,6 +597,27 @@ void MainWindow::closeFile()
         return;
     }
 
+#ifdef HAVE_KGRAPHVIEWER
+    if (m_dotGenerator) {
+        if (m_dotGenerator->isRunning()) {
+            disconnect(m_dotGenerator, 0, this, 0);
+            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
+            m_dotGenerator->cancel();
+        } else {
+            delete m_dotGenerator;
+        }
+        m_dotGenerator = 0;
+    }
+    if (m_graphViewer) {
+        m_graphViewerPart->closeUrl();
+        m_zoomIn->setEnabled(false);
+        m_zoomOut->setEnabled(false);
+        m_focusExpensive->setEnabled(false);
+    }
+    m_lastDotItem.first = 0;
+    m_lastDotItem.second = 0;
+#endif
+
     m_close->setEnabled(false);
 
     kDebug() << "closing file";
@@ -608,27 +647,6 @@ void MainWindow::closeFile()
     delete m_data;
     m_data = 0;
     m_currentFile.clear();
-
-#ifdef HAVE_KGRAPHVIEWER
-    if (m_dotGenerator) {
-        if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator, 0, this, 0);
-            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
-            m_dotGenerator->cancel();
-        } else {
-            delete m_dotGenerator;
-        }
-        m_dotGenerator = 0;
-    }
-    if (m_graphViewer) {
-        m_graphViewerPart->closeUrl();
-        m_zoomIn->setEnabled(false);
-        m_zoomOut->setEnabled(false);
-        m_focusExpensive->setEnabled(false);
-    }
-    m_lastDotItem.first = 0;
-    m_lastDotItem.second = 0;
-#endif
 
     setWindowTitle(i18n("Massif Visualizer"));
 }
@@ -834,6 +852,15 @@ void MainWindow::slotRemoveAllocator()
     allocatorsChanged();
 }
 
+void MainWindow::slotMarkCustomAllocator()
+{
+    const QString allocator = m_markCustomAllocator->data().toString();
+    Q_ASSERT(!allocator.isEmpty());
+    if (!m_allocatorModel->stringList().contains(allocator)) {
+        m_allocatorModel->setStringList(m_allocatorModel->stringList() << allocator);
+    }
+}
+
 void MainWindow::allocatorViewContextMenuRequested(const QPoint& pos)
 {
     const QModelIndex idx = ui.allocatorView->indexAt(pos);
@@ -862,11 +889,33 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     QMenu menu;
     TreeLeafItem* item = m_dataTreeModel->itemForIndex(idx).first;
     Q_ASSERT(item);
-    QAction* markAsAllocator = menu.addAction(i18n("mark as custom allocator"));
-    QAction* ret = menu.exec(ui.dataTreeView->mapToGlobal(pos));
-    if (ret == markAsAllocator) {
-        m_allocatorModel->setStringList(m_allocatorModel->stringList() << functionInLabel(item->label()));
-    }
+    menu.addAction(m_markCustomAllocator);
+    prepareCustomMarkAction(m_markCustomAllocator, item);
+    menu.exec(ui.dataTreeView->mapToGlobal(pos));
 }
+
+void MainWindow::chartContextMenuRequested(const QPoint& pos)
+{
+    const QPoint dPos = m_detailedDiagram->mapFromGlobal(m_chart->mapToGlobal(pos));
+
+    const QModelIndex idx = m_detailedDiagram->indexAt(dPos);
+    if (!idx.isValid()) {
+        return;
+    }
+    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // left index, but we want it to query the right one
+    const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(_idx);
+
+    if (!item.first) {
+        return;
+    }
+
+    QMenu menu;
+    menu.addAction(m_markCustomAllocator);
+    prepareCustomMarkAction(m_markCustomAllocator, item.first);
+    menu.exec(m_detailedDiagram->mapToGlobal(dPos));
+}
+
 
 #include "mainwindow.moc"

@@ -39,7 +39,7 @@ ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
                              const QStringList& customAllocators)
     : m_file(file), m_data(data), m_nextLine(FileDesc)
     , m_currentLine(0), m_error(NoError), m_snapshot(0)
-    , m_parentItem(0)
+    , m_parentItem(0), m_hadCustomAllocators(false)
 {
     foreach(const QString& allocator, customAllocators) {
         m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
@@ -235,10 +235,49 @@ void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
     }
 }
 
+bool sortLeafsByCost(TreeLeafItem* l, TreeLeafItem* r)
+{
+    return l->cost() > r->cost();
+}
+
 void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
 {
     parseheapTreeLeafInternal(line, 0);
     m_nextLine = Snapshot;
+    // we need to do some post processing if we had custom allocators:
+    // - sort by cost
+    // - merge "in XYZ places all below threshold"
+    if (m_hadCustomAllocators) {
+        Q_ASSERT(m_snapshot->heapTree());
+        QList<TreeLeafItem*> newChildren = m_snapshot->heapTree()->children();
+        TreeLeafItem* belowThreshold = 0;
+        uint places = 0;
+        QString oldPlaces;
+        ///TODO: is massif translateable?
+        static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
+                                            Qt::CaseSensitive, QRegExp::RegExp2);
+        m_data->timeUnit();
+        foreach(TreeLeafItem* child, newChildren) {
+            if (child->label().indexOf(matchBT) != -1) {
+                places += matchBT.cap(1).toUInt();
+                if (belowThreshold) {
+                    belowThreshold->setCost(belowThreshold->cost() + child->cost());
+                    newChildren.removeOne(child);
+                    delete child;
+                } else {
+                    belowThreshold = child;
+                    oldPlaces = matchBT.cap(1);
+                }
+            }
+        }
+        if (belowThreshold) {
+            QString label = belowThreshold->label();
+            label.replace(oldPlaces, QString::number(places));
+            belowThreshold->setLabel(label);
+        }
+        qSort(newChildren.begin(), newChildren.end(), sortLeafsByCost);
+        m_snapshot->heapTree()->setChildren(newChildren);
+    }
     m_parentItem = 0;
 }
 
@@ -314,6 +353,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
         Q_ASSERT(depth);
         Q_ASSERT(m_snapshot->heapTree());
         newParent = m_snapshot->heapTree();
+        m_hadCustomAllocators = true;
     }
 
     SaveAndRestoreItem lastParent(&m_parentItem, newParent);

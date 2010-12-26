@@ -57,6 +57,14 @@ public:
      * This item takes ownership.
      */
     void addChild(TreeLeafItem* leaf);
+
+    /**
+     * Sets @p leafs as children of this item and takes ownership.
+     * No existing children will be deleted and might get leaked
+     * if you do not do this yourself.
+     */
+    void setChildren(const QList<TreeLeafItem*>& leafs);
+
     /**
      * @return The children of this leaf.
      */

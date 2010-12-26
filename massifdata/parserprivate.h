@@ -108,6 +108,8 @@ private:
     SnapshotItem* m_snapshot;
     /// parent tree leaf item
     TreeLeafItem* m_parentItem;
+    /// set to true if we had custom allocators
+    bool m_hadCustomAllocators;
 
     /// list of custom allocator wildcards
     QList<QRegExp> m_allocators;

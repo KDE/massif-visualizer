@@ -142,6 +142,7 @@ private:
     DataTreeModel* m_dataTreeModel;
     FilteredDataTreeModel* m_dataTreeFilterModel;
     FileData* m_data;
+    KUrl m_currentFile;
     KAction* m_selectPeak;
 
     KRecentFilesAction* m_recentFiles;

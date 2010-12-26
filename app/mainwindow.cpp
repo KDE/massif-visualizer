@@ -321,6 +321,7 @@ void MainWindow::openFile()
 
 void MainWindow::openFile(const KUrl& file)
 {
+    Q_ASSERT(file.isValid());
     QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile());
     if (!device->open(QIODevice::ReadOnly)) {
         KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could Not Read File"));
@@ -344,6 +345,7 @@ void MainWindow::openFile(const KUrl& file)
         m_data = 0;
         return;
     }
+    m_currentFile = file;
 
     Q_ASSERT(m_data->peak());
 
@@ -605,6 +607,7 @@ void MainWindow::closeFile()
 
     delete m_data;
     m_data = 0;
+    m_currentFile.clear();
 
 #ifdef HAVE_KGRAPHVIEWER
     if (m_dotGenerator) {
@@ -801,8 +804,8 @@ void MainWindow::allocatorsChanged()
     cfg.sync();
 
     if (m_data) {
-        Q_ASSERT(!m_recentFiles->urls().isEmpty());
-        openFile(m_recentFiles->urls().last());
+        // copy to prevent madness
+        openFile(KUrl(m_currentFile));
     }
 }
 

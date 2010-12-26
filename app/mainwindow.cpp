@@ -444,14 +444,14 @@ void MainWindow::openFile(const KUrl& file)
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);
 
-    CartesianAxis* topAxis = new CartesianAxis;
+    CartesianAxis* topAxis = new CartesianAxis(m_detailedDiagram);
     topAxis->setTextAttributes(axisTextAttributes);
     topAxis->setTitleTextAttributes(axisTitleTextAttributes);
     topAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     topAxis->setPosition ( CartesianAxis::Top );
     m_detailedDiagram->addAxis(topAxis);
 
-    CartesianAxis* rightAxis = new CartesianAxis;
+    CartesianAxis* rightAxis = new CartesianAxis(m_detailedDiagram);
     rightAxis->setTextAttributes(axisTextAttributes);
     rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
     rightAxis->setTitleText(i18n("memory heap size in bytes"));

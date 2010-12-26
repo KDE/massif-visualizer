@@ -94,7 +94,14 @@ void DataModelTest::parseFile()
 
 void DataModelTest::testUtils()
 {
+    {
     QString l("0x6F675AB: KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)");
     QCOMPARE(prettyLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)"));
     QCOMPARE(functionInLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&)"));
+    }
+    {
+    QString l("0x6F675AB: moz_xmalloc (mozalloc.cpp:98)");
+    QCOMPARE(prettyLabel(l), QString("moz_xmalloc (mozalloc.cpp:98)"));
+    QCOMPARE(functionInLabel(l), QString("moz_xmalloc"));
+    }
 }

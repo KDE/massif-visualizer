@@ -44,9 +44,9 @@ QString prettyLabel(const QString& label)
 QString functionInLabel(const QString& label)
 {
     QString ret = prettyLabel(label);
-    int pos = ret.indexOf(") (");
+    int pos = ret.indexOf(" (");
     if (pos != -1) {
-        ret.resize(pos + 1);
+        ret.resize(pos);
     }
     return ret;
 }

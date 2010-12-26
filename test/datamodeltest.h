@@ -33,6 +33,7 @@ class DataModelTest : public QObject
 
 private slots:
     void parseFile();
+    void testUtils();
 
 private:
     Massif::DataModel* m_model;

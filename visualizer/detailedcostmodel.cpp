@@ -135,6 +135,12 @@ void DetailedCostModel::setMaximumDatasetCount(int count)
     } else {
         endInsertColumns();
     }
+    Q_ASSERT(columnCount() == newCols * 2);
+}
+
+int DetailedCostModel::maximumDatasetCount() const
+{
+    return m_maxDatasetCount;
 }
 
 QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
@@ -232,6 +238,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 
 QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_ASSERT(orientation != Qt::Horizontal || section < columnCount());
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
         // only show name without memory address or location
         QString label = prettyLabel(m_columns.at(section / 2));

@@ -25,7 +25,9 @@
 
 #include "ui_mainwindow.h"
 
+class QStringListModel;
 class QLabel;
+
 namespace KDChart {
 class Chart;
 class HeaderFooter;
@@ -113,6 +115,13 @@ private slots:
     void focusExpensiveGraphNode();
 #endif
 
+    void allocatorsChanged();
+    void allocatorSelectionChanged();
+    void dataTreeContextMenuRequested(const QPoint &pos);
+    void slotNewAllocator();
+    void slotRemoveAllocator();
+    void allocatorViewContextMenuRequested(const QPoint &pos);
+
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
     void updateDetailedPeaks();
@@ -147,6 +156,10 @@ private:
     KAction* m_zoomOut;
     KAction* m_focusExpensive;
     KAction* m_close;
+
+    QStringListModel* m_allocatorModel;
+    KAction* m_newAllocator;
+    KAction* m_removeAllocator;
 };
 
 }

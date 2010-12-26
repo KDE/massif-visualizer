@@ -24,6 +24,7 @@
 class QIODevice;
 
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 #include "massifdata_export.h"
 
@@ -43,11 +44,14 @@ public:
     /**
      * Parse @p file and return a FileData structure representing the data.
      *
+     * @p customAllocators list of wildcard patterns used to find custom allocators
+     *
      * @return Data or null if file could not be parsed.
      *
      * @note The caller has to delete the data afterwards.
      */
-    FileData* parse(QIODevice* file);
+    FileData* parse(QIODevice* file,
+                    const QStringList& customAllocators = QStringList());
 
     /**
      * Returns the number of the line which could not be parsed or -1 if no error occurred.

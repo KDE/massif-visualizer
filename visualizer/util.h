@@ -39,6 +39,11 @@ VISUALIZER_EXPORT QString prettyCost(unsigned long cost);
 VISUALIZER_EXPORT QString prettyLabel(const QString& label);
 
 /**
+ * Extracts the function name from the @p label
+ */
+VISUALIZER_EXPORT QString functionInLabel(const QString& label);
+
+/**
  * Checks whether this label denotes a tree node
  * with aggregated items below massif's threshold.
  */

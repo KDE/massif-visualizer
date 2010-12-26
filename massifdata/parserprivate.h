@@ -22,6 +22,7 @@
 #define MASSIF_PARSERPRIVATE_H
 
 #include <QtCore/QByteArray>
+#include <QtCore/QStringList>
 
 class QIODevice;
 
@@ -34,7 +35,8 @@ class TreeLeafItem;
 class ParserPrivate
 {
 public:
-    ParserPrivate(QIODevice* file, FileData* data);
+    explicit ParserPrivate(QIODevice* file, Massif::FileData* data,
+                           const QStringList& customAllocators);
     ~ParserPrivate();
 
     enum Error {
@@ -66,7 +68,7 @@ private:
     void parseSnapshotTime(const QByteArray& line);
     void parseSnapshotMemStacks(const QByteArray& line);
     void parseHeapTreeLeaf(const QByteArray& line);
-    TreeLeafItem* parseheapTreeLeafInternal(const QByteArray& line, int depth);
+    bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
 
     QIODevice* m_file;
     FileData* m_data;
@@ -104,6 +106,11 @@ private:
 
     /// current snapshot that is parsed.
     SnapshotItem* m_snapshot;
+    /// parent tree leaf item
+    TreeLeafItem* m_parentItem;
+
+    /// list of custom allocator wildcards
+    QList<QRegExp> m_allocators;
 };
 
 }

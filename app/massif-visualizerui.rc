@@ -27,6 +27,7 @@
     <Merge name="StandardToolBarMenuHandler" />
     <Menu name="dockWidgets"><text>&amp;Dock Widgets</text>
         <Action name="toggleDataTree" />
+        <Action name="toggleAllocators" />
     </Menu>
     <DefineGroup name="show_toolbar_merge" />
     <Action name="set_configure_toolbars" />

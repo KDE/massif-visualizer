@@ -39,7 +39,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -67,7 +67,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QTreeView" name="treeView"/>
+      <widget class="QTreeView" name="dataTreeView"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="allocatorDock">
+   <property name="windowTitle">
+    <string>Custom Allocators</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="KToolBar" name="dockMenuBar" native="true"/>
+     </item>
+     <item>
+      <widget class="QListView" name="allocatorView"/>
      </item>
     </layout>
    </widget>
@@ -78,6 +96,12 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KToolBar</class>
+   <extends>QWidget</extends>
+   <header location="global">ktoolbar.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

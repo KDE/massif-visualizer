@@ -39,14 +39,14 @@ Parser::~Parser()
 {
 }
 
-FileData* Parser::parse(QIODevice* file)
+FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators)
 {
     Q_ASSERT(file->isOpen());
     Q_ASSERT(file->isReadable());
 
     FileData* data = new FileData;
 
-    ParserPrivate p(file, data);
+    ParserPrivate p(file, data, customAllocators);
 
     if (p.error()) {
         delete data;

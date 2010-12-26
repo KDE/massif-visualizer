@@ -70,6 +70,7 @@ QModelIndex TotalCostModel::peak() const
 
 QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_ASSERT(orientation != Qt::Horizontal || section < columnCount());
     if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         return i18n("Total Memory Heap Consumption");
     }

@@ -22,6 +22,7 @@
 
 #include <KGlobal>
 #include <KLocale>
+#include <KDebug>
 
 namespace Massif {
 
@@ -32,12 +33,22 @@ QString prettyCost(unsigned long cost)
 
 QString prettyLabel(const QString& label)
 {
-    int colonPos = label.indexOf(':');
+    int colonPos = label.indexOf(": ");
     if (colonPos == -1) {
         return label;
     } else {
-        return label.mid(colonPos + 1);
+        return label.mid(colonPos + 2);
     }
+}
+
+QString functionInLabel(const QString& label)
+{
+    QString ret = prettyLabel(label);
+    int pos = ret.indexOf(") (");
+    if (pos != -1) {
+        ret.resize(pos + 1);
+    }
+    return ret;
 }
 
 bool isBelowThreshold(const QString& label)

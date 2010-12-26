@@ -27,6 +27,7 @@
 #include <QtCore/QIODevice>
 
 #include <QtCore/QDebug>
+#include <visualizer/util.h>
 
 using namespace Massif;
 
@@ -34,9 +35,16 @@ using namespace Massif;
 
 #define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
 
-ParserPrivate::ParserPrivate(QIODevice* file, FileData* data)
-    : m_file(file), m_data(data), m_nextLine(FileDesc), m_currentLine(0), m_error(NoError), m_snapshot(0)
+ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
+                             const QStringList& customAllocators)
+    : m_file(file), m_data(data), m_nextLine(FileDesc)
+    , m_currentLine(0), m_error(NoError), m_snapshot(0)
+    , m_parentItem(0)
 {
+    foreach(const QString& allocator, customAllocators) {
+        m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
+    }
+
     QByteArray line;
     QByteArray buffer;
 
@@ -229,30 +237,86 @@ void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
 
 void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
 {
-    m_snapshot->setHeapTree(parseheapTreeLeafInternal(line, 0));
+    parseheapTreeLeafInternal(line, 0);
     m_nextLine = Snapshot;
+    m_parentItem = 0;
 }
 
-TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
+struct SaveAndRestoreItem
 {
-    VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', 0)
+    SaveAndRestoreItem(TreeLeafItem** item, TreeLeafItem* val)
+        : m_item(item)
+    {
+        m_oldVal = *m_item;
+        *m_item = val;
+    }
+    ~SaveAndRestoreItem()
+    {
+        *m_item = m_oldVal;
+    }
+    TreeLeafItem** m_item;
+    TreeLeafItem* m_oldVal;
+};
+
+bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
+{
+    VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', false)
     int colonPos = line.indexOf(':', depth);
-    VALIDATE_RETURN(colonPos != -1, 0)
+    VALIDATE_RETURN(colonPos != -1, false)
     bool ok;
 
     QByteArray tmpStr = line.mid(depth + 1, colonPos - depth - 1);
     unsigned int children = tmpStr.toUInt(&ok);
-    VALIDATE_RETURN(ok, 0)
+    VALIDATE_RETURN(ok, false)
 
     int spacePos = line.indexOf(' ', colonPos + 2);
-    VALIDATE_RETURN(spacePos != -1, 0)
+    VALIDATE_RETURN(spacePos != -1, false)
     tmpStr = line.mid(colonPos + 2, spacePos - colonPos - 2);
     unsigned long cost = tmpStr.toULong(&ok);
-    VALIDATE_RETURN(ok, 0)
+    VALIDATE_RETURN(ok, false)
 
-    TreeLeafItem* leaf = new TreeLeafItem;
-    leaf->setCost(cost);
-    leaf->setLabel(line.mid(spacePos + 1));
+    if (!cost && !children) {
+        // ignore these empty entries
+        return true;
+    }
+
+    const QString label = line.mid(spacePos + 1);
+
+    bool isCustomAlloc = false;
+
+    if (depth > 0) {
+        const QString func = functionInLabel(label);
+        foreach(const QRegExp& allocator, m_allocators) {
+            if (allocator.exactMatch(func)) {
+                isCustomAlloc = true;
+                break;
+            }
+        }
+    }
+
+    TreeLeafItem* newParent = 0;
+    if (!isCustomAlloc) {
+        TreeLeafItem* leaf = new TreeLeafItem;
+        leaf->setCost(cost);
+        leaf->setLabel(label);
+
+        if (!depth) {
+            m_snapshot->setHeapTree(leaf);
+        } else {
+            Q_ASSERT(m_parentItem);
+            m_parentItem->addChild(leaf);
+        }
+
+        newParent = leaf;
+    } else {
+        // the first line/heaptree start must never be a custom allocator, e.g.:
+        // n11: 1776070 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+        Q_ASSERT(depth);
+        Q_ASSERT(m_snapshot->heapTree());
+        newParent = m_snapshot->heapTree();
+    }
+
+    SaveAndRestoreItem lastParent(&m_parentItem, newParent);
 
     for (unsigned int i = 0; i < children; ++i) {
         ++m_currentLine;
@@ -260,20 +324,16 @@ TreeLeafItem* ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, i
         if (nextLine.isEmpty()) {
             // fail gracefully if the tree is not complete, esp. useful for cases where
             // an app run with massif crashes and massif doesn't finish the full tree dump.
-            return leaf;
+            return true;
         }
         // remove trailing \n
         nextLine.chop(1);
-        TreeLeafItem* child = parseheapTreeLeafInternal(nextLine, depth + 1);
-        VALIDATE_RETURN(child, leaf)
-        if (!child->cost()) {
-            delete child;
-        } else {
-            leaf->addChild(child);
+        if (!parseheapTreeLeafInternal(nextLine, depth + 1)) {
+            return false;
         }
     }
 
-    return leaf;
+    return true;
 }
 
 //END Parser Functions

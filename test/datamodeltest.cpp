@@ -24,10 +24,13 @@
 
 #include "massifdata/parser.h"
 #include "massifdata/filedata.h"
+#include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
+#include "visualizer/util.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>
@@ -87,4 +90,11 @@ void DataModelTest::parseFile()
         model->setSource(0);
     }
 
+}
+
+void DataModelTest::testUtils()
+{
+    QString l("0x6F675AB: KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)");
+    QCOMPARE(prettyLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)"));
+    QCOMPARE(functionInLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&)"));
 }

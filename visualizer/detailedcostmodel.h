@@ -58,6 +58,8 @@ public:
      */
     void setMaximumDatasetCount(int count);
 
+    int maximumDatasetCount() const;
+
     /**
      * @return List of peaks with their heap tree leaf items.
      */

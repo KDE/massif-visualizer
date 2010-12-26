@@ -46,26 +46,23 @@
 #include <KAction>
 #include <KFileDialog>
 #include <KRecentFilesAction>
-
 #include <KMimeType>
 #include <KFilterDev>
 #include <KMessageBox>
-
 #include <KColorScheme>
-
 #include <KStatusBar>
-
+#include <KToolBar>
 #include <KParts/Part>
 #include <KLibFactory>
 #include <KLibLoader>
 
 #include <QSortFilterProxyModel>
-
+#include <QStringListModel>
 #include <QLabel>
 #include <QSpinBox>
+#include <QInputDialog>
 
 #include <KDebug>
-#include <KToolBar>
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
@@ -104,6 +101,11 @@ void markPeak(Plotter* p, const QModelIndex& peak, unsigned long cost, QPen fore
 
     p->setDataValueAttributes(peak, dataAttributes);
 }
+
+KConfigGroup allocatorConfig()
+{
+    return KGlobal::config()->group("Allocators");
+}
 //END Helper Functions
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -130,6 +132,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_zoomOut(0)
     , m_focusExpensive(0)
     , m_close(0)
+    , m_allocatorModel(new QStringListModel(this))
+    , m_newAllocator(0)
+    , m_removeAllocator(0)
 {
     ui.setupUi(this);
 
@@ -175,9 +180,38 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
             m_dataTreeFilterModel, SLOT(setFilter(QString)));
-    ui.treeView->setModel(m_dataTreeFilterModel);
-    connect(ui.treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+    ui.dataTreeView->setModel(m_dataTreeFilterModel);
+    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+
+
+    //BEGIN custom allocators
+    tabifyDockWidget(ui.allocatorDock, ui.dataTreeDock);
+    ui.allocatorView->setModel(m_allocatorModel);
+
+    int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    ui.dockMenuBar->setIconSize(QSize(iconSize, iconSize));
+    ui.dockMenuBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    ui.dockMenuBar->setFloatable(false);
+    ui.dockMenuBar->setMovable(false);
+
+    KConfigGroup cfg = allocatorConfig();;
+    m_allocatorModel->setStringList(cfg.entryMap().values());
+
+    connect(m_allocatorModel, SIGNAL(modelReset()),
+            this, SLOT(allocatorsChanged()));
+
+    connect(m_allocatorModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            this, SLOT(allocatorsChanged()));
+
+    connect(ui.dataTreeView, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(dataTreeContextMenuRequested(QPoint)));
+    ui.dataTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui.allocatorView, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(allocatorViewContextMenuRequested(QPoint)));
+    ui.allocatorView->setContextMenuPolicy(Qt::CustomContextMenu);
+    //END custom allocators
 
     setupActions();
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
@@ -255,8 +289,24 @@ void MainWindow::setupActions()
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
 
+    //BEGIN custom allocators
+    m_newAllocator = new KAction(KIcon("list-add"), i18n("add"), ui.allocatorDock);
+    m_newAllocator->setToolTip(i18n("add custom allocator"));
+    connect(m_newAllocator, SIGNAL(triggered()), this, SLOT(slotNewAllocator()));
+    ui.dockMenuBar->addAction(m_newAllocator);
+    m_removeAllocator = new KAction(KIcon("list-remove"), i18n("remove"),
+                                    ui.allocatorDock);
+    m_newAllocator->setToolTip(i18n("remove selected allocator"));
+    connect(m_removeAllocator, SIGNAL(triggered()), this, SLOT(slotRemoveAllocator()));
+    connect(ui.allocatorView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+            this, SLOT(allocatorSelectionChanged()));
+    m_removeAllocator->setEnabled(false);
+    ui.dockMenuBar->addAction(m_removeAllocator);
+    //END custom allocators
+
     //dock actions
     actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
+    actionCollection()->addAction("toggleAllocators", ui.allocatorDock->toggleViewAction());
 }
 
 void MainWindow::openFile()
@@ -281,7 +331,7 @@ void MainWindow::openFile(const KUrl& file)
         closeFile();
     }
     Parser p;
-    m_data = p.parse(device);
+    m_data = p.parse(device, m_allocatorModel->stringList());
     if (!m_data) {
         KMessageBox::error(this, i18n("Could not parse file <i>%1</i>.<br>"
                                       "Parse error in line %2:<br>%3", file.toLocalFile(), p.errorLine() + 1, p.errorLineString()),
@@ -476,13 +526,13 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
-    ui.treeView->selectionModel()->clearSelection();
+    ui.dataTreeView->selectionModel()->clearSelection();
     QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(_idx);
     const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
         m_dataTreeModel->indexForItem(item)
     );
-    ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
-    ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
+    ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
@@ -509,12 +559,12 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
 
     QPair< TreeLeafItem*, SnapshotItem* > item = m_totalCostModel->itemForIndex(idx);
 
-    ui.treeView->selectionModel()->clearSelection();
+    ui.dataTreeView->selectionModel()->clearSelection();
     const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
         m_dataTreeModel->indexForItem(item)
     );
-    ui.treeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
-    ui.treeView->scrollTo(ui.treeView->selectionModel()->currentIndex());
+    ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
@@ -703,8 +753,8 @@ void MainWindow::selectPeakSnapshot()
 {
     Q_ASSERT(m_data);
 
-    ui.treeView->selectionModel()->clearSelection();
-    ui.treeView->selectionModel()->setCurrentIndex(
+    ui.dataTreeView->selectionModel()->clearSelection();
+    ui.dataTreeView->selectionModel()->setCurrentIndex(
         m_dataTreeFilterModel->mapFromSource(
             m_dataTreeModel->indexForSnapshot(m_data->peak())
         ), QItemSelectionModel::Select | QItemSelectionModel::Rows
@@ -731,6 +781,86 @@ void MainWindow::updateDetailedPeaks()
         Q_ASSERT(peak.isValid());
         markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
         ++it;
+    }
+}
+
+void MainWindow::allocatorsChanged()
+{
+    KConfigGroup cfg = allocatorConfig();
+    cfg.deleteGroup();
+    int i = 0;
+    foreach(const QString& allocator, m_allocatorModel->stringList()) {
+        if (allocator.isEmpty()) {
+            m_allocatorModel->removeRow(i);
+            continue;
+        }
+        cfg.writeEntry(QString::number(i++), allocator);
+    }
+    cfg.sync();
+
+    if (m_data) {
+        Q_ASSERT(!m_recentFiles->urls().isEmpty());
+        openFile(m_recentFiles->urls().last());
+    }
+}
+
+void MainWindow::allocatorSelectionChanged()
+{
+    m_removeAllocator->setEnabled(ui.allocatorView->selectionModel()->hasSelection());
+}
+
+void MainWindow::slotNewAllocator()
+{
+    QString allocator = QInputDialog::getText(this, i18n("Add Custom Allocator"), i18n("allocator:"));
+    if (allocator.isEmpty()) {
+        return;
+    }
+    if (!m_allocatorModel->stringList().contains(allocator)) {
+        m_allocatorModel->setStringList(m_allocatorModel->stringList() << allocator);
+    }
+}
+
+void MainWindow::slotRemoveAllocator()
+{
+    Q_ASSERT(ui.allocatorView->selectionModel()->hasSelection());
+    foreach(const QModelIndex& idx, ui.allocatorView->selectionModel()->selectedRows()) {
+        m_allocatorModel->removeRow(idx.row(), idx.parent());
+    }
+    allocatorsChanged();
+}
+
+void MainWindow::allocatorViewContextMenuRequested(const QPoint& pos)
+{
+    const QModelIndex idx = ui.allocatorView->indexAt(pos);
+
+    QMenu menu;
+    menu.addAction(m_newAllocator);
+    if (idx.isValid()) {
+        menu.addAction(m_removeAllocator);
+    }
+    menu.exec(ui.allocatorView->mapToGlobal(pos));
+}
+
+void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
+{
+    const QModelIndex idx = m_dataTreeFilterModel->mapToSource(
+                                ui.dataTreeView->indexAt(pos));
+    if (!idx.isValid()) {
+        return;
+    }
+
+    if (!idx.parent().isValid()) {
+        // snapshot item
+        return;
+    }
+
+    QMenu menu;
+    TreeLeafItem* item = m_dataTreeModel->itemForIndex(idx).first;
+    Q_ASSERT(item);
+    QAction* markAsAllocator = menu.addAction(i18n("mark as custom allocator"));
+    QAction* ret = menu.exec(ui.dataTreeView->mapToGlobal(pos));
+    if (ret == markAsAllocator) {
+        m_allocatorModel->setStringList(m_allocatorModel->stringList() << functionInLabel(item->label()));
     }
 }
 

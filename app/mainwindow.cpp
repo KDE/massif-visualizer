@@ -41,6 +41,9 @@
 #include "visualizer/dotgraphgenerator.h"
 #include "visualizer/util.h"
 
+#include "massif-visualizer-settings.h"
+#include "ui_config.h"
+
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KAction>
@@ -66,6 +69,7 @@
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
+#include <KConfigDialog>
 #endif
 
 using namespace Massif;
@@ -254,6 +258,8 @@ void MainWindow::setupActions()
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
+    KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
+
     m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
@@ -322,6 +328,33 @@ void MainWindow::setupActions()
     //dock actions
     actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
     actionCollection()->addAction("toggleAllocators", ui.allocatorDock->toggleViewAction());
+}
+
+void MainWindow::preferences()
+{
+    if (KConfigDialog::showDialog("settings")) {
+        return;
+    }
+
+    KConfigDialog* dlg = new KConfigDialog(this, "settings", Settings::self());
+    QWidget* settingsPage = new QWidget(dlg);
+    // yes, we leak the Ui, but that should be ok
+    Ui::Config* ui = new Ui::Config;
+    ui->setupUi(settingsPage);
+
+    dlg->addPage(settingsPage, Settings::self(), i18n("Settings"));
+    dlg->setFaceType(KPageDialog::Plain);
+    connect(dlg, SIGNAL(settingsChanged(QString)),
+            this, SLOT(settingsChanged(QString)));
+    dlg->show();
+}
+
+void MainWindow::settingsChanged(const QString& settings)
+{
+    Settings::self()->writeConfig();
+    updateHeader();
+    updatePeaks();
+    ui.dataTreeView->update();
 }
 
 void MainWindow::openFile()
@@ -404,12 +437,7 @@ void MainWindow::openFile(const KUrl& file)
     //BEGIN Header
     {
         m_header->setAlignment(Qt::AlignCenter);
-        const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
-        m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
-                            .arg(i18n("Memory consumption of %1", app))
-                            .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()))
-        );
-        m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
+        updateHeader();
     }
 
     setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
@@ -441,11 +469,6 @@ void MainWindow::openFile(const KUrl& file)
 
     m_totalCostModel->setSource(m_data);
     m_totalDiagram->setModel(m_totalCostModel);
-    if (m_data->peak()) {
-        const QModelIndex peak = m_totalCostModel->peak();
-        Q_ASSERT(peak.isValid());
-        markPeak(m_totalDiagram, peak, m_data->peak()->memHeap(), foreground);
-    }
 
     m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
     m_legend->addDiagram(m_totalDiagram);
@@ -478,7 +501,7 @@ void MainWindow::openFile(const KUrl& file)
     rightAxis->setPosition ( CartesianAxis::Right );
     m_detailedDiagram->addAxis(rightAxis);
 
-    updateDetailedPeaks();
+    updatePeaks();
 
     m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
     connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
@@ -497,6 +520,17 @@ void MainWindow::openFile(const KUrl& file)
     m_recentFiles->addUrl(file);
 
     delete device;
+}
+
+void MainWindow::updateHeader()
+{
+    const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
+
+    m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
+                        .arg(i18n("Memory consumption of %1", app))
+                        .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()))
+    );
+    m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
 }
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
@@ -790,6 +824,19 @@ void MainWindow::setStackNum(int num)
         m_detailedCostModel->setMaximumDatasetCount(num);
         updateDetailedPeaks();
     }
+}
+
+void MainWindow::updatePeaks()
+{
+    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
+    QPen foreground(scheme.foreground().color());
+
+    if (m_data->peak()) {
+        const QModelIndex peak = m_totalCostModel->peak();
+        Q_ASSERT(peak.isValid());
+        markPeak(m_totalDiagram, peak, m_data->peak()->memHeap(), foreground);
+    }
+    updateDetailedPeaks();
 }
 
 void MainWindow::updateDetailedPeaks()

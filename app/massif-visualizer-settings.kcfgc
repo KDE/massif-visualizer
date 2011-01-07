@@ -1,0 +1,7 @@
+File=massif-visualizer-settings.kcfg
+ClassName=Settings
+NameSpace=Massif
+Singleton=true
+UseEnumTypes=true
+SetUserTexts=true
+ItemAccessors=true

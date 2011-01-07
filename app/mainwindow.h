@@ -100,6 +100,9 @@ public slots:
     void showDetailedGraph(bool show);
 
 private slots:
+    void preferences();
+    void settingsChanged(const QString& settings);
+
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
     void detailedItemClicked(const QModelIndex& item);
     void totalItemClicked(const QModelIndex& item);
@@ -127,6 +130,8 @@ private slots:
     void chartContextMenuRequested(const QPoint &pos);
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
+    void updateHeader();
+    void updatePeaks();
     void updateDetailedPeaks();
 
     Ui::MainWindow ui;

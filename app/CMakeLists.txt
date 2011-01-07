@@ -15,7 +15,9 @@ set(massif-visualizer_SRCS
     mainwindow.cpp
 )
 
-kde4_add_ui_files(massif-visualizer_SRCS mainwindow.ui)
+kde4_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
+
+kde4_add_ui_files(massif-visualizer_SRCS mainwindow.ui config.ui)
 
 kde4_add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
@@ -31,6 +33,8 @@ target_link_libraries(massif-visualizer
 install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( FILES massif-visualizerui.rc DESTINATION ${DATA_INSTALL_DIR}/massif-visualizer )
+
+install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
 # XML mime type
 set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )

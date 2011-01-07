@@ -22,13 +22,16 @@
 
 #include <KGlobal>
 #include <KLocale>
+#include <KConfigGroup>
 #include <KDebug>
 
 namespace Massif {
 
 QString prettyCost(unsigned long cost)
 {
-    return KGlobal::locale()->formatByteSize(cost);
+    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    int precision = conf.readEntry(QLatin1String("prettyCostPrecision"), 1);
+    return KGlobal::locale()->formatByteSize(cost, precision);
 }
 
 QString prettyLabel(const QString& label)

@@ -159,6 +159,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     m_chart->setGlobalLeadingRight(10);
     m_chart->setGlobalLeadingLeft(10);
     m_chart->setGlobalLeadingTop(20);
+    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(chartContextMenuRequested(QPoint)));
+    m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_legend->setPosition(Position(KDChartEnums::PositionFloating));
     m_legend->setTitleText("");
@@ -477,9 +480,6 @@ void MainWindow::openFile(const KUrl& file)
 
     //BEGIN DetailedDiagram
     m_detailedDiagram = new Plotter;
-    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(chartContextMenuRequested(QPoint)));
-    m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
     m_toggleDetailed->setEnabled(true);
     m_detailedDiagram->setAntiAliasing(true);
     m_detailedDiagram->setType(KDChart::Plotter::Stacked);

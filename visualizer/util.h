@@ -27,6 +27,9 @@
 
 namespace Massif {
 
+class TreeLeafItem;
+class SnapshotItem;
+
 /**
  * Returns a prettified cost string.
  */
@@ -48,6 +51,11 @@ VISUALIZER_EXPORT QString functionInLabel(const QString& label);
  * with aggregated items below massif's threshold.
  */
 VISUALIZER_EXPORT bool isBelowThreshold(const QString& label);
+
+/**
+ * Formats a label with richtext for showing in tooltips e.g.
+ */
+VISUALIZER_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QString& label);
 
 }
 

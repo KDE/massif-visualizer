@@ -20,6 +20,9 @@
 
 #include "util.h"
 
+#include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
+
 #include <KGlobal>
 #include <KLocale>
 #include <KConfigGroup>
@@ -57,6 +60,39 @@ QString functionInLabel(const QString& label)
 bool isBelowThreshold(const QString& label)
 {
     return label.indexOf("all below massif's threshold") != -1;
+}
+
+QString formatLabel(const QString& label)
+{
+    static QRegExp pattern("^(0x.+: )?([^\\)]+\\))(?: \\(([^\\)]+)\\))?$", Qt::CaseSensitive,
+                           QRegExp::RegExp2);
+    pattern.setMinimal(true);
+    if (pattern.indexIn(label) != -1) {
+        QString ret;
+        if (!pattern.cap(2).isEmpty()) {
+            ret += i18n("<dt>function:</dt><dd>%1</dd>\n", pattern.cap(2));
+        }
+        if (!pattern.cap(3).isEmpty()) {
+            ret += i18n("<dt>location:</dt><dd>%1</dd>\n", pattern.cap(3));
+        }
+        if (!pattern.cap(1).isEmpty()) {
+            ret += i18n("<dt>address:</dt><dd>%1</dd>\n", pattern.cap(1));
+        }
+        return ret;
+    } else {
+        return label;
+    }
+}
+
+QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QString& label)
+{
+    QString tooltip = "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n";
+    tooltip += i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),
+                    // yeah nice how I round to two decimals, right? :D
+                    double(int(double(node ? node->cost() : 0)/snapshot->memHeap()*10000))/100, snapshot->number());
+    tooltip += formatLabel(label);
+    tooltip += "</dl></body></html>";
+    return tooltip;
 }
 
 }

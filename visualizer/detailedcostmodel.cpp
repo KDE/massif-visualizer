@@ -224,12 +224,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
             }
         }
         if (role == Qt::ToolTipRole) {
-            return i18n("Cost of %1, i.e. %2% of snapshot #%3\n%4",
-                        prettyCost(node ? node->cost() : 0),
-                        // yeah nice how I round to two decimals, right? :D
-                        double(int(double(node ? node->cost() : 0)/snapshot->memHeap()*10000))/100,
-                        snapshot->number(),
-                        needle);
+            return tooltipForTreeLeaf(node, snapshot, needle);
         } else {
             return double(node ? node->cost() : 0);
         }

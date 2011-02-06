@@ -74,6 +74,7 @@ public:
     virtual QModelIndex parent(const QModelIndex& child) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
+    SnapshotItem* snapshotForTreeLeaf(TreeLeafItem* node) const;
 private:
     const FileData* m_data;
 

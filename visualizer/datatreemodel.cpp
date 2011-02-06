@@ -143,7 +143,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
     }
 
     if (!index.parent().isValid()) {
-        SnapshotItem* snapshot = m_data->snapshots()[index.row()];
+        SnapshotItem* snapshot = m_data->snapshots().at(index.row());
         if (role == Qt::ToolTipRole) {
             if (snapshot == m_data->peak()) {
                 return i18n("Peak snapshot: heap cost of %1", prettyCost(snapshot->memHeap()));
@@ -164,7 +164,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         Q_ASSERT(index.internalPointer());
         TreeLeafItem* item = static_cast<TreeLeafItem*>(index.internalPointer());
         if (role == Qt::ToolTipRole) {
-            return i18n("Memory consumption of %1 bytes\n%2", item->cost(), item->label());
+            return tooltipForTreeLeaf(item, snapshotForTreeLeaf(item), item->label());
         }
         if (index.column() == 0) {
             return prettyCost(item->cost());
@@ -283,4 +283,12 @@ QModelIndex DataTreeModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem
     } else {
         return indexForSnapshot(item.second);
     }
+}
+
+SnapshotItem* DataTreeModel::snapshotForTreeLeaf(TreeLeafItem* node) const
+{
+    while (node->parent()) {
+        node = node->parent();
+    }
+    return m_heapRootToSnapshot.value(node);
 }

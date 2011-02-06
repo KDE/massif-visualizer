@@ -35,8 +35,9 @@
 #include <QtCore/QFile>
 #include <QtTest/QTest>
 #include <QtCore/QDebug>
+#include <qtest_kde.h>
 
-QTEST_MAIN(DataModelTest)
+QTEST_KDEMAIN(DataModelTest, GUI)
 
 using namespace Massif;
 

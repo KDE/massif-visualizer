@@ -233,8 +233,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 
 QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    Q_ASSERT(orientation != Qt::Horizontal || section < columnCount());
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0) {
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0 && section < columnCount()) {
         // only show name without memory address or location
         QString label = prettyLabel(m_columns.at(section / 2));
         if (label.indexOf("???") != -1) {

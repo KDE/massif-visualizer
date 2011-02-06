@@ -356,3 +356,47 @@ void DetailedCostModel::setSelection(const QModelIndex& index)
 {
     m_selection = index;
 }
+
+void DetailedCostModel::hideFunction(TreeLeafItem* node)
+{
+    beginResetModel();
+    QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    const QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
+    while (it != end) {
+        QList< TreeLeafItem* >::iterator it2 = it.value().begin();
+        const QList< TreeLeafItem* >::iterator end2 = it.value().end();
+        while (it2 != end2) {
+            if ((*it2)->label() == node->label()) {
+                it2 = it.value().erase(it2);
+            } else {
+                ++it2;
+            }
+        }
+        ++it;
+    }
+    m_columns.removeOne(node->label());
+    endResetModel();
+}
+
+void DetailedCostModel::hideOtherFunctions(TreeLeafItem* node)
+{
+    beginResetModel();
+    m_columns.clear();
+    m_columns << node->label();
+
+    QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    const QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
+    while (it != end) {
+        QList< TreeLeafItem* >::iterator it2 = it.value().begin();
+        while (it2 != it.value().end()) {
+            if ((*it2)->label() != node->label()) {
+                it2 = it.value().erase(it2);
+            } else {
+                ++it2;
+            }
+        }
+        ++it;
+    }
+
+    endResetModel();
+}

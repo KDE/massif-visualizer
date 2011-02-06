@@ -85,6 +85,11 @@ public slots:
     void openFile(const KUrl& file);
 
     /**
+     * reload currently opened file
+     */
+    void reload();
+
+    /**
      * Close currently opened file.
      */
     void closeFile();
@@ -128,11 +133,15 @@ private slots:
     void allocatorViewContextMenuRequested(const QPoint &pos);
 
     void chartContextMenuRequested(const QPoint &pos);
+
+    void slotHideFunction();
+    void slotHideOtherFunctions();
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
     void updateHeader();
     void updatePeaks();
     void updateDetailedPeaks();
+    void prepareActions(QMenu* menu, TreeLeafItem* item);
 
     Ui::MainWindow ui;
     KDChart::Chart* m_chart;
@@ -171,6 +180,9 @@ private:
     KAction* m_newAllocator;
     KAction* m_removeAllocator;
     KAction* m_markCustomAllocator;
+
+    KAction* m_hideFunction;
+    KAction* m_hideOtherFunctions;
 };
 
 }

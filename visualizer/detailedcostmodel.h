@@ -90,6 +90,16 @@ public:
      */
     void setSelection(const QModelIndex& index);
 
+    /**
+     * Hide function @p func.
+     */
+    void hideFunction(TreeLeafItem* node);
+
+    /**
+     * Hide all functions except for @p func.
+     */
+    void hideOtherFunctions(TreeLeafItem* node);
+
 private:
     const FileData* m_data;
     // columns => label

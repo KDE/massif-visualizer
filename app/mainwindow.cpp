@@ -111,16 +111,6 @@ KConfigGroup allocatorConfig()
     return KGlobal::config()->group("Allocators");
 }
 
-void prepareCustomMarkAction(KAction* action, TreeLeafItem* item)
-{
-    QString func = functionInLabel(item->label());
-    action->setData(func);
-    if (func.length() > 40) {
-        func.resize(40);
-        func.append("...");
-    }
-    action->setText(i18n("mark `%1` as custom allocator", func));
-}
 //END Helper Functions
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -253,6 +243,8 @@ MainWindow::~MainWindow()
 void MainWindow::setupActions()
 {
     KStandardAction::open(this, SLOT(openFile()), actionCollection());
+    KAction* reload = KStandardAction::redisplay(this, SLOT(reload()), actionCollection());
+    actionCollection()->addAction("file_reload", reload);
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
 
@@ -323,10 +315,19 @@ void MainWindow::setupActions()
     m_removeAllocator->setEnabled(false);
     ui.dockMenuBar->addAction(m_removeAllocator);
 
-    m_markCustomAllocator = new KAction(KIcon("list-remove"), i18n("mark as custom allocator"), ui.allocatorDock);
+    m_markCustomAllocator = new KAction(i18n("mark as custom allocator"), ui.allocatorDock);
     connect(m_markCustomAllocator, SIGNAL(triggered()),
             this, SLOT(slotMarkCustomAllocator()), Qt::QueuedConnection);
     //END custom allocators
+
+    //BEGIN hiding functions
+    m_hideFunction = new KAction(i18n("hide function"), this);
+    connect(m_hideFunction, SIGNAL(triggered()),
+            this, SLOT(slotHideFunction()));
+    m_hideOtherFunctions = new KAction(i18n("hide other functions"), this);
+    connect(m_hideOtherFunctions, SIGNAL(triggered()),
+            this, SLOT(slotHideOtherFunctions()));
+    //END hiding functions
 
     //dock actions
     actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
@@ -367,6 +368,14 @@ void MainWindow::openFile()
                                                 this, i18n("Open Massif Output File"));
     if (!file.isEmpty()) {
         openFile(KUrl(file));
+    }
+}
+
+void MainWindow::reload()
+{
+    if (m_currentFile.isValid()) {
+        // copy to prevent madness
+        openFile(KUrl(m_currentFile));
     }
 }
 
@@ -869,8 +878,7 @@ void MainWindow::allocatorsChanged()
     cfg.sync();
 
     if (m_data) {
-        // copy to prevent madness
-        openFile(KUrl(m_currentFile));
+        reload();
     }
 }
 
@@ -936,8 +944,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     QMenu menu;
     TreeLeafItem* item = m_dataTreeModel->itemForIndex(idx).first;
     Q_ASSERT(item);
-    menu.addAction(m_markCustomAllocator);
-    prepareCustomMarkAction(m_markCustomAllocator, item);
+    prepareActions(&menu, item);
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
 }
 
@@ -960,9 +967,37 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
 
     QMenu menu;
     menu.addAction(m_markCustomAllocator);
-    prepareCustomMarkAction(m_markCustomAllocator, item.first);
+    prepareActions(&menu, item.first);
     menu.exec(m_detailedDiagram->mapToGlobal(dPos));
 }
 
+void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
+{
+    QString func = functionInLabel(item->label());
+    if (func.length() > 40) {
+        func.resize(40);
+        func.append("...");
+    }
+    menu->setTitle(func);
+
+    m_markCustomAllocator->setData(item->label());
+    menu->addAction(m_markCustomAllocator);
+
+    m_hideFunction->setData(QVariant::fromValue(item));
+    menu->addAction(m_hideFunction);
+
+    m_hideOtherFunctions->setData(QVariant::fromValue(item));
+    menu->addAction(m_hideOtherFunctions);
+}
+
+void MainWindow::slotHideFunction()
+{
+    m_detailedCostModel->hideFunction(m_hideFunction->data().value<TreeLeafItem*>());
+}
+
+void MainWindow::slotHideOtherFunctions()
+{
+    m_detailedCostModel->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
+}
 
 #include "mainwindow.moc"

@@ -23,6 +23,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 #include "massifdata_export.h"
 
@@ -84,5 +85,7 @@ private:
 };
 
 }
+
+Q_DECLARE_METATYPE(Massif::TreeLeafItem*);
 
 #endif // TREELEAFITEM_H

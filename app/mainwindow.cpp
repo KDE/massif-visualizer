@@ -58,6 +58,7 @@
 #include <KParts/Part>
 #include <KLibFactory>
 #include <KLibLoader>
+#include <KConfigDialog>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -69,7 +70,6 @@
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
-#include <KConfigDialog>
 #endif
 
 using namespace Massif;

@@ -362,7 +362,7 @@ void MainWindow::preferences()
     dlg->show();
 }
 
-void MainWindow::settingsChanged(const QString& settings)
+void MainWindow::settingsChanged(const QString& /*settings*/)
 {
     Settings::self()->writeConfig();
     updateHeader();

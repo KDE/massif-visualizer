@@ -233,6 +233,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.tabWidget->removeTab(1);
     toolBar("callgraphToolBar")->setVisible(false);
 #endif
+
+    ui.stackedWidget->setCurrentWidget(ui.openPage);
+    ui.openPage->layout()->setAlignment(Qt::AlignCenter);
 }
 
 MainWindow::~MainWindow()
@@ -242,7 +245,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-    KStandardAction::open(this, SLOT(openFile()), actionCollection());
+    KAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
     KAction* reload = KStandardAction::redisplay(this, SLOT(reload()), actionCollection());
     actionCollection()->addAction("file_reload", reload);
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
@@ -332,6 +335,12 @@ void MainWindow::setupActions()
     //dock actions
     actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
     actionCollection()->addAction("toggleAllocators", ui.allocatorDock->toggleViewAction());
+
+    //open page actions
+    ui.openFile->setDefaultAction(openFile);
+    ui.openFile->setText(i18n("Open Massif Data File"));
+    ui.openFile->setIconSize(QSize(48, 48));
+    ui.openFile->setIcon(KIcon("document-open"));
 }
 
 void MainWindow::preferences()
@@ -388,6 +397,7 @@ void MainWindow::openFile(const KUrl& file)
         delete device;
         return;
     }
+    setUpdatesEnabled(false);
     if (m_data) {
         closeFile();
     }
@@ -397,12 +407,14 @@ void MainWindow::openFile(const KUrl& file)
         KMessageBox::error(this, i18n("Could not parse file <i>%1</i>.<br>"
                                       "Parse error in line %2:<br>%3", file.toLocalFile(), p.errorLine() + 1, p.errorLineString()),
                            i18n("Could Not Parse File"));
+        setUpdatesEnabled(true);
         return;
     } else if (m_data->snapshots().isEmpty()) {
         KMessageBox::error(this, i18n("Empty data file <i>%1</i>.", file.toLocalFile()),
                            i18n("Empty Data File"));
         delete m_data;
         m_data = 0;
+        setUpdatesEnabled(true);
         return;
     }
     m_currentFile = file;
@@ -410,6 +422,7 @@ void MainWindow::openFile(const KUrl& file)
     Q_ASSERT(m_data->peak());
 
     m_close->setEnabled(true);
+    ui.stackedWidget->setCurrentWidget(ui.displayPage);
 
     kDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << m_data->description();
@@ -529,6 +542,8 @@ void MainWindow::openFile(const KUrl& file)
     m_recentFiles->addUrl(file);
 
     delete device;
+
+    setUpdatesEnabled(true);
 }
 
 void MainWindow::updateHeader()
@@ -662,6 +677,7 @@ void MainWindow::closeFile()
 #endif
 
     m_close->setEnabled(false);
+    ui.stackedWidget->setCurrentWidget(ui.openPage);
 
     kDebug() << "closing file";
 

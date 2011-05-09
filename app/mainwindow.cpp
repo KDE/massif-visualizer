@@ -171,6 +171,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.plotterTab->layout()->addWidget(m_chart);
 
     //BEGIN KGraphViewer
+
+    bool haveGraphViewer = false;
+
 #ifdef HAVE_KGRAPHVIEWER
     KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
     if (factory) {
@@ -179,8 +182,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             ui.dotGraphTab->layout()->addWidget(m_graphViewerPart->widget());
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
-        } else {
-            ui.tabWidget->removeTab(1);
+            haveGraphViewer = true;
         }
     }
 #endif
@@ -225,17 +227,26 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
     statusBar()->hide();
 
+    if (haveGraphViewer) {
 #ifdef HAVE_KGRAPHVIEWER
-    connect(ui.tabWidget, SIGNAL(currentChanged(int)),
-            this, SLOT(slotTabChanged(int)));
-    slotTabChanged(ui.tabWidget->currentIndex());
-#else
-    ui.tabWidget->removeTab(1);
-    toolBar("callgraphToolBar")->setVisible(false);
+        connect(ui.tabWidget, SIGNAL(currentChanged(int)),
+                this, SLOT(slotTabChanged(int)));
+        slotTabChanged(ui.tabWidget->currentIndex());
 #endif
+    } else {
+        // cleanup UI when we installed with kgraphviewer but it's not available at runtime
+        KToolBar* callgraphToolbar = toolBar("callgraphToolBar");
+        removeToolBar(callgraphToolbar);
+        delete callgraphToolbar;
+        int i = ui.stackedWidget->addWidget(ui.plotterTab);
+        ui.stackedWidget->setCurrentIndex(i);
+        ui.stackedWidget->removeWidget(ui.displayPage);
+        delete ui.displayPage;
+        ui.displayPage = ui.plotterTab;
+    }
 
+    // open page
     ui.stackedWidget->setCurrentWidget(ui.openPage);
-    ui.openPage->layout()->setAlignment(Qt::AlignCenter);
 }
 
 MainWindow::~MainWindow()

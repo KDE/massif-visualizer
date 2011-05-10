@@ -59,9 +59,9 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators)
         m_errorLineString.clear();
     }
 
-    // if there is no peak marked, it might be that we have a massif file
-    // that got aborted somewhere in the middle. hence lets find it ourself
-    if (!data->peak() && !data->snapshots().isEmpty()) {
+    // when a massif run gets terminated (^C) the snapshot data might be wrong,
+    // hence just always ensure we pick the proper peak ourselves
+    if (!data->snapshots().isEmpty()) {
         foreach ( SnapshotItem* snapshot, data->snapshots() ) {
             if (!snapshot->heapTree()) {
                 // peak should have detailed info

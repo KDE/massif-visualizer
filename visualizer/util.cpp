@@ -28,6 +28,8 @@
 #include <KConfigGroup>
 #include <KDebug>
 
+#include <QTextDocument>
+
 namespace Massif {
 
 QString prettyCost(unsigned long cost)
@@ -71,13 +73,13 @@ QString formatLabel(const QString& label)
     if (pattern.indexIn(label) != -1) {
         QString ret;
         if (!pattern.cap(2).isEmpty()) {
-            ret += i18n("<dt>function:</dt><dd>%1</dd>\n", pattern.cap(2));
+            ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(2)));
         }
         if (!pattern.cap(3).isEmpty()) {
-            ret += i18n("<dt>location:</dt><dd>%1</dd>\n", pattern.cap(3));
+            ret += i18n("<dt>location:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(3)));
         }
         if (!pattern.cap(1).isEmpty()) {
-            ret += i18n("<dt>address:</dt><dd>%1</dd>\n", pattern.cap(1));
+            ret += i18n("<dt>address:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(1)));
         }
         return ret;
     } else {

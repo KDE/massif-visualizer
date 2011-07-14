@@ -79,15 +79,7 @@ void DataTreeModel::mapNodeToRow(TreeLeafItem* node, const int row)
 
 QVariant DataTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        if (section == 0) {
-            return i18n("Cost");
-        } else {
-            return i18n("Location");
-        }
-    }
-
-    return QVariant();
+    return i18n("Snapshots");
 }
 
 QVariant DataTreeModel::data(const QModelIndex& index, int role) const
@@ -151,14 +143,13 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
                 return i18n("Snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
             }
         }
-        if (index.column() == 0) {
-            return prettyCost(snapshot->memHeap());
+        const QString costStr = prettyCost(snapshot->memHeap());
+        if (snapshot == m_data->peak()) {
+            return i18nc("%1: cost, %2: snapshot number",
+                         "%1: Snapshot #%2 (peak)", costStr,  snapshot->number());
         } else {
-            if (snapshot == m_data->peak()) {
-                return i18n("Snapshot #%1 (peak)", snapshot->number());
-            } else {
-                return i18n("Snapshot #%1", snapshot->number());
-            }
+            return i18nc("%1: cost, %2: snapshot number",
+                         "%1: Snapshot #%2", costStr, snapshot->number());
         }
     } else {
         Q_ASSERT(index.internalPointer());
@@ -166,25 +157,15 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         if (role == Qt::ToolTipRole) {
             return tooltipForTreeLeaf(item, snapshotForTreeLeaf(item), item->label());
         }
-        if (index.column() == 0) {
-            return prettyCost(item->cost());
-        } else {
-            return prettyLabel(item->label());
-        }
+        return i18nc("%1: cost, %2: snapshot label (i.e. func name etc.)", "%1: %2",
+                     prettyCost(item->cost()), prettyLabel(item->label()));
     }
     return QVariant();
 }
 
 int DataTreeModel::columnCount(const QModelIndex& parent) const
 {
-    if (parent.isValid()) {
-        // heap tree item: Cost | Location
-        return 2;
-    } else {
-        // snapshot: Cost | Time
-        // TODO: see whether we can have more here
-        return 2;
-    }
+    return 1;
 }
 
 int DataTreeModel::rowCount(const QModelIndex& parent) const

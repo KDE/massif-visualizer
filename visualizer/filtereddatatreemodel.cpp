@@ -40,15 +40,14 @@ void FilteredDataTreeModel::setFilter(const QString& needle)
 
 bool FilteredDataTreeModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
-    const QModelIndex& dataIdx = sourceModel()->index(source_row, 1, source_parent);
+    const QModelIndex& dataIdx = sourceModel()->index(source_row, 0, source_parent);
+    Q_ASSERT(dataIdx.isValid());
     if (sourceModel()->data(dataIdx).toString().contains(m_needle, Qt::CaseInsensitive)) {
         return true;
     } else {
-        const QModelIndex& newParent = sourceModel()->index(source_row, 0, source_parent);
-        Q_ASSERT(newParent.isValid());
-        const int rows = sourceModel()->rowCount(newParent);
+        const int rows = sourceModel()->rowCount(dataIdx);
         for ( int i = 0; i < rows; ++i ) {
-            if ( filterAcceptsRow(i, newParent) ) {
+            if ( filterAcceptsRow(i, dataIdx) ) {
                 return true;
             }
         }

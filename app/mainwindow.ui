@@ -12,6 +12,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <widget class="QWidget" name="displayPage">
@@ -19,25 +22,31 @@
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="plotterTab">
            <attribute name="title">
             <string>&amp;Evolution of Memory Consumption</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_2"/>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </layout>
           </widget>
           <widget class="QWidget" name="dotGraphTab">
            <attribute name="title">
             <string>&amp;Detailed Snapshot Analysis</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_3"/>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </layout>
           </widget>
          </widget>
         </item>
        </layout>
-       <zorder>tabWidget</zorder>
-       <zorder>tabWidget</zorder>
       </widget>
       <widget class="QWidget" name="openPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -95,7 +104,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

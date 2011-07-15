@@ -42,7 +42,7 @@
 #include "visualizer/util.h"
 
 #include "massif-visualizer-settings.h"
-#include "ui_config.h"
+#include "configdialog.h"
 
 #include <KStandardAction>
 #include <KActionCollection>
@@ -58,7 +58,6 @@
 #include <KParts/Part>
 #include <KLibFactory>
 #include <KLibLoader>
-#include <KConfigDialog>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -140,6 +139,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_allocatorModel(new QStringListModel(this))
     , m_newAllocator(0)
     , m_removeAllocator(0)
+    , m_shortenTemplates(0)
 {
     ui.setupUi(this);
 
@@ -269,6 +269,12 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
 
+    m_shortenTemplates = new KAction(KIcon("shortentemplates"), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates->setCheckable(true);
+    m_shortenTemplates->setChecked(Settings::shortenTemplates());
+    connect(m_shortenTemplates, SIGNAL(toggled(bool)), SLOT(slotShortenTemplates(bool)));
+    actionCollection()->addAction("shorten_templates", m_shortenTemplates);
+
     m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
@@ -356,25 +362,22 @@ void MainWindow::setupActions()
 
 void MainWindow::preferences()
 {
-    if (KConfigDialog::showDialog("settings")) {
+    if (ConfigDialog::isShown()) {
         return;
     }
 
-    KConfigDialog* dlg = new KConfigDialog(this, "settings", Settings::self());
-    QWidget* settingsPage = new QWidget(dlg);
-    // yes, we leak the Ui, but that should be ok
-    Ui::Config* ui = new Ui::Config;
-    ui->setupUi(settingsPage);
-
-    dlg->addPage(settingsPage, Settings::self(), i18n("Settings"));
-    dlg->setFaceType(KPageDialog::Plain);
+    ConfigDialog* dlg = new ConfigDialog(this);
     connect(dlg, SIGNAL(settingsChanged(QString)),
-            this, SLOT(settingsChanged(QString)));
+            this, SLOT(settingsChanged()));
     dlg->show();
 }
 
-void MainWindow::settingsChanged(const QString& /*settings*/)
+void MainWindow::settingsChanged()
 {
+    if (Settings::self()->shortenTemplates() != m_shortenTemplates->isChecked()) {
+        m_shortenTemplates->setChecked(Settings::self()->shortenTemplates());
+    }
+
     Settings::self()->writeConfig();
     updateHeader();
     updatePeaks();
@@ -1025,6 +1028,16 @@ void MainWindow::slotHideFunction()
 void MainWindow::slotHideOtherFunctions()
 {
     m_detailedCostModel->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
+}
+
+void MainWindow::slotShortenTemplates(bool shorten)
+{
+    if (shorten == Settings::self()->shortenTemplates()) {
+        return;
+    }
+
+    Settings::self()->setShortenTemplates(shorten);
+    settingsChanged();
 }
 
 #include "mainwindow.moc"

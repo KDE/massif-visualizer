@@ -13,6 +13,7 @@ endif(KGRAPHVIEWER_FOUND)
 set(massif-visualizer_SRCS
     main.cpp
     mainwindow.cpp
+    configdialog.cpp
 )
 
 kde4_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)

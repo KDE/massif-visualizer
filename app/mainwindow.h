@@ -106,7 +106,7 @@ public slots:
 
 private slots:
     void preferences();
-    void settingsChanged(const QString& settings);
+    void settingsChanged();
 
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
     void detailedItemClicked(const QModelIndex& item);
@@ -136,6 +136,9 @@ private slots:
 
     void slotHideFunction();
     void slotHideOtherFunctions();
+
+    void slotShortenTemplates(bool);
+
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
     void updateHeader();
@@ -183,6 +186,8 @@ private:
 
     KAction* m_hideFunction;
     KAction* m_hideOtherFunctions;
+
+    KAction* m_shortenTemplates;
 };
 
 }

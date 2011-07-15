@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="massif-visualizer" version="6">
+<kpartgui name="massif-visualizer" version="7">
 
 <MenuBar>
   <Menu name="file" noMerge="1"><text>&amp;File</text>
@@ -50,6 +50,9 @@
   <Action name="file_open" />
   <Separator />
   <Action name="file_close" />
+  <Separator />
+  <Action name="shorten_templates" />
+  <Separator />
 </ToolBar>
 
 <ToolBar name="chartToolBar">

@@ -34,6 +34,8 @@ class DataModelTest : public QObject
 private slots:
     void parseFile();
     void testUtils();
+    void shortenTemplates_data();
+    void shortenTemplates();
 
 private:
     Massif::DataModel* m_model;

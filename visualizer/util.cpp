@@ -42,12 +42,39 @@ QString prettyCost(unsigned long cost)
 
 QString prettyLabel(const QString& label)
 {
+    QString ret;
+
     int colonPos = label.indexOf(": ");
     if (colonPos == -1) {
-        return label;
+        ret = label;
     } else {
-        return label.mid(colonPos + 2);
+        ret = label.mid(colonPos + 2);
     }
+
+    Q_ASSERT(KGlobal::config());
+    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    if (conf.readEntry(QLatin1String("shortenTemplates"), false)) {
+        // remove template arguments between <...>
+        int depth = 0;
+        int open = 0;
+        for (int i = 0; i < ret.length(); ++i) {
+            if (ret.at(i) == '<') {
+                if (!depth) {
+                    open = i;
+                }
+                ++depth;
+            } else if (ret.at(i) == '>') {
+                --depth;
+                if (!depth) {
+                    ret.remove(open + 1, i - open - 1);
+                    i = open + 1;
+                    open = 0;
+                }
+            }
+        }
+    }
+
+    return ret;
 }
 
 QString functionInLabel(const QString& label)

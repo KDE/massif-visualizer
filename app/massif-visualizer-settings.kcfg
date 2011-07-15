@@ -3,12 +3,16 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
-<!--   <kcfgfile name="kdeveloprc"/> -->
   <group name="Settings">
     <entry name="PrettyCostPrecision" key="prettyCostPrecision" type="int">
         <default>1</default>
         <label>Cost Precision</label>
         <tooltip>Defines the number of places after the comma for memory costs shown in the application.</tooltip>
+    </entry>
+    <entry name="ShortenTemplates" key="shortenTemplates" type="bool">
+        <default>0</default>
+        <label>Shorten Templates</label>
+        <tooltip>Defines whether identifiers of C++ template instantiations should be shortened by removing their template arguments.</tooltip>
     </entry>
   </group>
 </kcfg>

@@ -35,6 +35,8 @@
 #include <QtCore/QFile>
 #include <QtTest/QTest>
 #include <QtCore/QDebug>
+
+#include <KConfigGroup>
 #include <qtest_kde.h>
 
 QTEST_KDEMAIN(DataModelTest, GUI)
@@ -105,4 +107,29 @@ void DataModelTest::testUtils()
     QCOMPARE(prettyLabel(l), QString("moz_xmalloc (mozalloc.cpp:98)"));
     QCOMPARE(functionInLabel(l), QString("moz_xmalloc"));
     }
+}
+
+void DataModelTest::shortenTemplates_data()
+{
+    QTest::addColumn<QString>("id");
+    QTest::addColumn<QString>("idShortened");
+
+    QTest::newRow("no-tpl") << "A::B(C::D const&) (file.cpp:1)"  << "A::B(C::D const&) (file.cpp:1)";
+    QTest::newRow("tpl-func") << "A::B<T1, T2>(C::D const&) (file.cpp:1)"  << "A::B<>(C::D const&) (file.cpp:1)";
+    QTest::newRow("tpl-arg") << "A::B(C::D<T1, T2> const&) (file.cpp:1)"  << "A::B(C::D<> const&) (file.cpp:1)";
+    QTest::newRow("tpl-multi") << "A::B<T1, T2>(C<T3>::D<T4> const&) (file.cpp:1)"  << "A::B<>(C<>::D<> const&) (file.cpp:1)";
+    QTest::newRow("tpl-nested") << "A::B<T1<T2>, T2>(C<T3>::D<T4> const&) (file.cpp:1)"  << "A::B<>(C<>::D<> const&) (file.cpp:1)";
+}
+
+void DataModelTest::shortenTemplates()
+{
+    QFETCH(QString, id);
+    QFETCH(QString, idShortened);
+
+    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+
+    conf.writeEntry(QLatin1String("shortenTemplates"), true);
+    QCOMPARE(prettyLabel(id), idShortened);
+    conf.writeEntry(QLatin1String("shortenTemplates"), false);
+    QCOMPARE(prettyLabel(id), id);
 }

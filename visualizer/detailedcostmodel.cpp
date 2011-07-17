@@ -281,7 +281,7 @@ QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
         int row = m_rows.indexOf(it->second);
         Q_ASSERT(row >= 0);
         int column = m_columns.indexOf(it->first->label());
-        if (column >= m_maxDatasetCount) {
+        if (column >= m_maxDatasetCount || column == -1) {
             ++it;
             continue;
         }

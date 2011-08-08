@@ -37,6 +37,8 @@ install( FILES massif-visualizerui.rc DESTINATION ${DATA_INSTALL_DIR}/massif-vis
 
 install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
+install(PROGRAMS massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+
 # XML mime type
 set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )
 set( XDG_MIME_INSTALL_DIR "share/mime/packages" )

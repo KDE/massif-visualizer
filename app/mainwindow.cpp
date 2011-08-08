@@ -381,7 +381,7 @@ void MainWindow::settingsChanged()
     Settings::self()->writeConfig();
     updateHeader();
     updatePeaks();
-    ui.dataTreeView->update();
+    ui.dataTreeView->viewport()->update();
 }
 
 void MainWindow::openFile()

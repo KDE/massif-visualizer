@@ -15,6 +15,7 @@ Name[sv]=Massif visualisering
 Name[uk]=Візуалізатор Massif
 Name[x-test]=xxMassif-Visualizerxx
 GenericName=Profiler Frontend
+GenericName[nds]=Profiler-Böversiet
 GenericName[pt]=Interface de Análise de Performance
 GenericName[pt_BR]=Frontend do Profiler (Analisador)
 GenericName[sv]=Profileringsgränssnitt

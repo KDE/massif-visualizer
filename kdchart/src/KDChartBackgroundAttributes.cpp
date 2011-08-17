@@ -23,6 +23,7 @@
 
 #include "KDChartBackgroundAttributes.h"
 #include <QPixmap>
+#include <QVariant>
 
 #include <KDABLibFakes>
 

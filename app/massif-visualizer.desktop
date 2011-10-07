@@ -25,6 +25,7 @@ Name[x-test]=xxMassif-Visualizerxx
 Name[zh_TW]=Massif-Visualizer
 GenericName=Profiler Frontend
 GenericName[ca]=Frontal del Profiler
+GenericName[cs]=Rozhraní pro profilaci
 GenericName[da]=Grænseflade til profilering
 GenericName[de]=Profiler-Oberfläche
 GenericName[es]=Interfaz del analizador

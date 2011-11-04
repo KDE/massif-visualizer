@@ -256,7 +256,6 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         ///TODO: is massif translateable?
         static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
                                             Qt::CaseSensitive, QRegExp::RegExp2);
-        m_data->timeUnit();
         foreach(TreeLeafItem* child, newChildren) {
             if (child->label().indexOf(matchBT) != -1) {
                 places += matchBT.cap(1).toUInt();

@@ -45,6 +45,8 @@ struct GraphNode {
     QVector<GraphNode*> parents;
     unsigned long accumulatedCost;
     bool visited;
+    unsigned int belowThresholdCount;
+    unsigned long belowThresholdCost;
 };
 
 }
@@ -118,14 +120,25 @@ QString getColor(unsigned long cost, unsigned long maxCost)
 
 GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes, GraphNode* parent = 0)
 {
-    // reuse existing node if possible - but not for below-threshold items!
-    GraphNode* node = !isBelowThreshold(item->label()) ? knownNodes.value(item->label(), 0) : 0;
+    // merge below-threshold items
+    if (parent && item->children().isEmpty()) {
+        static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
+                                                Qt::CaseSensitive, QRegExp::RegExp2);
+        if (item->label().indexOf(matchBT) != -1) {
+            parent->belowThresholdCost += item->cost();
+            parent->belowThresholdCount += matchBT.cap(1).toInt();
+        }
+        return 0;
+    }
+    GraphNode* node = knownNodes.value(item->label(), 0);
     if (!node) {
         node = new GraphNode;
         knownNodes.insert(item->label(), node);
         node->item = item;
         node->accumulatedCost = 0;
         node->visited = false;
+        node->belowThresholdCost = 0;
+        node->belowThresholdCount = 0;
     }
 
     if (parent && !node->parents.contains(parent)) {
@@ -136,6 +149,10 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
 
     foreach(TreeLeafItem* child, item->children()) {
         GraphNode* childNode = buildGraph(child, knownNodes, node);
+        if (!childNode) {
+            // was below-threshold item
+            continue;
+        }
         QMultiHash< GraphNode*, unsigned long >::iterator it = node->children.find(childNode);
         if (it != node->children.end()) {
             it.value() += child->cost();
@@ -236,7 +253,7 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
     while (node && node->children.count() == 1)
     {
         GraphNode* child = node->children.begin().key();
-        if (child->accumulatedCost != node->accumulatedCost || node->parents.size() != 1) {
+        if (child->accumulatedCost != node->accumulatedCost || node->parents.size() != 1 || child->belowThresholdCount ) {
             break;
         }
         if (m_canceled) {
@@ -272,6 +289,15 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
         }
         nodeToDot(it.key(), out, nodeId, it.value());
         ++it;
+    }
+    // handle below-threshold
+    if (node->belowThresholdCount) {
+        // node
+        const QString btLabel = i18np("in one place below threshold", "in %1 places, all below threshold", node->belowThresholdCount);
+        out << '"' << nodeId << "-bt\" [shape=box,label=\"" << btLabel
+            << "\",fillcolor=\"" << getColor(node->belowThresholdCost, m_maxCost) << "\"];\n";
+        // edge
+        out << '"' << nodeId << "-bt\" -> \"" << nodeId << "\" [label =\"" << prettyCost(node->belowThresholdCost) << "\"];\n";
     }
 }
 

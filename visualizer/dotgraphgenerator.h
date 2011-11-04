@@ -73,6 +73,7 @@ private:
     unsigned long m_maxCost;
     QString m_timeUnit;
     QString m_costlyGraphvizId;
+    unsigned long m_highestCost;
 };
 
 }

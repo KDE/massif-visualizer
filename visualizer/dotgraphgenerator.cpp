@@ -54,13 +54,23 @@ Q_DECLARE_TYPEINFO(Massif::GraphNode, Q_MOVABLE_TYPE);
 using namespace Massif;
 
 DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent)
-    : QThread(parent), m_snapshot(snapshot), m_node(snapshot->heapTree()), m_canceled(false), m_timeUnit(timeUnit)
+    : QThread(parent)
+    , m_snapshot(snapshot)
+    , m_node(snapshot->heapTree())
+    , m_canceled(false)
+    , m_timeUnit(timeUnit)
+    , m_highestCost(0)
 {
     m_file.open();
 }
 
 DotGraphGenerator::DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent)
-    : QThread(parent), m_snapshot(0), m_node(node), m_canceled(false), m_timeUnit(timeUnit)
+    : QThread(parent)
+    , m_snapshot(0)
+    , m_node(node)
+    , m_canceled(false)
+    , m_timeUnit(timeUnit)
+    , m_highestCost(0)
 {
     m_file.open();
 }
@@ -178,6 +188,7 @@ void DotGraphGenerator::run()
     if (m_node) {
         QMultiHash<QString, GraphNode*> nodes;
         GraphNode* root = buildGraph(m_node, nodes);
+        m_highestCost = 0;
         nodeToDot(root, out, parentId, 0);
         qDeleteAll(nodes);
     }
@@ -208,10 +219,13 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
     }
     node->visited = true;
 
+    const bool isRoot = m_snapshot && m_snapshot->heapTree() == node->item;
+
     // first item we find will be the most cost-intensive one
     ///TODO this should take accumulated cost into account!
-    if (m_costlyGraphvizId.isEmpty()) {
+    if (m_highestCost < node->accumulatedCost && !isRoot) {
         m_costlyGraphvizId = nodeId;
+        m_highestCost = node->accumulatedCost;
     }
 
 

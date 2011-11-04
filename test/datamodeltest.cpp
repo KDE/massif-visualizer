@@ -46,11 +46,12 @@ using namespace Massif;
 void DataModelTest::parseFile()
 {
     const QString path = QString(KDESRCDIR) + "/data/massif.out.kate";
-    QFile* file = new QFile(path);
-    QVERIFY(file->open(QIODevice::ReadOnly));
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
 
     Parser parser;
-    FileData* data = parser.parse(file);
+    QScopedPointer<FileData> scopedData(parser.parse(&file));
+    FileData* data = scopedData.data();
     QVERIFY(data);
 
     {

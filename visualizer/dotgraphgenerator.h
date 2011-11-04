@@ -31,6 +31,7 @@ namespace Massif {
 
 class SnapshotItem;
 class TreeLeafItem;
+class GraphNode;
 
 class VISUALIZER_EXPORT DotGraphGenerator : public QThread
 {
@@ -64,7 +65,7 @@ public:
     QString mostCostIntensiveGraphvizId() const;
 
 private:
-    void nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent);
+    void nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId = QString(), unsigned long cost = 0);
     const SnapshotItem* m_snapshot;
     const TreeLeafItem* m_node;
     KTemporaryFile m_file;

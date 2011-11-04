@@ -28,13 +28,28 @@
 
 #include <QTextStream>
 #include <QFile>
-#include <QUuid>
 #include <QColor>
 
 #include <KLocalizedString>
 #include <KTemporaryFile>
 
 #include <KDebug>
+
+namespace Massif {
+
+struct GraphNode {
+    const TreeLeafItem* item;
+    // incoming calls + cost
+    QHash<GraphNode*, unsigned long> children;
+    // outgoing calls
+    QVector<GraphNode*> parents;
+    unsigned long accumulatedCost;
+    bool visited;
+};
+
+}
+
+Q_DECLARE_TYPEINFO(Massif::GraphNode, Q_MOVABLE_TYPE);
 
 using namespace Massif;
 
@@ -81,7 +96,7 @@ QString getLabel(const TreeLeafItem* node)
             }
         }
     }
-    return i18n("%1\\ncost: %2", label, prettyCost(node->cost()));
+    return label;
 }
 
 QString getColor(unsigned long cost, unsigned long maxCost)
@@ -89,6 +104,37 @@ QString getColor(unsigned long cost, unsigned long maxCost)
     const double ratio = (double(cost) / maxCost);
     return QColor::fromHsv(120 - ratio * 120, (-((ratio-1) * (ratio-1))) * 255 + 255, 255, 255).name();
 //     return QColor::fromHsv(120 - ratio * 120, 255, 255).name();
+}
+
+GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes, GraphNode* parent = 0)
+{
+    // reuse existing node if possible - but not for below-threshold items!
+    GraphNode* node = !isBelowThreshold(item->label()) ? knownNodes.value(item->label(), 0) : 0;
+    if (!node) {
+        node = new GraphNode;
+        knownNodes.insert(item->label(), node);
+        node->item = item;
+        node->accumulatedCost = 0;
+        node->visited = false;
+    }
+
+    if (parent && !node->parents.contains(parent)) {
+        node->parents << parent;
+    }
+
+    node->accumulatedCost += item->cost();
+
+    foreach(TreeLeafItem* child, item->children()) {
+        GraphNode* childNode = buildGraph(child, knownNodes, node);
+        QMultiHash< GraphNode*, unsigned long >::iterator it = node->children.find(childNode);
+        if (it != node->children.end()) {
+            it.value() += child->cost();
+        } else {
+            node->children.insert(childNode, child->cost());
+        }
+    }
+
+    return node;
 }
 
 void DotGraphGenerator::run()
@@ -110,67 +156,84 @@ void DotGraphGenerator::run()
     if (m_canceled) {
         return;
     }
-    const QString id = QUuid::createUuid().toString();
-    QString label;
+
+    QString parentId;
     if (m_snapshot) {
-        label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
+        // also show some info about the selected snapshot
+        parentId = QString::number((qint64) m_snapshot);
+        const QString label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
                                 m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()),
                                 m_timeUnit);
+        out << '"' << parentId << "\" [shape=box,label=\"" << label << "\",fillcolor=white];\n";
 
         m_maxCost = m_snapshot->memHeap();
-        if (m_node && m_node->children().isEmpty()) {
-            m_costlyGraphvizId = id;
-        }
     } else if (m_node) {
-        m_costlyGraphvizId = id;
         const TreeLeafItem* topMost = m_node;
         while (topMost->parent()) {
             topMost = topMost->parent();
         }
         m_maxCost = topMost->cost();
-        label = getLabel(m_node);
     }
-    out << '"' << id << "\" [shape=box,label=\"" << label << "\",fillcolor=white];\n";
 
     if (m_node) {
-        foreach (TreeLeafItem* child, m_node->children()) {
-            nodeToDot(child, out, id);
-        }
+        QMultiHash<QString, GraphNode*> nodes;
+        GraphNode* root = buildGraph(m_node, nodes);
+        nodeToDot(root, out, parentId, 0);
+        qDeleteAll(nodes);
     }
     out << "}\n";
     m_file.flush();
 }
 
-void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QString& parent)
+void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId, unsigned long cost)
 {
     if (m_canceled) {
         return;
     }
 
-    const QString id = QUuid::createUuid().toString();
-    if (m_costlyGraphvizId.isEmpty()) {
-        m_costlyGraphvizId = id;
-    }
-    if (!parent.isEmpty()) {
+    const QString nodeId = QString::number((qint64) node);
+    // write edge with annotated cost
+    if (!parentId.isEmpty()) {
         // edge
-        out << '"' << id << "\" -> \"" << parent << "\";\n";
+        out << '"' << nodeId << "\" -> \"" << parentId << '"';
+        if (cost) {
+            out << " [label = \"" << prettyCost(cost) << "\"]";
+        }
+        out << ";\n";
     }
 
-    QString label = getLabel(node);
-    const QString color = getColor(node->cost(), m_maxCost);
+    if (node->visited) {
+        // don't visit children again - the edge is all we need
+        return;
+    }
+    node->visited = true;
+
+    // first item we find will be the most cost-intensive one
+    ///TODO this should take accumulated cost into account!
+    if (m_costlyGraphvizId.isEmpty()) {
+        m_costlyGraphvizId = nodeId;
+    }
+
+
+    QString label = getLabel(node->item);
     // group nodes with same cost but different label
+    // but only if they don't have any other outgoing calls, i.e. parents.size() = 1
     bool wasGrouped = false;
-    while (node && node->children().count() == 1 && node->children().first()->cost() == node->cost()) {
+    while (node && node->children.count() == 1)
+    {
+        GraphNode* child = node->children.begin().key();
+        if (child->accumulatedCost != node->accumulatedCost || node->parents.size() != 1) {
+            break;
+        }
         if (m_canceled) {
             return;
         }
-        node = node->children().first();
+        node = child;
 
-        if (prettyLabel(node->label()) != prettyLabel(node->parent()->label())) {
-            label += " | " + prettyLabel(node->label());
-            wasGrouped = true;
-        }
+        label += " | " + prettyLabel(node->item->label());
+        wasGrouped = true;
     }
+
     QString shape;
     if (wasGrouped) {
         label = "{" + label + "}";
@@ -182,17 +245,19 @@ void DotGraphGenerator::nodeToDot(TreeLeafItem* node, QTextStream& out, const QS
         shape = "box";
     }
 
-    // node
-    out << '"' << id << "\" [shape=" << shape << ",label=\"" << label << "\",fillcolor=\"" << color << "\"];\n";
+    const QString color = getColor(node->accumulatedCost, m_maxCost);
+    out << '"' << nodeId << "\" [shape=" << shape << ",label=\"" << label << "\",fillcolor=\"" << color << "\"];\n";
     if (!node) {
         return;
     }
 
-    foreach (TreeLeafItem* child, node->children()) {
+    QMultiHash< GraphNode*, unsigned long >::const_iterator it = node->children.constBegin();
+    while(it != node->children.constEnd()) {
         if (m_canceled) {
             return;
         }
-        nodeToDot(child, out, id);
+        nodeToDot(it.key(), out, nodeId, it.value());
+        ++it;
     }
 }
 

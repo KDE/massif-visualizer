@@ -251,6 +251,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
 MainWindow::~MainWindow()
 {
+    closeFile();
     m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
 }
 

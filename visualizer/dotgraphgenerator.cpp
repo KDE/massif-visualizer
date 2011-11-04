@@ -259,7 +259,7 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
         shape = "box";
     }
 
-    const QString color = getColor(node->accumulatedCost, m_maxCost);
+    const QString color = isRoot ? "white" : getColor(node->accumulatedCost, m_maxCost);
     out << '"' << nodeId << "\" [shape=" << shape << ",label=\"" << label << "\",fillcolor=\"" << color << "\"];\n";
     if (!node) {
         return;

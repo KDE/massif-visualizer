@@ -16,4 +16,3 @@ kde4_add_library(mv-massifdata ${massifdata_SRCS})
 target_link_libraries(mv-massifdata
     ${QT_QTCORE_LIBRARY}
 )
-install(TARGETS mv-massifdata ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -39,7 +39,7 @@
 #include <KConfigGroup>
 #include <qtest_kde.h>
 
-QTEST_KDEMAIN(DataModelTest, GUI)
+QTEST_KDEMAIN(DataModelTest, NoGUI)
 
 using namespace Massif;
 

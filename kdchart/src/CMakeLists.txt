@@ -112,10 +112,7 @@ qt4_wrap_ui(kdchart_LIB_SRCS
 
 qt_wrap_cpp(mv-kdchart kdchart_LIB_SRCS KDChartEnums.h)
 
-kde4_add_library(mv-kdchart SHARED ${kdchart_LIB_SRCS})
+kde4_add_library(mv-kdchart STATIC ${kdchart_LIB_SRCS})
 
 #target_link_libraries(kdchart ${QT_QT3SUPPORT_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )
 target_link_libraries(mv-kdchart  ${QT_QTSVG_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )
-
-set_target_properties(mv-kdchart PROPERTIES VERSION 0.0.1 SOVERSION 0.0.1 )
-install(TARGETS mv-kdchart  ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -1,0 +1,93 @@
+=================
+massif-visualizer
+=================
+
+---------------------------------------------------------
+visualizer for Valgrind Massif memory-usage tracking tool
+---------------------------------------------------------
+
+:Author: Milian Wolff <mail@milianw.de>
+:Date: 2011-11-21
+:Manual section: 1
+
+SYNOPSIS
+========
+
+**massif-visualizer [massif-data-file]**
+
+DESCRIPTION
+===========
+
+Massif Visualizer is a tool that visualizes massif data. You run your
+application in Valgrind with ``--tool=massif`` and then open the generated
+``massif.out.%pid`` in the visualizer. Gzip or Bzip2 compressed massif files can
+also be opened transparently.
+
+The application consists of three parts:
+
+**The Overview Chart**
+
+The first thing you'll notice is a nice chart that displays the same as e.g.
+``ms_print`` does in Ascii-Art: total memory consumption over time.
+
+Massif-Visualizer goes beyond that by additionally showing the top most
+cost-intensive locations in your code as a stacked graph below the total cost.
+The graph also reacts on user-interaction.
+
+This view you can use for:
+
+- checking whether your application has memory leaks
+- finding expensive peaks
+- finding locations that significantly contribute to the overall memory
+  consumption of your application
+
+**The Snapshot Data Tree**
+
+Directly next to the above chart, you'll see a tree with all of the massif
+data. The tree items are colored depending on their cost, with red opaque being
+the most interesting (peak) elements. Green/transparent items are negligible
+and don't add significant cost to your application.
+
+You can also search the tree and when you select something in it, the snapshot
+gets highlighted in the overview chart and the call graph gets updated.
+
+**The Call Graph for Detailed Snapshots**
+
+Massif generates a few detailed snapshots that essentially make up the tree. If
+you want to get an overview in a more comfortable way than the simple tree
+view, switch over to the detailed snapshot tab and see the tree visualized as a
+call graph. Zoom in, zoom out, use the birds eye view and see what contributes
+to a given snapshot. Note that function calls with the same memory cost are
+grouped to easily find the interesting parts.
+
+OPTIONS
+=======
+
+--help         Show help about options
+--help-all     Show all options
+--author       Show author information
+-v, --version  Show version information
+--license      Show license information
+
+AUTHOR
+======
+
+Written by Milian Wolff.
+
+REPORTING BUGS
+==============
+
+Please report bugs on https://bugs.kde.org under the massif-visualizer product.
+
+COPYRIGHT
+=========
+
+Copyright © 2011 Milian Wolff.
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+SEE ALSO
+========
+
+**valgrind(1)**, **ms_print(1)**

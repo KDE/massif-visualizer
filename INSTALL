@@ -1,9 +1,7 @@
 Build requirements:
 
 - kdelibs headers from KDE4
-- kgraphviewer 2.1: http://kde-apps.org/content/show.php/KGraphViewer+and+KGraphEditor?content=23999
-
-I plan to make the graphviewer dependency optional in future.
+- optional: kgraphviewer 2.1: http://kde-apps.org/content/show.php/KGraphViewer+and+KGraphEditor?content=23999
 
 When you got all this, you simply do the usual CMake run:
 

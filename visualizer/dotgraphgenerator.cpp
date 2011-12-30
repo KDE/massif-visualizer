@@ -115,12 +115,14 @@ QString getLabel(const TreeLeafItem* node)
 
 QString getColor(unsigned long cost, unsigned long maxCost)
 {
+    Q_ASSERT(cost <= maxCost);
     const double ratio = (double(cost) / maxCost);
+    Q_ASSERT(ratio <= 1.0);
     return QColor::fromHsv(120 - ratio * 120, (-((ratio-1) * (ratio-1))) * 255 + 255, 255, 255).name();
 //     return QColor::fromHsv(120 - ratio * 120, 255, 255).name();
 }
 
-GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes, GraphNode* parent = 0)
+GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes, ulong& maxCost, GraphNode* parent = 0)
 {
     // merge below-threshold items
     if (parent && item->children().isEmpty()) {
@@ -149,8 +151,12 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
 
     node->accumulatedCost += item->cost();
 
+    if (node->accumulatedCost > maxCost) {
+        maxCost = node->accumulatedCost;
+    }
+
     foreach(TreeLeafItem* child, item->children()) {
-        GraphNode* childNode = buildGraph(child, knownNodes, node);
+        GraphNode* childNode = buildGraph(child, knownNodes, maxCost, node);
         if (!childNode) {
             // was below-threshold item
             continue;
@@ -206,7 +212,7 @@ void DotGraphGenerator::run()
 
     if (m_node) {
         QMultiHash<QString, GraphNode*> nodes;
-        GraphNode* root = buildGraph(m_node, nodes);
+        GraphNode* root = buildGraph(m_node, nodes, m_maxCost);
         m_highestCost = 0;
         nodeToDot(root, out, parentId, 0);
         qDeleteAll(nodes);

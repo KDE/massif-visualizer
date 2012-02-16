@@ -44,12 +44,12 @@ QString TreeLeafItem::label() const
     return m_label;
 }
 
-void TreeLeafItem::setCost(const unsigned long bytes)
+void TreeLeafItem::setCost(quint64 bytes)
 {
     m_cost = bytes;
 }
 
-unsigned long TreeLeafItem::cost() const
+quint64 TreeLeafItem::cost() const
 {
     return m_cost;
 }

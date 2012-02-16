@@ -136,3 +136,22 @@ void DataModelTest::shortenTemplates()
     conf.writeEntry(QLatin1String("shortenTemplates"), false);
     QCOMPARE(prettyLabel(id), id);
 }
+
+void DataModelTest::bigMem()
+{
+    // see also: https://bugs.kde.org/show_bug.cgi?id=294108
+
+    const QString path = QString(KDESRCDIR) + "/data/massif.out.huge";
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+
+    Parser parser;
+    QScopedPointer<FileData> scopedData(parser.parse(&file));
+    FileData* data = scopedData.data();
+    QVERIFY(data);
+
+    QCOMPARE(data->snapshots().count(), 1);
+    QCOMPARE(data->peak()->memHeap(), quint64(5021305210));
+    QCOMPARE(data->peak()->memHeapExtra(), quint64(5021305211));
+    QCOMPARE(data->peak()->memStacks(), quint64(5021305212));
+}

@@ -67,15 +67,15 @@ public:
     QString mostCostIntensiveGraphvizId() const;
 
 private:
-    void nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId = QString(), unsigned long cost = 0);
+    void nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId = QString(), quint64 cost = 0);
     const SnapshotItem* m_snapshot;
     const TreeLeafItem* m_node;
     KTemporaryFile m_file;
     bool m_canceled;
-    unsigned long m_maxCost;
+    quint64 m_maxCost;
     QString m_timeUnit;
     QString m_costlyGraphvizId;
-    unsigned long m_highestCost;
+    quint64 m_highestCost;
 };
 
 }

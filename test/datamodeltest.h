@@ -38,7 +38,7 @@ private slots:
     void testUtils();
     void shortenTemplates_data();
     void shortenTemplates();
-
+    void bigMem();
 private:
     Massif::DataModel* m_model;
 };

@@ -42,13 +42,13 @@ namespace Massif {
 struct GraphNode {
     const TreeLeafItem* item;
     // incoming calls + cost
-    QHash<GraphNode*, unsigned long> children;
+    QHash<GraphNode*, quint64> children;
     // outgoing calls
     QVector<GraphNode*> parents;
-    unsigned long accumulatedCost;
+    quint64 accumulatedCost;
     bool visited;
-    unsigned int belowThresholdCount;
-    unsigned long belowThresholdCost;
+    quint32 belowThresholdCount;
+    quint64 belowThresholdCost;
 };
 
 }
@@ -113,7 +113,7 @@ QString getLabel(const TreeLeafItem* node)
     return label;
 }
 
-QString getColor(unsigned long cost, unsigned long maxCost)
+QString getColor(quint64 cost, quint64 maxCost)
 {
     Q_ASSERT(cost <= maxCost);
     const double ratio = (double(cost) / maxCost);
@@ -122,7 +122,8 @@ QString getColor(unsigned long cost, unsigned long maxCost)
 //     return QColor::fromHsv(120 - ratio * 120, 255, 255).name();
 }
 
-GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes, ulong& maxCost, GraphNode* parent = 0)
+GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes,
+                      quint64& maxCost, GraphNode* parent = 0)
 {
     // merge below-threshold items
     if (parent && item->children().isEmpty()) {
@@ -161,7 +162,7 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
             // was below-threshold item
             continue;
         }
-        QMultiHash< GraphNode*, unsigned long >::iterator it = node->children.find(childNode);
+        QMultiHash< GraphNode*, quint64 >::iterator it = node->children.find(childNode);
         if (it != node->children.end()) {
             it.value() += child->cost();
         } else {
@@ -221,7 +222,7 @@ void DotGraphGenerator::run()
     m_file.flush();
 }
 
-void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId, unsigned long cost)
+void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId, quint64 cost)
 {
     if (m_canceled) {
         return;
@@ -290,7 +291,7 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
         return;
     }
 
-    QMultiHash< GraphNode*, unsigned long >::const_iterator it = node->children.constBegin();
+    QMultiHash< GraphNode*, quint64 >::const_iterator it = node->children.constBegin();
     while(it != node->children.constEnd()) {
         if (m_canceled) {
             return;

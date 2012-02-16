@@ -34,7 +34,7 @@
 
 namespace Massif {
 
-QString prettyCost(unsigned long cost)
+QString prettyCost(quint64 cost)
 {
     Q_ASSERT(KGlobal::config());
     KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));

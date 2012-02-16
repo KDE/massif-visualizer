@@ -35,7 +35,7 @@ class SnapshotItem;
 /**
  * Returns a prettified cost string.
  */
-VISUALIZER_EXPORT QString prettyCost(unsigned long cost);
+VISUALIZER_EXPORT QString prettyCost(quint64 cost);
 
 /**
  * Prepares a tree node's label for the UI.

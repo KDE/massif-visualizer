@@ -192,7 +192,7 @@ void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
     VALIDATE(line.startsWith("mem_heap_B="))
     QString byteStr(line.mid(11));
     bool ok;
-    unsigned long bytes = byteStr.toULong(&ok);
+    quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
     m_snapshot->setMemHeap(bytes);
     m_nextLine = SnapshotMemHeapExtra;
@@ -203,7 +203,7 @@ void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
     VALIDATE(line.startsWith("mem_heap_extra_B="))
     QString byteStr(line.mid(17));
     bool ok;
-    unsigned long bytes = byteStr.toULong(&ok);
+    quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
     m_snapshot->setMemHeapExtra(bytes);
     m_nextLine = SnapshotMemStacks;
@@ -214,7 +214,7 @@ void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
     VALIDATE(line.startsWith("mem_stacks_B="))
     QString byteStr(line.mid(13));
     bool ok;
-    unsigned int bytes = byteStr.toUInt(&ok);
+    quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
     m_snapshot->setMemStacks(bytes);
     m_nextLine = SnapshotHeapTree;
@@ -312,7 +312,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
     int spacePos = line.indexOf(' ', colonPos + 2);
     VALIDATE_RETURN(spacePos != -1, false)
     tmpStr = line.mid(colonPos + 2, spacePos - colonPos - 2);
-    unsigned long cost = tmpStr.toULong(&ok);
+    quint64 cost = tmpStr.toULongLong(&ok);
     VALIDATE_RETURN(ok, false)
 
     if (!cost && !children) {

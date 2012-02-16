@@ -35,17 +35,17 @@ SnapshotItem::~SnapshotItem()
     delete m_heapTree;
 }
 
-void SnapshotItem::setNumber(const unsigned int num)
+void SnapshotItem::setNumber(uint num)
 {
     m_number = num;
 }
 
-unsigned int SnapshotItem::number() const
+uint SnapshotItem::number() const
 {
     return m_number;
 }
 
-void SnapshotItem::setTime(const double time)
+void SnapshotItem::setTime(double time)
 {
     m_time = time;
 }
@@ -55,32 +55,32 @@ double SnapshotItem::time() const
     return m_time;
 }
 
-void SnapshotItem::setMemHeap(const unsigned long bytes)
+void SnapshotItem::setMemHeap(quint64 bytes)
 {
     m_memHeap = bytes;
 }
 
-unsigned long SnapshotItem::memHeap() const
+quint64 SnapshotItem::memHeap() const
 {
     return m_memHeap;
 }
 
-void SnapshotItem::setMemHeapExtra(const unsigned long bytes)
+void SnapshotItem::setMemHeapExtra(quint64 bytes)
 {
     m_memHeapExtra = bytes;
 }
 
-unsigned long SnapshotItem::memHeapExtra() const
+quint64 SnapshotItem::memHeapExtra() const
 {
     return m_memHeapExtra;
 }
 
-void SnapshotItem::setMemStacks(const unsigned int bytes)
+void SnapshotItem::setMemStacks(quint64 bytes)
 {
     m_memStacks = bytes;
 }
 
-unsigned int SnapshotItem::memStacks() const
+quint64 SnapshotItem::memStacks() const
 {
     return m_memStacks;
 }

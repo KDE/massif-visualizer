@@ -39,18 +39,18 @@ public:
     /**
      * Sets the number of this snapshot.
      */
-    void setNumber(const unsigned int num);
+    void setNumber(uint num);
     /**
      * @return The number of this snapshot.
      */
-    unsigned int number() const;
+    uint number() const;
 
     /**
      * Sets the @p time at which this snapshot was taken.
      * The time can be measured in different formats,
      * @see FileData::timeUnit()
      */
-    void setTime(const double time);
+    void setTime(double time);
     /**
      * @return The time at which this snapshot was taken.
      * The time can be measured in different formats,
@@ -61,29 +61,29 @@ public:
     /**
      * Sets the size of the memory heap in bytes.
      */
-    void setMemHeap(const unsigned long bytes);
+    void setMemHeap(quint64 bytes);
     /**
      * @return The size of the memory heap in bytes.
      */
-    unsigned long memHeap() const;
+    quint64 memHeap() const;
 
     /**
      * Sets the size of the extra memory heap in bytes.
      */
-    void setMemHeapExtra(const unsigned long bytes);
+    void setMemHeapExtra(quint64 bytes);
     /**
      * @return The size of the extra memory heap in bytes.
      */
-    unsigned long memHeapExtra() const;
+    quint64 memHeapExtra() const;
 
     /**
      * Sets the size of the memory stacks in bytes.
      */
-    void setMemStacks(const unsigned int bytes);
+    void setMemStacks(quint64 bytes);
     /**
      * @return The size of the memory stacks in bytes.
      */
-    unsigned int memStacks() const;
+    quint64 memStacks() const;
 
     /**
      * Sets @p root as root node of the detailed heap tree of this snapshot.
@@ -95,11 +95,11 @@ public:
     TreeLeafItem* heapTree() const;
 
 private:
-    unsigned int m_number;
+    uint m_number;
     double m_time;
-    unsigned long m_memHeap;
-    unsigned long  m_memHeapExtra;
-    unsigned int m_memStacks;
+    quint64 m_memHeap;
+    quint64  m_memHeapExtra;
+    quint64 m_memStacks;
     TreeLeafItem* m_heapTree;
 };
 

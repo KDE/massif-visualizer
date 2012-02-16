@@ -90,7 +90,7 @@ void DetailedCostModel::setSource(const FileData* data)
                         sortColumnMap.insert(node->cost(), node->label());
                         m_peaks[node->label()] = qMakePair(node, snapshot);
                     } else {
-                        unsigned int cost = sortColumnMap.key(node->label());
+                        quint64 cost = sortColumnMap.key(node->label());
                         if (node->cost() > cost) {
                             sortColumnMap.remove(cost, node->label());
                             cost = node->cost();

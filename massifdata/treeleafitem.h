@@ -49,11 +49,11 @@ public:
     /**
      * Sets the cost for this item in bytes.
      */
-    void setCost(const unsigned long bytes);
+    void setCost(quint64 bytes);
     /**
      * @return The cost for this item in bytes.
      */
-    unsigned long cost() const;
+    quint64 cost() const;
 
     /**
      * Adds @p leaf as child of this item.
@@ -80,7 +80,7 @@ public:
 
 private:
     QString m_label;
-    unsigned long m_cost;
+    quint64 m_cost;
     QList<TreeLeafItem*> m_children;
 
     TreeLeafItem* m_parent;

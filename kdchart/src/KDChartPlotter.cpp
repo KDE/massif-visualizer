@@ -38,7 +38,12 @@ Plotter::Private::Private()
 {
 }
 
-Plotter::Private::~Private() {}
+Plotter::Private::~Private()
+{
+    delete normalPlotter;
+    delete percentPlotter;
+    delete stackedPlotter;
+}
 
 
 #define d d_func()

@@ -71,8 +71,6 @@ public:
     MainWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
     virtual ~MainWindow();
 
-    KDChart::Chart* chart();
-
     void setupActions();
 
 public slots:

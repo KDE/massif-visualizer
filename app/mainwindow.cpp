@@ -707,11 +707,19 @@ void MainWindow::closeFile()
 
     m_toggleDetailed->setEnabled(false);
     m_toggleDetailed->setChecked(true);
+    foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
+        m_detailedDiagram->takeAxis(axis);
+        delete axis;
+    }
     delete m_detailedDiagram;
     m_detailedDiagram = 0;
 
     m_toggleTotal->setEnabled(false);
     m_toggleTotal->setChecked(true);
+    foreach(CartesianAxis* axis, m_totalDiagram->axes()) {
+        m_totalDiagram->takeAxis(axis);
+        delete axis;
+    }
     delete m_totalDiagram;
     m_totalDiagram = 0;
 
@@ -727,11 +735,6 @@ void MainWindow::closeFile()
     m_currentFile.clear();
 
     setWindowTitle(i18n("Massif Visualizer"));
-}
-
-Chart* MainWindow::chart()
-{
-    return m_chart;
 }
 
 void MainWindow::showDetailedGraph(bool show)

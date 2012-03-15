@@ -54,6 +54,7 @@ class KGraphViewerInterface;
 
 namespace Massif {
 
+class ParseThread;
 class FileData;
 class DetailedCostModel;
 class TotalCostModel;
@@ -139,6 +140,9 @@ private slots:
 
     void slotShortenTemplates(bool);
 
+    void stopParser();
+    void parserFinished(ParseThread* thread, FileData* data);
+
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
     void updateHeader();
@@ -178,6 +182,7 @@ private:
     KAction* m_zoomOut;
     KAction* m_focusExpensive;
     KAction* m_close;
+    KAction* m_stopParser;
 
     QStringListModel* m_allocatorModel;
     KAction* m_newAllocator;
@@ -188,6 +193,8 @@ private:
     KAction* m_hideOtherFunctions;
 
     KAction* m_shortenTemplates;
+
+    ParseThread* m_parseThread;
 };
 
 }

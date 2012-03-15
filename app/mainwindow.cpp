@@ -33,6 +33,7 @@
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
+#include "massifdata/parsethread.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
@@ -51,9 +52,6 @@
 #include <KAction>
 #include <KFileDialog>
 #include <KRecentFilesAction>
-#include <KMimeType>
-#include <KFilterDev>
-#include <KMessageBox>
 #include <KColorScheme>
 #include <KStatusBar>
 #include <KToolBar>
@@ -138,10 +136,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_zoomOut(0)
     , m_focusExpensive(0)
     , m_close(0)
+    , m_stopParser(0)
     , m_allocatorModel(new QStringListModel(this))
     , m_newAllocator(0)
     , m_removeAllocator(0)
     , m_shortenTemplates(0)
+    , m_parseThread(0)
 {
     ui.setupUi(this);
 
@@ -207,7 +207,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     ui.dockMenuBar->setFloatable(false);
     ui.dockMenuBar->setMovable(false);
 
-    KConfigGroup cfg = allocatorConfig();;
+    KConfigGroup cfg = allocatorConfig();
     m_allocatorModel->setStringList(cfg.entryMap().values());
 
     connect(m_allocatorModel, SIGNAL(modelReset()),
@@ -267,6 +267,13 @@ void MainWindow::setupActions()
 
     m_close = KStandardAction::close(this, SLOT(closeFile()), actionCollection());
     m_close->setEnabled(false);
+
+    m_stopParser = new KAction(i18n("Stop Parser"), actionCollection());
+    m_stopParser->setIcon(KIcon("process-stop"));
+    connect(m_stopParser, SIGNAL(triggered(bool)),
+            this, SLOT(stopParser()));
+    m_stopParser->setEnabled(false);
+    actionCollection()->addAction("file_stopparser", m_stopParser);
 
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
@@ -360,7 +367,10 @@ void MainWindow::setupActions()
     ui.openFile->setDefaultAction(openFile);
     ui.openFile->setText(i18n("Open Massif Data File"));
     ui.openFile->setIconSize(QSize(48, 48));
-    ui.openFile->setIcon(KIcon("document-open"));
+
+    //load page actions
+    ui.stopParsing->setDefaultAction(m_stopParser);
+    ui.stopParsing->setIconSize(QSize(48, 48));
 }
 
 void MainWindow::preferences()
@@ -405,45 +415,61 @@ void MainWindow::reload()
     }
 }
 
+void MainWindow::stopParser()
+{
+    if (m_parseThread) {
+        m_parseThread->stop();
+        disconnect(m_parseThread, 0, this, 0);
+        m_parseThread = 0;
+    }
+
+    m_stopParser->setEnabled(false);
+    ui.stackedWidget->setCurrentWidget(ui.openPage);
+}
+
 void MainWindow::openFile(const KUrl& file)
 {
     Q_ASSERT(file.isValid());
-    QIODevice* device = KFilterDev::deviceForFile (file.toLocalFile());
-    if (!device->open(QIODevice::ReadOnly)) {
-        KMessageBox::error(this, i18n("Could not open file <i>%1</i> for reading.", file.toLocalFile()), i18n("Could Not Read File"));
-        delete device;
-        return;
-    }
-    setUpdatesEnabled(false);
     if (m_data) {
         closeFile();
     }
-    Parser p;
-    m_data = p.parse(device, m_allocatorModel->stringList());
-    if (!m_data) {
-        KMessageBox::error(this, i18n("Could not parse file <i>%1</i>.<br>"
-                                      "Parse error in line %2:<br>%3",
-                                      file.toLocalFile(), p.errorLine() + 1,
-                                      QString::fromLatin1(p.errorLineString())),
-                           i18n("Could Not Parse File"));
-        setUpdatesEnabled(true);
-        return;
-    } else if (m_data->snapshots().isEmpty()) {
-        KMessageBox::error(this, i18n("Empty data file <i>%1</i>.", file.toLocalFile()),
-                           i18n("Empty Data File"));
-        delete m_data;
-        m_data = 0;
-        setUpdatesEnabled(true);
+
+    stopParser();
+
+    m_parseThread = new ParseThread(this);
+    connect(m_parseThread, SIGNAL(finished(ParseThread*, FileData*)),
+            this, SLOT(parserFinished(ParseThread*, FileData*)));
+    connect(m_parseThread, SIGNAL(finished()),
+            m_parseThread, SLOT(deleteLater()));
+
+    m_stopParser->setEnabled(true);
+    ui.stackedWidget->setCurrentWidget(ui.loadingPage);
+    ui.loadingProgress->setRange(0, 0);
+    ui.loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+
+    m_parseThread->startParsing(file, m_allocatorModel->stringList());
+}
+
+void MainWindow::parserFinished(ParseThread* thread, FileData* data)
+{
+    Q_ASSERT(thread == m_parseThread);
+
+    m_parseThread = 0;
+    QScopedPointer<ParseThread> threadHouseholder(thread);
+
+    if (!data) {
+        thread->showError(this);
         return;
     }
-    m_currentFile = file;
+
+    m_data = data;
+    m_currentFile = thread->file();
 
     Q_ASSERT(m_data->peak());
 
     m_close->setEnabled(true);
-    ui.stackedWidget->setCurrentWidget(ui.displayPage);
 
-    kDebug() << "loaded massif file:" << file;
+    kDebug() << "loaded massif file:" << m_currentFile;
     qDebug() << "description:" << m_data->description();
     qDebug() << "command:" << m_data->cmd();
     qDebug() << "time unit:" << m_data->timeUnit();
@@ -484,7 +510,7 @@ void MainWindow::openFile(const KUrl& file)
         updateHeader();
     }
 
-    setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), file.fileName()));
+    setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), m_currentFile.fileName()));
 
     //BEGIN TotalDiagram
     m_totalDiagram = new Plotter;
@@ -558,11 +584,9 @@ void MainWindow::openFile(const KUrl& file)
     m_selectPeak->setEnabled(true);
 
     //BEGIN RecentFiles
-    m_recentFiles->addUrl(file);
+    m_recentFiles->addUrl(m_currentFile);
 
-    delete device;
-
-    setUpdatesEnabled(true);
+    ui.stackedWidget->setCurrentWidget(ui.displayPage);
 }
 
 void MainWindow::updateHeader()
@@ -674,6 +698,8 @@ void MainWindow::closeFile()
         return;
     }
 
+    ui.stackedWidget->setCurrentWidget(ui.openPage);
+
 #ifdef HAVE_KGRAPHVIEWER
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
@@ -696,7 +722,6 @@ void MainWindow::closeFile()
 #endif
 
     m_close->setEnabled(false);
-    ui.stackedWidget->setCurrentWidget(ui.openPage);
 
     kDebug() << "closing file";
 

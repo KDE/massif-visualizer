@@ -9,6 +9,7 @@ set(massifdata_SRCS
     treeleafitem.cpp
     parser.cpp
     parserprivate.cpp
+    parsethread.cpp
     util.cpp
 )
 

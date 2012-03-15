@@ -9,6 +9,7 @@
     <Separator/>
 
     <Action name="file_close"/>
+    <Action name="file_stopparser"/>
     <Separator/>
 
     <Action name="file_quit"/>

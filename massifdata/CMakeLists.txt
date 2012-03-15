@@ -9,10 +9,13 @@ set(massifdata_SRCS
     treeleafitem.cpp
     parser.cpp
     parserprivate.cpp
+    util.cpp
 )
 
 kde4_add_library(mv-massifdata ${massifdata_SRCS})
 
 target_link_libraries(mv-massifdata
     ${QT_QTCORE_LIBRARY}
+    # required for Qt::escape() in QTextDocument
+    ${QT_QTGUI_LIBRARY}
 )

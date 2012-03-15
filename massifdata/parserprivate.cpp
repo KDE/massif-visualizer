@@ -25,11 +25,11 @@
 #include "filedata.h"
 #include "snapshotitem.h"
 #include "treeleafitem.h"
+#include "util.h"
 
 #include <QtCore/QIODevice>
 
 #include <QtCore/QDebug>
-#include <visualizer/util.h>
 
 using namespace Massif;
 

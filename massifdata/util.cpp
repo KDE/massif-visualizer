@@ -22,8 +22,8 @@
 
 #include "util.h"
 
-#include "massifdata/snapshotitem.h"
-#include "massifdata/treeleafitem.h"
+#include "snapshotitem.h"
+#include "treeleafitem.h"
 
 #include <KGlobal>
 #include <KLocale>

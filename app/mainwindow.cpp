@@ -35,13 +35,13 @@
 #include "massifdata/parser.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
+#include "massifdata/util.h"
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
 #include "visualizer/filtereddatatreemodel.h"
 #include "visualizer/dotgraphgenerator.h"
-#include "visualizer/util.h"
 
 #include "massif-visualizer-settings.h"
 #include "configdialog.h"

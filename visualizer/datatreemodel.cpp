@@ -27,12 +27,11 @@
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
+#include "massifdata/util.h"
 
 #include <KLocalizedString>
 
 #include <QtGui/QBrush>
-
-#include "util.h"
 
 using namespace Massif;
 

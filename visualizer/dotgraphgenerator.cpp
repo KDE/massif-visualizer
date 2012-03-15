@@ -25,8 +25,7 @@
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
-
-#include "util.h"
+#include "massifdata/util.h"
 
 #include <QTextStream>
 #include <QFile>

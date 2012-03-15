@@ -27,12 +27,11 @@
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
+#include "massifdata/util.h"
 
 #include "KDChartGlobal"
 #include "KDChartDataValueAttributes"
 #include "KDChartLineAttributes"
-
-#include "util.h"
 
 #include <QtGui/QColor>
 #include <QtGui/QPen>

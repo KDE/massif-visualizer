@@ -20,12 +20,12 @@
    License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef VISUALIZER_UTIL_H
-#define VISUALIZER_UTIL_H
+#ifndef MASSIFDATA_UTIL_H
+#define MASSIFDATA_UTIL_H
 
 #include <QString>
 
-#include "visualizer_export.h"
+#include "massifdata_export.h"
 
 namespace Massif {
 
@@ -35,30 +35,30 @@ class SnapshotItem;
 /**
  * Returns a prettified cost string.
  */
-VISUALIZER_EXPORT QString prettyCost(quint64 cost);
+MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
 
 /**
  * Prepares a tree node's label for the UI.
  * So far, only the Mem-Adress will get stripped.
  */
-VISUALIZER_EXPORT QString prettyLabel(const QString& label);
+MASSIFDATA_EXPORT QString prettyLabel(const QString& label);
 
 /**
  * Extracts the function name from the @p label
  */
-VISUALIZER_EXPORT QString functionInLabel(const QString& label);
+MASSIFDATA_EXPORT QString functionInLabel(const QString& label);
 
 /**
  * Checks whether this label denotes a tree node
  * with aggregated items below massif's threshold.
  */
-VISUALIZER_EXPORT bool isBelowThreshold(const QString& label);
+MASSIFDATA_EXPORT bool isBelowThreshold(const QString& label);
 
 /**
  * Formats a label with richtext for showing in tooltips e.g.
  */
-VISUALIZER_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QString& label);
+MASSIFDATA_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QString& label);
 
 }
 
-#endif // VISUALIZER_UTIL_H
+#endif // MASSIFDATA_UTIL_H

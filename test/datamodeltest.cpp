@@ -28,11 +28,11 @@
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
+#include "massifdata/util.h"
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
-#include "visualizer/util.h"
 
 #include <QtCore/QFile>
 #include <QtTest/QTest>

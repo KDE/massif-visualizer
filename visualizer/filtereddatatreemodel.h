@@ -24,6 +24,7 @@
 #define MASSIF_FILTEREDDATATREEMODEL_H
 
 #include <QtGui/QSortFilterProxyModel>
+#include <QTimer>
 
 #include "visualizer_export.h"
 
@@ -50,12 +51,16 @@ protected:
     /// always true
     virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
 
+private slots:
+    void timeout();
+
 private:
     /// we don't want that
     virtual void setSourceModel(QAbstractItemModel* sourceModel);
 
     /// search string that should be contained in the data (case insensitively)
     QString m_needle;
+    QTimer m_timer;
 };
 
 }

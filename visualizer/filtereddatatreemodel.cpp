@@ -32,19 +32,31 @@ FilteredDataTreeModel::FilteredDataTreeModel(DataTreeModel* parent)
 {
     setDynamicSortFilter(true);
     setSourceModel(parent);
+    m_timer.setSingleShot(true);
+    m_timer.setInterval(150);
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 }
 
 void FilteredDataTreeModel::setFilter(const QString& needle)
 {
     m_needle = needle;
-    invalidate();
+    m_timer.start();
+}
+
+void FilteredDataTreeModel::timeout()
+{
+    invalidateFilter();
 }
 
 bool FilteredDataTreeModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
+    if (m_needle.isEmpty()) {
+        return true;
+    }
+
     const QModelIndex& dataIdx = sourceModel()->index(source_row, 0, source_parent);
     Q_ASSERT(dataIdx.isValid());
-    if (sourceModel()->data(dataIdx).toString().contains(m_needle, Qt::CaseInsensitive)) {
+    if (sourceModel()->data(dataIdx, DataTreeModel::RawLabelRole).toString().contains(m_needle, Qt::CaseInsensitive)) {
         return true;
     } else {
         const int rows = sourceModel()->rowCount(dataIdx);

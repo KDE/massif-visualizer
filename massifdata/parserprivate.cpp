@@ -324,7 +324,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 
     bool isCustomAlloc = false;
 
-    if (depth > 0) {
+    if (depth > 0 && !m_allocators.isEmpty()) {
         const QString func = functionInLabel(label);
         foreach(const QRegExp& allocator, m_allocators) {
             if (allocator.exactMatch(func)) {

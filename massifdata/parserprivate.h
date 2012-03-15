@@ -25,6 +25,7 @@
 
 #include <QtCore/QByteArray>
 #include <QtCore/QStringList>
+#include <QSet>
 
 class QIODevice;
 
@@ -74,6 +75,8 @@ private:
     void parseHeapTreeLeaf(const QByteArray& line);
     bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
 
+    QByteArray getLabel(const QByteArray& original);
+
     Parser* m_parser;
     QIODevice* m_file;
     FileData* m_data;
@@ -118,6 +121,10 @@ private:
 
     /// list of custom allocator wildcards
     QList<QRegExp> m_allocators;
+
+    /// improve memory consumption by re-using known labels
+    /// and making use of the implicit sharing of QByteArrays
+    QSet<QByteArray> m_labels;
 
     int m_expectedSnapshots;
 };

@@ -332,6 +332,19 @@ struct SaveAndRestoreItem
     TreeLeafItem* m_oldVal;
 };
 
+QByteArray ParserPrivate::getLabel(const QByteArray& original)
+{
+    QSet<QByteArray>::const_iterator it = m_labels.constFind(original);
+    if (it != m_labels.constEnd()) {
+        // reuse known label to leverage implit sharing
+        return *it;
+    } else {
+        m_labels.insert(original);
+        return original;
+    }
+}
+
+
 bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 {
     VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', false)
@@ -354,7 +367,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
         return true;
     }
 
-    const QByteArray label = line.mid(spacePos + 1);
+    const QByteArray label = getLabel(line.mid(spacePos + 1));
 
     bool isCustomAlloc = false;
 

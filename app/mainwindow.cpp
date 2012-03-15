@@ -436,22 +436,29 @@ void MainWindow::openFile(const KUrl& file)
 
     stopParser();
 
+    m_stopParser->setEnabled(true);
+    ui.stackedWidget->setCurrentWidget(ui.loadingPage);
+    ui.loadingProgress->setRange(0, 0);
+    ui.loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+
     m_parseThread = new ParseThread(this);
     connect(m_parseThread, SIGNAL(finished(ParseThread*, FileData*)),
             this, SLOT(parserFinished(ParseThread*, FileData*)));
     connect(m_parseThread, SIGNAL(finished()),
             m_parseThread, SLOT(deleteLater()));
-
-    m_stopParser->setEnabled(true);
-    ui.stackedWidget->setCurrentWidget(ui.loadingPage);
-    ui.loadingProgress->setRange(0, 0);
-    ui.loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+    connect(m_parseThread, SIGNAL(progressRange(int, int)),
+            ui.loadingProgress, SLOT(setRange(int,int)));
+    connect(m_parseThread, SIGNAL(progress(int)),
+            ui.loadingProgress, SLOT(setValue(int)));
 
     m_parseThread->startParsing(file, m_allocatorModel->stringList());
 }
 
 void MainWindow::parserFinished(ParseThread* thread, FileData* data)
 {
+    // give the progress bar one last chance to update
+    QApplication::processEvents();
+
     Q_ASSERT(thread == m_parseThread);
 
     m_parseThread = 0;

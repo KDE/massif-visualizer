@@ -48,6 +48,9 @@ public:
 signals:
     void finished(ParseThread* thread, FileData* data);
 
+    void progressRange(int min, int max);
+    void progress(int value);
+
 public slots:
     void stop();
 

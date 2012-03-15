@@ -26,6 +26,7 @@
 #include "snapshotitem.h"
 #include "treeleafitem.h"
 #include "util.h"
+#include "parser.h"
 
 #include <QtCore/QIODevice>
 
@@ -37,12 +38,19 @@ using namespace Massif;
 
 #define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
 
-ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
+ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                              const QStringList& customAllocators,
                              QAtomicInt* shouldStop)
-    : m_file(file), m_data(data), m_nextLine(FileDesc)
-    , m_currentLine(0), m_error(NoError), m_snapshot(0)
-    , m_parentItem(0), m_hadCustomAllocators(false)
+    : m_parser(parser)
+    , m_file(file)
+    , m_data(data)
+    , m_nextLine(FileDesc)
+    , m_currentLine(0)
+    , m_error(NoError)
+    , m_snapshot(0)
+    , m_parentItem(0)
+    , m_hadCustomAllocators(false)
+    , m_expectedSnapshots(100)
 {
     foreach(const QString& allocator, customAllocators) {
         m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
@@ -56,9 +64,12 @@ ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
     buffer.resize(bufsize);
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
-            qDebug() << "stopping";
             m_error = Stopped;
             return;
+        }
+        if (file->size()) {
+            // use pos to determine progress when reading the file, won't work for compressed files
+            parser->setProgress(static_cast<int>(double(file->pos() * 100) / file->size()));
         }
         line = m_file->readLine();
         // remove trailing \n
@@ -139,6 +150,16 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
 
     m_data->setDescription(line.mid(6));
     m_nextLine = FileCmd;
+
+    if (!m_file->size()) {
+        // for zipped files, parse the desc line for a --max-snapshots parameter
+        // and use that number for the progress bar. read the manual to know that
+        // this might not be a good measure, but better than nothing.
+        QRegExp pattern("--max-snapshots=([0-9]+)", Qt::CaseSensitive, QRegExp::RegExp2);
+        if (pattern.indexIn(m_data->description()) != -1) {
+            m_expectedSnapshots = pattern.cap(1).toInt();
+        }
+    }
 }
 
 void ParserPrivate::parseFileCmd(const QByteArray& line)
@@ -180,6 +201,11 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     m_data->addSnapshot(m_snapshot);
     m_snapshot->setNumber(number);
     m_nextLine = SnapshotTime;
+
+    if (!m_file->size()) {
+        // see above: progress calculation for compressed files
+        m_parser->setProgress(number * 100 / m_expectedSnapshots);
+    }
 }
 
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)

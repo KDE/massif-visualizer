@@ -68,6 +68,8 @@ void ParseThread::run()
     }
 
     Parser p;
+    emit progressRange(0, 100);
+    connect(&p, SIGNAL(progress(int)), this, SIGNAL(progress(int)));
     QScopedPointer<FileData> data(p.parse(device.data(), m_allocators, &m_shouldStop));
 
     if (!data) {
@@ -81,6 +83,8 @@ void ParseThread::run()
         setError(i18n("Empty data file <i>%1</i>.", m_url.pathOrUrl()), i18n("Empty Data File"));
         return;
     }
+
+    emit progress(100);
 
     // success!
     emit finished(this, data.take());

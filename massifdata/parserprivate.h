@@ -33,11 +33,12 @@ namespace Massif {
 class FileData;
 class SnapshotItem;
 class TreeLeafItem;
+class Parser;
 
 class ParserPrivate
 {
 public:
-    explicit ParserPrivate(QIODevice* file, Massif::FileData* data,
+    explicit ParserPrivate(Parser* parser, QIODevice* file, Massif::FileData* data,
                            const QStringList& customAllocators, QAtomicInt* shouldStop);
     ~ParserPrivate();
 
@@ -73,6 +74,7 @@ private:
     void parseHeapTreeLeaf(const QByteArray& line);
     bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
 
+    Parser* m_parser;
     QIODevice* m_file;
     FileData* m_data;
 
@@ -116,6 +118,8 @@ private:
 
     /// list of custom allocator wildcards
     QList<QRegExp> m_allocators;
+
+    int m_expectedSnapshots;
 };
 
 }

@@ -48,7 +48,7 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
 
     QScopedPointer<FileData> data(new FileData);
 
-    ParserPrivate p(file, data.data(), customAllocators, shouldStop);
+    ParserPrivate p(this, file, data.data(), customAllocators, shouldStop);
 
     if (p.error()) {
         m_errorLine = p.errorLine();
@@ -94,3 +94,10 @@ QByteArray Parser::errorLineString() const
 {
     return m_errorLineString;
 }
+
+void Parser::setProgress(int value)
+{
+    emit progress(value);
+}
+
+#include "parser.moc"

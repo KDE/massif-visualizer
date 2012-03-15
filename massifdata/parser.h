@@ -25,8 +25,9 @@
 
 class QIODevice;
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QObject>
+#include <QString>
+#include <QStringList>
 
 #include "massifdata_export.h"
 
@@ -37,8 +38,10 @@ class FileData;
 /**
  * This class parses a Massif output file and stores it's information.
  */
-class MASSIFDATA_EXPORT Parser
+class MASSIFDATA_EXPORT Parser : public QObject
 {
+    Q_OBJECT
+
 public:
     Parser();
     ~Parser();
@@ -66,6 +69,11 @@ public:
      * Returns the line which could not be parsed.
      */
     QByteArray errorLineString() const;
+
+    void setProgress(int value);
+
+signals:
+    void progress(int value);
 
 private:
     int m_errorLine;

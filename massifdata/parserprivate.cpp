@@ -57,11 +57,7 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
     }
 
     QByteArray line;
-    QByteArray buffer;
 
-    const int bufsize = 1024;
-
-    buffer.resize(bufsize);
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
             m_error = Stopped;

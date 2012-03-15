@@ -144,7 +144,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
                 return i18n("Snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
             }
         } else if (role == RawLabelRole) {
-            return snapshot->heapTree() ? snapshot->heapTree()->label() : QByteArray();
+            return i18nc("%1: snapshot number", "Snapshot #%1", snapshot->number());
         }
         const QString costStr = prettyCost(snapshot->memHeap());
         if (snapshot == m_data->peak()) {

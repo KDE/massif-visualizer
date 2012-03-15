@@ -38,12 +38,13 @@ class ParserPrivate
 {
 public:
     explicit ParserPrivate(QIODevice* file, Massif::FileData* data,
-                           const QStringList& customAllocators);
+                           const QStringList& customAllocators, QAtomicInt* shouldStop);
     ~ParserPrivate();
 
     enum Error {
         NoError, ///< file could be parsed properly
-        Invalid ///< the file was invalid and could not be parsed
+        Invalid, ///< the file was invalid and could not be parsed
+        Stopped ///< parser was stopped
     };
     /**
      * @return Whether an Error occurred or not.

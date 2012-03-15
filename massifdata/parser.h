@@ -47,13 +47,16 @@ public:
      * Parse @p file and return a FileData structure representing the data.
      *
      * @p customAllocators list of wildcard patterns used to find custom allocators
+     * @p shouldStop if supplied, this is checked periodically. If the atomic
+     *               evalutes to true, parser stops and returns 0.
      *
      * @return Data or null if file could not be parsed.
      *
      * @note The caller has to delete the data afterwards.
      */
     FileData* parse(QIODevice* file,
-                    const QStringList& customAllocators = QStringList());
+                    const QStringList& customAllocators = QStringList(),
+                    QAtomicInt* shouldStop = 0);
 
     /**
      * Returns the number of the line which could not be parsed or -1 if no error occurred.

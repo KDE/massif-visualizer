@@ -68,7 +68,7 @@ void ParseThread::run()
     }
 
     Parser p;
-    QScopedPointer<FileData> data(p.parse(device.data(), m_allocators));
+    QScopedPointer<FileData> data(p.parse(device.data(), m_allocators, &m_shouldStop));
 
     if (!data) {
         setError(i18n("Parser Failed"),

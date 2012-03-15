@@ -38,7 +38,8 @@ using namespace Massif;
 #define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
 
 ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
-                             const QStringList& customAllocators)
+                             const QStringList& customAllocators,
+                             QAtomicInt* shouldStop)
     : m_file(file), m_data(data), m_nextLine(FileDesc)
     , m_currentLine(0), m_error(NoError), m_snapshot(0)
     , m_parentItem(0), m_hadCustomAllocators(false)
@@ -54,6 +55,11 @@ ParserPrivate::ParserPrivate(QIODevice* file, FileData* data,
 
     buffer.resize(bufsize);
     while (!file->atEnd()) {
+        if (shouldStop && *shouldStop) {
+            qDebug() << "stopping";
+            m_error = Stopped;
+            return;
+        }
         line = m_file->readLine();
         // remove trailing \n
         line.chop(1);

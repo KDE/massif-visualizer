@@ -41,18 +41,16 @@ Parser::~Parser()
 {
 }
 
-FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators)
+FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QAtomicInt* shouldStop)
 {
     Q_ASSERT(file->isOpen());
     Q_ASSERT(file->isReadable());
 
-    FileData* data = new FileData;
+    QScopedPointer<FileData> data(new FileData);
 
-    ParserPrivate p(file, data, customAllocators);
+    ParserPrivate p(file, data.data(), customAllocators, shouldStop);
 
     if (p.error()) {
-        delete data;
-        data = 0;
         m_errorLine = p.errorLine();
         m_errorLineString = p.errorLineString();
         return 0;
@@ -84,7 +82,7 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators)
     }
     // peak might still be zero if we have no snapshots, should be handled in the UI then
 
-    return data;
+    return data.take();
 }
 
 int Parser::errorLine() const

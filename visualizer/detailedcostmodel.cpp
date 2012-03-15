@@ -67,7 +67,7 @@ void DetailedCostModel::setSource(const FileData* data)
     if (data) {
         // get top cost points:
         // we traverse the detailed heap trees until the first fork
-        QMultiMap<int, QString> sortColumnMap;
+        QMultiMap<int, QByteArray> sortColumnMap;
         foreach (SnapshotItem* snapshot, data->snapshots()) {
             if (snapshot->heapTree()) {
                 QList<TreeLeafItem*> nodes;
@@ -217,7 +217,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         return snapshot->time();
     } else {
         TreeLeafItem* node = 0;
-        const QString needle = m_columns.at(index.column() / 2);
+        const QByteArray needle = m_columns.at(index.column() / 2);
         foreach(TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
                 node = n;
@@ -236,7 +236,7 @@ QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation,
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0 && section < columnCount()) {
         // only show name without memory address or location
-        QString label = prettyLabel(m_columns.at(section / 2));
+        QByteArray label = prettyLabel(m_columns.at(section / 2));
         if (label.indexOf("???") != -1) {
             return label;
         }
@@ -277,7 +277,7 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
 QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
 {
     QMap< QModelIndex, TreeLeafItem* > peaks;
-    QHash< QString, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
+    QHash< QByteArray, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
     while (it != m_peaks.end()) {
         int row = m_rows.indexOf(it->second);
         Q_ASSERT(row >= 0);
@@ -327,7 +327,7 @@ QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QMod
     if (idx.row() == 0) {
         return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
     }
-    const QString needle = m_columns.at(idx.column() / 2);
+    const QByteArray needle = m_columns.at(idx.column() / 2);
     for (int i = 1; i < 3 && idx.row() - i >= 0; ++i) {
         SnapshotItem* snapshot = m_rows.at(idx.row() - i);
         foreach(TreeLeafItem* n, m_nodes[snapshot]) {

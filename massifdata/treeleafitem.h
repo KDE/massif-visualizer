@@ -40,11 +40,11 @@ public:
     /**
      * Sets the label for this leaf item.
      */
-    void setLabel(const QString label);
+    void setLabel(const QByteArray& label);
     /**
      * @return The label for this leaf item.
      */
-    QString label() const;
+    QByteArray label() const;
 
     /**
      * Sets the cost for this item in bytes.
@@ -79,7 +79,7 @@ public:
     TreeLeafItem* parent() const;
 
 private:
-    QString m_label;
+    QByteArray m_label;
     quint64 m_cost;
     QList<TreeLeafItem*> m_children;
 

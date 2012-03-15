@@ -128,7 +128,7 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
     if (parent && item->children().isEmpty()) {
         static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
                                                 Qt::CaseSensitive, QRegExp::RegExp2);
-        if (item->label().indexOf(matchBT) != -1) {
+        if (matchBT.indexIn(QString::fromLatin1(item->label())) != -1) {
             parent->belowThresholdCost += item->cost();
             parent->belowThresholdCount += matchBT.cap(1).toInt();
         }

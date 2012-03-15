@@ -162,7 +162,7 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     ++m_currentLine;
     VALIDATE(nextLine.startsWith("snapshot="))
     nextLine.chop(1);
-    QString i(nextLine.mid(9));
+    QByteArray i(nextLine.mid(9));
     bool ok;
     uint number = i.toUInt(&ok);
     VALIDATE(ok)
@@ -179,7 +179,7 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 {
     VALIDATE(line.startsWith("time="))
-    QString timeStr(line.mid(5));
+    QByteArray timeStr(line.mid(5));
     bool ok;
     double time = timeStr.toDouble(&ok);
     VALIDATE(ok)
@@ -190,7 +190,7 @@ void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_heap_B="))
-    QString byteStr(line.mid(11));
+    QByteArray byteStr(line.mid(11));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
@@ -201,7 +201,7 @@ void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_heap_extra_B="))
-    QString byteStr(line.mid(17));
+    QByteArray byteStr(line.mid(17));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
@@ -212,7 +212,7 @@ void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_stacks_B="))
-    QString byteStr(line.mid(13));
+    QByteArray byteStr(line.mid(13));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
     VALIDATE(ok)
@@ -259,21 +259,23 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
                                             Qt::CaseSensitive, QRegExp::RegExp2);
         foreach(TreeLeafItem* child, newChildren) {
-            if (child->label().indexOf(matchBT) != -1) {
+            if (matchBT.indexIn(QString::fromLatin1(child->label())) != -1) {
                 places += matchBT.cap(1).toUInt();
                 if (belowThreshold) {
+                    // merge with previously found node
                     belowThreshold->setCost(belowThreshold->cost() + child->cost());
                     newChildren.removeOne(child);
                     delete child;
                 } else {
                     belowThreshold = child;
                     oldPlaces = matchBT.cap(1);
+                    // no break, see above
                 }
             }
         }
         if (belowThreshold) {
-            QString label = belowThreshold->label();
-            label.replace(oldPlaces, QString::number(places));
+            QByteArray label = belowThreshold->label();
+            label.replace(oldPlaces, QByteArray::number(places));
             belowThreshold->setLabel(label);
         }
         qSort(newChildren.begin(), newChildren.end(), sortLeafsByCost);
@@ -320,12 +322,12 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
         return true;
     }
 
-    const QString label = line.mid(spacePos + 1);
+    const QByteArray label = line.mid(spacePos + 1);
 
     bool isCustomAlloc = false;
 
     if (depth > 0 && !m_allocators.isEmpty()) {
-        const QString func = functionInLabel(label);
+        const QByteArray func = functionInLabel(label);
         foreach(const QRegExp& allocator, m_allocators) {
             if (allocator.exactMatch(func)) {
                 isCustomAlloc = true;

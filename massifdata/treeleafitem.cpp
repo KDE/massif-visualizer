@@ -34,12 +34,12 @@ TreeLeafItem::~TreeLeafItem()
     qDeleteAll(m_children);
 }
 
-void TreeLeafItem::setLabel(const QString label)
+void TreeLeafItem::setLabel(const QByteArray& label)
 {
     m_label = label;
 }
 
-QString TreeLeafItem::label() const
+QByteArray TreeLeafItem::label() const
 {
     return m_label;
 }

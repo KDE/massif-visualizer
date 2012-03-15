@@ -92,7 +92,7 @@ int Parser::errorLine() const
     return m_errorLine;
 }
 
-QString Parser::errorLineString() const
+QByteArray Parser::errorLineString() const
 {
     return m_errorLineString;
 }

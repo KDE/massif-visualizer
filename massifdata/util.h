@@ -41,23 +41,23 @@ MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
  * Prepares a tree node's label for the UI.
  * So far, only the Mem-Adress will get stripped.
  */
-MASSIFDATA_EXPORT QString prettyLabel(const QString& label);
+MASSIFDATA_EXPORT QByteArray prettyLabel(const QByteArray& label);
 
 /**
  * Extracts the function name from the @p label
  */
-MASSIFDATA_EXPORT QString functionInLabel(const QString& label);
+MASSIFDATA_EXPORT QByteArray functionInLabel(const QByteArray& label);
 
 /**
  * Checks whether this label denotes a tree node
  * with aggregated items below massif's threshold.
  */
-MASSIFDATA_EXPORT bool isBelowThreshold(const QString& label);
+MASSIFDATA_EXPORT bool isBelowThreshold(const QByteArray& label);
 
 /**
  * Formats a label with richtext for showing in tooltips e.g.
  */
-MASSIFDATA_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QString& label);
+MASSIFDATA_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QByteArray& label);
 
 }
 

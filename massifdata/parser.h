@@ -62,11 +62,11 @@ public:
     /**
      * Returns the line which could not be parsed.
      */
-    QString errorLineString() const;
+    QByteArray errorLineString() const;
 
 private:
     int m_errorLine;
-    QString m_errorLineString;
+    QByteArray m_errorLineString;
 };
 
 }

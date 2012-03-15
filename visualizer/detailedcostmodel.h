@@ -105,13 +105,13 @@ public:
 private:
     const FileData* m_data;
     // columns => label
-    QList<QString> m_columns;
+    QList<QByteArray> m_columns;
     // only to sort snapshots by number
     QList<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
     QHash<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot
-    QHash<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
+    QHash<QByteArray, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
     // selected item
     QModelIndex m_selection;
     int m_maxDatasetCount;

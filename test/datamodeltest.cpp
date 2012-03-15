@@ -101,33 +101,38 @@ void DataModelTest::parseFile()
 void DataModelTest::testUtils()
 {
     {
-    QString l("0x6F675AB: KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)");
-    QCOMPARE(prettyLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)"));
-    QCOMPARE(functionInLabel(l), QString("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&)"));
+    QByteArray l("0x6F675AB: KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)");
+    QCOMPARE(prettyLabel(l), QByteArray("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)"));
+    QCOMPARE(functionInLabel(l), QByteArray("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&)"));
     }
     {
-    QString l("0x6F675AB: moz_xmalloc (mozalloc.cpp:98)");
-    QCOMPARE(prettyLabel(l), QString("moz_xmalloc (mozalloc.cpp:98)"));
-    QCOMPARE(functionInLabel(l), QString("moz_xmalloc"));
+    QByteArray l("0x6F675AB: moz_xmalloc (mozalloc.cpp:98)");
+    QCOMPARE(prettyLabel(l), QByteArray("moz_xmalloc (mozalloc.cpp:98)"));
+    QCOMPARE(functionInLabel(l), QByteArray("moz_xmalloc"));
     }
 }
 
 void DataModelTest::shortenTemplates_data()
 {
-    QTest::addColumn<QString>("id");
-    QTest::addColumn<QString>("idShortened");
+    QTest::addColumn<QByteArray>("id");
+    QTest::addColumn<QByteArray>("idShortened");
 
-    QTest::newRow("no-tpl") << "A::B(C::D const&) (file.cpp:1)"  << "A::B(C::D const&) (file.cpp:1)";
-    QTest::newRow("tpl-func") << "A::B<T1, T2>(C::D const&) (file.cpp:1)"  << "A::B<>(C::D const&) (file.cpp:1)";
-    QTest::newRow("tpl-arg") << "A::B(C::D<T1, T2> const&) (file.cpp:1)"  << "A::B(C::D<> const&) (file.cpp:1)";
-    QTest::newRow("tpl-multi") << "A::B<T1, T2>(C<T3>::D<T4> const&) (file.cpp:1)"  << "A::B<>(C<>::D<> const&) (file.cpp:1)";
-    QTest::newRow("tpl-nested") << "A::B<T1<T2>, T2>(C<T3>::D<T4> const&) (file.cpp:1)"  << "A::B<>(C<>::D<> const&) (file.cpp:1)";
+    QTest::newRow("no-tpl") << QByteArray("A::B(C::D const&) (file.cpp:1)")
+                            << QByteArray("A::B(C::D const&) (file.cpp:1)");
+    QTest::newRow("tpl-func") << QByteArray("A::B<T1, T2>(C::D const&) (file.cpp:1)")
+                              << QByteArray("A::B<>(C::D const&) (file.cpp:1)");
+    QTest::newRow("tpl-arg") << QByteArray("A::B(C::D<T1, T2> const&) (file.cpp:1)")
+                             << QByteArray("A::B(C::D<> const&) (file.cpp:1)");
+    QTest::newRow("tpl-multi") << QByteArray("A::B<T1, T2>(C<T3>::D<T4> const&) (file.cpp:1)")
+                               << QByteArray("A::B<>(C<>::D<> const&) (file.cpp:1)");
+    QTest::newRow("tpl-nested") << QByteArray("A::B<T1<T2>, T2>(C<T3>::D<T4> const&) (file.cpp:1)")
+                                << QByteArray("A::B<>(C<>::D<> const&) (file.cpp:1)");
 }
 
 void DataModelTest::shortenTemplates()
 {
-    QFETCH(QString, id);
-    QFETCH(QString, idShortened);
+    QFETCH(QByteArray, id);
+    QFETCH(QByteArray, idShortened);
 
     KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
 

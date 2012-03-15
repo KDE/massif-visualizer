@@ -159,7 +159,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             return tooltipForTreeLeaf(item, snapshotForTreeLeaf(item), item->label());
         }
         return i18nc("%1: cost, %2: snapshot label (i.e. func name etc.)", "%1: %2",
-                     prettyCost(item->cost()), prettyLabel(item->label()));
+                     prettyCost(item->cost()), QString::fromLatin1(prettyLabel(item->label())));
     }
     return QVariant();
 }

@@ -42,9 +42,9 @@ QString prettyCost(quint64 cost)
     return KGlobal::locale()->formatByteSize(cost, precision);
 }
 
-QString prettyLabel(const QString& label)
+QByteArray prettyLabel(const QByteArray& label)
 {
-    QString ret;
+    QByteArray ret;
 
     int colonPos = label.indexOf(": ");
     if (colonPos == -1) {
@@ -79,9 +79,9 @@ QString prettyLabel(const QString& label)
     return ret;
 }
 
-QString functionInLabel(const QString& label)
+QByteArray functionInLabel(const QByteArray& label)
 {
-    QString ret = prettyLabel(label);
+    QByteArray ret = prettyLabel(label);
     int pos = ret.lastIndexOf(" (");
     if (pos != -1) {
         ret.resize(pos);
@@ -89,12 +89,12 @@ QString functionInLabel(const QString& label)
     return ret;
 }
 
-bool isBelowThreshold(const QString& label)
+bool isBelowThreshold(const QByteArray& label)
 {
     return label.indexOf("all below massif's threshold") != -1;
 }
 
-QString formatLabel(const QString& label)
+QString formatLabel(const QByteArray& label)
 {
     static QRegExp pattern("^(0x.+: )?([^\\)]+\\))(?: \\(([^\\)]+)\\))?$", Qt::CaseSensitive,
                            QRegExp::RegExp2);
@@ -116,7 +116,7 @@ QString formatLabel(const QString& label)
     }
 }
 
-QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QString& label)
+QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QByteArray& label)
 {
     QString tooltip = "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n";
     tooltip += i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),

@@ -422,7 +422,9 @@ void MainWindow::openFile(const KUrl& file)
     m_data = p.parse(device, m_allocatorModel->stringList());
     if (!m_data) {
         KMessageBox::error(this, i18n("Could not parse file <i>%1</i>.<br>"
-                                      "Parse error in line %2:<br>%3", file.toLocalFile(), p.errorLine() + 1, p.errorLineString()),
+                                      "Parse error in line %2:<br>%3",
+                                      file.toLocalFile(), p.errorLine() + 1,
+                                      QString::fromLatin1(p.errorLineString())),
                            i18n("Could Not Parse File"));
         setUpdatesEnabled(true);
         return;

@@ -28,6 +28,7 @@
 #include <QDebug>
 
 #include "massifdata/parser.h"
+#include "massifdata/filedata.h"
 
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
@@ -38,7 +39,7 @@ int main(int argc, char** argv) {
     }
 
     const QString file = app.arguments().at(1);
-    QIODevice* device = KFilterDev::deviceForFile(file);
+    QScopedPointer<QIODevice> device(KFilterDev::deviceForFile(file));
     if (!device->open(QIODevice::ReadOnly)) {
         qWarning() << "could not open file:" << file;
         return 2;
@@ -48,12 +49,12 @@ int main(int argc, char** argv) {
     QElapsedTimer t;
     t.start();
     Massif::Parser parser;
-    if (!parser.parse(device)) {
+    QScopedPointer<Massif::FileData> data(parser.parse(device.data()));
+    if (!data) {
         qWarning() << "failed to parse file:" << file;
         qWarning() << parser.errorLineString() << "in line" << parser.errorLine();
         return 3;
     }
-
     qDebug() << "finished parsing in" << t.elapsed() << "ms";
 
     return 0;

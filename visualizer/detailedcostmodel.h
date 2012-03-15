@@ -109,9 +109,9 @@ private:
     // only to sort snapshots by number
     QList<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
-    QMap<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
+    QHash<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot
-    QMap<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
+    QHash<QString, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
     // selected item
     QModelIndex m_selection;
     int m_maxDatasetCount;

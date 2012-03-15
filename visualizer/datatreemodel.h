@@ -81,8 +81,8 @@ private:
     const FileData* m_data;
 
     void mapNodeToRow(TreeLeafItem* node, const int row);
-    QMap<TreeLeafItem*, int> m_nodeToRow;
-    QMap<TreeLeafItem*, SnapshotItem*> m_heapRootToSnapshot;
+    QHash<TreeLeafItem*, int> m_nodeToRow;
+    QHash<TreeLeafItem*, SnapshotItem*> m_heapRootToSnapshot;
 };
 
 }

@@ -278,7 +278,7 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
 QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
 {
     QMap< QModelIndex, TreeLeafItem* > peaks;
-    QMap< QString, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
+    QHash< QString, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
     while (it != m_peaks.end()) {
         int row = m_rows.indexOf(it->second);
         Q_ASSERT(row >= 0);
@@ -310,7 +310,7 @@ QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
     if (column == -1 || column >= m_maxDatasetCount) {
         return QModelIndex();
     }
-    QMap< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
+    QHash< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
     while (it != m_nodes.constEnd()) {
         if (it->contains(node)) {
             return index(m_rows.indexOf(it.key()), column * 2);
@@ -361,8 +361,8 @@ void DetailedCostModel::setSelection(const QModelIndex& index)
 void DetailedCostModel::hideFunction(TreeLeafItem* node)
 {
     beginResetModel();
-    QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
-    const QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
+    QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    const QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
     while (it != end) {
         QList< TreeLeafItem* >::iterator it2 = it.value().begin();
         const QList< TreeLeafItem* >::iterator end2 = it.value().end();
@@ -385,8 +385,8 @@ void DetailedCostModel::hideOtherFunctions(TreeLeafItem* node)
     m_columns.clear();
     m_columns << node->label();
 
-    QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
-    const QMap< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
+    QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    const QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
     while (it != end) {
         QList< TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {

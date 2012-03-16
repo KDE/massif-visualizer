@@ -53,7 +53,7 @@ void ParseThread::run()
     if (!m_url.isLocalFile()) {
         if (!KIO::NetAccess::download(m_url, file, 0)) {
             setError(i18n("Download Failed"),
-                     i18n("Failed to download remove massif data file <i>%1</i>.", m_url.pathOrUrl()));
+                     i18n("Failed to download remote massif data file <i>%1</i>.", m_url.pathOrUrl()));
             return;
         }
     } else {

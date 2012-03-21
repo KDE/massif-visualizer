@@ -544,7 +544,7 @@ void MainWindow::parserFinished(ParseThread* thread, FileData* data)
     CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
     rightAxis->setTextAttributes(axisTextAttributes);
     rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in bytes"));
+    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_totalDiagram->addAxis(rightAxis);
 

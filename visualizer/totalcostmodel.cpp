@@ -129,7 +129,7 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         return snapshot->time();
     } else {
         Q_ASSERT(index.column() == 1);
-        return double(snapshot->memHeap());
+        return double(snapshot->memHeap()) / 1024;
     }
 }
 

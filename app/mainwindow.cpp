@@ -166,7 +166,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     TextAttributes att = m_legend->textAttributes();
     att.setAutoShrink(true);
     att.setFontSize( Measure(12) );
+    QFont font("monospace");
+    font.setStyleHint(QFont::Monospace);
+    att.setFont(font);
     m_legend->setTextAttributes(att);
+    m_legend->setTextAlignment(Qt::AlignLeft);
     m_legend->hide();
 
     ui.plotterTab->layout()->addWidget(m_header);

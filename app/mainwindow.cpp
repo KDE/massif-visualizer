@@ -531,22 +531,22 @@ void MainWindow::parserFinished(ParseThread* thread, FileData* data)
     CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
-    axisTextAttributes.setFontSize(Measure(8));
+    axisTextAttributes.setFontSize(Measure(10));
     bottomAxis->setTextAttributes(axisTextAttributes);
     TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
     axisTitleTextAttributes.setPen(foreground);
-    axisTitleTextAttributes.setFontSize(Measure(10));
+    axisTitleTextAttributes.setFontSize(Measure(12));
     bottomAxis->setTitleTextAttributes(axisTitleTextAttributes);
     bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis* leftAxis = new CartesianAxis(m_totalDiagram);
-    leftAxis->setTextAttributes(axisTextAttributes);
-    leftAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    leftAxis->setTitleText(i18n("memory heap size in bytes"));
-    leftAxis->setPosition ( CartesianAxis::Left );
-    m_totalDiagram->addAxis(leftAxis);
+    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
+    rightAxis->setTextAttributes(axisTextAttributes);
+    rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
+    rightAxis->setTitleText(i18n("memory heap size in bytes"));
+    rightAxis->setPosition ( CartesianAxis::Right );
+    m_totalDiagram->addAxis(rightAxis);
 
     m_totalCostModel->setSource(m_data);
     m_totalDiagram->setModel(m_totalCostModel);
@@ -564,20 +564,6 @@ void MainWindow::parserFinished(ParseThread* thread, FileData* data)
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);
-
-    CartesianAxis* topAxis = new CartesianAxis(m_detailedDiagram);
-    topAxis->setTextAttributes(axisTextAttributes);
-    topAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    topAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
-    topAxis->setPosition ( CartesianAxis::Top );
-    m_detailedDiagram->addAxis(topAxis);
-
-    CartesianAxis* rightAxis = new CartesianAxis(m_detailedDiagram);
-    rightAxis->setTextAttributes(axisTextAttributes);
-    rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in bytes"));
-    rightAxis->setPosition ( CartesianAxis::Right );
-    m_detailedDiagram->addAxis(rightAxis);
 
     updatePeaks();
 

@@ -167,7 +167,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     att.setAutoShrink(true);
     att.setFontSize( Measure(12) );
     QFont font("monospace");
-    font.setStyleHint(QFont::Monospace);
+    font.setStyleHint(QFont::TypeWriter);
     att.setFont(font);
     m_legend->setTextAttributes(att);
     m_legend->setTextAlignment(Qt::AlignLeft);

@@ -191,7 +191,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
                 // get x-coordinate of the last snapshot with cost below 0.1% of peak cost
                 QList< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
                 double time = 0;
-                while (it != m_data->snapshots().constEnd() && (*it)->memHeap() < m_data->peak()->memHeap() * 0.001) {
+                while (it != m_data->snapshots().constEnd() && (*it)->cost() < m_data->peak()->cost() * 0.001) {
                     time = (*it)->time();
                     ++it;
                 }

@@ -67,14 +67,14 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
                 // peak should have detailed info
                 continue;
             }
-            if (!data->peak() || snapshot->memHeap() > data->peak()->memHeap()) {
+            if (!data->peak() || snapshot->cost() > data->peak()->cost()) {
                 data->setPeak(snapshot);
             }
         }
         // still not found? pick any other snapshot
         if (!data->peak()) {
             foreach( SnapshotItem* snapshot, data->snapshots() ) {
-                if (!data->peak() || snapshot->memHeap() > data->peak()->memHeap()) {
+                if (!data->peak() || snapshot->cost() > data->peak()->cost()) {
                     data->setPeak(snapshot);
                 }
             }

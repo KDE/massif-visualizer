@@ -99,12 +99,12 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
     // custom background for peak snapshot
     if ( role == Qt::BackgroundRole ) {
 //         double maxValue = 1;
-        const double maxValue = m_data->peak()->memHeap();
+        const double maxValue = m_data->peak()->cost();
         double currentValue = 0;
         if ( !index.parent().isValid() && m_data->peak() ) {
 //             maxValue = m_data->peak()->memHeap();
             SnapshotItem* snapshot = m_data->snapshots().at(index.row());
-            currentValue = snapshot->memHeap();
+            currentValue = snapshot->cost();
         } else if (index.parent().isValid()) {
             Q_ASSERT(index.internalPointer());
             TreeLeafItem* node = static_cast<TreeLeafItem*>(index.internalPointer());
@@ -139,14 +139,14 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         SnapshotItem* snapshot = m_data->snapshots().at(index.row());
         if (role == Qt::ToolTipRole) {
             if (snapshot == m_data->peak()) {
-                return i18n("Peak snapshot: heap cost of %1", prettyCost(snapshot->memHeap()));
+                return i18n("Peak snapshot: heap cost of %1", prettyCost(snapshot->cost()));
             } else {
-                return i18n("Snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->memHeap()));
+                return i18n("Snapshot #%1: heap cost of %2", snapshot->number(), prettyCost(snapshot->cost()));
             }
         } else if (role == RawLabelRole) {
             return i18nc("%1: snapshot number", "Snapshot #%1", snapshot->number());
         }
-        const QString costStr = prettyCost(snapshot->memHeap());
+        const QString costStr = prettyCost(snapshot->cost());
         if (snapshot == m_data->peak()) {
             return i18nc("%1: cost, %2: snapshot number",
                          "%1: Snapshot #%2 (peak)", costStr,  snapshot->number());

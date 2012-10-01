@@ -592,7 +592,7 @@ void MainWindow::updateHeader()
 
     m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
                         .arg(i18n("Memory consumption of %1", app))
-                        .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->memHeap()), m_data->peak()->number()))
+                        .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->cost()), m_data->peak()->number()))
     );
     m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
 }
@@ -903,7 +903,7 @@ void MainWindow::updatePeaks()
     if (m_data->peak()) {
         const QModelIndex peak = m_totalCostModel->peak();
         Q_ASSERT(peak.isValid());
-        markPeak(m_totalDiagram, peak, m_data->peak()->memHeap(), foreground);
+        markPeak(m_totalDiagram, peak, m_data->peak()->cost(), foreground);
     }
     updateDetailedPeaks();
 }

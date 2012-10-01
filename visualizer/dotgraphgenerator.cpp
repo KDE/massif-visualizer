@@ -197,11 +197,11 @@ void DotGraphGenerator::run()
         // also show some info about the selected snapshot
         parentId = QString::number((qint64) m_snapshot);
         const QString label = i18n("snapshot #%1 (taken at %2%4)\\nheap cost: %3",
-                                m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->memHeap()),
+                                m_snapshot->number(), m_snapshot->time(), prettyCost(m_snapshot->cost()),
                                 m_timeUnit);
         out << '"' << parentId << "\" [shape=box,label=\"" << label << "\",fillcolor=white];\n";
 
-        m_maxCost = m_snapshot->memHeap();
+        m_maxCost = m_snapshot->cost();
     } else if (m_node) {
         const TreeLeafItem* topMost = m_node;
         while (topMost->parent()) {

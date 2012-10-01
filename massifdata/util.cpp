@@ -121,7 +121,7 @@ QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QBy
     QString tooltip = "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n";
     tooltip += i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),
                     // yeah nice how I round to two decimals, right? :D
-                    double(int(double(node ? node->cost() : 0)/snapshot->memHeap()*10000))/100, snapshot->number());
+                    double(int(double(node ? node->cost() : 0)/snapshot->cost()*10000))/100, snapshot->number());
     tooltip += formatLabel(label);
     tooltip += "</dl></body></html>";
     return tooltip;

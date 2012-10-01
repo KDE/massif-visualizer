@@ -94,3 +94,8 @@ TreeLeafItem* SnapshotItem::heapTree() const
 {
     return m_heapTree;
 }
+
+quint64 SnapshotItem::cost() const
+{
+    return m_memHeap + m_memStacks;
+}

@@ -94,6 +94,11 @@ public:
      */
     TreeLeafItem* heapTree() const;
 
+    /**
+     * @return The total cost, i.e. sum of memory heap and stack.
+     */
+    quint64 cost() const;
+
 private:
     uint m_number;
     double m_time;

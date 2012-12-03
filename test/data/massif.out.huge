@@ -1,0 +1,11 @@
+desc: (none)
+cmd: ./a.out
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=123667
+mem_heap_B=5021305210
+mem_heap_extra_B=5021305211
+mem_stacks_B=5021305212
+heap_tree=empty

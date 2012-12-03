@@ -42,51 +42,87 @@ QString prettyCost(quint64 cost)
     return KGlobal::locale()->formatByteSize(cost, precision);
 }
 
-QByteArray prettyLabel(const QByteArray& label)
+void shortenTemplates(QByteArray& function)
 {
-    QByteArray ret;
-
-    int colonPos = label.indexOf(": ");
-    if (colonPos == -1) {
-        ret = label;
-    } else {
-        ret = label.mid(colonPos + 2);
-    }
-
     Q_ASSERT(KGlobal::config());
     KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
     if (conf.readEntry(QLatin1String("shortenTemplates"), false)) {
         // remove template arguments between <...>
         int depth = 0;
         int open = 0;
-        for (int i = 0; i < ret.length(); ++i) {
-            if (ret.at(i) == '<') {
+        for (int i = 0; i < function.length(); ++i) {
+            if (function.at(i) == '<') {
                 if (!depth) {
                     open = i;
                 }
                 ++depth;
-            } else if (ret.at(i) == '>') {
+            } else if (function.at(i) == '>') {
                 --depth;
                 if (!depth) {
-                    ret.remove(open + 1, i - open - 1);
+                    function.remove(open + 1, i - open - 1);
                     i = open + 1;
                     open = 0;
                 }
             }
         }
     }
+}
 
+struct ParsedLabel
+{
+    QByteArray address;
+    QByteArray function;
+    QByteArray location;
+};
+
+ParsedLabel parseLabel(const QByteArray& label)
+{
+    ParsedLabel ret;
+    int functionStart = 0;
+    int functionEnd = label.length();
+    if (label.startsWith("0x")) {
+        int colonPos = label.indexOf(": ");
+        if (colonPos != -1) {
+            ret.address = label.left(colonPos);
+            functionStart = colonPos + 2;
+        }
+    }
+    if (label.endsWith(')')) {
+        int locationPos = label.lastIndexOf(" (");
+        if (locationPos != -1) {
+            ret.location = label.mid(locationPos + 2, label.length() - locationPos - 3);
+            functionEnd = locationPos;
+        }
+    }
+    ret.function = label.mid(functionStart, functionEnd - functionStart);
     return ret;
+}
+
+QByteArray prettyLabel(const QByteArray& label)
+{
+    ParsedLabel parsed = parseLabel(label);
+    shortenTemplates(parsed.function);
+
+    if (!parsed.location.isEmpty()) {
+        return parsed.function + " (" + parsed.location + ")";
+    } else {
+        return parsed.function;
+    }
 }
 
 QByteArray functionInLabel(const QByteArray& label)
 {
-    QByteArray ret = prettyLabel(label);
-    int pos = ret.lastIndexOf(" (");
-    if (pos != -1) {
-        ret.resize(pos);
-    }
-    return ret;
+    return parseLabel(label).function;
+}
+
+QByteArray addressInLabel(const QByteArray& label)
+{
+    return parseLabel(label).address;
+}
+
+QByteArray locationInLabel(const QByteArray& label)
+{
+    return parseLabel(label).location;
 }
 
 bool isBelowThreshold(const QByteArray& label)
@@ -96,24 +132,18 @@ bool isBelowThreshold(const QByteArray& label)
 
 QString formatLabel(const QByteArray& label)
 {
-    static QRegExp pattern("^(0x.+: )?([^\\)]+\\))(?: \\(([^\\)]+)\\))?$", Qt::CaseSensitive,
-                           QRegExp::RegExp2);
-    pattern.setMinimal(true);
-    if (pattern.indexIn(label) != -1) {
-        QString ret;
-        if (!pattern.cap(2).isEmpty()) {
-            ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(2)));
-        }
-        if (!pattern.cap(3).isEmpty()) {
-            ret += i18n("<dt>location:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(3)));
-        }
-        if (!pattern.cap(1).isEmpty()) {
-            ret += i18n("<dt>address:</dt><dd>%1</dd>\n", Qt::escape(pattern.cap(1)));
-        }
-        return ret;
-    } else {
-        return label;
+    ParsedLabel parsed = parseLabel(label);
+    QString ret;
+    if (!parsed.function.isEmpty()) {
+        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(parsed.function));
     }
+    if (!parsed.location.isEmpty()) {
+        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", Qt::escape(parsed.location));
+    }
+    if (!parsed.address.isEmpty()) {
+        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", Qt::escape(parsed.address));
+    }
+    return ret;
 }
 
 QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QByteArray& label)

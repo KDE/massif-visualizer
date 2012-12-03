@@ -44,9 +44,19 @@ MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
 MASSIFDATA_EXPORT QByteArray prettyLabel(const QByteArray& label);
 
 /**
- * Extracts the function name from the @p label
+ * Extracts the function name from the @p label.
  */
 MASSIFDATA_EXPORT QByteArray functionInLabel(const QByteArray& label);
+
+/**
+ * Extracts the address from the @p label if it exists.
+ */
+MASSIFDATA_EXPORT QByteArray addressInLabel(const QByteArray& label);
+
+/**
+ * Extracts the location from the @p label if it exists.
+ */
+MASSIFDATA_EXPORT QByteArray locationInLabel(const QByteArray& label);
 
 /**
  * Checks whether this label denotes a tree node

@@ -104,11 +104,29 @@ void DataModelTest::testUtils()
     QByteArray l("0x6F675AB: KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)");
     QCOMPARE(prettyLabel(l), QByteArray("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&) (identifier.cpp:1050)"));
     QCOMPARE(functionInLabel(l), QByteArray("KDevelop::IndexedIdentifier::IndexedIdentifier(KDevelop::Identifier const&)"));
+    QCOMPARE(addressInLabel(l), QByteArray("0x6F675AB"));
+    QCOMPARE(locationInLabel(l), QByteArray("identifier.cpp:1050"));
     }
     {
     QByteArray l("0x6F675AB: moz_xmalloc (mozalloc.cpp:98)");
     QCOMPARE(prettyLabel(l), QByteArray("moz_xmalloc (mozalloc.cpp:98)"));
     QCOMPARE(functionInLabel(l), QByteArray("moz_xmalloc"));
+    QCOMPARE(addressInLabel(l), QByteArray("0x6F675AB"));
+    QCOMPARE(locationInLabel(l), QByteArray("mozalloc.cpp:98"));
+    }
+    {
+    QByteArray l("0xC94BD60: KDevelop::Bucket<KDevelop::(anonymous namespace)::IndexedStringData, KDevelop::(anonymous namespace)::IndexedStringRepositoryItemRequest, false, 0u>::prepareChange() (itemrepository.h:1007)");
+    QCOMPARE(prettyLabel(l), QByteArray("KDevelop::Bucket<KDevelop::(anonymous namespace)::IndexedStringData, KDevelop::(anonymous namespace)::IndexedStringRepositoryItemRequest, false, 0u>::prepareChange() (itemrepository.h:1007)"));
+    QCOMPARE(functionInLabel(l), QByteArray("KDevelop::Bucket<KDevelop::(anonymous namespace)::IndexedStringData, KDevelop::(anonymous namespace)::IndexedStringRepositoryItemRequest, false, 0u>::prepareChange()"));
+    QCOMPARE(addressInLabel(l), QByteArray("0xC94BD60"));
+    QCOMPARE(locationInLabel(l), QByteArray("itemrepository.h:1007"));
+    }
+    {
+    QByteArray l("0x8E2B358: QString::QString(QChar const*, int) (in /usr/lib/libQtCore.so.4.8.4)");
+    QCOMPARE(prettyLabel(l), QByteArray("QString::QString(QChar const*, int) (in /usr/lib/libQtCore.so.4.8.4)"));
+    QCOMPARE(functionInLabel(l), QByteArray("QString::QString(QChar const*, int)"));
+    QCOMPARE(addressInLabel(l), QByteArray("0x8E2B358"));
+    QCOMPARE(locationInLabel(l), QByteArray("in /usr/lib/libQtCore.so.4.8.4"));
     }
 }
 

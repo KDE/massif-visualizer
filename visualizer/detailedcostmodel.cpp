@@ -361,11 +361,9 @@ void DetailedCostModel::hideFunction(TreeLeafItem* node)
 {
     beginResetModel();
     QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
-    const QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
-    while (it != end) {
+    while (it != m_nodes.end()) {
         QList< TreeLeafItem* >::iterator it2 = it.value().begin();
-        const QList< TreeLeafItem* >::iterator end2 = it.value().end();
-        while (it2 != end2) {
+        while (it2 != it.value().end()) {
             if ((*it2)->label() == node->label()) {
                 it2 = it.value().erase(it2);
             } else {

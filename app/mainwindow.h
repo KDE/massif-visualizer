@@ -54,7 +54,7 @@ class KGraphViewerInterface;
 
 namespace Massif {
 
-class ParseThread;
+class ParseWorker;
 class FileData;
 class DetailedCostModel;
 class TotalCostModel;
@@ -141,7 +141,8 @@ private slots:
     void slotShortenTemplates(bool);
 
     void stopParser();
-    void parserFinished(ParseThread* thread, FileData* data);
+    void parserFinished(const KUrl& file, Massif::FileData* data);
+    void parserError(const QString& title, const QString& error);
 
 private:
     void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
@@ -194,7 +195,7 @@ private:
 
     KAction* m_shortenTemplates;
 
-    ParseThread* m_parseThread;
+    ParseWorker* m_parseWorker;
 };
 
 }

@@ -33,7 +33,7 @@
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
-#include "massifdata/parsethread.h"
+#include "massifdata/parseworker.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
@@ -66,6 +66,7 @@
 #include <QInputDialog>
 
 #include <KDebug>
+#include <KMessageBox>
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
@@ -141,7 +142,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_newAllocator(0)
     , m_removeAllocator(0)
     , m_shortenTemplates(0)
-    , m_parseThread(0)
+    , m_parseWorker(new ParseWorker)
 {
     ui.setupUi(this);
 
@@ -253,10 +254,27 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     // open page
     ui.stackedWidget->setCurrentWidget(ui.openPage);
+
+    // threaded parser
+    QThread* thread = new QThread(this);
+    thread->start();
+    m_parseWorker->moveToThread(thread);
+    connect(m_parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
+            this, SLOT(parserFinished(KUrl, Massif::FileData*)));
+    connect(m_parseWorker, SIGNAL(error(QString, QString)),
+            this, SLOT(parserError(QString, QString)));
+    connect(m_parseWorker, SIGNAL(progressRange(int, int)),
+            ui.loadingProgress, SLOT(setRange(int,int)));
+    connect(m_parseWorker, SIGNAL(progress(int)),
+            ui.loadingProgress, SLOT(setValue(int)));
 }
 
 MainWindow::~MainWindow()
 {
+    m_parseWorker->stop();
+    m_parseWorker->deleteLater();
+    m_parseWorker->thread()->quit();
+    m_parseWorker->thread()->wait();
     closeFile();
     m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
 }
@@ -421,12 +439,7 @@ void MainWindow::reload()
 
 void MainWindow::stopParser()
 {
-    if (m_parseThread) {
-        m_parseThread->stop();
-        disconnect(m_parseThread, 0, this, 0);
-        m_parseThread = 0;
-    }
-
+    m_parseWorker->stop();
     m_stopParser->setEnabled(false);
     ui.stackedWidget->setCurrentWidget(ui.openPage);
 }
@@ -445,36 +458,16 @@ void MainWindow::openFile(const KUrl& file)
     ui.loadingProgress->setRange(0, 0);
     ui.loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
 
-    m_parseThread = new ParseThread(this);
-    connect(m_parseThread, SIGNAL(finished(ParseThread*, FileData*)),
-            this, SLOT(parserFinished(ParseThread*, FileData*)));
-    connect(m_parseThread, SIGNAL(finished()),
-            m_parseThread, SLOT(deleteLater()));
-    connect(m_parseThread, SIGNAL(progressRange(int, int)),
-            ui.loadingProgress, SLOT(setRange(int,int)));
-    connect(m_parseThread, SIGNAL(progress(int)),
-            ui.loadingProgress, SLOT(setValue(int)));
-
-    m_parseThread->startParsing(file, m_allocatorModel->stringList());
+    m_parseWorker->parse(file, m_allocatorModel->stringList());
 }
 
-void MainWindow::parserFinished(ParseThread* thread, FileData* data)
+void MainWindow::parserFinished(const KUrl& file, FileData* data)
 {
     // give the progress bar one last chance to update
     QApplication::processEvents();
 
-    Q_ASSERT(thread == m_parseThread);
-
-    m_parseThread = 0;
-    QScopedPointer<ParseThread> threadHouseholder(thread);
-
-    if (!data) {
-        thread->showError(this);
-        return;
-    }
-
     m_data = data;
-    m_currentFile = thread->file();
+    m_currentFile = file;
 
     Q_ASSERT(m_data->peak());
 
@@ -584,6 +577,11 @@ void MainWindow::parserFinished(ParseThread* thread, FileData* data)
     m_recentFiles->addUrl(m_currentFile);
 
     ui.stackedWidget->setCurrentWidget(ui.displayPage);
+}
+
+void MainWindow::parserError(const QString& title, const QString& error)
+{
+    KMessageBox::error(this, error, title);
 }
 
 void MainWindow::updateHeader()

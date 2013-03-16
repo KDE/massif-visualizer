@@ -32,40 +32,34 @@ namespace Massif {
 
 class FileData;
 
-class ParseThread : public QThread
+class ParseWorker : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ParseThread(QObject* parent = 0);
+    explicit ParseWorker(QObject* parent = 0);
 
-    void startParsing(const KUrl& url, const QStringList& allocators);
+    void stop();
 
-    void showError(QWidget* parent) const;
-
-    KUrl file() const;
+public slots:
+    void parse(const KUrl& url, const QStringList& allocators);
 
 signals:
-    void finished(ParseThread* thread, FileData* data);
+    /**
+     * Emitted once a file was properly parsed.
+     */
+    void finished(const KUrl& url, Massif::FileData* data);
+
+    /**
+     * Emitted if a file could not be parsed.
+     */
+    void error(const QString& error, const QString& message);
 
     void progressRange(int min, int max);
     void progress(int value);
 
-public slots:
-    void stop();
-
-protected:
-    virtual void run();
-
 private:
-    void setError(const QString& title, const QString& body);
-
-private:
-    KUrl m_url;
-    QStringList m_allocators;
     QAtomicInt m_shouldStop;
-    QString m_errorTitle;
-    QString m_errorBody;
 };
 
 }

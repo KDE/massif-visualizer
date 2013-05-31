@@ -24,6 +24,7 @@
 
 #include "filedata.h"
 #include "massifparser.h"
+#include "mallocinfoparser.h"
 #include "snapshotitem.h"
 
 #include <QtCore/QIODevice>
@@ -31,6 +32,8 @@
 #include <QtCore/QDebug>
 
 using namespace Massif;
+
+static const QByteArray MALLOCINFO_HEADER("<?xml");
 
 Parser::Parser()
     : m_errorLine(-1)
@@ -49,7 +52,11 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
     QScopedPointer<FileData> data(new FileData);
     QScopedPointer<ParserBase> parser;
 
-    parser.reset(new MassifParser(this, file, data.data(), customAllocators, shouldStop));
+    if (file->peek(MALLOCINFO_HEADER.size()) == MALLOCINFO_HEADER) {
+        parser.reset(new MallocInfoParser(this, file, data.data(), customAllocators, shouldStop));
+    } else {
+        parser.reset(new MassifParser(this, file, data.data(), customAllocators, shouldStop));
+    }
 
     Q_ASSERT(parser);
     if (parser->error()) {

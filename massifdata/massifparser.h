@@ -29,11 +29,8 @@
 #include <QtCore/QStringList>
 #include <QSet>
 
-class QIODevice;
-
 namespace Massif {
 
-class FileData;
 class SnapshotItem;
 class TreeLeafItem;
 

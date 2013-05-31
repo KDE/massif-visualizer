@@ -10,6 +10,7 @@ set(massifdata_SRCS
     parser.cpp
     parserbase.cpp
     massifparser.cpp
+    mallocinfoparser.cpp
     parseworker.cpp
     util.cpp
 )

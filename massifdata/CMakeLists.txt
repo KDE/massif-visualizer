@@ -8,7 +8,8 @@ set(massifdata_SRCS
     snapshotitem.cpp
     treeleafitem.cpp
     parser.cpp
-    parserprivate.cpp
+    parserbase.cpp
+    massifparser.cpp
     parseworker.cpp
     util.cpp
 )

@@ -23,7 +23,7 @@
 #include "parser.h"
 
 #include "filedata.h"
-#include "parserprivate.h"
+#include "massifparser.h"
 #include "snapshotitem.h"
 
 #include <QtCore/QIODevice>
@@ -47,12 +47,14 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
     Q_ASSERT(file->isReadable());
 
     QScopedPointer<FileData> data(new FileData);
+    QScopedPointer<ParserBase> parser;
 
-    ParserPrivate p(this, file, data.data(), customAllocators, shouldStop);
+    parser.reset(new MassifParser(this, file, data.data(), customAllocators, shouldStop));
 
-    if (p.error()) {
-        m_errorLine = p.errorLine();
-        m_errorLineString = p.errorLineString();
+    Q_ASSERT(parser);
+    if (parser->error()) {
+        m_errorLine = parser->errorLine();
+        m_errorLineString = parser->errorLineString();
         return 0;
     } else {
         m_errorLine = -1;

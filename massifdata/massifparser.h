@@ -20,8 +20,10 @@
    License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MASSIF_PARSERPRIVATE_H
-#define MASSIF_PARSERPRIVATE_H
+#ifndef MASSIF_MASSIFPARSER_H
+#define MASSIF_MASSIFPARSER_H
+
+#include "parserbase.h"
 
 #include <QtCore/QByteArray>
 #include <QtCore/QStringList>
@@ -34,33 +36,13 @@ namespace Massif {
 class FileData;
 class SnapshotItem;
 class TreeLeafItem;
-class Parser;
 
-class ParserPrivate
+class MassifParser : public ParserBase
 {
 public:
-    explicit ParserPrivate(Parser* parser, QIODevice* file, Massif::FileData* data,
-                           const QStringList& customAllocators, QAtomicInt* shouldStop);
-    ~ParserPrivate();
-
-    enum Error {
-        NoError, ///< file could be parsed properly
-        Invalid, ///< the file was invalid and could not be parsed
-        Stopped ///< parser was stopped
-    };
-    /**
-     * @return Whether an Error occurred or not.
-     * @see errorLine()
-     */
-    Error error() const;
-    /**
-     * @return the line in which an error occurred or -1 if none.
-     */
-    int errorLine() const;
-    /**
-     * @return the line which could not be parsed.
-     */
-    QByteArray errorLineString() const;
+    MassifParser(Parser* parser, QIODevice* file, FileData* data,
+                       const QStringList& customAllocators, QAtomicInt* shouldStop);
+    virtual ~MassifParser();
 
 private:
     void parseFileDesc(const QByteArray& line);
@@ -76,10 +58,6 @@ private:
     bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
 
     QByteArray getLabel(const QByteArray& original);
-
-    Parser* m_parser;
-    QIODevice* m_file;
-    FileData* m_data;
 
     /**
      * Each value in the enum identifies a line in the massif output file.
@@ -108,19 +86,12 @@ private:
     };
     ExpectData m_nextLine;
     int m_currentLine;
-    QByteArray m_errorLineString;
-
-    Error m_error;
-
     /// current snapshot that is parsed.
     SnapshotItem* m_snapshot;
     /// parent tree leaf item
     TreeLeafItem* m_parentItem;
     /// set to true if we had custom allocators
     bool m_hadCustomAllocators;
-
-    /// list of custom allocator wildcards
-    QList<QRegExp> m_allocators;
 
     /// improve memory consumption by re-using known labels
     /// and making use of the implicit sharing of QByteArrays
@@ -131,4 +102,4 @@ private:
 
 }
 
-#endif // MASSIF_PARSERPRIVATE_H
+#endif // MASSIF_MASSIFPARSER_H

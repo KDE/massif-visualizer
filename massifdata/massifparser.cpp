@@ -20,7 +20,7 @@
    License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "parserprivate.h"
+#include "massifparser.h"
 
 #include "filedata.h"
 #include "snapshotitem.h"
@@ -34,33 +34,26 @@
 
 using namespace Massif;
 
-#define VALIDATE(x) if (!(x)) { m_error = Invalid; return; }
+#define VALIDATE(x) if (!(x)) { setError(Invalid, m_currentLine, line); return; }
 
-#define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
+#define VALIDATE_RETURN(x, y) if (!(x)) { setError(Invalid, m_currentLine, line); return y; }
 
-ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
-                             const QStringList& customAllocators,
-                             QAtomicInt* shouldStop)
-    : m_parser(parser)
-    , m_file(file)
-    , m_data(data)
-    , m_nextLine(FileDesc)
-    , m_currentLine(0)
-    , m_error(NoError)
-    , m_snapshot(0)
-    , m_parentItem(0)
-    , m_hadCustomAllocators(false)
-    , m_expectedSnapshots(100)
+MassifParser::MassifParser(Parser* parser, QIODevice* file, FileData* data,
+                           const QStringList& customAllocators,
+                           QAtomicInt* shouldStop)
+: ParserBase(parser, file, data, customAllocators, shouldStop)
+, m_nextLine(FileDesc)
+, m_currentLine(0)
+, m_snapshot(0)
+, m_parentItem(0)
+, m_hadCustomAllocators(false)
+, m_expectedSnapshots(100)
 {
-    foreach(const QString& allocator, customAllocators) {
-        m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
-    }
-
     QByteArray line;
 
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
-            m_error = Stopped;
+            setError(Stopped, m_currentLine);
             return;
         }
         if (file->size()) {
@@ -102,44 +95,23 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                 parseHeapTreeLeaf(line);
                 break;
         }
-        if (m_error != NoError) {
+        if (error() != NoError) {
             qWarning() << "invalid line" << (m_currentLine + 1) << line;
-            m_error = Invalid;
-            m_errorLineString = line;
             break;
         }
         ++m_currentLine;
     }
     if (!file->atEnd()) {
-        m_error = Invalid;
+        setError(Invalid, m_currentLine);
     }
 }
 
-ParserPrivate::~ParserPrivate()
+MassifParser::~MassifParser()
 {
-}
-
-ParserPrivate::Error ParserPrivate::error() const
-{
-    return m_error;
-}
-
-int ParserPrivate::errorLine() const
-{
-    if (m_error == Invalid) {
-        return m_currentLine;
-    } else {
-        return -1;
-    }
-}
-
-QByteArray ParserPrivate::errorLineString() const
-{
-    return m_errorLineString;
 }
 
 //BEGIN Parser Functions
-void ParserPrivate::parseFileDesc(const QByteArray& line)
+void MassifParser::parseFileDesc(const QByteArray& line)
 {
     // desc: ...
     VALIDATE(line.startsWith("desc: "))
@@ -158,7 +130,7 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
     }
 }
 
-void ParserPrivate::parseFileCmd(const QByteArray& line)
+void MassifParser::parseFileCmd(const QByteArray& line)
 {
     // cmd: ...
     VALIDATE(line.startsWith("cmd: "))
@@ -167,7 +139,7 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
     m_nextLine = FileTimeUnit;
 }
 
-void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
+void MassifParser::parseFileTimeUnit(const QByteArray& line)
 {
     // time_unit: ...
     VALIDATE(line.startsWith("time_unit: "))
@@ -176,7 +148,7 @@ void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
     m_nextLine = Snapshot;
 }
 
-void ParserPrivate::parseSnapshot(const QByteArray& line)
+void MassifParser::parseSnapshot(const QByteArray& line)
 {
     VALIDATE(line == "#-----------")
 
@@ -204,7 +176,7 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     }
 }
 
-void ParserPrivate::parseSnapshotTime(const QByteArray& line)
+void MassifParser::parseSnapshotTime(const QByteArray& line)
 {
     VALIDATE(line.startsWith("time="))
     QByteArray timeStr(line.mid(5));
@@ -215,7 +187,7 @@ void ParserPrivate::parseSnapshotTime(const QByteArray& line)
     m_nextLine = SnapshotMemHeap;
 }
 
-void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
+void MassifParser::parseSnapshotMemHeap(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_heap_B="))
     QByteArray byteStr(line.mid(11));
@@ -226,7 +198,7 @@ void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
     m_nextLine = SnapshotMemHeapExtra;
 }
 
-void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
+void MassifParser::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_heap_extra_B="))
     QByteArray byteStr(line.mid(17));
@@ -237,7 +209,7 @@ void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
     m_nextLine = SnapshotMemStacks;
 }
 
-void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
+void MassifParser::parseSnapshotMemStacks(const QByteArray& line)
 {
     VALIDATE(line.startsWith("mem_stacks_B="))
     QByteArray byteStr(line.mid(13));
@@ -248,7 +220,7 @@ void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
     m_nextLine = SnapshotHeapTree;
 }
 
-void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
+void MassifParser::parseSnapshotHeapTree(const QByteArray& line)
 {
     VALIDATE(line.startsWith("heap_tree="))
     QByteArray value = line.mid(10);
@@ -260,7 +232,7 @@ void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
         m_nextLine = HeapTreeLeaf;
         m_data->setPeak(m_snapshot);
     } else {
-        m_error = Invalid;
+        setError(Invalid, m_currentLine, line);
         return;
     }
 }
@@ -270,7 +242,7 @@ bool sortLeafsByCost(TreeLeafItem* l, TreeLeafItem* r)
     return l->cost() > r->cost();
 }
 
-void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
+void MassifParser::parseHeapTreeLeaf(const QByteArray& line)
 {
     parseheapTreeLeafInternal(line, 0);
     m_nextLine = Snapshot;
@@ -328,7 +300,7 @@ struct SaveAndRestoreItem
     TreeLeafItem* m_oldVal;
 };
 
-QByteArray ParserPrivate::getLabel(const QByteArray& original)
+QByteArray MassifParser::getLabel(const QByteArray& original)
 {
     QSet<QByteArray>::const_iterator it = m_labels.constFind(original);
     if (it != m_labels.constEnd()) {
@@ -341,7 +313,7 @@ QByteArray ParserPrivate::getLabel(const QByteArray& original)
 }
 
 
-bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
+bool MassifParser::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 {
     VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', false)
     int colonPos = line.indexOf(':', depth);

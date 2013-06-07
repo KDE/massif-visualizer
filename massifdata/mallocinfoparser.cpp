@@ -47,7 +47,6 @@ MallocInfoParser::MallocInfoParser(Parser* parser, QIODevice* file, FileData* da
     while(!reader.atEnd()) {
         QXmlStreamReader::TokenType token = reader.readNext();
         if (token == QXmlStreamReader::StartElement) {
-            qDebug() << reader.name();
             const QXmlStreamAttributes attributes = reader.attributes();
             if (reader.name() == QLatin1String("mallocinfo")) {
                 data->setCmd(attributes.value(QLatin1String("cmd")).toString());

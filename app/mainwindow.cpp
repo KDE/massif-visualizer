@@ -544,7 +544,14 @@ void MainWindow::parserFinished(const KUrl& file, FileData* data)
     m_totalCostModel->setSource(m_data);
     m_totalDiagram->setModel(m_totalCostModel);
 
-    m_chart->coordinatePlane()->addDiagram(m_totalDiagram);
+    CartesianCoordinatePlane* coordinatePlane = dynamic_cast<CartesianCoordinatePlane*>(m_chart->coordinatePlane());
+    Q_ASSERT(coordinatePlane);
+    coordinatePlane->addDiagram(m_totalDiagram);
+
+    GridAttributes gridAttributes = coordinatePlane->gridAttributes(Qt::Horizontal);
+    gridAttributes.setAdjustBoundsToGrid(false, false);
+    coordinatePlane->setGridAttributes(Qt::Horizontal, gridAttributes);
+
     m_legend->addDiagram(m_totalDiagram);
     connect(m_totalDiagram, SIGNAL(clicked(QModelIndex)),
             this, SLOT(totalItemClicked(QModelIndex)));

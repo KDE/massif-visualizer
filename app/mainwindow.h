@@ -145,7 +145,7 @@ private slots:
     void parserError(const QString& title, const QString& error);
 
 private:
-    void getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item);
+    void showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item);
     void updateHeader();
     void updatePeaks();
     void updateDetailedPeaks();
@@ -176,7 +176,7 @@ private:
 #ifdef HAVE_KGRAPHVIEWER
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
-    DotGraphGenerator* m_dotGenerator;
+    QScopedPointer<DotGraphGenerator> m_dotGenerator;
     QPair<TreeLeafItem*, SnapshotItem*> m_lastDotItem;
 #endif
     KAction* m_zoomIn;

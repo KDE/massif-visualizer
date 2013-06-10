@@ -42,7 +42,6 @@ ConfigDialog::ConfigDialog(QWidget* parent)
 
 ConfigDialog::~ConfigDialog()
 {
-    delete m_ui;
 }
 
 bool ConfigDialog::isShown()

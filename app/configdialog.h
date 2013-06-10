@@ -45,7 +45,7 @@ public:
     static bool isShown();
 
 private:
-    Ui::Config* m_ui;
+    QScopedPointer<Ui::Config> m_ui;
 };
 
 }

@@ -486,7 +486,7 @@ void MainWindow::parserFinished(const KUrl& file, FileData* data)
     //BEGIN DotGraph
 #ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
-        getDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+        showDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
         m_zoomIn->setEnabled(true);
         m_zoomOut->setEnabled(true);
         m_focusExpensive->setEnabled(true);
@@ -621,7 +621,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
-        getDotGraph(item);
+        showDotGraph(item);
     }
 #endif
 
@@ -653,7 +653,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     m_chart->update();
 #ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
-        getDotGraph(item);
+        showDotGraph(item);
     }
 #endif
 
@@ -698,13 +698,13 @@ void MainWindow::closeFile()
 #ifdef HAVE_KGRAPHVIEWER
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator, 0, this, 0);
-            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
+            disconnect(m_dotGenerator.data(), 0, this, 0);
+            connect(m_dotGenerator.data(), SIGNAL(finished()),
+                    m_dotGenerator.data(), SLOT(deleteLater()));
             m_dotGenerator->cancel();
-        } else {
-            delete m_dotGenerator;
+            m_dotGenerator.take();
         }
-        m_dotGenerator = 0;
+        m_dotGenerator.reset();
     }
     if (m_graphViewer) {
         m_graphViewerPart->closeUrl();
@@ -792,7 +792,7 @@ void MainWindow::slotTabChanged(int index)
     }
 }
 
-void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
+void MainWindow::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
 {
     if (item == m_lastDotItem) {
         return;
@@ -805,24 +805,23 @@ void MainWindow::getDotGraph(QPair<TreeLeafItem*, SnapshotItem*> item)
     if (m_dotGenerator) {
         kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator, 0, this, 0);
-            connect(m_dotGenerator, SIGNAL(finished()), m_dotGenerator, SLOT(deleteLater()));
+            disconnect(m_dotGenerator.data(), 0, this, 0);
+            connect(m_dotGenerator.data(), SIGNAL(finished()),
+                    m_dotGenerator.data(), SLOT(deleteLater()));
             m_dotGenerator->cancel();
-        } else {
-            delete m_dotGenerator;
+            m_dotGenerator.take();
         }
-        m_dotGenerator = 0;
+        m_dotGenerator.reset();
     }
     if (!item.first && !item.second) {
         return;
     }
     if (item.second) {
-        m_dotGenerator = new DotGraphGenerator(item.second, m_data->timeUnit(), this);
+        m_dotGenerator.reset(new DotGraphGenerator(item.second, m_data->timeUnit(), this));
     } else {
-        m_dotGenerator = new DotGraphGenerator(item.first, m_data->timeUnit(), this);
+        m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
     }
-    connect(m_dotGenerator, SIGNAL(finished()),
-            this, SLOT(showDotGraph()));
+    connect(m_dotGenerator.data(), SIGNAL(finished()), SLOT(showDotGraph()));
     m_dotGenerator->start();
 }
 

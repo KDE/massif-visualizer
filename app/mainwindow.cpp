@@ -64,6 +64,8 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QInputDialog>
+#include <QPrinter>
+#include <QPrintDialog>
 
 #include <KDebug>
 #include <KMessageBox>
@@ -137,6 +139,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_zoomOut(0)
     , m_focusExpensive(0)
     , m_close(0)
+    , m_print(0)
     , m_stopParser(0)
     , m_allocatorModel(new QStringListModel(this))
     , m_newAllocator(0)
@@ -289,6 +292,10 @@ void MainWindow::setupActions()
 
     m_close = KStandardAction::close(this, SLOT(closeFile()), actionCollection());
     m_close->setEnabled(false);
+
+    m_print = KStandardAction::print(this, SLOT(printFile()), actionCollection());
+    actionCollection()->addAction("file_print", m_print);
+    m_print->setEnabled(false);
 
     m_stopParser = new KAction(i18n("Stop Parser"), actionCollection());
     m_stopParser->setIcon(KIcon("process-stop"));
@@ -472,6 +479,7 @@ void MainWindow::parserFinished(const KUrl& file, FileData* data)
     Q_ASSERT(m_data->peak());
 
     m_close->setEnabled(true);
+    m_print->setEnabled(true);
 
     kDebug() << "loaded massif file:" << m_currentFile;
     qDebug() << "description:" << m_data->description();
@@ -724,6 +732,7 @@ void MainWindow::closeFile()
 #endif
 
     m_close->setEnabled(false);
+    m_print->setEnabled(false);
 
     kDebug() << "closing file";
 
@@ -1072,6 +1081,24 @@ void MainWindow::slotShortenTemplates(bool shorten)
 
     Settings::self()->setShortenTemplates(shorten);
     settingsChanged();
+}
+
+void MainWindow::printFile()
+{
+    Q_ASSERT(m_data);
+
+    QPrinter printer;
+    ///TODO: add a print preview
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(i18n("Print Massif Chart"));
+    if (dialog->exec() != QDialog::Accepted)
+        return;
+
+    ///FIXME: use a "printing" color scheme
+    QPainter painter;
+    painter.begin(&printer);
+    m_chart->paint(&painter, printer.pageRect);
+    painter.end();
 }
 
 #include "mainwindow.moc"

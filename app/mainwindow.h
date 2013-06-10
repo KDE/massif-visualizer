@@ -105,6 +105,11 @@ public slots:
      */
     void showDetailedGraph(bool show);
 
+    /**
+     * Print current file.
+     */
+    void printFile();
+
 private slots:
     void preferences();
     void settingsChanged();
@@ -183,6 +188,7 @@ private:
     KAction* m_zoomOut;
     KAction* m_focusExpensive;
     KAction* m_close;
+    KAction* m_print;
     KAction* m_stopParser;
 
     QStringListModel* m_allocatorModel;

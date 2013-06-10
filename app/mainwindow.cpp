@@ -78,7 +78,7 @@ using namespace Massif;
 using namespace KDChart;
 
 //BEGIN Helper Functions
-void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, QPen foreground)
+void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
     dataAttributes.setDataLabel(prettyCost(cost));
@@ -1097,7 +1097,7 @@ void MainWindow::printFile()
     ///FIXME: use a "printing" color scheme
     QPainter painter;
     painter.begin(&printer);
-    m_chart->paint(&painter, printer.pageRect);
+    m_chart->paint(&painter, printer.pageRect());
     painter.end();
 }
 

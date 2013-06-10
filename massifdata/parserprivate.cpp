@@ -279,27 +279,31 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
     // - merge "in XYZ places all below threshold"
     if (m_hadCustomAllocators) {
         Q_ASSERT(m_snapshot->heapTree());
-        QList<TreeLeafItem*> newChildren = m_snapshot->heapTree()->children();
+        QVector<TreeLeafItem*> newChildren = m_snapshot->heapTree()->children();
         TreeLeafItem* belowThreshold = 0;
         uint places = 0;
         QString oldPlaces;
         ///TODO: is massif translateable?
         QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
                                             Qt::CaseSensitive, QRegExp::RegExp2);
-        foreach(TreeLeafItem* child, newChildren) {
+        TreeLeafItem** it = newChildren.begin();
+        while(it != newChildren.end()) {
+            TreeLeafItem* child = *it;
             if (matchBT.indexIn(QString::fromLatin1(child->label())) != -1) {
                 places += matchBT.cap(1).toUInt();
                 if (belowThreshold) {
                     // merge with previously found node
                     belowThreshold->setCost(belowThreshold->cost() + child->cost());
-                    newChildren.removeOne(child);
                     delete child;
+                    it = newChildren.erase(it);
+                    continue;
                 } else {
                     belowThreshold = child;
                     oldPlaces = matchBT.cap(1);
                     // no break, see above
                 }
             }
+            ++it;
         }
         if (belowThreshold) {
             QByteArray label = belowThreshold->label();

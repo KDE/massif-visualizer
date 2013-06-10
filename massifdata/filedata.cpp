@@ -71,7 +71,7 @@ void FileData::addSnapshot(SnapshotItem* snapshot)
     m_snapshots << snapshot;
 }
 
-QList< SnapshotItem* > FileData::snapshots() const
+QVector< SnapshotItem* > FileData::snapshots() const
 {
     return m_snapshots;
 }

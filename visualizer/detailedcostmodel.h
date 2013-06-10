@@ -105,11 +105,11 @@ public:
 private:
     const FileData* m_data;
     // columns => label
-    QList<QByteArray> m_columns;
+    QVector<QByteArray> m_columns;
     // only to sort snapshots by number
-    QList<SnapshotItem*> m_rows;
+    QVector<SnapshotItem*> m_rows;
     // snapshot item => cost intensive nodes
-    QHash<SnapshotItem*, QList<TreeLeafItem*> > m_nodes;
+    QHash<SnapshotItem*, QVector<TreeLeafItem*> > m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot
     QHash<QByteArray, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
     // selected item

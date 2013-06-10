@@ -24,7 +24,7 @@
 #define TREELEAFITEM_H
 
 #include <QtCore/QString>
-#include <QtCore/QList>
+#include <QtCore/QVector>
 #include <QtCore/QMetaType>
 
 #include "massifdata_export.h"
@@ -66,12 +66,12 @@ public:
      * No existing children will be deleted and might get leaked
      * if you do not do this yourself.
      */
-    void setChildren(const QList<TreeLeafItem*>& leafs);
+    void setChildren(const QVector<TreeLeafItem*>& leafs);
 
     /**
      * @return The children of this leaf.
      */
-    QList<TreeLeafItem*> children() const;
+    QVector<TreeLeafItem*> children() const;
 
     /**
      * @return The parent tree leaf item or zero, if this is the root node.
@@ -81,7 +81,7 @@ public:
 private:
     QByteArray m_label;
     quint64 m_cost;
-    QList<TreeLeafItem*> m_children;
+    QVector<TreeLeafItem*> m_children;
 
     TreeLeafItem* m_parent;
 };

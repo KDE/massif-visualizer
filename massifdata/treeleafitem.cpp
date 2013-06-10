@@ -60,12 +60,12 @@ void TreeLeafItem::addChild(TreeLeafItem* leaf)
     m_children << leaf;
 }
 
-void TreeLeafItem::setChildren(const QList< TreeLeafItem* >& leafs)
+void TreeLeafItem::setChildren(const QVector< TreeLeafItem* >& leafs)
 {
     m_children = leafs;
 }
 
-QList< TreeLeafItem* > TreeLeafItem::children() const
+QVector< TreeLeafItem* > TreeLeafItem::children() const
 {
     return m_children;
 }

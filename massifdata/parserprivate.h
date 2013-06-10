@@ -25,7 +25,8 @@
 
 #include <QtCore/QByteArray>
 #include <QtCore/QStringList>
-#include <QSet>
+#include <QtCore/QSet>
+#include <QVector>
 
 class QIODevice;
 
@@ -120,7 +121,7 @@ private:
     bool m_hadCustomAllocators;
 
     /// list of custom allocator wildcards
-    QList<QRegExp> m_allocators;
+    QVector<QRegExp> m_allocators;
 
     /// improve memory consumption by re-using known labels
     /// and making use of the implicit sharing of QByteArrays

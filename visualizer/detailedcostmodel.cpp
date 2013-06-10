@@ -70,7 +70,7 @@ void DetailedCostModel::setSource(const FileData* data)
         QMultiMap<int, QByteArray> sortColumnMap;
         foreach (SnapshotItem* snapshot, data->snapshots()) {
             if (snapshot->heapTree()) {
-                QList<TreeLeafItem*> nodes;
+                QVector<TreeLeafItem*> nodes;
                 foreach (TreeLeafItem* node, snapshot->heapTree()->children()) {
                     if (isBelowThreshold(node->label())) {
                         continue;
@@ -104,7 +104,8 @@ void DetailedCostModel::setSource(const FileData* data)
                 m_nodes[snapshot] = nodes;
             }
         }
-        m_columns = sortColumnMap.values();
+        // ugh, yet another bad usage of QList in Qt's API
+        m_columns = sortColumnMap.values().toVector();
         QAlgorithmsPrivate::qReverse(m_columns.begin(), m_columns.end());
 
         if (m_rows.isEmpty()) {
@@ -189,7 +190,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         } else {
             if (index.column() % 2 == 0) {
                 // get x-coordinate of the last snapshot with cost below 0.1% of peak cost
-                QList< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
+                QVector< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
                 double time = 0;
                 while (it != m_data->snapshots().constEnd() && (*it)->cost() < m_data->peak()->cost() * 0.001) {
                     time = (*it)->time();
@@ -309,7 +310,7 @@ QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
     if (column == -1 || column >= m_maxDatasetCount) {
         return QModelIndex();
     }
-    QHash< SnapshotItem*, QList< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
+    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
     while (it != m_nodes.constEnd()) {
         if (it->contains(node)) {
             return index(m_rows.indexOf(it.key()), column * 2);
@@ -360,9 +361,9 @@ void DetailedCostModel::setSelection(const QModelIndex& index)
 void DetailedCostModel::hideFunction(TreeLeafItem* node)
 {
     beginResetModel();
-    QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator it = m_nodes.begin();
     while (it != m_nodes.end()) {
-        QList< TreeLeafItem* >::iterator it2 = it.value().begin();
+        QVector< TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() == node->label()) {
                 it2 = it.value().erase(it2);
@@ -372,7 +373,10 @@ void DetailedCostModel::hideFunction(TreeLeafItem* node)
         }
         ++it;
     }
-    m_columns.removeOne(node->label());
+    int idx = m_columns.indexOf(node->label());
+    if (idx != -1) {
+        m_columns.remove(idx);
+    }
     endResetModel();
 }
 
@@ -382,10 +386,10 @@ void DetailedCostModel::hideOtherFunctions(TreeLeafItem* node)
     m_columns.clear();
     m_columns << node->label();
 
-    QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator it = m_nodes.begin();
-    const QHash< SnapshotItem*, QList< TreeLeafItem* > >::iterator end = m_nodes.end();
+    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    const QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator end = m_nodes.end();
     while (it != end) {
-        QList< TreeLeafItem* >::iterator it2 = it.value().begin();
+        QVector< TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() != node->label()) {
                 it2 = it.value().erase(it2);

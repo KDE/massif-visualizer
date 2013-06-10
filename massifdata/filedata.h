@@ -26,6 +26,7 @@
 #include "massifdata_export.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QVector>
 
 namespace Massif {
 
@@ -75,7 +76,7 @@ public:
     /**
      * @return List of all snapshots that make up this dataset.
      */
-    QList<SnapshotItem*> snapshots() const;
+    QVector<SnapshotItem*> snapshots() const;
 
     /**
      * Marks @p snapshot as peak of this dataset.
@@ -91,7 +92,7 @@ private:
     QString m_cmd;
     QString m_description;
     QString m_timeUnit;
-    QList<SnapshotItem*> m_snapshots;
+    QVector<SnapshotItem*> m_snapshots;
     SnapshotItem* m_peak;
 };
 

@@ -163,6 +163,7 @@ QModelIndex TotalCostModel::indexForSnapshot(SnapshotItem* snapshot) const
 
 QModelIndex TotalCostModel::indexForTreeLeaf(TreeLeafItem* node) const
 {
+    Q_UNUSED(node)
     return QModelIndex();
 }
 

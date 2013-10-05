@@ -80,6 +80,9 @@ void DataTreeModel::mapNodeToRow(TreeLeafItem* node, const int row)
 
 QVariant DataTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    Q_UNUSED(section)
+    Q_UNUSED(orientation)
+    Q_UNUSED(role)
     return i18n("Snapshots");
 }
 
@@ -170,6 +173,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
 
 int DataTreeModel::columnCount(const QModelIndex& parent) const
 {
+    Q_UNUSED(parent)
     return 1;
 }
 

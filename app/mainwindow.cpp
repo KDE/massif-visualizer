@@ -421,8 +421,11 @@ void MainWindow::settingsChanged()
     }
 
     Settings::self()->writeConfig();
-    updateHeader();
-    updatePeaks();
+
+    if (m_data) {
+        updateHeader();
+        updatePeaks();
+    }
     ui.dataTreeView->viewport()->update();
 }
 

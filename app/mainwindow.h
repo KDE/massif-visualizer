@@ -25,6 +25,8 @@
 
 #include <KParts/MainWindow>
 
+#include <QPrintPreviewDialog>
+
 #include "ui_mainwindow.h"
 
 class QStringListModel;
@@ -106,9 +108,14 @@ public slots:
     void showDetailedGraph(bool show);
 
     /**
-     * Print current file.
+     * Show the print preview dialog.
      */
-    void printFile();
+    void showPrintPreviewDialog();
+
+    /**
+     * Create a preview of the printed file in the @p printer.
+     */
+    void printFile(QPrinter *printer);
 
 private slots:
     void preferences();

@@ -293,7 +293,7 @@ void MainWindow::setupActions()
     m_close = KStandardAction::close(this, SLOT(closeFile()), actionCollection());
     m_close->setEnabled(false);
 
-    m_print = KStandardAction::print(this, SLOT(printFile()), actionCollection());
+    m_print = KStandardAction::print(this, SLOT(showPrintPreviewDialog()), actionCollection());
     actionCollection()->addAction("file_print", m_print);
     m_print->setEnabled(false);
 
@@ -1086,21 +1086,23 @@ void MainWindow::slotShortenTemplates(bool shorten)
     settingsChanged();
 }
 
-void MainWindow::printFile()
+void MainWindow::showPrintPreviewDialog()
 {
     Q_ASSERT(m_data);
 
     QPrinter printer;
-    ///TODO: add a print preview
-    QPrintDialog *dialog = new QPrintDialog(&printer, this);
-    dialog->setWindowTitle(i18n("Print Massif Chart"));
-    if (dialog->exec() != QDialog::Accepted)
-        return;
+    QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
+    connect(ppd, SIGNAL(paintRequested(QPrinter*)), SLOT(printFile(QPrinter*)));
+    ppd->setWindowTitle(i18n("Massif Chart Print Preview"));
+    ppd->resize(800, 600);
+    ppd->exec();
+}
 
-    ///FIXME: use a "printing" color scheme
+void  MainWindow::printFile(QPrinter *printer)
+{
     QPainter painter;
-    painter.begin(&printer);
-    m_chart->paint(&painter, printer.pageRect());
+    painter.begin(printer);
+    m_chart->paint(&painter, printer->pageRect());
     painter.end();
 }
 

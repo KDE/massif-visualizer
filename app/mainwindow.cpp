@@ -1092,6 +1092,7 @@ void MainWindow::showPrintPreviewDialog()
 
     QPrinter printer;
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
+    ppd->setAttribute(Qt::WA_DeleteOnClose);
     connect(ppd, SIGNAL(paintRequested(QPrinter*)), SLOT(printFile(QPrinter*)));
     ppd->setWindowTitle(i18n("Massif Chart Print Preview"));
     ppd->resize(800, 600);

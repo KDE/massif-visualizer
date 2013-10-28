@@ -22,8 +22,6 @@
 
 #include "totalcostmodel.h"
 
-#include <QtCore/QDebug>
-
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"

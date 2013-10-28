@@ -49,7 +49,6 @@
 
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KAction>
 #include <KFileDialog>
 #include <KRecentFilesAction>
 #include <KColorScheme>

@@ -28,8 +28,6 @@
 
 #include <QtCore/QIODevice>
 
-#include <QtCore/QDebug>
-
 using namespace Massif;
 
 Parser::Parser()

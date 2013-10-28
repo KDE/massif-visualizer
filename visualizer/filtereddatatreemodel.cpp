@@ -23,8 +23,6 @@
 #include "filtereddatatreemodel.h"
 #include "datatreemodel.h"
 
-#include <QDebug>
-
 using namespace Massif;
 
 FilteredDataTreeModel::FilteredDataTreeModel(DataTreeModel* parent)

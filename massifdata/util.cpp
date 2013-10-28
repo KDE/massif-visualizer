@@ -28,7 +28,6 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KConfigGroup>
-#include <KDebug>
 
 #include <QTextDocument>
 

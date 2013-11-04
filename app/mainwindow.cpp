@@ -77,7 +77,7 @@ using namespace Massif;
 using namespace KDChart;
 
 // Helper function
-KConfigGroup allocatorConfig()
+static KConfigGroup allocatorConfig()
 {
     return KGlobal::config()->group("Allocators");
 }

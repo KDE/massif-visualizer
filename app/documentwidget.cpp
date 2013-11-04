@@ -27,7 +27,7 @@
 using namespace Massif;
 using namespace KDChart;
 
-void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
+static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
     dataAttributes.setDataLabel(prettyCost(cost));

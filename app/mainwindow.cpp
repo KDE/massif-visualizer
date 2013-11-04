@@ -339,10 +339,11 @@ void MainWindow::stopParser()
     Q_ASSERT(m_currentDocument);
     ParseWorker* parseWorker = m_documentsParseWorkers.take(m_currentDocument);
 
+    QThread* thread = parseWorker->thread();
     parseWorker->stop();
     parseWorker->deleteLater();
-    parseWorker->thread()->quit();
-    parseWorker->thread()->wait();
+    thread->quit();
+    thread->wait();
 
     m_stopParser->setEnabled(false);
 }

@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_newAllocator(0)
     , m_removeAllocator(0)
     , m_shortenTemplates(0)
+    , m_currentDocument(0)
 {
     ui.setupUi(this);
 
@@ -220,7 +221,7 @@ void MainWindow::setupActions()
 
     // If the toolbar is still there, kgraphviewer is available at runtime.
 #ifdef HAVE_KGRAPHVIEWER
-    if (!toolBar("callgraphToolBar")) {
+    if (toolBar("callgraphToolBar")) {
         m_zoomIn = KStandardAction::zoomIn(this, SLOT(zoomIn()), actionCollection());
         actionCollection()->addAction("zoomIn", m_zoomIn);
         m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
@@ -309,35 +310,34 @@ void MainWindow::settingsChanged()
 
     Settings::self()->writeConfig();
 
-    if (ui.documents->count()) {
-        currentDocument()->updateHeader();
-        currentDocument()->updatePeaks();
+    if (m_currentDocument) {
+        m_currentDocument->updateHeader();
+        m_currentDocument->updatePeaks();
     }
     ui.dataTreeView->viewport()->update();
 }
 
 void MainWindow::openFile()
 {
-    QStringList files = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///massif-visualizer"),
-                                                QString("application/x-valgrind-massif"),
-                                                this, i18n("Open Massif Output File"));
-
-    foreach (KUrl file, files) {
+    const KUrl::List files = KFileDialog::getOpenUrls(KUrl("kfiledialog:///massif-visualizer"),
+                                                      QString("application/x-valgrind-massif"),
+                                                      this, i18n("Open Massif Output File"));
+    foreach (const KUrl& file, files) {
         openFile(file);
     }
 }
 
 void MainWindow::reloadCurrentFile()
 {
-    if (currentDocument()->file().isValid()) {
-        openFile(KUrl(currentDocument()->file()));
+    if (m_currentDocument->file().isValid()) {
+        openFile(KUrl(m_currentDocument->file()));
     }
 }
 
 void MainWindow::stopParser()
 {
-    Q_ASSERT(currentDocument());
-    ParseWorker* parseWorker = m_documentsParseWorkers.take(currentDocument());
+    Q_ASSERT(m_currentDocument);
+    ParseWorker* parseWorker = m_documentsParseWorkers.take(m_currentDocument);
 
     parseWorker->stop();
     parseWorker->deleteLater();
@@ -351,22 +351,19 @@ void MainWindow::openFile(const KUrl& file)
 {
     Q_ASSERT(file.isValid());
 
-    // give the progress bar one last chance to update
-    QApplication::processEvents();
-
-    int indexToInsert = -1, i = 0;
-
     // Is file already opened ?
-    while (indexToInsert == -1 && i < ui.documents->count()) {
+    int indexToInsert = -1;
+    for (int i = 0; i < ui.documents->count(); ++i) {
         if (qobject_cast<DocumentWidget*>(ui.documents->widget(i))->file() == file) {
             indexToInsert = i;
+            break;
         }
-
-        ++i;
     }
 
-    DocumentWidget* documentWidget = new DocumentWidget;
+    DocumentWidget* documentWidget = new DocumentWidget(this);
     documentWidget->setLoadingMessage(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+
+    m_changingSelections.insert(documentWidget, false);
 
     // Create dedicated thread for this document.
     ParseWorker* parseWorker = new ParseWorker;
@@ -395,50 +392,13 @@ void MainWindow::openFile(const KUrl& file)
     connect(parseWorker, SIGNAL(progress(int)),
             documentWidget, SLOT(setProgress(int)));
     connect(documentWidget, SIGNAL(loadingFinished()),
-            this, SLOT(parserFinished()));
+            this, SLOT(documentChanged()));
 
     parseWorker->parse(file, m_allocatorModel->stringList());
 
     m_stopParser->setEnabled(true);
-    m_close->setEnabled(true);
     m_recentFiles->addUrl(file);
     ui.stackedWidget->setCurrentWidget(ui.displayPage);
-}
-
-void MainWindow::parserFinished()
-{
-    DocumentWidget* documentWidget = qobject_cast<DocumentWidget*>(sender());
-    m_changingSelections.insert(documentWidget, false);
-
-#ifdef HAVE_KGRAPHVIEWER
-    if (documentWidget->graphViewer()) {
-        m_zoomIn->setEnabled(true);
-        m_zoomOut->setEnabled(true);
-        m_focusExpensive->setEnabled(true);
-    }
-#endif
-
-    ui.dataTreeView->setModel(documentWidget->dataTreeFilterModel());
-
-    connect(documentWidget->totalDiagram(), SIGNAL(clicked(QModelIndex)),
-            this, SLOT(totalItemClicked(QModelIndex)));
-    connect(documentWidget->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
-            this, SLOT(detailedItemClicked(QModelIndex)));
-    connect(documentWidget->chart(), SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(chartContextMenuRequested(QPoint)));
-    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
-            documentWidget->dataTreeFilterModel(), SLOT(setFilter(QString)));
-    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
-
-    m_print->setEnabled(true);
-    m_toggleDetailed->setEnabled(true);
-    m_toggleTotal->setEnabled(true);
-    m_selectPeak->setEnabled(true);
-    actionCollection()->action("file_reload")->setEnabled(true);
-
-    // Update the window title once the document is fully loaded.
-    updateWindowTitle();
 }
 
 void MainWindow::parserError(const QString& title, const QString& error)
@@ -448,7 +408,7 @@ void MainWindow::parserError(const QString& title, const QString& error)
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
 {
-    if (currentChangingSelections() || !ui.documents->count()) {
+    if (!m_currentDocument || currentChangingSelections()) {
         return;
     }
 
@@ -457,23 +417,23 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
     setCurrentChangingSelections(true);
 
-    const QPair< TreeLeafItem*, SnapshotItem* >& item = currentDocument()->dataTreeModel()->itemForIndex(
-       currentDocument()->dataTreeFilterModel()->mapToSource(now)
+    const QPair< TreeLeafItem*, SnapshotItem* >& item = m_currentDocument->dataTreeModel()->itemForIndex(
+       m_currentDocument->dataTreeFilterModel()->mapToSource(now)
     );
 
     if (now.parent().isValid()) {
-        currentDocument()->detailedCostModel()->setSelection(currentDocument()->detailedCostModel()->indexForItem(item));
-        currentDocument()->totalCostModel()->setSelection(QModelIndex());
+        m_currentDocument->detailedCostModel()->setSelection(m_currentDocument->detailedCostModel()->indexForItem(item));
+        m_currentDocument->totalCostModel()->setSelection(QModelIndex());
     } else {
-        currentDocument()->totalCostModel()->setSelection(currentDocument()->totalCostModel()->indexForItem(item));
-        currentDocument()->detailedCostModel()->setSelection(QModelIndex());
+        m_currentDocument->totalCostModel()->setSelection(m_currentDocument->totalCostModel()->indexForItem(item));
+        m_currentDocument->detailedCostModel()->setSelection(QModelIndex());
     }
 
-    currentDocument()->chart()->update();
+    m_currentDocument->chart()->update();
 
 #ifdef HAVE_KGRAPHVIEWER
-    if (currentDocument()->graphViewer()) {
-        currentDocument()->showDotGraph(item);
+    if (m_currentDocument->graphViewer()) {
+        m_currentDocument->showDotGraph(item);
     }
 #endif
 
@@ -482,31 +442,31 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 
 void MainWindow::detailedItemClicked(const QModelIndex& idx)
 {
-    if (currentChangingSelections() || !ui.documents->count()) {
+    if (!m_currentDocument || currentChangingSelections()) {
         return;
     }
 
     setCurrentChangingSelections(true);
 
-    currentDocument()->detailedCostModel()->setSelection(idx);
-    currentDocument()->totalCostModel()->setSelection(QModelIndex());
+    m_currentDocument->detailedCostModel()->setSelection(idx);
+    m_currentDocument->totalCostModel()->setSelection(QModelIndex());
 
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
-    const QModelIndex _idx = currentDocument()->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
+    const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
     ui.dataTreeView->selectionModel()->clearSelection();
-    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->detailedCostModel()->itemForIndex(_idx);
-    const QModelIndex& newIndex = currentDocument()->dataTreeFilterModel()->mapFromSource(
-        currentDocument()->dataTreeModel()->indexForItem(item)
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
+    const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
+        m_currentDocument->dataTreeModel()->indexForItem(item)
     );
     ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
-    currentDocument()->chart()->update();
+    m_currentDocument->chart()->update();
 
 #ifdef HAVE_KGRAPHVIEWER
-    if (currentDocument()->graphViewer()) {
-        currentDocument()->showDotGraph(item);
+    if (m_currentDocument->graphViewer()) {
+        m_currentDocument->showDotGraph(item);
     }
 #endif
 
@@ -515,7 +475,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
 
 void MainWindow::totalItemClicked(const QModelIndex& idx_)
 {
-    if (currentChangingSelections() || !ui.documents->count()) {
+    if (!m_currentDocument || currentChangingSelections()) {
         return;
     }
 
@@ -523,19 +483,19 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
 
     QModelIndex idx = idx_.model()->index(idx_.row() + 1, idx_.column(), idx_.parent());
 
-    currentDocument()->detailedCostModel()->setSelection(QModelIndex());
-    currentDocument()->totalCostModel()->setSelection(idx);
+    m_currentDocument->detailedCostModel()->setSelection(QModelIndex());
+    m_currentDocument->totalCostModel()->setSelection(idx);
 
-    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->totalCostModel()->itemForIndex(idx);
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->totalCostModel()->itemForIndex(idx);
 
     ui.dataTreeView->selectionModel()->clearSelection();
-    const QModelIndex& newIndex = currentDocument()->dataTreeFilterModel()->mapFromSource(
-        currentDocument()->dataTreeModel()->indexForItem(item)
+    const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
+        m_currentDocument->dataTreeModel()->indexForItem(item)
     );
     ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
-    currentDocument()->chart()->update();
+    m_currentDocument->chart()->update();
 
     setCurrentChangingSelections(false);
 }
@@ -546,88 +506,74 @@ void MainWindow::closeCurrentFile()
 
     // Tab is now removed
     int tabToCloseIndex = ui.documents->currentIndex();
-    m_changingSelections.remove(currentDocument());
-    m_documentsParseWorkers.remove(currentDocument());
+    m_changingSelections.remove(m_currentDocument);
     ui.documents->widget(tabToCloseIndex)->deleteLater();
     ui.documents->removeTab(tabToCloseIndex);
-
-    if (!ui.documents->count()) {
-        actionCollection()->action("file_reload")->setEnabled(false);
-        m_close->setEnabled(false);
-        m_print->setEnabled(false);
-        m_toggleDetailed->setEnabled(false);
-        m_toggleTotal->setEnabled(false);
-        m_selectPeak->setEnabled(false);
-        m_zoomIn->setEnabled(false);
-        m_zoomOut->setEnabled(false);
-        m_focusExpensive->setEnabled(false);
-        ui.stackedWidget->setCurrentWidget(ui.openPage);
-    } else {
-        // Display the remaining(s) file(s).
-        ui.stackedWidget->setCurrentWidget(ui.displayPage);
-    }
 }
 
 void MainWindow::showDetailedGraph(bool show)
 {
-    if (ui.documents->count()) {
-        currentDocument()->detailedDiagram()->setHidden(!show);
-        m_toggleDetailed->setChecked(show);
-        currentDocument()->chart()->update();
+    if (!m_currentDocument) {
+        return;
     }
+    m_currentDocument->detailedDiagram()->setHidden(!show);
+    m_toggleDetailed->setChecked(show);
+    m_currentDocument->chart()->update();
 }
 
 void MainWindow::showTotalGraph(bool show)
 {
-    if (ui.documents->count()) {
-        currentDocument()->totalDiagram()->setHidden(!show);
-        m_toggleTotal->setChecked(show);
-        currentDocument()->chart()->update();
+    if (!m_currentDocument) {
+        return;
     }
+    m_currentDocument->totalDiagram()->setHidden(!show);
+    m_toggleTotal->setChecked(show);
+    m_currentDocument->chart()->update();
 }
 
 #ifdef HAVE_KGRAPHVIEWER
 
 void MainWindow::zoomIn()
 {
-    Q_ASSERT(currentDocument()->graphViewer());
+    Q_ASSERT(m_currentDocument->graphViewer());
 
-    currentDocument()->graphViewer()->zoomIn();
+    m_currentDocument->graphViewer()->zoomIn();
 }
 
 void MainWindow::zoomOut()
 {
-    Q_ASSERT(currentDocument()->graphViewer());
+    Q_ASSERT(m_currentDocument->graphViewer());
 
-    currentDocument()->graphViewer()->zoomOut();
+    m_currentDocument->graphViewer()->zoomOut();
 }
 
 void MainWindow::focusExpensiveGraphNode()
 {
-    Q_ASSERT(currentDocument());
-    currentDocument()->focusExpensiveGraphNode();
+    Q_ASSERT(m_currentDocument);
+    m_currentDocument->focusExpensiveGraphNode();
 }
 
 #endif
 
 void MainWindow::selectPeakSnapshot()
 {
-    Q_ASSERT(currentDocument());
+    Q_ASSERT(m_currentDocument);
 
     ui.dataTreeView->selectionModel()->clearSelection();
     ui.dataTreeView->selectionModel()->setCurrentIndex(
-        currentDocument()->dataTreeFilterModel()->mapFromSource(
-            currentDocument()->dataTreeModel()->indexForSnapshot(currentDocument()->data()->peak())),
+        m_currentDocument->dataTreeFilterModel()->mapFromSource(
+            m_currentDocument->dataTreeModel()->indexForSnapshot(m_currentDocument->data()->peak())),
             QItemSelectionModel::Select | QItemSelectionModel::Rows
     );
 }
 
 void MainWindow::setStackNum(int num)
 {
-    if (ui.documents->count()) {
-        currentDocument()->detailedCostModel()->setMaximumDatasetCount(num);
-        currentDocument()->updatePeaks();
+    if (!m_currentDocument) {
+        return;
     }
+    m_currentDocument->detailedCostModel()->setMaximumDatasetCount(num);
+    m_currentDocument->updatePeaks();
 }
 
 void MainWindow::allocatorsChanged()
@@ -644,7 +590,7 @@ void MainWindow::allocatorsChanged()
     }
     cfg.sync();
 
-    if (ui.documents->count()) {
+    if (m_currentDocument) {
         reloadCurrentFile();
     }
 }
@@ -697,7 +643,7 @@ void MainWindow::allocatorViewContextMenuRequested(const QPoint& pos)
 
 void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
 {
-    const QModelIndex idx = currentDocument()->dataTreeFilterModel()->mapToSource(
+    const QModelIndex idx = m_currentDocument->dataTreeFilterModel()->mapToSource(
                                 ui.dataTreeView->indexAt(pos));
     if (!idx.isValid()) {
         return;
@@ -709,7 +655,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     }
 
     QMenu menu;
-    TreeLeafItem* item = currentDocument()->dataTreeModel()->itemForIndex(idx).first;
+    TreeLeafItem* item = m_currentDocument->dataTreeModel()->itemForIndex(idx).first;
     Q_ASSERT(item);
     prepareActions(&menu, item);
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
@@ -717,16 +663,16 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
 
 void MainWindow::chartContextMenuRequested(const QPoint& pos)
 {
-    const QPoint dPos = currentDocument()->detailedDiagram()->mapFromGlobal(currentDocument()->chart()->mapToGlobal(pos));
+    const QPoint dPos = m_currentDocument->detailedDiagram()->mapFromGlobal(m_currentDocument->chart()->mapToGlobal(pos));
 
-    const QModelIndex idx = currentDocument()->detailedDiagram()->indexAt(dPos);
+    const QModelIndex idx = m_currentDocument->detailedDiagram()->indexAt(dPos);
     if (!idx.isValid()) {
         return;
     }
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
-    const QModelIndex _idx = currentDocument()->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
-    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->detailedCostModel()->itemForIndex(_idx);
+    const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
+    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
 
     if (!item.first) {
         return;
@@ -735,7 +681,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     QMenu menu;
     menu.addAction(m_markCustomAllocator);
     prepareActions(&menu, item.first);
-    menu.exec(currentDocument()->detailedDiagram()->mapToGlobal(dPos));
+    menu.exec(m_currentDocument->detailedDiagram()->mapToGlobal(dPos));
 }
 
 void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
@@ -759,12 +705,12 @@ void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
 
 void MainWindow::slotHideFunction()
 {
-    currentDocument()->detailedCostModel()->hideFunction(m_hideFunction->data().value<TreeLeafItem*>());
+    m_currentDocument->detailedCostModel()->hideFunction(m_hideFunction->data().value<TreeLeafItem*>());
 }
 
 void MainWindow::slotHideOtherFunctions()
 {
-    currentDocument()->detailedCostModel()->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
+    m_currentDocument->detailedCostModel()->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
 }
 
 void MainWindow::slotShortenTemplates(bool shorten)
@@ -779,7 +725,7 @@ void MainWindow::slotShortenTemplates(bool shorten)
 
 void MainWindow::showPrintPreviewDialog()
 {
-    Q_ASSERT(ui.documents->count());
+    Q_ASSERT(m_currentDocument);
 
     QPrinter printer;
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
@@ -794,49 +740,98 @@ void  MainWindow::printFile(QPrinter *printer)
 {
     QPainter painter;
     painter.begin(printer);
-    currentDocument()->chart()->paint(&painter, printer->pageRect());
+    m_currentDocument->chart()->paint(&painter, printer->pageRect());
     painter.end();
 }
 
 void MainWindow::updateWindowTitle()
 {
-    if (ui.documents->count() && currentDocument()->isLoaded()) {
-        setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", currentDocument()->data()->cmd(), currentDocument()->file().fileName()));
+    if (m_currentDocument && m_currentDocument->isLoaded()) {
+        setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_currentDocument->data()->cmd(), m_currentDocument->file().fileName()));
     } else {
         setWindowTitle(i18n("Massif Visualizer"));
     }
 }
 
-DocumentWidget* MainWindow::currentDocument() const
-{
-    return qobject_cast<DocumentWidget*>(ui.documents->currentWidget());
-}
-
 void MainWindow::documentChanged()
 {
+    if (m_currentDocument) {
+        if (m_currentDocument->totalDiagram()) {
+            disconnect(m_currentDocument->totalDiagram(), SIGNAL(clicked(QModelIndex)),
+                       this, SLOT(totalItemClicked(QModelIndex)));
+        }
+        if (m_currentDocument->detailedDiagram()) {
+            disconnect(m_currentDocument->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
+                       this, SLOT(detailedItemClicked(QModelIndex)));
+        }
+        if (m_currentDocument->chart()) {
+            disconnect(m_currentDocument->chart(), SIGNAL(customContextMenuRequested(QPoint)),
+                       this, SLOT(chartContextMenuRequested(QPoint)));
+        }
+        disconnect(ui.filterDataTree, SIGNAL(textChanged(QString)),
+                   m_currentDocument->dataTreeFilterModel(), SLOT(setFilter(QString)));
+        disconnect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+                   this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+    }
+
+    m_currentDocument = qobject_cast<DocumentWidget*>(ui.documents->currentWidget());
+
     updateWindowTitle();
+#ifdef HAVE_KGRAPHVIEWER
+    if (toolBar("callgraphToolBar")) {
+        m_zoomIn->setEnabled(m_currentDocument && m_currentDocument->graphViewer());
+        m_zoomOut->setEnabled(m_currentDocument && m_currentDocument->graphViewer());
+        m_focusExpensive->setEnabled(m_currentDocument && m_currentDocument->graphViewer());
+    }
+#endif
+    m_print->setEnabled(m_currentDocument);
+    m_selectPeak->setEnabled(m_currentDocument);
+    actionCollection()->action("file_reload")->setEnabled(m_currentDocument);
+    m_toggleDetailed->setEnabled(m_currentDocument && m_currentDocument->detailedDiagram());
+    m_toggleTotal->setEnabled(m_currentDocument && m_currentDocument->totalDiagram());
+    m_close->setEnabled(m_currentDocument);
 
-    if (ui.documents->count() && currentDocument()->isLoaded()) {
+    if (!m_currentDocument) {
+        ui.dataTreeView->setModel(0);
+        ui.stackedWidget->setCurrentWidget(ui.openPage);
+        return;
+    }
 
-        ui.dataTreeView->setModel(currentDocument()->dataTreeFilterModel());
+    ui.dataTreeView->setModel(m_currentDocument->dataTreeFilterModel());
 
-        // FIXME (arnold): this connection shouldn't be necessary
-        connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-                this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+    if (m_currentDocument->totalDiagram()) {
+        connect(m_currentDocument->totalDiagram(), SIGNAL(clicked(QModelIndex)),
+                this, SLOT(totalItemClicked(QModelIndex)));
+    }
+    if (m_currentDocument->detailedDiagram()) {
+        connect(m_currentDocument->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
+                this, SLOT(detailedItemClicked(QModelIndex)));
+    }
+    if (m_currentDocument->chart()) {
+        connect(m_currentDocument->chart(), SIGNAL(customContextMenuRequested(QPoint)),
+                this, SLOT(chartContextMenuRequested(QPoint)));
+    }
+    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
+            m_currentDocument->dataTreeFilterModel(), SLOT(setFilter(QString)));
+    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
-        m_toggleDetailed->setChecked(!currentDocument()->detailedDiagram()->isHidden());
-        m_toggleTotal->setChecked(!currentDocument()->totalDiagram()->isHidden());
+    if (m_toggleDetailed->isEnabled()) {
+        m_toggleDetailed->setChecked(!m_currentDocument->detailedDiagram()->isHidden());
+    }
+    if (m_toggleTotal->isEnabled()) {
+        m_toggleTotal->setChecked(!m_currentDocument->totalDiagram()->isHidden());
     }
 }
 
 bool MainWindow::currentChangingSelections() const
 {
-    return m_changingSelections[currentDocument()];
+    return m_changingSelections[m_currentDocument];
 }
 
 void MainWindow::setCurrentChangingSelections(bool changingSelections)
 {
-    m_changingSelections[currentDocument()] = changingSelections;
+    m_changingSelections[m_currentDocument] = changingSelections;
 }
 
 #include "mainwindow.moc"

@@ -147,7 +147,6 @@ private slots:
     void slotShortenTemplates(bool);
 
     void stopParser();
-    void parserFinished();
     void parserError(const QString& title, const QString& error);
 
 private:
@@ -156,8 +155,6 @@ private:
     void prepareActions(QMenu* menu, TreeLeafItem* item);
 
     // Helper
-    DocumentWidget* currentDocument() const;
-
     Ui::MainWindow ui;
 
     KAction* m_toggleTotal;
@@ -186,6 +183,7 @@ private:
 
     KAction* m_shortenTemplates;
 
+    DocumentWidget* m_currentDocument;
     QHash<DocumentWidget*, ParseWorker*> m_documentsParseWorkers;
 };
 

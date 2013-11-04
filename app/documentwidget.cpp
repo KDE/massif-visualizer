@@ -22,7 +22,50 @@
 */
 
 #include "documentwidget.h"
+
 #include <QApplication>
+
+#include "KDChartChart"
+#include "KDChartGridAttributes"
+#include "KDChartHeaderFooter"
+#include "KDChartCartesianCoordinatePlane"
+#include "KDChartPlotter"
+#include "KDChartLegend"
+#include "KDChartDataValueAttributes"
+#include "KDChartBackgroundAttributes"
+
+#include "massifdata/filedata.h"
+#include "massifdata/parser.h"
+#include "massifdata/parseworker.h"
+#include "massifdata/snapshotitem.h"
+#include "massifdata/treeleafitem.h"
+#include "massifdata/util.h"
+
+#include "visualizer/totalcostmodel.h"
+#include "visualizer/detailedcostmodel.h"
+#include "visualizer/datatreemodel.h"
+#include "visualizer/filtereddatatreemodel.h"
+#include "visualizer/dotgraphgenerator.h"
+
+#include <KStandardAction>
+#include <KColorScheme>
+#include <KParts/Part>
+#include <KLibFactory>
+#include <KLibLoader>
+#include <KLocalizedString>
+#include <KMessageWidget>
+#include <KIcon>
+#include <KDebug>
+
+#include <QLabel>
+#include <QProgressBar>
+#include <QStackedWidget>
+#include <QTabWidget>
+#include <QToolButton>
+
+#ifdef HAVE_KGRAPHVIEWER
+#include <kgraphviewer_interface.h>
+#endif
 
 using namespace Massif;
 using namespace KDChart;

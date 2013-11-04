@@ -24,52 +24,9 @@
 #ifndef DOCUMENTWIDGET_H
 #define DOCUMENTWIDGET_H
 
-#include "documentwidget.h"
+#include <QWidget>
+#include <KUrl>
 
-#include "KDChartChart"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
-#include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
-#include "KDChartLegend"
-#include "KDChartDataValueAttributes"
-#include "KDChartBackgroundAttributes"
-
-#include "massifdata/filedata.h"
-#include "massifdata/parser.h"
-#include "massifdata/parseworker.h"
-#include "massifdata/snapshotitem.h"
-#include "massifdata/treeleafitem.h"
-#include "massifdata/util.h"
-
-#include "visualizer/totalcostmodel.h"
-#include "visualizer/detailedcostmodel.h"
-#include "visualizer/datatreemodel.h"
-#include "visualizer/filtereddatatreemodel.h"
-#include "visualizer/dotgraphgenerator.h"
-
-#include "massif-visualizer-settings.h"
-#include "configdialog.h"
-
-#include <KStandardAction>
-#include <KColorScheme>
-#include <KParts/Part>
-#include <KLibFactory>
-#include <KLibLoader>
-#include <KLocalizedString>
-#include <KMessageWidget>
-
-#include <QLabel>
-#include <QProgressBar>
-#include <QSortFilterProxyModel>
-#include <QStackedWidget>
-#include <QStringListModel>
-#include <QTabWidget>
-#include <QToolButton>
-
-#ifdef HAVE_KGRAPHVIEWER
-#include <kgraphviewer_interface.h>
-#endif
 
 namespace KDChart {
 class Chart;
@@ -80,8 +37,26 @@ class Legend;
 class BarDiagram;
 }
 
+class QLabel;
+class QProgressBar;
+class QToolButton;
+class QStackedWidget;
+
+class KMessageWidget;
+
 namespace KParts {
 class ReadOnlyPart;
+}
+
+namespace Massif {
+class FileData;
+class TotalCostModel;
+class DetailedCostModel;
+class DataTreeModel;
+class FilteredDataTreeModel;
+class TreeLeafItem;
+class SnapshotItem;
+class DotGraphGenerator;
 }
 
 #ifdef HAVE_KGRAPHVIEWER

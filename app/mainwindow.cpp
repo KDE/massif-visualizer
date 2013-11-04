@@ -345,7 +345,7 @@ void MainWindow::stopParser()
     thread->quit();
     thread->wait();
 
-    m_stopParser->setEnabled(false);
+    m_stopParser->setEnabled(!m_documentsParseWorkers.isEmpty());
 }
 
 void MainWindow::openFile(const KUrl& file)

@@ -67,17 +67,17 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_dataTreeModel(new DataTreeModel(m_chart))
   , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
   , m_data(0)
-#ifdef HAVE_KGRAPHVIEWER
-  , m_graphViewerPart(0)
-  , m_graphViewer(0)
-  , m_dotGenerator(0)
-#endif
   , m_stackedWidget(new QStackedWidget(this))
   , m_displayTabWidget(new QTabWidget(m_stackedWidget))
   , m_loadingMessage(0)
   , m_loadingProgressBar(0)
   , m_stopParserButton(0)
   , m_isLoaded(false)
+#ifdef HAVE_KGRAPHVIEWER
+  , m_graphViewerPart(0)
+  , m_graphViewer(0)
+  , m_dotGenerator(0)
+#endif
 {
     // for axis labels to fit
     m_chart->setGlobalLeadingRight(10);
@@ -122,7 +122,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
         if (m_graphViewerPart) {
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
-            dotGraphWidget->setLayout(new QGridLayout(dotGraphLayout));
+            dotGraphWidget->setLayout(new QGridLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
             m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
@@ -190,9 +190,6 @@ DocumentWidget::~DocumentWidget()
         }
         if (m_graphViewer) {
             m_graphViewerPart->closeUrl();
-            m_zoomIn->setEnabled(false);
-            m_zoomOut->setEnabled(false);
-            m_focusExpensive->setEnabled(false);
         }
         m_lastDotItem.first = 0;
         m_lastDotItem.second = 0;
@@ -275,10 +272,18 @@ FilteredDataTreeModel* DocumentWidget::dataTreeFilterModel() const
 }
 
 #ifdef HAVE_KGRAPHVIEWER
-    KGraphViewer::KGraphViewerInterface* DocumentWidget::graphViewer()
-    {
-        return m_graphViewer;
-    }
+KGraphViewer::KGraphViewerInterface* DocumentWidget::graphViewer()
+{
+    return m_graphViewer;
+}
+
+void DocumentWidget::focusExpensiveGraphNode()
+{
+    Q_ASSERT(m_graphViewer);
+    Q_ASSERT(m_dotGenerator);
+
+    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
+}
 #endif
 
 bool DocumentWidget::isLoaded() const
@@ -466,8 +471,10 @@ void DocumentWidget::updateDetailedPeaks()
 }
 
 #ifdef HAVE_KGRAPHVIEWER
-void MainWindow::slotTabChanged(int index)
+void DocumentWidget::slotTabChanged(int index)
 {
+    /*
+    FIXME: renable this
     toolBar("chartToolBar")->setVisible(index == 0);
     foreach(QAction* action, toolBar("chartToolBar")->actions()) {
         action->setEnabled(m_data && index == 0);
@@ -476,13 +483,14 @@ void MainWindow::slotTabChanged(int index)
     foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
         action->setEnabled(m_data && index == 1);
     }
+    */
     if (index == 1) {
         // if we parsed a dot graph we might want to show it now
         showDotGraph();
     }
 }
 
-void MainWindow::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
+void DocumentWidget::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
 {
     if (item == m_lastDotItem) {
         return;
@@ -515,7 +523,7 @@ void MainWindow::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
     m_dotGenerator->start();
 }
 
-void MainWindow::showDotGraph()
+void DocumentWidget::showDotGraph()
 {
     if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
         return;
@@ -526,7 +534,7 @@ void MainWindow::showDotGraph()
     }
 }
 
-void MainWindow::slotGraphLoaded()
+void DocumentWidget::slotGraphLoaded()
 {
     Q_ASSERT(m_graphViewer);
 

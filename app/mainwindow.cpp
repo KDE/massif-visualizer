@@ -473,7 +473,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 
 #ifdef HAVE_KGRAPHVIEWER
     if (currentDocument()->graphViewer()) {
-        currendDocument()->showDotGraph(item);
+        currentDocument()->showDotGraph(item);
     }
 #endif
 
@@ -558,7 +558,9 @@ void MainWindow::closeCurrentFile()
         m_toggleDetailed->setEnabled(false);
         m_toggleTotal->setEnabled(false);
         m_selectPeak->setEnabled(false);
-        ui.stackedWidget->setCurrentWidget(ui.openPage);
+        m_zoomIn->setEnabled(false);
+        m_zoomOut->setEnabled(false);
+        m_focusExpensive->setEnabled(false);
         ui.stackedWidget->setCurrentWidget(ui.openPage);
     } else {
         // Display the remaining(s) file(s).
@@ -602,9 +604,8 @@ void MainWindow::zoomOut()
 
 void MainWindow::focusExpensiveGraphNode()
 {
-    Q_ASSERT(currentDocument()->graphViewer());
-
-    currentDocument()->graphViewer()->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
+    Q_ASSERT(currentDocument());
+    currentDocument()->focusExpensiveGraphNode();
 }
 
 #endif

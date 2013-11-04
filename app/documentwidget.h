@@ -112,6 +112,9 @@ public:
 
 #ifdef HAVE_KGRAPHVIEWER
     KGraphViewer::KGraphViewerInterface* graphViewer();
+    void showDotGraph(const QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*>& item);
+    void showDotGraph();
+    void focusExpensiveGraphNode();
 #endif
 
     bool isLoaded() const;
@@ -137,8 +140,6 @@ private slots:
     void slotEmitStopParserSignal();
 
 #ifdef HAVE_KGRAPHVIEWER
-    void showDotGraph();
-    void showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item);
     void slotTabChanged(int index);
     void slotGraphLoaded();
 #endif
@@ -171,8 +172,8 @@ private:
 #ifdef HAVE_KGRAPHVIEWER
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
-    QScopedPointer<DotGraphGenerator> m_dotGenerator;
-    QPair<TreeLeafItem*, SnapshotItem*> m_lastDotItem;
+    QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
+    QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*> m_lastDotItem;
 #endif
 };
 

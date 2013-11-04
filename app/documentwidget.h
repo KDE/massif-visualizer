@@ -98,6 +98,7 @@ public:
 signals:
     void stopParser();
     void loadingFinished();
+    void tabChanged(int);
 
 public slots:
     void parserFinished(const KUrl& file, Massif::FileData* data);

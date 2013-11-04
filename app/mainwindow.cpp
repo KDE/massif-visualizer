@@ -765,6 +765,8 @@ void MainWindow::documentChanged()
             disconnect(m_currentDocument->chart(), SIGNAL(customContextMenuRequested(QPoint)),
                        this, SLOT(chartContextMenuRequested(QPoint)));
         }
+        disconnect(m_currentDocument, SIGNAL(tabChanged(int)),
+                   this, SLOT(documentTabChanged(int)));
         disconnect(ui.filterDataTree, SIGNAL(textChanged(QString)),
                    m_currentDocument->dataTreeFilterModel(), SLOT(setFilter(QString)));
         disconnect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
@@ -813,12 +815,17 @@ void MainWindow::documentChanged()
     connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
+    connect(m_currentDocument, SIGNAL(tabChanged(int)),
+            this, SLOT(documentTabChanged(int)));
+
     if (m_toggleDetailed->isEnabled()) {
         m_toggleDetailed->setChecked(!m_currentDocument->detailedDiagram()->isHidden());
     }
     if (m_toggleTotal->isEnabled()) {
         m_toggleTotal->setChecked(!m_currentDocument->totalDiagram()->isHidden());
     }
+
+    documentTabChanged(0);
 }
 
 bool MainWindow::currentChangingSelections() const
@@ -829,6 +836,19 @@ bool MainWindow::currentChangingSelections() const
 void MainWindow::setCurrentChangingSelections(bool changingSelections)
 {
     m_changingSelections[m_currentDocument] = changingSelections;
+}
+
+void MainWindow::documentTabChanged(int index)
+{
+    Q_ASSERT(m_currentDocument);
+    toolBar("chartToolBar")->setVisible(index == 0);
+    foreach(QAction* action, toolBar("chartToolBar")->actions()) {
+        action->setEnabled(m_currentDocument->data() && index == 0);
+    }
+    toolBar("callgraphToolBar")->setVisible(index == 1);
+    foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
+        action->setEnabled(m_currentDocument->data() && index == 1);
+    }
 }
 
 #include "mainwindow.moc"

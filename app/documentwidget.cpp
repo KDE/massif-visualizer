@@ -534,17 +534,7 @@ void DocumentWidget::updateDetailedPeaks()
 #ifdef HAVE_KGRAPHVIEWER
 void DocumentWidget::slotTabChanged(int index)
 {
-    /*
-    FIXME: renable this
-    toolBar("chartToolBar")->setVisible(index == 0);
-    foreach(QAction* action, toolBar("chartToolBar")->actions()) {
-        action->setEnabled(m_data && index == 0);
-    }
-    toolBar("callgraphToolBar")->setVisible(index == 1);
-    foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
-        action->setEnabled(m_data && index == 1);
-    }
-    */
+    emit tabChanged(index);
     if (index == 1) {
         // if we parsed a dot graph we might want to show it now
         showDotGraph();

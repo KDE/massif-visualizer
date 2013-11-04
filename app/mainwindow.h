@@ -147,6 +147,7 @@ private slots:
     void slotShortenTemplates(bool);
 
     void stopParser();
+    void documentTabChanged(int index);
 
 private:
     void updateDetailedPeaks();

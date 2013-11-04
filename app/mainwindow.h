@@ -147,7 +147,6 @@ private slots:
     void slotShortenTemplates(bool);
 
     void stopParser();
-    void parserError(const QString& title, const QString& error);
 
 private:
     void updateDetailedPeaks();

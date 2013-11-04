@@ -57,6 +57,7 @@
 #include <KLibFactory>
 #include <KLibLoader>
 #include <KLocalizedString>
+#include <KMessageWidget>
 
 #include <QLabel>
 #include <QProgressBar>
@@ -136,9 +137,9 @@ public slots:
     void setRange(int minimum, int maximum);
     void setLoadingMessage(const QString& message);
 
-private slots:
-    void slotEmitStopParserSignal();
+    void showError(const QString& title, const QString& error);
 
+private slots:
 #ifdef HAVE_KGRAPHVIEWER
     void slotTabChanged(int index);
     void slotGraphLoaded();
@@ -163,6 +164,7 @@ private:
     KUrl m_file;
 
     QStackedWidget* m_stackedWidget;
+    KMessageWidget* m_errorMessage;
     QLabel* m_loadingMessage;
     QProgressBar* m_loadingProgressBar;
     QToolButton* m_stopParserButton;

@@ -69,6 +69,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
   , m_data(0)
   , m_stackedWidget(new QStackedWidget(this))
+  , m_errorMessage(0)
   , m_loadingMessage(0)
   , m_loadingProgressBar(0)
   , m_stopParserButton(0)
@@ -167,7 +168,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     m_stopParserButton->setIcon(KIcon("process-stop"));
     m_stopParserButton->setIconSize(QSize(48, 48));
     connect(m_stopParserButton, SIGNAL(clicked()),
-            this, SLOT(slotEmitStopParserSignal()));
+            this, SIGNAL(stopParser()));
     stopParserWidgetLayout->addWidget(m_stopParserButton);
     verticalLayout->addWidget(stopParserWidget);
 
@@ -435,9 +436,17 @@ void DocumentWidget::setLoadingMessage(const QString& message)
     m_loadingMessage->setText(message);
 }
 
-void DocumentWidget::slotEmitStopParserSignal()
+void DocumentWidget::showError(const QString& title, const QString& error)
 {
-    emit stopParser();
+    if (!m_errorMessage) {
+        m_errorMessage = new KMessageWidget(m_stackedWidget);
+        m_stackedWidget->addWidget(m_errorMessage);
+        m_errorMessage->setWordWrap(true);
+        m_errorMessage->setMessageType(KMessageWidget::Error);
+        m_errorMessage->setCloseButtonVisible(false);
+    }
+    m_errorMessage->setText(QString("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
+    m_stackedWidget->setCurrentWidget(m_errorMessage);
 }
 
 void DocumentWidget::updateHeader()

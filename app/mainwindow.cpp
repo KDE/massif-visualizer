@@ -388,7 +388,7 @@ void MainWindow::openFile(const KUrl& file)
     connect(parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
             documentWidget, SLOT(parserFinished(KUrl, Massif::FileData*)));
     connect(parseWorker, SIGNAL(error(QString, QString)),
-            this, SLOT(parserError(QString, QString)));
+            documentWidget, SLOT(showError(QString, QString)));
     connect(parseWorker, SIGNAL(progressRange(int, int)),
             documentWidget, SLOT(setRange(int,int)));
     connect(parseWorker, SIGNAL(progress(int)),
@@ -401,11 +401,6 @@ void MainWindow::openFile(const KUrl& file)
     m_stopParser->setEnabled(true);
     m_recentFiles->addUrl(file);
     ui.stackedWidget->setCurrentWidget(ui.displayPage);
-}
-
-void MainWindow::parserError(const QString& title, const QString& error)
-{
-    KMessageBox::error(this, error, title);
 }
 
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
@@ -787,7 +782,7 @@ void MainWindow::documentChanged()
     }
 #endif
     m_print->setEnabled(m_currentDocument);
-    m_selectPeak->setEnabled(m_currentDocument);
+    m_selectPeak->setEnabled(m_currentDocument && m_currentDocument->data());
     actionCollection()->action("file_reload")->setEnabled(m_currentDocument);
     m_toggleDetailed->setEnabled(m_currentDocument && m_currentDocument->detailedDiagram());
     m_toggleTotal->setEnabled(m_currentDocument && m_currentDocument->totalDiagram());

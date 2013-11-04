@@ -2,6 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -28,9 +29,9 @@
 #include <QPrintPreviewDialog>
 
 #include "ui_mainwindow.h"
+#include "documentwidget.h"
 
 class QStringListModel;
-class QLabel;
 
 namespace KDChart {
 class Chart;
@@ -41,18 +42,14 @@ class Legend;
 class BarDiagram;
 }
 
-namespace KParts {
-class ReadOnlyPart;
-}
-
 class KAction;
 class KRecentFilesAction;
 
+#ifdef HAVE_KGRAPHVIEWER
 namespace KGraphViewer {
-
 class KGraphViewerInterface;
-
 }
+#endif
 
 namespace Massif {
 
@@ -60,9 +57,7 @@ class ParseWorker;
 class FileData;
 class DetailedCostModel;
 class TotalCostModel;
-class DataTreeModel;
 class FilteredDataTreeModel;
-class DotGraphGenerator;
 class SnapshotItem;
 class TreeLeafItem;
 
@@ -78,7 +73,7 @@ public:
 
 public slots:
     /**
-     * Open a dialog to pick a massif output file to display.
+     * Open a dialog to pick a massif output file(s) to display.
      */
     void openFile();
 
@@ -90,12 +85,12 @@ public slots:
     /**
      * reload currently opened file
      */
-    void reload();
+    void reloadCurrentFile();
 
     /**
      * Close currently opened file.
      */
-    void closeFile();
+    void closeCurrentFile();
 
     /**
      * Depending on @p show, the total cost graph is shown or hidden.
@@ -127,10 +122,9 @@ private slots:
     void selectPeakSnapshot();
     void setStackNum(int num);
 
+    void documentChanged();
+
 #ifdef HAVE_KGRAPHVIEWER
-    void showDotGraph();
-    void slotTabChanged(int index);
-    void slotGraphLoaded();
     void zoomIn();
     void zoomOut();
     void focusExpensiveGraphNode();
@@ -153,44 +147,28 @@ private slots:
     void slotShortenTemplates(bool);
 
     void stopParser();
-    void parserFinished(const KUrl& file, Massif::FileData* data);
+    void parserFinished();
     void parserError(const QString& title, const QString& error);
 
 private:
-    void showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item);
-    void updateHeader();
-    void updatePeaks();
     void updateDetailedPeaks();
+    void updateWindowTitle();
     void prepareActions(QMenu* menu, TreeLeafItem* item);
 
+    // Helper
+    DocumentWidget* currentDocument() const;
+
     Ui::MainWindow ui;
-    KDChart::Chart* m_chart;
-    QLabel* m_header;
+
     KAction* m_toggleTotal;
-    KDChart::Plotter* m_totalDiagram;
-    TotalCostModel* m_totalCostModel;
-
     KAction* m_toggleDetailed;
-    KDChart::Plotter* m_detailedDiagram;
-    DetailedCostModel* m_detailedCostModel;
-
-    KDChart::Legend* m_legend;
-
-    DataTreeModel* m_dataTreeModel;
-    FilteredDataTreeModel* m_dataTreeFilterModel;
-    FileData* m_data;
-    KUrl m_currentFile;
     KAction* m_selectPeak;
-
     KRecentFilesAction* m_recentFiles;
 
-    bool m_changingSelections;
-#ifdef HAVE_KGRAPHVIEWER
-    KParts::ReadOnlyPart* m_graphViewerPart;
-    KGraphViewer::KGraphViewerInterface* m_graphViewer;
-    QScopedPointer<DotGraphGenerator> m_dotGenerator;
-    QPair<TreeLeafItem*, SnapshotItem*> m_lastDotItem;
-#endif
+    QHash<DocumentWidget*, bool> m_changingSelections;
+    bool currentChangingSelections() const;
+    void setCurrentChangingSelections(bool changingSelections);
+
     KAction* m_zoomIn;
     KAction* m_zoomOut;
     KAction* m_focusExpensive;
@@ -208,7 +186,7 @@ private:
 
     KAction* m_shortenTemplates;
 
-    ParseWorker* m_parseWorker;
+    QHash<DocumentWidget*, ParseWorker*> m_documentsParseWorkers;
 };
 
 }

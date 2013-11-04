@@ -47,15 +47,12 @@ int main( int argc, char *argv[] )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
-    for ( int i = 0; i < args->count(); ++i ) {
-        Massif::MainWindow* window = new Massif::MainWindow;
+    Massif::MainWindow* window = new Massif::MainWindow;
+
+    for (int i = 0; i < args->count(); ++i) {
         window->openFile(args->url(i));
-        window->show();
     }
-    if (!args->count()) {
-        // at least one window has to be shown...
-        Massif::MainWindow* window = new Massif::MainWindow;
-        window->show();
-    }
+
+    window->show();
     return app.exec();
 }

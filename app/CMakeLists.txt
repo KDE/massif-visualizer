@@ -14,6 +14,7 @@ set(massif-visualizer_SRCS
     main.cpp
     mainwindow.cpp
     configdialog.cpp
+    documentwidget.cpp
 )
 
 kde4_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)

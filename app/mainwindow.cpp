@@ -2,6 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -66,7 +67,6 @@
 #include <QPrinter>
 #include <QPrintDialog>
 
-#include <KDebug>
 #include <KMessageBox>
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -76,64 +76,17 @@
 using namespace Massif;
 using namespace KDChart;
 
-//BEGIN Helper Functions
-void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
-{
-    DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
-    dataAttributes.setDataLabel(prettyCost(cost));
-    dataAttributes.setVisible(true);
-
-    MarkerAttributes a = dataAttributes.markerAttributes();
-    a.setMarkerSize(QSizeF(2, 2));
-    a.setPen(foreground);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerCircle);
-    a.setVisible(true);
-    dataAttributes.setMarkerAttributes(a);
-
-    TextAttributes txtAttrs = dataAttributes.textAttributes();
-    txtAttrs.setPen(foreground);
-    dataAttributes.setTextAttributes(txtAttrs);
-
-    BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
-    QBrush brush = p->model()->data(peak, DatasetBrushRole).value<QBrush>();
-    QColor c = brush.color();
-    c.setAlpha(127);
-    brush.setColor(c);
-    brush.setStyle(Qt::CrossPattern);
-    bkgAtt.setBrush(brush);
-    bkgAtt.setVisible(true);
-    dataAttributes.setBackgroundAttributes(bkgAtt);
-
-    p->setDataValueAttributes(peak, dataAttributes);
-}
-
+// Helper function
 KConfigGroup allocatorConfig()
 {
     return KGlobal::config()->group("Allocators");
 }
 
-//END Helper Functions
-
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
-    : KParts::MainWindow(parent, f), m_chart(new Chart(this)), m_header(new QLabel(this))
+    : KParts::MainWindow(parent, f)
     , m_toggleTotal(0)
-    , m_totalDiagram(0)
-    , m_totalCostModel(new TotalCostModel(m_chart))
-    , m_toggleDetailed(0)
-    , m_detailedDiagram(0)
-    , m_detailedCostModel(new DetailedCostModel(m_chart))
-    , m_legend(new Legend(m_chart))
-    , m_dataTreeModel(new DataTreeModel(m_chart))
-    , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
-    , m_data(0)
     , m_selectPeak(0)
     , m_recentFiles(0)
-    , m_changingSelections(false)
-#ifdef HAVE_KGRAPHVIEWER
-    , m_graphViewerPart(0)
-    , m_graphViewer(0)
-    , m_dotGenerator(0)
-#endif
     , m_zoomIn(0)
     , m_zoomOut(0)
     , m_focusExpensive(0)
@@ -144,65 +97,35 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_newAllocator(0)
     , m_removeAllocator(0)
     , m_shortenTemplates(0)
-    , m_parseWorker(new ParseWorker)
 {
     ui.setupUi(this);
 
     setWindowTitle(i18n("Massif Visualizer"));
 
-    // for axis labels to fit
-    m_chart->setGlobalLeadingRight(10);
-    m_chart->setGlobalLeadingLeft(10);
-    m_chart->setGlobalLeadingTop(20);
-    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(chartContextMenuRequested(QPoint)));
-    m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
-
-    m_legend->setPosition(Position(KDChartEnums::PositionFloating));
-    m_legend->setTitleText("");
-    m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    m_legend->setSortOrder(Qt::DescendingOrder);
-
-    m_chart->addLegend(m_legend);
-
-    //NOTE: this has to be set _after_ the legend was added to the chart...
-    TextAttributes att = m_legend->textAttributes();
-    att.setAutoShrink(true);
-    att.setFontSize( Measure(12) );
-    QFont font("monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    att.setFont(font);
-    m_legend->setTextAttributes(att);
-    m_legend->setTextAlignment(Qt::AlignLeft);
-    m_legend->hide();
-
-    ui.plotterTab->layout()->addWidget(m_header);
-    ui.plotterTab->layout()->addWidget(m_chart);
-
     //BEGIN KGraphViewer
-
     bool haveGraphViewer = false;
 
+    // NOTE: just check if kgraphviewer is available at runtime.
+    // The former logic has been moved to DocumentWidget constructor.
 #ifdef HAVE_KGRAPHVIEWER
     KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
     if (factory) {
-        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
-        if (m_graphViewerPart) {
-            m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
-            ui.dotGraphTab->layout()->addWidget(m_graphViewerPart->widget());
-            connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
+        if (factory->create<KParts::ReadOnlyPart>(this)) {
             haveGraphViewer = true;
         }
     }
 #endif
+
+    if (!haveGraphViewer) {
+        // cleanup UI when we installed with kgraphviewer but it's not available at runtime
+        KToolBar* callgraphToolbar = toolBar("callgraphToolBar");
+        removeToolBar(callgraphToolbar);
+        delete callgraphToolbar;
+    }
     //END KGraphViewer
 
-    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
-            m_dataTreeFilterModel, SLOT(setFilter(QString)));
-    ui.dataTreeView->setModel(m_dataTreeFilterModel);
-    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
-
+    connect(ui.documents, SIGNAL(currentChanged(int)),
+            this, SLOT(documentChanged()));
 
     //BEGIN custom allocators
     tabifyDockWidget(ui.allocatorDock, ui.dataTreeDock);
@@ -236,60 +159,28 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     setupGUI(StandardWindowOptions(Default ^ StatusBar));
     statusBar()->hide();
 
-    if (haveGraphViewer) {
-#ifdef HAVE_KGRAPHVIEWER
-        connect(ui.tabWidget, SIGNAL(currentChanged(int)),
-                this, SLOT(slotTabChanged(int)));
-        slotTabChanged(ui.tabWidget->currentIndex());
-#endif
-    } else {
-        // cleanup UI when we installed with kgraphviewer but it's not available at runtime
-        KToolBar* callgraphToolbar = toolBar("callgraphToolBar");
-        removeToolBar(callgraphToolbar);
-        delete callgraphToolbar;
-        int i = ui.stackedWidget->addWidget(ui.plotterTab);
-        ui.stackedWidget->setCurrentIndex(i);
-        ui.stackedWidget->removeWidget(ui.displayPage);
-        delete ui.displayPage;
-        ui.displayPage = ui.plotterTab;
-    }
-
     // open page
     ui.stackedWidget->setCurrentWidget(ui.openPage);
-
-    // threaded parser
-    QThread* thread = new QThread(this);
-    thread->start();
-    m_parseWorker->moveToThread(thread);
-    connect(m_parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
-            this, SLOT(parserFinished(KUrl, Massif::FileData*)));
-    connect(m_parseWorker, SIGNAL(error(QString, QString)),
-            this, SLOT(parserError(QString, QString)));
-    connect(m_parseWorker, SIGNAL(progressRange(int, int)),
-            ui.loadingProgress, SLOT(setRange(int,int)));
-    connect(m_parseWorker, SIGNAL(progress(int)),
-            ui.loadingProgress, SLOT(setValue(int)));
 }
 
 MainWindow::~MainWindow()
 {
-    m_parseWorker->stop();
-    m_parseWorker->deleteLater();
-    m_parseWorker->thread()->quit();
-    m_parseWorker->thread()->wait();
-    closeFile();
+    while (ui.documents->count()) {
+        closeCurrentFile();
+    }
+
     m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
 }
 
 void MainWindow::setupActions()
 {
     KAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    KAction* reload = KStandardAction::redisplay(this, SLOT(reload()), actionCollection());
+    KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
     actionCollection()->addAction("file_reload", reload);
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
 
-    m_close = KStandardAction::close(this, SLOT(closeFile()), actionCollection());
+    m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
     m_close->setEnabled(false);
 
     m_print = KStandardAction::print(this, SLOT(showPrintPreviewDialog()), actionCollection());
@@ -327,8 +218,9 @@ void MainWindow::setupActions()
     connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 
+    // If the toolbar is still there, kgraphviewer is available at runtime.
 #ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
+    if (!toolBar("callgraphToolBar")) {
         m_zoomIn = KStandardAction::zoomIn(this, SLOT(zoomIn()), actionCollection());
         actionCollection()->addAction("zoomIn", m_zoomIn);
         m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
@@ -395,10 +287,6 @@ void MainWindow::setupActions()
     ui.openFile->setDefaultAction(openFile);
     ui.openFile->setText(i18n("Open Massif Data File"));
     ui.openFile->setIconSize(QSize(48, 48));
-
-    //load page actions
-    ui.stopParsing->setDefaultAction(m_stopParser);
-    ui.stopParsing->setIconSize(QSize(48, 48));
 }
 
 void MainWindow::preferences()
@@ -421,179 +309,136 @@ void MainWindow::settingsChanged()
 
     Settings::self()->writeConfig();
 
-    if (m_data) {
-        updateHeader();
-        updatePeaks();
+    if (ui.documents->count()) {
+        currentDocument()->updateHeader();
+        currentDocument()->updatePeaks();
     }
     ui.dataTreeView->viewport()->update();
 }
 
 void MainWindow::openFile()
 {
-    QString file = KFileDialog::getOpenFileName(KUrl("kfiledialog:///massif-visualizer"),
+    QStringList files = KFileDialog::getOpenFileNames(KUrl("kfiledialog:///massif-visualizer"),
                                                 QString("application/x-valgrind-massif"),
                                                 this, i18n("Open Massif Output File"));
-    if (!file.isEmpty()) {
-        openFile(KUrl(file));
+
+    foreach (KUrl file, files) {
+        openFile(file);
     }
 }
 
-void MainWindow::reload()
+void MainWindow::reloadCurrentFile()
 {
-    if (m_currentFile.isValid()) {
-        // copy to prevent madness
-        openFile(KUrl(m_currentFile));
+    if (currentDocument()->file().isValid()) {
+        openFile(KUrl(currentDocument()->file()));
     }
 }
 
 void MainWindow::stopParser()
 {
-    m_parseWorker->stop();
+    Q_ASSERT(currentDocument());
+    ParseWorker* parseWorker = m_documentsParseWorkers.take(currentDocument());
+
+    parseWorker->stop();
+    parseWorker->deleteLater();
+    parseWorker->thread()->quit();
+    parseWorker->thread()->wait();
+
     m_stopParser->setEnabled(false);
-    ui.stackedWidget->setCurrentWidget(ui.openPage);
 }
 
 void MainWindow::openFile(const KUrl& file)
 {
     Q_ASSERT(file.isValid());
-    if (m_data) {
-        closeFile();
-    }
 
-    stopParser();
-
-    m_stopParser->setEnabled(true);
-    ui.stackedWidget->setCurrentWidget(ui.loadingPage);
-    ui.loadingProgress->setRange(0, 0);
-    ui.loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
-
-    m_parseWorker->parse(file, m_allocatorModel->stringList());
-}
-
-void MainWindow::parserFinished(const KUrl& file, FileData* data)
-{
     // give the progress bar one last chance to update
     QApplication::processEvents();
 
-    m_data = data;
-    m_currentFile = file;
+    int indexToInsert = -1, i = 0;
 
-    Q_ASSERT(m_data->peak());
+    // Is file already opened ?
+    while (indexToInsert == -1 && i < ui.documents->count()) {
+        if (qobject_cast<DocumentWidget*>(ui.documents->widget(i))->file() == file) {
+            indexToInsert = i;
+        }
 
+        ++i;
+    }
+
+    DocumentWidget* documentWidget = new DocumentWidget;
+    documentWidget->setLoadingMessage(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+
+    // Create dedicated thread for this document.
+    ParseWorker* parseWorker = new ParseWorker;
+    QThread* thread = new QThread(this);
+    thread->start();
+    parseWorker->moveToThread(thread);
+    // Register thread in the hash map.
+    m_documentsParseWorkers.insert(documentWidget, parseWorker);
+
+    if (indexToInsert != -1) {
+        // Remove existing instance of the file.
+        ui.documents->setCurrentIndex(indexToInsert);
+        closeCurrentFile();
+        // Insert the new tab at the correct position.
+        ui.documents->insertTab(indexToInsert, documentWidget, file.fileName());
+    } else {
+        ui.documents->addTab(documentWidget, file.fileName());
+    }
+
+    connect(parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
+            documentWidget, SLOT(parserFinished(KUrl, Massif::FileData*)));
+    connect(parseWorker, SIGNAL(error(QString, QString)),
+            this, SLOT(parserError(QString, QString)));
+    connect(parseWorker, SIGNAL(progressRange(int, int)),
+            documentWidget, SLOT(setRange(int,int)));
+    connect(parseWorker, SIGNAL(progress(int)),
+            documentWidget, SLOT(setProgress(int)));
+    connect(documentWidget, SIGNAL(loadingFinished()),
+            this, SLOT(parserFinished()));
+
+    parseWorker->parse(file, m_allocatorModel->stringList());
+
+    m_stopParser->setEnabled(true);
     m_close->setEnabled(true);
-    m_print->setEnabled(true);
+    m_recentFiles->addUrl(file);
+    ui.stackedWidget->setCurrentWidget(ui.displayPage);
+}
 
-    kDebug() << "loaded massif file:" << m_currentFile;
-    qDebug() << "description:" << m_data->description();
-    qDebug() << "command:" << m_data->cmd();
-    qDebug() << "time unit:" << m_data->timeUnit();
-    qDebug() << "snapshots:" << m_data->snapshots().size();
-    qDebug() << "peak: snapshot #" << m_data->peak()->number() << "after" << QString("%1%2").arg(m_data->peak()->time()).arg(m_data->timeUnit());
-    qDebug() << "peak cost:" << prettyCost(m_data->peak()->memHeap()) << " heap"
-                             << prettyCost(m_data->peak()->memHeapExtra()) << " heap extra"
-                             << prettyCost(m_data->peak()->memStacks()) << " stacks";
+void MainWindow::parserFinished()
+{
+    DocumentWidget* documentWidget = qobject_cast<DocumentWidget*>(sender());
+    m_changingSelections.insert(documentWidget, false);
 
-    //BEGIN DotGraph
 #ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
-        showDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+    if (documentWidget->graphViewer()) {
         m_zoomIn->setEnabled(true);
         m_zoomOut->setEnabled(true);
         m_focusExpensive->setEnabled(true);
     }
 #endif
 
-    //BEGIN KDChart
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
+    ui.dataTreeView->setModel(documentWidget->dataTreeFilterModel());
 
-    //Begin Legend
-    BackgroundAttributes bkgAtt = m_legend->backgroundAttributes();
-    QColor background = scheme.background(KColorScheme::AlternateBackground).color();
-    background.setAlpha(200);
-    bkgAtt.setBrush(QBrush(background));
-    bkgAtt.setVisible(true);
-    m_legend->setBackgroundAttributes(bkgAtt);
-    TextAttributes txtAttrs = m_legend->textAttributes();
-    txtAttrs.setPen(foreground);
-    m_legend->setTextAttributes(txtAttrs);
-
-    //BEGIN Header
-    {
-        m_header->setAlignment(Qt::AlignCenter);
-        updateHeader();
-    }
-
-    setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_data->cmd(), m_currentFile.fileName()));
-
-    //BEGIN TotalDiagram
-    m_totalDiagram = new Plotter;
-    m_toggleTotal->setEnabled(true);
-    m_totalDiagram->setAntiAliasing(true);
-
-    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
-    TextAttributes axisTextAttributes = bottomAxis->textAttributes();
-    axisTextAttributes.setPen(foreground);
-    axisTextAttributes.setFontSize(Measure(10));
-    bottomAxis->setTextAttributes(axisTextAttributes);
-    TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
-    axisTitleTextAttributes.setPen(foreground);
-    axisTitleTextAttributes.setFontSize(Measure(12));
-    bottomAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
-    bottomAxis->setPosition ( CartesianAxis::Bottom );
-    m_totalDiagram->addAxis(bottomAxis);
-
-    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
-    rightAxis->setTextAttributes(axisTextAttributes);
-    rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
-    rightAxis->setPosition ( CartesianAxis::Right );
-    m_totalDiagram->addAxis(rightAxis);
-
-    m_totalCostModel->setSource(m_data);
-    m_totalDiagram->setModel(m_totalCostModel);
-
-    CartesianCoordinatePlane* coordinatePlane = dynamic_cast<CartesianCoordinatePlane*>(m_chart->coordinatePlane());
-    Q_ASSERT(coordinatePlane);
-    coordinatePlane->addDiagram(m_totalDiagram);
-
-    GridAttributes gridAttributes = coordinatePlane->gridAttributes(Qt::Horizontal);
-    gridAttributes.setAdjustBoundsToGrid(false, false);
-    coordinatePlane->setGridAttributes(Qt::Horizontal, gridAttributes);
-
-    m_legend->addDiagram(m_totalDiagram);
-    connect(m_totalDiagram, SIGNAL(clicked(QModelIndex)),
+    connect(documentWidget->totalDiagram(), SIGNAL(clicked(QModelIndex)),
             this, SLOT(totalItemClicked(QModelIndex)));
-
-    //BEGIN DetailedDiagram
-    m_detailedDiagram = new Plotter;
-    m_toggleDetailed->setEnabled(true);
-    m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
-
-    m_detailedCostModel->setSource(m_data);
-    m_detailedDiagram->setModel(m_detailedCostModel);
-
-    updatePeaks();
-
-    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
-    connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
+    connect(documentWidget->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
             this, SLOT(detailedItemClicked(QModelIndex)));
+    connect(documentWidget->chart(), SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(chartContextMenuRequested(QPoint)));
+    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
+            documentWidget->dataTreeFilterModel(), SLOT(setFilter(QString)));
+    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
 
-    m_legend->addDiagram(m_detailedDiagram);
-
-    //BEGIN Legend
-    m_legend->show();
-
-    //BEGIN TreeView
-    m_dataTreeModel->setSource(m_data);
+    m_print->setEnabled(true);
+    m_toggleDetailed->setEnabled(true);
+    m_toggleTotal->setEnabled(true);
     m_selectPeak->setEnabled(true);
+    actionCollection()->action("file_reload")->setEnabled(true);
 
-    //BEGIN RecentFiles
-    m_recentFiles->addUrl(m_currentFile);
-
-    ui.stackedWidget->setCurrentWidget(ui.displayPage);
+    // Update the window title once the document is fully loaded.
+    updateWindowTitle();
 }
 
 void MainWindow::parserError(const QString& title, const QString& error)
@@ -601,340 +446,186 @@ void MainWindow::parserError(const QString& title, const QString& error)
     KMessageBox::error(this, error, title);
 }
 
-void MainWindow::updateHeader()
-{
-    const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
-
-    m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
-                        .arg(i18n("Memory consumption of %1", app))
-                        .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->cost()), m_data->peak()->number()))
-    );
-    m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
-}
-
 void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex& before)
 {
-    if (m_changingSelections || !m_data) {
+    if (currentChangingSelections() || !ui.documents->count()) {
         return;
     }
 
     if (now == before) {
         return;
     }
-    m_changingSelections = true;
+    setCurrentChangingSelections(true);
 
-    const QPair< TreeLeafItem*, SnapshotItem* >& item = m_dataTreeModel->itemForIndex(
-       m_dataTreeFilterModel->mapToSource(now)
+    const QPair< TreeLeafItem*, SnapshotItem* >& item = currentDocument()->dataTreeModel()->itemForIndex(
+       currentDocument()->dataTreeFilterModel()->mapToSource(now)
     );
 
     if (now.parent().isValid()) {
-        m_detailedCostModel->setSelection(m_detailedCostModel->indexForItem(item));
-        m_totalCostModel->setSelection(QModelIndex());
+        currentDocument()->detailedCostModel()->setSelection(currentDocument()->detailedCostModel()->indexForItem(item));
+        currentDocument()->totalCostModel()->setSelection(QModelIndex());
     } else {
-        m_totalCostModel->setSelection(m_totalCostModel->indexForItem(item));
-        m_detailedCostModel->setSelection(QModelIndex());
+        currentDocument()->totalCostModel()->setSelection(currentDocument()->totalCostModel()->indexForItem(item));
+        currentDocument()->detailedCostModel()->setSelection(QModelIndex());
     }
 
-    m_chart->update();
+    currentDocument()->chart()->update();
+
 #ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
-        showDotGraph(item);
+    if (currentDocument()->graphViewer()) {
+        currendDocument()->showDotGraph(item);
     }
 #endif
 
-    m_changingSelections = false;
+    setCurrentChangingSelections(false);
 }
 
 void MainWindow::detailedItemClicked(const QModelIndex& idx)
 {
-    if (m_changingSelections || !m_data) {
+    if (currentChangingSelections() || !ui.documents->count()) {
         return;
     }
 
-    m_changingSelections = true;
+    setCurrentChangingSelections(true);
 
-    m_detailedCostModel->setSelection(idx);
-    m_totalCostModel->setSelection(QModelIndex());
+    currentDocument()->detailedCostModel()->setSelection(idx);
+    currentDocument()->totalCostModel()->setSelection(QModelIndex());
 
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
-    const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
+    const QModelIndex _idx = currentDocument()->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
     ui.dataTreeView->selectionModel()->clearSelection();
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(_idx);
-    const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
-        m_dataTreeModel->indexForItem(item)
+    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->detailedCostModel()->itemForIndex(_idx);
+    const QModelIndex& newIndex = currentDocument()->dataTreeFilterModel()->mapFromSource(
+        currentDocument()->dataTreeModel()->indexForItem(item)
     );
     ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
-    m_chart->update();
+    currentDocument()->chart()->update();
+
 #ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
-        showDotGraph(item);
+    if (currentDocument()->graphViewer()) {
+        currentDocument()->showDotGraph(item);
     }
 #endif
 
-    m_changingSelections = false;
+    setCurrentChangingSelections(false);
 }
 
 void MainWindow::totalItemClicked(const QModelIndex& idx_)
 {
-    if (m_changingSelections || !m_data) {
+    if (currentChangingSelections() || !ui.documents->count()) {
         return;
     }
 
-    m_changingSelections = true;
+    setCurrentChangingSelections(true);
 
     QModelIndex idx = idx_.model()->index(idx_.row() + 1, idx_.column(), idx_.parent());
 
-    m_detailedCostModel->setSelection(QModelIndex());
-    m_totalCostModel->setSelection(idx);
+    currentDocument()->detailedCostModel()->setSelection(QModelIndex());
+    currentDocument()->totalCostModel()->setSelection(idx);
 
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_totalCostModel->itemForIndex(idx);
+    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->totalCostModel()->itemForIndex(idx);
 
     ui.dataTreeView->selectionModel()->clearSelection();
-    const QModelIndex& newIndex = m_dataTreeFilterModel->mapFromSource(
-        m_dataTreeModel->indexForItem(item)
+    const QModelIndex& newIndex = currentDocument()->dataTreeFilterModel()->mapFromSource(
+        currentDocument()->dataTreeModel()->indexForItem(item)
     );
     ui.dataTreeView->selectionModel()->setCurrentIndex(newIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     ui.dataTreeView->scrollTo(ui.dataTreeView->selectionModel()->currentIndex());
 
-    m_chart->update();
+    currentDocument()->chart()->update();
 
-    m_changingSelections = false;
+    setCurrentChangingSelections(false);
 }
 
-void MainWindow::closeFile()
+void MainWindow::closeCurrentFile()
 {
-    if (!m_data) {
-        return;
+    stopParser();
+
+    // Tab is now removed
+    int tabToCloseIndex = ui.documents->currentIndex();
+    m_changingSelections.remove(currentDocument());
+    m_documentsParseWorkers.remove(currentDocument());
+    ui.documents->widget(tabToCloseIndex)->deleteLater();
+    ui.documents->removeTab(tabToCloseIndex);
+
+    if (!ui.documents->count()) {
+        actionCollection()->action("file_reload")->setEnabled(false);
+        m_close->setEnabled(false);
+        m_print->setEnabled(false);
+        m_toggleDetailed->setEnabled(false);
+        m_toggleTotal->setEnabled(false);
+        m_selectPeak->setEnabled(false);
+        ui.stackedWidget->setCurrentWidget(ui.openPage);
+        ui.stackedWidget->setCurrentWidget(ui.openPage);
+    } else {
+        // Display the remaining(s) file(s).
+        ui.stackedWidget->setCurrentWidget(ui.displayPage);
     }
-
-    ui.stackedWidget->setCurrentWidget(ui.openPage);
-
-#ifdef HAVE_KGRAPHVIEWER
-    if (m_dotGenerator) {
-        if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), 0, this, 0);
-            connect(m_dotGenerator.data(), SIGNAL(finished()),
-                    m_dotGenerator.data(), SLOT(deleteLater()));
-            m_dotGenerator->cancel();
-            m_dotGenerator.take();
-        }
-        m_dotGenerator.reset();
-    }
-    if (m_graphViewer) {
-        m_graphViewerPart->closeUrl();
-        m_zoomIn->setEnabled(false);
-        m_zoomOut->setEnabled(false);
-        m_focusExpensive->setEnabled(false);
-    }
-    m_lastDotItem.first = 0;
-    m_lastDotItem.second = 0;
-#endif
-
-    m_close->setEnabled(false);
-    m_print->setEnabled(false);
-
-    kDebug() << "closing file";
-
-    m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
-    m_legend->removeDiagrams();
-    m_legend->hide();
-    m_header->setText("");
-
-    m_toggleDetailed->setEnabled(false);
-    m_toggleDetailed->setChecked(true);
-    foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
-        m_detailedDiagram->takeAxis(axis);
-        delete axis;
-    }
-    delete m_detailedDiagram;
-    m_detailedDiagram = 0;
-
-    m_toggleTotal->setEnabled(false);
-    m_toggleTotal->setChecked(true);
-    foreach(CartesianAxis* axis, m_totalDiagram->axes()) {
-        m_totalDiagram->takeAxis(axis);
-        delete axis;
-    }
-    delete m_totalDiagram;
-    m_totalDiagram = 0;
-
-    m_dataTreeModel->setSource(0);
-    m_dataTreeFilterModel->setFilter("");
-    m_detailedCostModel->setSource(0);
-    m_totalCostModel->setSource(0);
-
-    m_selectPeak->setEnabled(false);
-
-    delete m_data;
-    m_data = 0;
-    m_currentFile.clear();
-
-    setWindowTitle(i18n("Massif Visualizer"));
 }
 
 void MainWindow::showDetailedGraph(bool show)
 {
-    Q_ASSERT(m_data);
-    Q_ASSERT(m_detailedDiagram);
-    m_detailedDiagram->setHidden(!show);
-    m_toggleDetailed->setChecked(show);
-    m_chart->update();
+    if (ui.documents->count()) {
+        currentDocument()->detailedDiagram()->setHidden(!show);
+        m_toggleDetailed->setChecked(show);
+        currentDocument()->chart()->update();
+    }
 }
 
 void MainWindow::showTotalGraph(bool show)
 {
-    Q_ASSERT(m_data);
-    Q_ASSERT(m_totalDiagram);
-    m_totalDiagram->setHidden(!show);
-    m_toggleTotal->setChecked(show);
-    m_chart->update();
+    if (ui.documents->count()) {
+        currentDocument()->totalDiagram()->setHidden(!show);
+        m_toggleTotal->setChecked(show);
+        currentDocument()->chart()->update();
+    }
 }
 
 #ifdef HAVE_KGRAPHVIEWER
-void MainWindow::slotTabChanged(int index)
-{
-    toolBar("chartToolBar")->setVisible(index == 0);
-    foreach(QAction* action, toolBar("chartToolBar")->actions()) {
-        action->setEnabled(m_data && index == 0);
-    }
-    toolBar("callgraphToolBar")->setVisible(index == 1);
-    foreach(QAction* action, toolBar("callgraphToolBar")->actions()) {
-        action->setEnabled(m_data && index == 1);
-    }
-    if (index == 1) {
-        // if we parsed a dot graph we might want to show it now
-        showDotGraph();
-    }
-}
-
-void MainWindow::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
-{
-    if (item == m_lastDotItem) {
-        return;
-    }
-    m_lastDotItem = item;
-
-    Q_ASSERT(m_graphViewer);
-
-    kDebug() << "new dot graph requested" << item;
-    if (m_dotGenerator) {
-        kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
-        if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), 0, this, 0);
-            connect(m_dotGenerator.data(), SIGNAL(finished()),
-                    m_dotGenerator.data(), SLOT(deleteLater()));
-            m_dotGenerator->cancel();
-            m_dotGenerator.take();
-        }
-        m_dotGenerator.reset();
-    }
-    if (!item.first && !item.second) {
-        return;
-    }
-    if (item.second) {
-        m_dotGenerator.reset(new DotGraphGenerator(item.second, m_data->timeUnit(), this));
-    } else {
-        m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
-    }
-    connect(m_dotGenerator.data(), SIGNAL(finished()), SLOT(showDotGraph()));
-    m_dotGenerator->start();
-}
-
-void MainWindow::showDotGraph()
-{
-    if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
-        return;
-    }
-    kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
-    if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
-        m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
-    }
-}
-
-void MainWindow::slotGraphLoaded()
-{
-    Q_ASSERT(m_graphViewer);
-
-    if (!m_dotGenerator) {
-        return;
-    }
-    m_graphViewer->setZoomFactor(0.75);
-    m_graphViewer->setPannerPosition(KGraphViewer::KGraphViewerInterface::BottomRight);
-    m_graphViewer->setPannerEnabled(true);
-    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
-}
 
 void MainWindow::zoomIn()
 {
-    Q_ASSERT(m_graphViewer);
+    Q_ASSERT(currentDocument()->graphViewer());
 
-    m_graphViewer->zoomIn();
+    currentDocument()->graphViewer()->zoomIn();
 }
 
 void MainWindow::zoomOut()
 {
-    Q_ASSERT(m_graphViewer);
+    Q_ASSERT(currentDocument()->graphViewer());
 
-    m_graphViewer->zoomOut();
+    currentDocument()->graphViewer()->zoomOut();
 }
 
 void MainWindow::focusExpensiveGraphNode()
 {
-    Q_ASSERT(m_graphViewer);
+    Q_ASSERT(currentDocument()->graphViewer());
 
-    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
+    currentDocument()->graphViewer()->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 
 #endif
 
 void MainWindow::selectPeakSnapshot()
 {
-    Q_ASSERT(m_data);
+    Q_ASSERT(currentDocument());
 
     ui.dataTreeView->selectionModel()->clearSelection();
     ui.dataTreeView->selectionModel()->setCurrentIndex(
-        m_dataTreeFilterModel->mapFromSource(
-            m_dataTreeModel->indexForSnapshot(m_data->peak())
-        ), QItemSelectionModel::Select | QItemSelectionModel::Rows
+        currentDocument()->dataTreeFilterModel()->mapFromSource(
+            currentDocument()->dataTreeModel()->indexForSnapshot(currentDocument()->data()->peak())),
+            QItemSelectionModel::Select | QItemSelectionModel::Rows
     );
 }
 
 void MainWindow::setStackNum(int num)
 {
-    if (m_detailedCostModel) {
-        m_detailedCostModel->setMaximumDatasetCount(num);
-        updateDetailedPeaks();
-    }
-}
-
-void MainWindow::updatePeaks()
-{
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
-
-    if (m_data->peak()) {
-        const QModelIndex peak = m_totalCostModel->peak();
-        Q_ASSERT(peak.isValid());
-        markPeak(m_totalDiagram, peak, m_data->peak()->cost(), foreground);
-    }
-    updateDetailedPeaks();
-}
-
-void MainWindow::updateDetailedPeaks()
-{
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
-
-    QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
-    QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
-    while (it != peaks.constEnd()) {
-        const QModelIndex peak = it.key();
-        Q_ASSERT(peak.isValid());
-        markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
-        ++it;
+    if (ui.documents->count()) {
+        currentDocument()->detailedCostModel()->setMaximumDatasetCount(num);
+        currentDocument()->updatePeaks();
     }
 }
 
@@ -952,8 +643,8 @@ void MainWindow::allocatorsChanged()
     }
     cfg.sync();
 
-    if (m_data) {
-        reload();
+    if (ui.documents->count()) {
+        reloadCurrentFile();
     }
 }
 
@@ -1005,7 +696,7 @@ void MainWindow::allocatorViewContextMenuRequested(const QPoint& pos)
 
 void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
 {
-    const QModelIndex idx = m_dataTreeFilterModel->mapToSource(
+    const QModelIndex idx = currentDocument()->dataTreeFilterModel()->mapToSource(
                                 ui.dataTreeView->indexAt(pos));
     if (!idx.isValid()) {
         return;
@@ -1017,7 +708,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     }
 
     QMenu menu;
-    TreeLeafItem* item = m_dataTreeModel->itemForIndex(idx).first;
+    TreeLeafItem* item = currentDocument()->dataTreeModel()->itemForIndex(idx).first;
     Q_ASSERT(item);
     prepareActions(&menu, item);
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
@@ -1025,16 +716,16 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
 
 void MainWindow::chartContextMenuRequested(const QPoint& pos)
 {
-    const QPoint dPos = m_detailedDiagram->mapFromGlobal(m_chart->mapToGlobal(pos));
+    const QPoint dPos = currentDocument()->detailedDiagram()->mapFromGlobal(currentDocument()->chart()->mapToGlobal(pos));
 
-    const QModelIndex idx = m_detailedDiagram->indexAt(dPos);
+    const QModelIndex idx = currentDocument()->detailedDiagram()->indexAt(dPos);
     if (!idx.isValid()) {
         return;
     }
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
-    const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_detailedCostModel->itemForIndex(_idx);
+    const QModelIndex _idx = currentDocument()->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
+    QPair< TreeLeafItem*, SnapshotItem* > item = currentDocument()->detailedCostModel()->itemForIndex(_idx);
 
     if (!item.first) {
         return;
@@ -1043,7 +734,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     QMenu menu;
     menu.addAction(m_markCustomAllocator);
     prepareActions(&menu, item.first);
-    menu.exec(m_detailedDiagram->mapToGlobal(dPos));
+    menu.exec(currentDocument()->detailedDiagram()->mapToGlobal(dPos));
 }
 
 void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
@@ -1067,12 +758,12 @@ void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
 
 void MainWindow::slotHideFunction()
 {
-    m_detailedCostModel->hideFunction(m_hideFunction->data().value<TreeLeafItem*>());
+    currentDocument()->detailedCostModel()->hideFunction(m_hideFunction->data().value<TreeLeafItem*>());
 }
 
 void MainWindow::slotHideOtherFunctions()
 {
-    m_detailedCostModel->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
+    currentDocument()->detailedCostModel()->hideOtherFunctions(m_hideOtherFunctions->data().value<TreeLeafItem*>());
 }
 
 void MainWindow::slotShortenTemplates(bool shorten)
@@ -1087,7 +778,7 @@ void MainWindow::slotShortenTemplates(bool shorten)
 
 void MainWindow::showPrintPreviewDialog()
 {
-    Q_ASSERT(m_data);
+    Q_ASSERT(ui.documents->count());
 
     QPrinter printer;
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
@@ -1102,8 +793,49 @@ void  MainWindow::printFile(QPrinter *printer)
 {
     QPainter painter;
     painter.begin(printer);
-    m_chart->paint(&painter, printer->pageRect());
+    currentDocument()->chart()->paint(&painter, printer->pageRect());
     painter.end();
+}
+
+void MainWindow::updateWindowTitle()
+{
+    if (ui.documents->count() && currentDocument()->isLoaded()) {
+        setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", currentDocument()->data()->cmd(), currentDocument()->file().fileName()));
+    } else {
+        setWindowTitle(i18n("Massif Visualizer"));
+    }
+}
+
+DocumentWidget* MainWindow::currentDocument() const
+{
+    return qobject_cast<DocumentWidget*>(ui.documents->currentWidget());
+}
+
+void MainWindow::documentChanged()
+{
+    updateWindowTitle();
+
+    if (ui.documents->count() && currentDocument()->isLoaded()) {
+
+        ui.dataTreeView->setModel(currentDocument()->dataTreeFilterModel());
+
+        // FIXME (arnold): this connection shouldn't be necessary
+        connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+                this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+
+        m_toggleDetailed->setChecked(!currentDocument()->detailedDiagram()->isHidden());
+        m_toggleTotal->setChecked(!currentDocument()->totalDiagram()->isHidden());
+    }
+}
+
+bool MainWindow::currentChangingSelections() const
+{
+    return m_changingSelections[currentDocument()];
+}
+
+void MainWindow::setCurrentChangingSelections(bool changingSelections)
+{
+    m_changingSelections[currentDocument()] = changingSelections;
 }
 
 #include "mainwindow.moc"

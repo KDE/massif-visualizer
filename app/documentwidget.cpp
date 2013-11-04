@@ -69,7 +69,6 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
   , m_data(0)
   , m_stackedWidget(new QStackedWidget(this))
-  , m_displayTabWidget(new QTabWidget(m_stackedWidget))
   , m_loadingMessage(0)
   , m_loadingProgressBar(0)
   , m_stopParserButton(0)
@@ -108,34 +107,40 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     setLayout(new QGridLayout(this));
     layout()->addWidget(m_stackedWidget);
 
-    // First widget : displayPage
-    m_displayTabWidget->setTabPosition(QTabWidget::South);
-    QWidget* memoryConsumptionWidget = new QWidget(m_displayTabWidget);
+    QWidget* memoryConsumptionWidget = new QWidget;
     memoryConsumptionWidget->setLayout(new QVBoxLayout(memoryConsumptionWidget));
     memoryConsumptionWidget->layout()->addWidget(m_header);
     memoryConsumptionWidget->layout()->addWidget(m_chart);
-    m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
 
 #ifdef HAVE_KGRAPHVIEWER
-    KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    static KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
         if (m_graphViewerPart) {
+            QTabWidget* displayTabWidget = new QTabWidget(m_stackedWidget);
+            displayTabWidget->setTabPosition(QTabWidget::South);
+            displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
-            QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
+            QWidget* dotGraphWidget = new QWidget(displayTabWidget);
             dotGraphWidget->setLayout(new QGridLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
-            m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
+            displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
+            m_stackedWidget->addWidget(displayTabWidget);
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
 
-            connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
+            connect(displayTabWidget, SIGNAL(currentChanged(int)),
                     this, SLOT(slotTabChanged(int)));
-            slotTabChanged(m_displayTabWidget->currentIndex());
+            slotTabChanged(displayTabWidget->currentIndex());
         }
     }
+
+    if (!m_graphViewerPart) {
+        m_stackedWidget->addWidget(memoryConsumptionWidget);
+    }
+#else
+    m_stackedWidget->addWidget(memoryConsumptionWidget);
 #endif
 
-    m_stackedWidget->addWidget(m_displayTabWidget);
 
     // Second widget : loadingPage
     QWidget* loadingPage = new QWidget(m_stackedWidget);

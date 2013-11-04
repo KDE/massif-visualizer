@@ -163,7 +163,6 @@ private:
     KUrl m_file;
 
     QStackedWidget* m_stackedWidget;
-    QTabWidget* m_displayTabWidget;
     QLabel* m_loadingMessage;
     QProgressBar* m_loadingProgressBar;
     QToolButton* m_stopParserButton;

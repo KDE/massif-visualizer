@@ -380,6 +380,7 @@ void MainWindow::openFile(const KUrl& file)
         closeCurrentFile();
         // Insert the new tab at the correct position.
         ui.documents->insertTab(indexToInsert, documentWidget, file.fileName());
+        ui.documents->setCurrentIndex(indexToInsert);
     } else {
         ui.documents->addTab(documentWidget, file.fileName());
     }

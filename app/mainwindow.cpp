@@ -783,7 +783,7 @@ void MainWindow::documentChanged()
         m_focusExpensive->setEnabled(m_currentDocument && m_currentDocument->graphViewer());
     }
 #endif
-    m_print->setEnabled(m_currentDocument);
+    m_print->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
     m_selectPeak->setEnabled(m_currentDocument && m_currentDocument->data());
     actionCollection()->action("file_reload")->setEnabled(m_currentDocument);
     m_toggleDetailed->setEnabled(m_currentDocument && m_currentDocument->detailedDiagram());

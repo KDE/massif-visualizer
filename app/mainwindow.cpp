@@ -27,7 +27,7 @@
 #include "KDChartGridAttributes"
 #include "KDChartHeaderFooter"
 #include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
+#include "KDChartLineDiagram"
 #include "KDChartLegend"
 #include "KDChartDataValueAttributes"
 #include "KDChartBackgroundAttributes"

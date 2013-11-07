@@ -20,9 +20,7 @@ include_directories(
     ${KDE4_INCLUDES}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/kdchart/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/kdchart/src
-    ${CMAKE_CURRENT_BINARY_DIR}/kdchart/src/
+    ${CMAKE_CURRENT_SOURCE_DIR}/kdchart/include/KDChart
 )
 
 add_definitions(-Wall)

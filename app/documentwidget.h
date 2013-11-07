@@ -31,10 +31,10 @@
 namespace KDChart {
 class Chart;
 class HeaderFooter;
-class Plotter;
 class CartesianAxis;
 class Legend;
 class BarDiagram;
+class LineDiagram;
 }
 
 class QLabel;
@@ -79,9 +79,9 @@ public:
     KUrl file() const;
     Massif::FileData* data() const;
     KDChart::Chart* chart() const;
-    KDChart::Plotter* totalDiagram() const;
+    KDChart::LineDiagram* totalDiagram() const;
     Massif::TotalCostModel* totalCostModel() const;
-    KDChart::Plotter* detailedDiagram() const;
+    KDChart::LineDiagram* detailedDiagram() const;
     Massif::DetailedCostModel* detailedCostModel() const;
     Massif::DataTreeModel* dataTreeModel() const;
     Massif::FilteredDataTreeModel* dataTreeFilterModel() const;
@@ -126,10 +126,10 @@ private:
 
     KDChart::Chart* m_chart;
     QLabel* m_header;
-    KDChart::Plotter* m_totalDiagram;
+    KDChart::LineDiagram* m_totalDiagram;
     Massif::TotalCostModel* m_totalCostModel;
 
-    KDChart::Plotter* m_detailedDiagram;
+    KDChart::LineDiagram* m_detailedDiagram;
     Massif::DetailedCostModel* m_detailedCostModel;
 
     KDChart::Legend* m_legend;

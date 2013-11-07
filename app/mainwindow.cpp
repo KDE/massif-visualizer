@@ -24,13 +24,7 @@
 #include "mainwindow.h"
 
 #include "KDChartChart"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
-#include "KDChartCartesianCoordinatePlane"
 #include "KDChartLineDiagram"
-#include "KDChartLegend"
-#include "KDChartDataValueAttributes"
-#include "KDChartBackgroundAttributes"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
@@ -64,6 +58,7 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QInputDialog>
+#include <QPainter>
 #include <QPrinter>
 #include <QPrintDialog>
 

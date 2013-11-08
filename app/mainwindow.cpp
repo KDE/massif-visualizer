@@ -566,7 +566,7 @@ void MainWindow::selectPeakSnapshot()
 
 void MainWindow::setStackNum(int num)
 {
-    if (!m_currentDocument) {
+    if (!m_currentDocument || !m_currentDocument->isLoaded()) {
         return;
     }
     m_currentDocument->detailedCostModel()->setMaximumDatasetCount(num);

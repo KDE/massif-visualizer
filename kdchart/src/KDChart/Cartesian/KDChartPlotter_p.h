@@ -71,6 +71,7 @@ namespace KDChart {
         PlotterType* implementor; // the current type
         PlotterType* normalPlotter;
         PlotterType* percentPlotter;
+        PlotterType* stackedPlotter;
         PlotterDiagramCompressor plotterCompressor;
         Plotter::CompressionMode useCompression;
         qreal mergeRadiusPercentage;

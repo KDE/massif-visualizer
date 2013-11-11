@@ -30,6 +30,7 @@
 
 #include "KDChartNormalPlotter_p.h"
 #include "KDChartPercentPlotter_p.h"
+#include "KDChartStackedPlotter_p.h"
 
 using namespace KDChart;
 
@@ -37,6 +38,7 @@ Plotter::Private::Private()
     : implementor( 0 )
     , normalPlotter( 0 )
     , percentPlotter( 0 )
+    , stackedPlotter( 0 )
 {
 }
 
@@ -61,6 +63,7 @@ void Plotter::init()
     d->diagram = this;
     d->normalPlotter = new NormalPlotter( this );
     d->percentPlotter = new PercentPlotter( this );
+    d->stackedPlotter = new StackedPlotter( this );
     d->implementor = d->normalPlotter;
     QObject* test = d->implementor->plotterPrivate();
     bool connection = connect( this, SIGNAL( boundariesChanged() ), test, SLOT( changedProperties() ) );
@@ -180,6 +183,9 @@ void Plotter::setType( const PlotType type )
         break;
     case Percent:
         d->implementor = d->percentPlotter;
+        break;
+    case Stacked:
+        d->implementor = d->stackedPlotter;
         break;
     default:
         Q_ASSERT_X( false, "Plotter::setType", "unknown plotter subtype" );

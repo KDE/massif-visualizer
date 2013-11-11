@@ -22,6 +22,7 @@ set(kdchart_LIB_SRCS
     KDChart/Cartesian/DiagramFlavors/KDChartPercentLineDiagram_p.cpp
     KDChart/Cartesian/DiagramFlavors/KDChartPercentLyingBarDiagram_p.cpp
     KDChart/Cartesian/DiagramFlavors/KDChartPercentPlotter_p.cpp
+    KDChart/Cartesian/DiagramFlavors/KDChartStackedPlotter_p.cpp
     KDChart/Cartesian/DiagramFlavors/KDChartStackedBarDiagram_p.cpp
     KDChart/Cartesian/DiagramFlavors/KDChartStackedLineDiagram_p.cpp
     KDChart/Cartesian/DiagramFlavors/KDChartStackedLyingBarDiagram_p.cpp

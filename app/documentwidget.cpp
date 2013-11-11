@@ -32,7 +32,7 @@
 #include "KDChartLegend"
 #include "KDChartDataValueAttributes"
 #include "KDChartBackgroundAttributes"
-#include "KDChartLineDiagram"
+#include "KDChartPlotter"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
@@ -70,7 +70,7 @@
 using namespace Massif;
 using namespace KDChart;
 
-static void markPeak(LineDiagram* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
+static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
     dataAttributes.setDataLabel(prettyCost(cost));
@@ -290,7 +290,7 @@ Chart* DocumentWidget::chart() const
     return m_chart;
 }
 
-LineDiagram* DocumentWidget::totalDiagram() const
+Plotter* DocumentWidget::totalDiagram() const
 {
     return m_totalDiagram;
 }
@@ -301,7 +301,7 @@ TotalCostModel* DocumentWidget::totalCostModel() const
     return m_totalCostModel;
 }
 
-LineDiagram* DocumentWidget::detailedDiagram() const
+Plotter* DocumentWidget::detailedDiagram() const
 {
     return m_detailedDiagram;
 }
@@ -386,7 +386,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     updateHeader();
 
     //BEGIN TotalDiagram
-    m_totalDiagram = new LineDiagram;
+    m_totalDiagram = new Plotter;
     m_totalDiagram->setAntiAliasing(true);
 
     CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
@@ -422,9 +422,9 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     m_legend->addDiagram(m_totalDiagram);
 
-    m_detailedDiagram = new LineDiagram;
+    m_detailedDiagram = new Plotter;
     m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(LineDiagram::Stacked);
+    m_detailedDiagram->setType(Plotter::Stacked);
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);

@@ -24,7 +24,7 @@
 #include "mainwindow.h"
 
 #include "KDChartChart"
-#include "KDChartLineDiagram"
+#include "KDChartPlotter"
 
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"

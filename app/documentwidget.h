@@ -34,7 +34,7 @@ class HeaderFooter;
 class CartesianAxis;
 class Legend;
 class BarDiagram;
-class LineDiagram;
+class Plotter;
 }
 
 class QLabel;
@@ -79,9 +79,9 @@ public:
     KUrl file() const;
     Massif::FileData* data() const;
     KDChart::Chart* chart() const;
-    KDChart::LineDiagram* totalDiagram() const;
+    KDChart::Plotter* totalDiagram() const;
     Massif::TotalCostModel* totalCostModel() const;
-    KDChart::LineDiagram* detailedDiagram() const;
+    KDChart::Plotter* detailedDiagram() const;
     Massif::DetailedCostModel* detailedCostModel() const;
     Massif::DataTreeModel* dataTreeModel() const;
     Massif::FilteredDataTreeModel* dataTreeFilterModel() const;
@@ -126,10 +126,10 @@ private:
 
     KDChart::Chart* m_chart;
     QLabel* m_header;
-    KDChart::LineDiagram* m_totalDiagram;
+    KDChart::Plotter* m_totalDiagram;
     Massif::TotalCostModel* m_totalCostModel;
 
-    KDChart::LineDiagram* m_detailedDiagram;
+    KDChart::Plotter* m_detailedDiagram;
     Massif::DetailedCostModel* m_detailedCostModel;
 
     KDChart::Legend* m_legend;

@@ -31,6 +31,7 @@
 #include "ui_mainwindow.h"
 #include "documentwidget.h"
 
+class QSpinBox;
 class QStringListModel;
 
 namespace KDChart {
@@ -161,6 +162,7 @@ private:
     KAction* m_toggleDetailed;
     KAction* m_selectPeak;
     KRecentFilesAction* m_recentFiles;
+    QSpinBox* m_box;
 
     QHash<DocumentWidget*, bool> m_changingSelections;
     bool currentChangingSelections() const;

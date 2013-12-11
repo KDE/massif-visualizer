@@ -87,6 +87,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_toggleTotal(0)
     , m_selectPeak(0)
     , m_recentFiles(0)
+    , m_box(new QSpinBox(this))
     , m_zoomIn(0)
     , m_zoomOut(0)
     , m_focusExpensive(0)
@@ -243,12 +244,11 @@ void MainWindow::setupActions()
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
     stackNumLayout->addWidget(new QLabel(i18n("Stacked diagrams:")));
-    QSpinBox* box = new QSpinBox;
-    box->setMinimum(0);
-    box->setMaximum(50);
-    box->setValue(10);
-    connect(box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
-    stackNumLayout->addWidget(box);
+    m_box->setMinimum(0);
+    m_box->setMaximum(50);
+    m_box->setValue(10);
+    connect(m_box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
+    stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
 
@@ -805,6 +805,9 @@ void MainWindow::documentChanged()
     if (m_currentDocument->detailedDiagram()) {
         connect(m_currentDocument->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
                 this, SLOT(detailedItemClicked(QModelIndex)));
+    }
+    if (m_currentDocument->detailedCostModel()) {
+        m_box->setValue(m_currentDocument->detailedCostModel()->maximumDatasetCount());
     }
     if (m_currentDocument->chart()) {
         connect(m_currentDocument->chart(), SIGNAL(customContextMenuRequested(QPoint)),

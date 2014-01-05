@@ -39,7 +39,7 @@ MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
 
 /**
  * Prepares a tree node's label for the UI.
- * So far, only the Mem-Adress will get stripped.
+ * So far, only the Mem-Address will get stripped.
  */
 MASSIFDATA_EXPORT QByteArray prettyLabel(const QByteArray& label);
 

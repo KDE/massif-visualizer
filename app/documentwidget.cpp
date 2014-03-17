@@ -53,7 +53,8 @@
 #include <KLibFactory>
 #include <KLibLoader>
 #include <KLocalizedString>
-#include <KMessageWidget>
+// forward include not available until later KDE versions...
+#include <kmessagewidget.h>
 #include <KIcon>
 #include <KDebug>
 

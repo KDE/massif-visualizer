@@ -2,7 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
-   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as

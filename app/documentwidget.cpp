@@ -50,8 +50,8 @@
 #include <KStandardAction>
 #include <KColorScheme>
 #include <KParts/Part>
-#include <KLibFactory>
-#include <KLibLoader>
+#include <KPluginFactory>
+#include <KPluginLoader>
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>
@@ -158,9 +158,9 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     memoryConsumptionWidget->layout()->addWidget(m_chart);
 
 #ifdef HAVE_KGRAPHVIEWER
-    static KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
-        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
+        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (m_graphViewerPart) {
             QTabWidget* displayTabWidget = new QTabWidget(m_stackedWidget);
             displayTabWidget->setTabPosition(QTabWidget::South);

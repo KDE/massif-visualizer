@@ -56,8 +56,8 @@
 #include <KStatusBar>
 #include <KToolBar>
 #include <KParts/Part>
-#include <KLibFactory>
-#include <KLibLoader>
+#include <KPluginFactory>
+#include <KPluginLoader>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -110,9 +110,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     // NOTE: just check if kgraphviewer is available at runtime.
     // The former logic has been moved to DocumentWidget constructor.
 #ifdef HAVE_KGRAPHVIEWER
-    KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
-        if (factory->create<KParts::ReadOnlyPart>(this)) {
+        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
+        if (readOnlyPart) {
+            readOnlyPart->widget()->hide();
             haveGraphViewer = true;
         }
     }

@@ -571,7 +571,6 @@ void DocumentWidget::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& ite
     } else {
         m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
     }
-    connect(m_dotGenerator.data(), SIGNAL(finished()), SLOT(showDotGraph()));
     m_dotGenerator->start();
 }
 

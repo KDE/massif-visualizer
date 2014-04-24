@@ -60,7 +60,7 @@
 #include <float.h>
 #define ISNAN(x ) _isnan(x )
 #define ISINF(x ) (!(_finite(x ) + _isnan(x ) ) )
-#elif defined (Q_OS_DARWIN) || defined (Q_OS_CYGWIN)
+#elif defined (Q_OS_DARWIN) || defined (Q_OS_CYGWIN) || __cplusplus >= 201103L
 #define ISNAN(x) std::isnan(x)
 #define ISINF(x) std::isinf(x)
 #else

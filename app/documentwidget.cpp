@@ -122,6 +122,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_graphViewerPart(0)
   , m_graphViewer(0)
   , m_dotGenerator(0)
+  , m_displayTabWidget(0)
 #endif
 {
     // for axis labels to fit
@@ -162,20 +163,20 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (m_graphViewerPart) {
-            QTabWidget* displayTabWidget = new QTabWidget(m_stackedWidget);
-            displayTabWidget->setTabPosition(QTabWidget::South);
-            displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
+            m_displayTabWidget = new QTabWidget(m_stackedWidget);
+            m_displayTabWidget->setTabPosition(QTabWidget::South);
+            m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
-            QWidget* dotGraphWidget = new QWidget(displayTabWidget);
+            QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
             dotGraphWidget->setLayout(new QGridLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
-            displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
-            m_stackedWidget->addWidget(displayTabWidget);
+            m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
+            m_stackedWidget->addWidget(m_displayTabWidget);
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
 
-            connect(displayTabWidget, SIGNAL(currentChanged(int)),
+            connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
                     this, SLOT(slotTabChanged(int)));
-            slotTabChanged(displayTabWidget->currentIndex());
+            slotTabChanged(m_displayTabWidget->currentIndex());
         }
     }
 
@@ -335,6 +336,13 @@ void DocumentWidget::focusExpensiveGraphNode()
 
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
+
+int DocumentWidget::currentIndex()
+{
+    Q_ASSERT(m_displayTabWidget);
+    return m_displayTabWidget->currentIndex();
+}
+
 #endif
 
 bool DocumentWidget::isLoaded() const

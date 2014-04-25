@@ -830,7 +830,11 @@ void MainWindow::documentChanged()
         m_toggleTotal->setChecked(!m_currentDocument->totalDiagram()->isHidden());
     }
 
+#ifdef HAVE_KGRAPHVIEWER
+    documentTabChanged(m_currentDocument->currentIndex());
+#else
     documentTabChanged(0);
+#endif
 }
 
 bool MainWindow::currentChangingSelections() const

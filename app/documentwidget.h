@@ -41,6 +41,7 @@ class QLabel;
 class QProgressBar;
 class QToolButton;
 class QStackedWidget;
+class QTabWidget;
 
 class KMessageWidget;
 
@@ -91,6 +92,7 @@ public:
     void showDotGraph(const QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*>& item);
     void showDotGraph();
     void focusExpensiveGraphNode();
+    int currentIndex();
 #endif
 
     bool isLoaded() const;
@@ -151,6 +153,7 @@ private:
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
     QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
     QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*> m_lastDotItem;
+    QTabWidget* m_displayTabWidget;
 #endif
 };
 

@@ -85,6 +85,7 @@ static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QP
 
     TextAttributes txtAttrs = dataAttributes.textAttributes();
     txtAttrs.setPen(foreground);
+    txtAttrs.setFontSize(Measure(12));
     dataAttributes.setTextAttributes(txtAttrs);
 
     BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();

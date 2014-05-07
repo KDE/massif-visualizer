@@ -339,7 +339,10 @@ void DocumentWidget::focusExpensiveGraphNode()
 
 int DocumentWidget::currentIndex()
 {
-    Q_ASSERT(m_displayTabWidget);
+    if (!m_displayTabWidget) {
+        // happens when kgraphviewer part is not available at runtime
+        return 0;
+    }
     return m_displayTabWidget->currentIndex();
 }
 

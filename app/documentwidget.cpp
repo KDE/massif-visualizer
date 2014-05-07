@@ -123,10 +123,6 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_dotGenerator(0)
 #endif
 {
-    // for axis labels to fit
-    m_chart->setGlobalLeadingRight(10);
-    m_chart->setGlobalLeadingLeft(10);
-    m_chart->setGlobalLeadingTop(20);
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_legend->setPosition(Position(KDChartEnums::PositionFloating));

@@ -90,7 +90,6 @@ public:
 #ifdef HAVE_KGRAPHVIEWER
     KGraphViewer::KGraphViewerInterface* graphViewer();
     void showDotGraph(const QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*>& item);
-    void showDotGraph();
     void focusExpensiveGraphNode();
     int currentIndex();
 #endif
@@ -116,6 +115,10 @@ public slots:
     void setLoadingMessage(const QString& message);
 
     void showError(const QString& title, const QString& error);
+
+#ifdef HAVE_KGRAPHVIEWER
+    void showDotGraph();
+#endif
 
 private slots:
 #ifdef HAVE_KGRAPHVIEWER

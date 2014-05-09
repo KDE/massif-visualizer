@@ -148,7 +148,16 @@ LineDiagram::LineType LineDiagram::type() const
 
 void LineDiagram::setCenterDataPoints( bool center )
 {
+    if ( d->centerDataPoints == center ) {
+        return;
+    }
+
     d->centerDataPoints = center;
+    // The actual data boundaries haven't changed, but the axis will have one more or less tick
+    //  A      B    =\        A      B
+    //  1......2    =/    1......2......3
+    setDataBoundariesDirty();
+    emit layoutChanged( this );
     emit propertiesChanged();
 }
 
@@ -381,47 +390,6 @@ void LineDiagram::paintEvent ( QPaintEvent*)
     ctx.setPainter ( &painter );
     ctx.setRectangle ( QRectF ( 0, 0, width(), height() ) );
     paint ( &ctx );
-}
-
-
-qreal LineDiagram::valueForCellTesting( int row, int column,
-                                         bool& bOK,
-                                         bool showHiddenCellsAsInvalid ) const
-{
-    if ( !model()->hasIndex( row, column, rootIndex() ) ) {
-        bOK = false;
-        return 0.0;
-    }
-    qreal value;
-    if ( showHiddenCellsAsInvalid && isHidden( model()->index( row, column, rootIndex() ) ) ) // checked
-        bOK = false;
-    else
-        value = d->attributesModel->data(
-                    d->attributesModel->index( row, column, attributesModelRootIndex() ) // checked
-                ).toReal( &bOK );
-    return bOK ? value : 0.0;
-}
-
-LineAttributes::MissingValuesPolicy LineDiagram::getCellValues(
-      int row, int column,
-      bool shiftCountedXValuesByHalfSection,
-      qreal& valueX, qreal& valueY ) const
-{
-    LineAttributes::MissingValuesPolicy policy = LineAttributes::MissingValuesPolicyIgnored;
-
-    bool bOK = true;
-    valueX = ( datasetDimension() > 1 && column > 0 )
-             ? valueForCellTesting( row, column-1, bOK, true )
-             : ((shiftCountedXValuesByHalfSection ? 0.5 : 0.0) + row);
-    if ( bOK )
-        valueY = valueForCellTesting( row, column, bOK, true );
-    else if ( model()->hasIndex( row, column, rootIndex() ) ) {
-        // missing value: find out the policy
-        QModelIndex index = model()->index( row, column, rootIndex() ); // checked
-        LineAttributes la = lineAttributes( index );
-        policy = la.missingValuesPolicy();
-    }
-    return policy;
 }
 
 void LineDiagram::paint( PaintContext* ctx )

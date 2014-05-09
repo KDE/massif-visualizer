@@ -48,8 +48,8 @@ const QPair<QPointF, QPointF> NormalLyingBarDiagram::calculateDataBoundaries() c
     const int rowCount = compressor().modelDataRows();
     const int colCount = compressor().modelDataColumns();
 
-    qreal xMin = 0.0;
-    qreal xMax = rowCount;
+    const qreal xMin = 0.0;
+    const qreal xMax = rowCount;
     qreal yMin = 0.0;
     qreal yMax = 0.0;
 
@@ -166,13 +166,14 @@ void NormalLyingBarDiagram::paint( PaintContext* ctx )
             const CartesianDiagramDataCompressor::CachePosition position( row,  column );
             const CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
             const QModelIndex sourceIndex = attributesModel()->mapToSource( point.index );
-            const qreal value = point.value;//attributesModel()->data( sourceIndex ).toReal();
-            QPointF topPoint = ctx->coordinatePlane()->translate( QPointF( value, rowCount - ( point.key + 0.5 ) ) );
-            QPointF bottomPoint =  ctx->coordinatePlane()->translate( QPointF( 0, rowCount - point.key ) );
-            const qreal barHeight = topPoint.x() - bottomPoint.x();
-            topPoint.ry() += offset;
-            topPoint.rx() -= barHeight;
-            const QRectF rect( topPoint, QSizeF( barHeight, barWidth ) );
+
+            QPointF dataPoint( 0, rowCount - ( point.key + 0.5 ) );
+            const QPointF topLeft = ctx->coordinatePlane()->translate( dataPoint );
+            dataPoint.rx() += point.value;
+            const QPointF bottomRight = ctx->coordinatePlane()->translate( dataPoint ) +
+                                        QPointF( 0, barWidth );
+
+            const QRectF rect = QRectF( topLeft, bottomRight ).translated( 1.0, offset );
             m_private->addLabel( &lpc, sourceIndex, 0, PositionPoints( rect ), Position::North,
                                  Position::South, point.value );
             paintBars( ctx, sourceIndex, rect, maxDepth );

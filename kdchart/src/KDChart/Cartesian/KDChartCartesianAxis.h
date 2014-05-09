@@ -82,19 +82,20 @@ namespace KDChart {
          */
         void setTitleText( const QString& text );
         QString titleText() const;
-        
+
         /**
+         * \deprecated
          * Sets the spacing between the title and the diagram.
          * Be aware that setting this value can lead to
          * collisions between axis labels and the title
          */
         void setTitleSpace( qreal value );
+        /// \deprecated
         qreal titleSpace() const;
 
-        /**
-         * Sets the size of the title.
-         */
+        /// \deprecated \brief use setTitleTextAttributes() instead
         void setTitleSize(qreal value);
+        /// \deprecated
         qreal titleSize() const;
 
         void setTitleTextAttributes( const TextAttributes &a );
@@ -180,8 +181,6 @@ namespace KDChart {
         virtual int tickLength( bool subUnitTicks = false ) const;
     private Q_SLOTS:
         void coordinateSystemChanged();
-    private:
-        friend class TickIterator;
     };
 
     typedef QList<CartesianAxis*> CartesianAxisList;

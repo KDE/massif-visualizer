@@ -24,13 +24,14 @@
 #define PAINTINGHELPERS_P_H
 
 #include "KDChartAbstractDiagram_p.h"
+#include <KDABLibFakes>
 
+#include <QPointF>
 #include <QVector>
 
 class QBrush;
 class QModelIndex;
 class QPen;
-class QPointF;
 class QPolygonF;
 
 namespace KDChart {
@@ -41,6 +42,11 @@ class ThreeDLineAttributes;
 class ValueTrackerAttributes;
 
 namespace PaintingHelpers {
+
+inline bool isFinite(const QPointF &point)
+{
+    return !ISINF(point.x()) && !ISNAN(point.x()) && !ISINF(point.y()) && !ISNAN(point.y());
+}
 
 const QPointF project( const QPointF& point, const ThreeDLineAttributes& tdAttributes );
 void paintPolyline( PaintContext* ctx, const QBrush& brush, const QPen& pen, const QPolygonF& points );

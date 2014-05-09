@@ -193,7 +193,7 @@ void StackedLyingBarDiagram::paint( PaintContext* ctx )
             const qreal barHeight = point.x() - previousPoint.x();
             point.rx() -= barHeight;
 
-            const QRectF rect( point, QSizeF( barHeight , barWidth ) );
+            const QRectF rect = QRectF( point, QSizeF( barHeight , barWidth ) ).translated( 1, 0 );
             m_private->addLabel( &lpc, index, 0, PositionPoints( rect ), Position::North,
                                  Position::South, value );
             paintBars( ctx, index, rect, maxDepth );

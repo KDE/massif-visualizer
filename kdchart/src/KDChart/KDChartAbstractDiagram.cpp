@@ -132,32 +132,18 @@ void AbstractDiagram::setDataBoundariesDirty() const
 
 void AbstractDiagram::setModel( QAbstractItemModel * newModel )
 {
-    if ( model() )
-    {
-        disconnect( model(), SIGNAL( rowsInserted( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( columnsInserted( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( rowsRemoved( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( columnsRemoved( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( modelReset() ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( layoutChanged() ), this, SLOT( setDataBoundariesDirty() ) );
-        disconnect( model(), SIGNAL( dataChanged(QModelIndex,QModelIndex) ), this, SIGNAL( modelDataChanged() ));
+    if ( newModel == model() ) {
+        return;
     }
-    QAbstractItemView::setModel( newModel );
+
     AttributesModel* amodel = new PrivateAttributesModel( newModel, this );
     amodel->initFrom( d->attributesModel );
     d->setAttributesModel(amodel);
+
+    QAbstractItemView::setModel( newModel );
+
     scheduleDelayedItemsLayout();
     setDataBoundariesDirty();
-    if ( model() )
-    {
-        connect( model(), SIGNAL( rowsInserted( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( columnsInserted( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( rowsRemoved( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( columnsRemoved( QModelIndex, int, int ) ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( modelReset() ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( layoutChanged() ), this, SLOT( setDataBoundariesDirty() ) );
-        connect( model(), SIGNAL( dataChanged(QModelIndex,QModelIndex) ), this, SIGNAL( modelDataChanged() ));
-    }
     emit modelsChanged();
 }
 
@@ -197,7 +183,8 @@ void AbstractDiagram::setAttributesModel( AttributesModel* amodel )
                  "Trying to set an attributesmodel that is private to another diagram.");
         return;
     }
-    d->setAttributesModel(amodel);
+
+    d->setAttributesModel( amodel );
     scheduleDelayedItemsLayout();
     setDataBoundariesDirty();
     emit modelsChanged();

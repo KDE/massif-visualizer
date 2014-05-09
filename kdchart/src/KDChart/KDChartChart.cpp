@@ -107,6 +107,23 @@ public:
     }
 };
 
+// When "abusing" QLayouts to lay out items with different geometry from the backing QWidgets,
+// some manual work is required to correctly update all the sublayouts.
+// This is because all the convenient ways to deal with QLayouts assume QWidgets somewhere.
+// What this does is somewhat similar to QLayout::activate(), but it never refers to the parent
+// QWidget which has the wrong geometry.
+static void invalidateLayoutTree( QLayoutItem *item )
+{
+    item->invalidate();
+    QLayout *layout = item->layout();
+    if ( layout ) {
+        const int count = layout->count();
+        for ( int i = 0; i < count; i++ ) {
+            invalidateLayoutTree( layout->itemAt( i ) );
+        }
+    }
+}
+
 using namespace KDChart;
 
 void Chart::Private::slotUnregisterDestroyedLegend( Legend *l )
@@ -869,19 +886,19 @@ void Chart::Private::createLayouts()
     layout->addSpacing( globalLeadingRight );
     rightOuterSpacer = layout->itemAt( layout->count() - 1 )->spacerItem();
 
-    // 1. the gap above the top edge of the headers area
+    // 1. the spacing above the header area
     vLayout->addSpacing( globalLeadingTop );
     topOuterSpacer = vLayout->itemAt( vLayout->count() - 1 )->spacerItem();
-    // 2. the header(s) area
+    // 2. the header area
     headerLayout = new QGridLayout();
     headerLayout->setMargin( 0 );
     vLayout->addLayout( headerLayout );
-    // 3. the area containing coordinate plane(s), axes, legend(s)
+    // 3. the area containing coordinate planes, axes, and legends
     dataAndLegendLayout = new QGridLayout();
     dataAndLegendLayout->setMargin( 0 );
     dataAndLegendLayout->setObjectName( QString::fromLatin1( "dataAndLegendLayout" ) );
     vLayout->addLayout( dataAndLegendLayout, 1000 );
-    // 4. the footer(s) area
+    // 4. the footer area
     footerLayout = new QGridLayout();
     footerLayout->setMargin( 0 );
     footerLayout->setObjectName( QString::fromLatin1( "footerLayout" ) );
@@ -906,7 +923,7 @@ void Chart::Private::createLayouts()
         }
     }
 
-    // 6. the gap below the bottom edge of the headers area
+    // 6. the spacing below the footer area
     vLayout->addSpacing( globalLeadingBottom );
     bottomOuterSpacer = vLayout->itemAt( vLayout->count() - 1 )->spacerItem();
 
@@ -953,7 +970,8 @@ void Chart::Private::updateDirtyLayouts()
 void Chart::Private::reapplyInternalLayouts()
 {
     QRect geo = layout->geometry();
-    layout->invalidate();
+
+    invalidateLayoutTree( layout );
     layout->setGeometry( geo );
     slotResizePlanes();
 }
@@ -1040,7 +1058,16 @@ BackgroundAttributes Chart::backgroundAttributes() const
 //TODO KDChart 3.0; change QLayout into QBoxLayout::Direction
 void Chart::setCoordinatePlaneLayout( QLayout * layout )
 {
-    delete d->planesLayout;
+    if (layout == d->planesLayout)
+        return;
+    if (d->planesLayout) {
+        // detach all QLayoutItem's the previous planesLayout has cause
+        // otherwise deleting the planesLayout would delete them too.
+        for(int i = d->planesLayout->count() - 1; i >= 0; --i) {
+            d->planesLayout->takeAt(i);
+        }
+        delete d->planesLayout;
+    }
     d->planesLayout = qobject_cast<QBoxLayout*>( layout );
     d->slotLayoutPlanes();
 }
@@ -1215,6 +1242,7 @@ void Chart::paint( QPainter* painter, const QRect& target )
         oldGeometry = geometry();
         d->isPlanesLayoutDirty = true;
         d->isFloatingLegendsLayoutDirty = true;
+        invalidateLayoutTree( d->dataAndLegendLayout );
         d->dataAndLegendLayout->setGeometry( QRect( QPoint(), target.size() ) );
     }
 
@@ -1223,6 +1251,7 @@ void Chart::paint( QPainter* painter, const QRect& target )
     d->overrideSize = QSize();
 
     if ( differentSize ) {
+        invalidateLayoutTree( d->dataAndLegendLayout );
         d->dataAndLegendLayout->setGeometry( oldGeometry );
         d->isPlanesLayoutDirty = true;
         d->isFloatingLegendsLayoutDirty = true;

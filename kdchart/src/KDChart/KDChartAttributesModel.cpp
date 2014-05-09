@@ -295,9 +295,7 @@ QVariant AttributesModel::defaultHeaderData( int section, Qt::Orientation orient
     return QVariant();
 }
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
+
 QVariant AttributesModel::data( int role ) const
 {
   if ( isKnownAttributesRole( role ) ) {
@@ -313,9 +311,6 @@ QVariant AttributesModel::data( int role ) const
 }
 
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
 QVariant AttributesModel::data( int column, int role ) const
 {
   if ( isKnownAttributesRole( role ) ) {

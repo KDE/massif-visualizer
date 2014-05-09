@@ -36,7 +36,6 @@ using namespace KDChart;
 
 AbstractAreaBase::Private::Private() :
     visible( true )
-    // PENDING(khz) dockingPointToPadding?, alignToDockingPoint?
 {
     init();
 }

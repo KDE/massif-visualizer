@@ -47,39 +47,7 @@ LineDiagram::LineType NormalLineDiagram::type() const
 
 const QPair< QPointF, QPointF > NormalLineDiagram::calculateDataBoundaries() const
 {
-    const int rowCount = compressor().modelDataRows();
-    const int colCount = compressor().modelDataColumns();
-    const qreal xMin = 0.0;
-    qreal xMax = diagram()->model() ? diagram()->model()->rowCount( diagram()->rootIndex() ) : 0;
-    if ( !diagram()->centerDataPoints() && diagram()->model() )
-        xMax -= 1;
-    qreal yMin = std::numeric_limits< qreal >::quiet_NaN();
-    qreal yMax = std::numeric_limits< qreal >::quiet_NaN();
-
-    for ( int column = 0; column < colCount; ++column )
-    {
-        for ( int row = 0; row < rowCount; ++row )
-        {
-            const CartesianDiagramDataCompressor::CachePosition position( row, column );
-            const CartesianDiagramDataCompressor::DataPoint point = compressor().data( position );
-            const qreal value = ISNAN( point.value ) ? 0.0 : point.value;
-
-            if ( ISNAN( yMin ) ) {
-                yMin = value;
-                yMax = value;
-            } else {
-                yMin = qMin( yMin, value );
-                yMax = qMax( yMax, value );
-            }
-        }
-    }
-
-    // NOTE: calculateDataBoundaries must return the *real* data boundaries!
-    //       i.e. we may NOT fake yMin to be qMin( 0.0, yMin )
-    //       (khz, 2008-01-24)
-    const QPointF bottomLeft( QPointF( xMin, yMin ) );
-    const QPointF topRight( QPointF( xMax, yMax ) );
-    return QPair< QPointF, QPointF >( bottomLeft, topRight );
+    return compressor().dataBoundaries();
 }
 
 void NormalLineDiagram::paint( PaintContext* ctx )
@@ -95,9 +63,10 @@ void NormalLineDiagram::paint( PaintContext* ctx )
     bool rev = diagram()->reverseDatasetOrder();
     LabelPaintCache lpc;
     LineAttributesInfoList lineList;
-    for ( int column = rev ? columnCount - 1 : 0;
-         rev ? (column >= 0) : (column < columnCount);
-         rev ? --column : ++column ) {
+
+    const int step = rev ? -1 : 1;
+    const int end = rev ? -1 : columnCount;
+    for ( int column = rev ? columnCount - 1 : 0; column != end; column += step ) {
         LineAttributes laPreviousCell;
         CartesianDiagramDataCompressor::DataPoint lastPoint;
         qreal lastAreaBoundingValue = 0;

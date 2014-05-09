@@ -28,10 +28,10 @@
 
 #ifdef __GNUC__
 #if __GNUC__ > 3
-#define ATTRIBUTE __attribute__((__may_alias__))
+#define MAY_ALIAS __attribute__((__may_alias__))
 #endif
 #else
-#define ATTRIBUTE
+#define MAY_ALIAS
 #endif
 
 namespace KDChart {	
@@ -41,8 +41,11 @@ namespace KDChart {
 AbstractProxyModel::AbstractProxyModel(QObject* parent) 
   : QAbstractProxyModel(parent) {}
 
-// Think this is ugly? Well, it's not from me, it comes from QProxyModel
-struct ATTRIBUTE KDPrivateModelIndex
+// Allows access to QModelIndex's private data via type punning and a compatible data layout.
+// Due to inlining in Qt and no d-pointer, it is safe to assume that the layout won't change except
+// between major Qt versions. As it happens, the layout is the same in Qt4 and Qt5.
+// The only change is void * -> quintptr.
+struct MAY_ALIAS KDPrivateModelIndex
 {
   int r, c;
   void *p;

@@ -80,6 +80,10 @@ static const T& constify(T &v)
     return v;
 }
 
+// Feature idea: In case of numeric labels, consider limiting the possible values of majorThinningFactor
+// to something like {1, 2, 5} * 10^n. Or even better, something that achieves round values in the
+// remaining labels.
+
 TickIterator::TickIterator( CartesianAxis* a, CartesianCoordinatePlane* plane, uint majorThinningFactor,
                             bool omitLastTick )
    : m_axis( a ),
@@ -88,7 +92,8 @@ TickIterator::TickIterator( CartesianAxis* a, CartesianCoordinatePlane* plane, u
      m_type( NoTick )
 {
     // deal with the things that are specfic to axes (like annotations), before the generic init().
-    XySwitch xy( m_axis->d_func()->isVertical() );
+    const CartesianAxis::Private *axisPriv = CartesianAxis::Private::get( a );
+    XySwitch xy( axisPriv->isVertical() );
     m_dimension = xy( plane->gridDimensionsList().first(), plane->gridDimensionsList().last() );
     if ( omitLastTick ) {
         // In bar and stock charts the last X tick is a fencepost with no associated value, which is
@@ -96,8 +101,8 @@ TickIterator::TickIterator( CartesianAxis* a, CartesianCoordinatePlane* plane, u
         m_dimension.end -= m_dimension.stepWidth;
     }
 
-    m_annotations = m_axis->d_func()->annotations;
-    m_customTicks = m_axis->d_func()->customTicksPositions;
+    m_annotations = axisPriv->annotations;
+    m_customTicks = axisPriv->customTicksPositions;
 
     const qreal inf = std::numeric_limits< qreal >::infinity();
 
@@ -144,17 +149,38 @@ TickIterator::TickIterator( CartesianAxis* a, CartesianCoordinatePlane* plane, u
     init( xy.isY, hasMajorTicks, hasMinorTicks, plane );
 }
 
-TickIterator::TickIterator( bool isY, const DataDimension& dimension, bool hasMajorTicks, bool hasMinorTicks,
-                            CartesianCoordinatePlane* plane, uint majorThinningFactor )
+static QMap< qreal, QString > allAxisAnnotations( const AbstractCoordinatePlane *plane, bool isY )
+{
+    QMap< qreal, QString > annotations;
+    Q_FOREACH( const AbstractDiagram *diagram, plane->diagrams() ) {
+        const AbstractCartesianDiagram *cd = qobject_cast< const AbstractCartesianDiagram* >( diagram );
+        if ( !cd ) {
+            continue;
+        }
+        Q_FOREACH( const CartesianAxis *axis, cd->axes() ) {
+            const CartesianAxis::Private *axisPriv = CartesianAxis::Private::get( axis );
+            if ( axisPriv->isVertical() == isY ) {
+                annotations.unite( axisPriv->annotations );
+            }
+        }
+    }
+    return annotations;
+}
+
+TickIterator::TickIterator( bool isY, const DataDimension& dimension, bool useAnnotationsForTicks,
+                            bool hasMajorTicks, bool hasMinorTicks, CartesianCoordinatePlane* plane )
    : m_axis( 0 ),
      m_dimension( dimension ),
-     m_majorThinningFactor( majorThinningFactor ),
+     m_majorThinningFactor( 1 ),
      m_majorLabelCount( 0 ),
      m_customTickIndex( -1 ),
      m_manualLabelIndex( -1 ),
      m_type( NoTick ),
      m_customTick( std::numeric_limits< qreal >::infinity() )
 {
+    if ( useAnnotationsForTicks ) {
+        m_annotations = allAxisAnnotations( plane, isY );
+    }
     init( isY, hasMajorTicks, hasMinorTicks, plane );
 }
 
@@ -223,7 +249,13 @@ void TickIterator::init( bool isY, bool hasMajorTicks, bool hasMinorTicks,
 bool TickIterator::areAlmostEqual( qreal r1, qreal r2 ) const
 {
     if ( !m_isLogarithmic ) {
-        return qAbs( r2 - r1 ) < ( m_dimension.end - m_dimension.start ) * 1e-6;
+        qreal span = m_dimension.end - m_dimension.start;
+        if ( span == 0 ) {
+            // When start == end, we still want to show one tick if possible,
+            // which needs this function to perform a reasonable comparison.
+            span = qFuzzyIsNull( m_dimension.start) ? 1 : qAbs( m_dimension.start );
+        }
+        return qAbs( r2 - r1 ) < ( span ) * 1e-6;
     } else {
         return qAbs( r2 - r1 ) < qMax( qAbs( r1 ), qAbs( r2 ) ) * 0.01;
     }
@@ -286,10 +318,12 @@ void TickIterator::operator++()
         } else {
             m_position = inf;
         }
-    } else if (m_dimension.start == m_dimension.end) {
-        // bail out to avoid KDCH-967 and possibly other problems: an empty range is not necessarily easy to
-        // iterate over, so don't try to "properly" determine the next tick which is certain to be out of the
-        // given range - just trivially skip to the end.
+    } else if ( !m_isLogarithmic && m_dimension.stepWidth * 1e6 <
+                                       qMax( qAbs( m_dimension.start ), qAbs( m_dimension.end ) ) ) {
+        // If the step width is too small to increase m_position at all, we get an infinite loop.
+        // This usually happens when m_dimension.start == m_dimension.end and both are very large.
+        // When start == end, the step width defaults to 1, and it doesn't scale with start or end.
+        // So currently, we bail and show no tick at all for empty ranges > 10^6, but at least we don't hang.
         m_position = inf;
     } else {
         // advance the calculated ticks
@@ -564,12 +598,13 @@ qreal CartesianAxis::titleSpace() const
 
 void CartesianAxis::setTitleSize( qreal value )
 {
-    d->axisSize = value;
+    // ### remove me
 }
 
 qreal CartesianAxis::titleSize() const
 {
-    return d->axisSize;
+    // ### remove me
+    return 1.0;
 }
 
 void CartesianAxis::Private::drawTitleText( QPainter* painter, CartesianCoordinatePlane* plane,
@@ -581,8 +616,6 @@ void CartesianAxis::Private::drawTitleText( QPainter* painter, CartesianCoordina
                                   Qt::AlignHCenter | Qt::AlignVCenter );
         QPointF point;
         QSize size = titleItem.sizeHint();
-        //FIXME(khz): We definitely need to provide a way that users can decide
-        //            the position of an axis title.
         switch ( position ) {
         case Top:
             point.setX( geoRect.left() + geoRect.width() / 2 );
@@ -606,6 +639,7 @@ void CartesianAxis::Private::drawTitleText( QPainter* painter, CartesianCoordina
             break;
         }
         const PainterSaver painterSaver( painter );
+        painter->setClipping( false );
         painter->translate( point );
         titleItem.setGeometry( QRect( QPoint( -size.width() / 2, -size.height() / 2 ), size ) );
         titleItem.paint( painter );
@@ -771,8 +805,13 @@ void CartesianAxis::paintCtx( PaintContext* context )
 
             QString text = it.text();
             if ( it.type() == TickIterator::MajorTick ) {
+                // add unit prefixes and suffixes, then customize
                 text = d->customizedLabelText( text, geoXy( Qt::Horizontal, Qt::Vertical ), it.position() );
+            } else if ( it.type() == TickIterator::MajorTickHeaderDataLabel ) {
+                // unit prefixes and suffixes have already been added in this case - only customize
+                text = customizedLabel( text );
             }
+
             tickLabel->setText( text );
             QSizeF size = QSizeF( tickLabel->sizeHint() );
             QPolygon labelPoly = tickLabel->boundingPolygon();
@@ -969,14 +1008,18 @@ QSize CartesianAxis::Private::calculateMaximumSize() const
 
             qreal labelSizeTransverse = 0.0;
             qreal labelMargin = 0.0;
-            if ( !it.text().isEmpty() ) {
+            QString text = it.text();
+            if ( !text.isEmpty() ) {
                 QPointF labelPosition = plane->translate( QPointF( geoXy( drawPos, 1.0 ),
                                                                    geoXy( 1.0, drawPos ) ) );
                 highestLabelPosition = geoXy( labelPosition.x(), labelPosition.y() );
 
-                QString text = it.text();
                 if ( it.type() == TickIterator::MajorTick ) {
+                    // add unit prefixes and suffixes, then customize
                     text = customizedLabelText( text, geoXy( Qt::Horizontal, Qt::Vertical ), it.position() );
+                } else if ( it.type() == TickIterator::MajorTickHeaderDataLabel ) {
+                    // unit prefixes and suffixes have already been added in this case - only customize
+                    text = axis()->customizedLabel( text );
                 }
                 tickLabel.setText( text );
 

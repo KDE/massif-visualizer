@@ -277,13 +277,8 @@ int CartesianDiagramDataCompressor::modelDataColumns() const
     Q_ASSERT( m_datasetDimension != 0 );
     // only operational if there is a model and a resolution
     if ( m_model ) {
-        const int columns = m_model->columnCount( m_rootIndex ) / m_datasetDimension;
-
-//        if ( columns != m_data.size() )
-//        {
-//            rebuildCache();
-//        }
-
+        const int effectiveDimension = m_datasetDimension == 2 ? 2 : 1;
+        const int columns = m_model->columnCount( m_rootIndex ) / effectiveDimension;
         Q_ASSERT( columns == m_data.size() );
         return columns;
     } else {
@@ -303,7 +298,11 @@ int CartesianDiagramDataCompressor::modelDataRows() const
 
 void CartesianDiagramDataCompressor::setModel( QAbstractItemModel* model )
 {
-    if ( m_model != 0 && m_model != model ) {
+    if ( model == m_model ) {
+        return;
+    }
+
+    if ( m_model != 0 ) {
         disconnect( m_model, SIGNAL( headerDataChanged( Qt::Orientation, int, int ) ),
                  this, SLOT( slotModelHeaderDataChanged( Qt::Orientation, int, int ) ) );
         disconnect( m_model, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ),
@@ -357,8 +356,7 @@ void CartesianDiagramDataCompressor::setModel( QAbstractItemModel* model )
                  SLOT( slotColumnsRemoved( QModelIndex, int, int ) ) );
         connect( m_model, SIGNAL( columnsAboutToBeRemoved( QModelIndex, int, int ) ),
                  SLOT( slotColumnsAboutToBeRemoved( QModelIndex, int, int ) ) );
-        connect( m_model, SIGNAL( modelReset() ),
-                    this, SLOT( rebuildCache() ) );
+        connect( m_model, SIGNAL( modelReset() ), SLOT( rebuildCache() ) );
     }
     rebuildCache();
     calculateSampleStepWidth();
@@ -416,7 +414,7 @@ void CartesianDiagramDataCompressor::rebuildCache()
 
     m_data.clear();
     setResolutionInternal( m_xResolution, m_yResolution );
-    const int columnDivisor = m_datasetDimension != 2 ? 1 : m_datasetDimension;
+    const int columnDivisor = m_datasetDimension == 2 ? 2 : 1;
     const int columnCount = m_model ? m_model->columnCount( m_rootIndex ) / columnDivisor : 0;
     const int rowCount = qMin( m_model ? m_model->rowCount( m_rootIndex ) : 0, m_xResolution );
     m_data.resize( columnCount );
@@ -457,28 +455,24 @@ QPair< QPointF, QPointF > CartesianDiagramDataCompressor::dataBoundaries() const
             if ( !p.index.isValid() )
                 retrieveModelData( CachePosition( row, column ) );
 
-            const qreal valueX = ISNAN( p.key ) ? 0.0 : p.key;
-            const qreal valueY = ISNAN( p.value ) ? 0.0 : p.value;
-            if ( ISNAN( xMin ) )
-            {
-                xMin = valueX;
-                xMax = valueX;
-                yMin = valueY;
-                yMax = valueY;
+            if ( ISNAN( p.key ) || ISNAN( p.value ) ) {
+                continue;
             }
-            else
-            {
-                xMin = qMin( xMin, valueX );
-                xMax = qMax( xMax, valueX );
-                yMin = qMin( yMin, valueY );
-                yMax = qMax( yMax, valueY );
+
+            if ( ISNAN( xMin ) ) {
+                xMin = p.key;
+                xMax = p.key;
+                yMin = p.value;
+                yMax = p.value;
+            } else {
+                xMin = qMin( xMin, p.key );
+                xMax = qMax( xMax, p.key );
+                yMin = qMin( yMin, p.value );
+                yMax = qMax( yMax, p.value );
             }
         }
     }
 
-    // NOTE: calculateDataBoundaries must return the *real* data boundaries!
-    //       i.e. we may NOT fake yMin to be qMin( 0.0, yMin )
-    //       (khz, 2008-01-24)
     const QPointF bottomLeft( xMin, yMin );
     const QPointF topRight( xMax, yMax );
     return qMakePair( bottomLeft, topRight );
@@ -569,13 +563,13 @@ QModelIndexList CartesianDiagramDataCompressor::mapToModel( const CachePosition&
         return indexes;
     }
 
+    Q_ASSERT( position.column < modelDataColumns() );
     if ( m_datasetDimension == 2 ) {
         indexes << m_model->index( position.row, position.column * 2, m_rootIndex ); // checked
         indexes << m_model->index( position.row, position.column * 2 + 1, m_rootIndex ); // checked
     } else {
-        // assumption: indexes per column == 1 (not true e.g. for stock diagrams with often three or
-        // four dimensions: High-Low-Close or Open-High-Low-Close)
-        Q_ASSERT( position.column < m_model->columnCount( m_rootIndex ) );
+        // here, indexes per column is usually but not always 1 (e.g. stock diagrams can have three
+        // or four dimensions: High-Low-Close or Open-High-Low-Close)
         const qreal ipp = indexesPerPixel();
         const int baseRow = floor( position.row * ipp );
         // the following line needs to work for the last row(s), too...

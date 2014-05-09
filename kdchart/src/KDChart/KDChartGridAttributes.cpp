@@ -39,6 +39,7 @@ public:
 private:
     bool visible;
     KDChartEnums::GranularitySequence sequence;
+    bool linesOnAnnotations;
     qreal stepWidth;
     qreal subStepWidth;
     bool adjustLower;
@@ -53,6 +54,7 @@ private:
 GridAttributes::Private::Private()
     : visible( true ),
       sequence( KDChartEnums::GranularitySequence_10_20 ),
+      linesOnAnnotations( false ),
       stepWidth( 0.0 ),
       subStepWidth( 0.0 ),
       adjustLower( true ),
@@ -100,6 +102,7 @@ bool GridAttributes::operator==( const GridAttributes& r ) const
 {
     return  isGridVisible() == r.isGridVisible() &&
             gridGranularitySequence() == r.gridGranularitySequence() &&
+            linesOnAnnotations() == r.linesOnAnnotations() &&
             adjustLowerBoundToGrid() == r.adjustLowerBoundToGrid() &&
             adjustUpperBoundToGrid() == r.adjustUpperBoundToGrid() &&
             gridPen() == r.gridPen() &&
@@ -118,6 +121,16 @@ void GridAttributes::setGridVisible( bool visible )
 bool GridAttributes::isGridVisible() const
 {
     return d->visible;
+}
+
+void GridAttributes::setLinesOnAnnotations( bool b )
+{
+    d->linesOnAnnotations = b;
+}
+
+bool GridAttributes::linesOnAnnotations() const
+{
+    return d->linesOnAnnotations;
 }
 
 /**

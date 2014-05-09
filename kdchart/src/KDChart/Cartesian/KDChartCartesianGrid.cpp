@@ -117,7 +117,6 @@ void CartesianGrid::drawGrid( PaintContext* context )
         context->painter()->setClipPath( path );
     }
 
-
     /* TODO features from old code:
        - MAYBE coarsen the main grid when it gets crowded (do it in calculateGrid or here?)
         if ( ! dimX.isCalculated ) {
@@ -135,8 +134,6 @@ void CartesianGrid::drawGrid( PaintContext* context )
         }
     */
 
-    const int labelThinningFactor = 1; // TODO: do we need this here?
-
     for ( int i = 0; i < 2; i++ ) {
         XySwitch xy( i == 1 ); // first iteration paints the X grid lines, second paints the Y grid lines
         const GridAttributes& gridAttrs = xy( gridAttrsX, gridAttrsY );
@@ -152,7 +149,8 @@ void CartesianGrid::drawGrid( PaintContext* context )
         QPointF lineStart = QPointF( minValueX, minValueY ); // still need transformation to screen space
         QPointF lineEnd = QPointF( maxValueX, maxValueY );
 
-        TickIterator it( xy.isY, dimension, hasMajorLines, hasMinorLines, plane, labelThinningFactor );
+        TickIterator it( xy.isY, dimension, gridAttrs.linesOnAnnotations(),
+                         hasMajorLines, hasMinorLines, plane );
         for ( ; !it.isAtEnd(); ++it ) {
             if ( !gridAttrs.isOuterLinesVisible() &&
                  ( it.areAlmostEqual( it.position(), xy( minValueX, minValueY ) ) ||
@@ -181,8 +179,7 @@ void CartesianGrid::drawGrid( PaintContext* context )
 }
 
 
-DataDimensionsList CartesianGrid::calculateGrid(
-    const DataDimensionsList& rawDataDimensions ) const
+DataDimensionsList CartesianGrid::calculateGrid( const DataDimensionsList& rawDataDimensions ) const
 {
     Q_ASSERT_X ( rawDataDimensions.count() == 2, "CartesianGrid::calculateGrid",
                  "Error: calculateGrid() expects a list with exactly two entries." );
@@ -267,7 +264,6 @@ DataDimensionsList CartesianGrid::calculateGrid(
     return l;
 }
 
-
 qreal fastPow10( int x )
 {
     qreal res = 1.0;
@@ -276,12 +272,12 @@ qreal fastPow10( int x )
             res *= 10.0;
     } else {
         for ( int i = -1; i >= x; --i )
-            res /= 10.0;
+            res *= 0.1;
     }
     return res;
 }
 
-#if defined ( Q_OS_WIN)
+#ifdef Q_OS_WIN
 #define trunc(x) ((int)(x))
 #endif
 

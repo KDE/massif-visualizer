@@ -67,8 +67,8 @@ CartesianCoordinatePlane::Private::Private()
 {
 }
 
-CartesianCoordinatePlane::CartesianCoordinatePlane ( Chart* parent )
-    : AbstractCoordinatePlane ( new Private(), parent )
+CartesianCoordinatePlane::CartesianCoordinatePlane( Chart* parent )
+    : AbstractCoordinatePlane( new Private(), parent )
 {
     // this bloc left empty intentionally
 }
@@ -84,20 +84,20 @@ void CartesianCoordinatePlane::init()
 }
 
 
-void CartesianCoordinatePlane::addDiagram ( AbstractDiagram* diagram )
+void CartesianCoordinatePlane::addDiagram( AbstractDiagram* diagram )
 {
-    Q_ASSERT_X ( dynamic_cast<AbstractCartesianDiagram*> ( diagram ),
-                 "CartesianCoordinatePlane::addDiagram", "Only cartesian "
-                 "diagrams can be added to a cartesian coordinate plane!" );
-    AbstractCoordinatePlane::addDiagram ( diagram );
-    connect ( diagram,  SIGNAL ( layoutChanged ( AbstractDiagram* ) ),
-              SLOT ( slotLayoutChanged ( AbstractDiagram* ) ) );
+    Q_ASSERT_X( dynamic_cast<AbstractCartesianDiagram*>( diagram ),
+                "CartesianCoordinatePlane::addDiagram", "Only cartesian "
+                "diagrams can be added to a cartesian coordinate plane!" );
+    AbstractCoordinatePlane::addDiagram( diagram );
+    connect( diagram,  SIGNAL( layoutChanged ( AbstractDiagram* ) ),
+             SLOT( slotLayoutChanged( AbstractDiagram* ) ) );
 
-    connect( diagram, SIGNAL( propertiesChanged() ),this, SIGNAL( propertiesChanged() ) );
+    connect( diagram, SIGNAL( propertiesChanged() ), this, SIGNAL( propertiesChanged() ) );
 }
 
 
-void CartesianCoordinatePlane::paint ( QPainter* painter )
+void CartesianCoordinatePlane::paint( QPainter* painter )
 {
     // prevent recursive call:
     if ( d->bPaintIsRunning ) {
@@ -136,7 +136,7 @@ void CartesianCoordinatePlane::paint ( QPainter* painter )
             }
 
             PainterSaver diagramPainterSaver( painter );
-            diags[i]->paint ( &ctx );
+            diags[i]->paint( &ctx );
 
             if ( doDumpPaintTime ) {
                 qDebug() << "Painting diagram" << i << "took" << stopWatch.elapsed() << "milliseconds";
@@ -148,7 +148,7 @@ void CartesianCoordinatePlane::paint ( QPainter* painter )
 }
 
 
-void CartesianCoordinatePlane::slotLayoutChanged ( AbstractDiagram* )
+void CartesianCoordinatePlane::slotLayoutChanged( AbstractDiagram* )
 {
     layoutDiagrams();
 }
@@ -226,8 +226,8 @@ QRectF CartesianCoordinatePlane::calculateRawDataBoundingRect() const
     const bool bAutoAdjustHorizontalRange = d->autoAdjustHorizontalRangeToData < 100;
     const bool bAutoAdjustVerticalRange = d->autoAdjustVerticalRangeToData < 100;
 
-    const bool bHardHorizontalRange = d->horizontalMin != d->horizontalMax && !bAutoAdjustHorizontalRange;
-    const bool bHardVerticalRange = d->verticalMin != d->verticalMax && !bAutoAdjustVerticalRange;
+    const bool bHardHorizontalRange = (!bAutoAdjustHorizontalRange) && (d->horizontalMin != d->horizontalMax || (ISNAN(d->horizontalMin) != ISNAN(d->horizontalMax)));
+    const bool bHardVerticalRange = (!bAutoAdjustVerticalRange) && (d->verticalMin != d->verticalMax || (ISNAN(d->verticalMin) != ISNAN(d->verticalMax)));
     QRectF dataBoundingRect;
 
     // if custom boundaries are set on the plane, use them
@@ -240,12 +240,16 @@ QRectF CartesianCoordinatePlane::calculateRawDataBoundingRect() const
         // determine unit of the rectangles of all involved diagrams:
         dataBoundingRect = getRawDataBoundingRectFromDiagrams();
         if ( bHardHorizontalRange ) {
-            dataBoundingRect.setLeft( d->horizontalMin );
-            dataBoundingRect.setRight( d->horizontalMax );
+            if (!ISNAN(d->horizontalMin))
+                dataBoundingRect.setLeft( d->horizontalMin );
+            if (!ISNAN(d->horizontalMax))
+                dataBoundingRect.setRight( d->horizontalMax );
         }
         if ( bHardVerticalRange ) {
-            dataBoundingRect.setBottom( d->verticalMin );
-            dataBoundingRect.setTop( d->verticalMax );
+            if (!ISNAN(d->verticalMin))
+                dataBoundingRect.setBottom( d->verticalMin );
+            if (!ISNAN(d->verticalMax))
+                dataBoundingRect.setTop( d->verticalMax );
         }
     }
     // recalculate the bounds, if automatic adjusting of ranges is desired AND
@@ -463,7 +467,7 @@ const QPointF CartesianCoordinatePlane::translateBack( const QPointF& screenPoin
     return d->coordinateTransformation.translateBack( screenPoint );
 }
 
-void CartesianCoordinatePlane::setIsometricScaling ( bool isOn )
+void CartesianCoordinatePlane::setIsometricScaling( bool isOn )
 {
     if ( d->isometricScaling != isOn ) {
         d->isometricScaling = isOn;
@@ -472,7 +476,7 @@ void CartesianCoordinatePlane::setIsometricScaling ( bool isOn )
     }
 }
 
-bool CartesianCoordinatePlane::doesIsometricScaling () const
+bool CartesianCoordinatePlane::doesIsometricScaling() const
 {
     return d->isometricScaling;
 }
@@ -603,9 +607,20 @@ void CartesianCoordinatePlane::setAxesCalcModeX( AxesCalcMode mode )
     }
 }
 
+namespace {
+    inline bool fuzzyCompare( qreal a, qreal b )
+    {
+        if ( ISNAN(a) && ISNAN(b) )
+            return true;
+        if ( qFuzzyIsNull(a) && qFuzzyIsNull(b) )
+            return true;
+        return qFuzzyCompare( a, b );
+    }
+}
+
 void CartesianCoordinatePlane::setHorizontalRange( const QPair< qreal, qreal > & range )
 {
-    if ( d->horizontalMin != range.first || d->horizontalMax != range.second ) {
+    if ( !fuzzyCompare(d->horizontalMin, range.first) || !fuzzyCompare(d->horizontalMax, range.second) ) {
         d->autoAdjustHorizontalRangeToData = 100;
         d->horizontalMin = range.first;
         d->horizontalMax = range.second;
@@ -617,8 +632,7 @@ void CartesianCoordinatePlane::setHorizontalRange( const QPair< qreal, qreal > &
 
 void CartesianCoordinatePlane::setVerticalRange( const QPair< qreal, qreal > & range )
 {
-
-    if ( d->verticalMin != range.first || d->verticalMax != range.second ) {
+    if ( !fuzzyCompare(d->verticalMin, range.first) || !fuzzyCompare(d->verticalMax, range.second) ) {
         d->autoAdjustVerticalRangeToData = 100;
         d->verticalMin = range.first;
         d->verticalMax = range.second;
@@ -628,16 +642,14 @@ void CartesianCoordinatePlane::setVerticalRange( const QPair< qreal, qreal > & r
     }
 }
 
-QPair< qreal, qreal > CartesianCoordinatePlane::horizontalRange( ) const
+QPair< qreal, qreal > CartesianCoordinatePlane::horizontalRange() const
 {
-    QRectF visibleRange = visibleDataRange();
-    return QPair<qreal, qreal>( visibleRange.left(), visibleRange.right() );
+    return QPair<qreal, qreal>( d->horizontalMin, d->horizontalMax );
 }
 
-QPair< qreal, qreal > CartesianCoordinatePlane::verticalRange( ) const
+QPair< qreal, qreal > CartesianCoordinatePlane::verticalRange() const
 {
-    QRectF visibleRange = visibleDataRange();
-    return QPair<qreal, qreal>( visibleRange.bottom(), visibleRange.top() );
+    return QPair<qreal, qreal>( d->verticalMin, d->verticalMax );
 }
 
 void CartesianCoordinatePlane::adjustRangesToData()
@@ -716,15 +728,13 @@ void CartesianCoordinatePlane::setGridAttributes(
     emit propertiesChanged();
 }
 
-void CartesianCoordinatePlane::resetGridAttributes(
-    Qt::Orientation orientation )
+void CartesianCoordinatePlane::resetGridAttributes( Qt::Orientation orientation )
 {
     setHasOwnGridAttributes( orientation, false );
     update();
 }
 
-const GridAttributes CartesianCoordinatePlane::gridAttributes(
-    Qt::Orientation orientation ) const
+const GridAttributes CartesianCoordinatePlane::gridAttributes( Qt::Orientation orientation ) const
 {
     if ( hasOwnGridAttributes( orientation ) ) {
         if ( orientation == Qt::Horizontal )
@@ -736,8 +746,7 @@ const GridAttributes CartesianCoordinatePlane::gridAttributes(
     }
 }
 
-void CartesianCoordinatePlane::setHasOwnGridAttributes(
-    Qt::Orientation orientation, bool on )
+void CartesianCoordinatePlane::setHasOwnGridAttributes( Qt::Orientation orientation, bool on )
 {
     if ( orientation == Qt::Horizontal )
         d->hasOwnGridAttributesHorizontal = on;
@@ -746,13 +755,10 @@ void CartesianCoordinatePlane::setHasOwnGridAttributes(
     emit propertiesChanged();
 }
 
-bool CartesianCoordinatePlane::hasOwnGridAttributes(
-    Qt::Orientation orientation ) const
+bool CartesianCoordinatePlane::hasOwnGridAttributes( Qt::Orientation orientation ) const
 {
-    return
-        ( orientation == Qt::Horizontal )
-        ? d->hasOwnGridAttributesHorizontal
-        : d->hasOwnGridAttributesVertical;
+    return orientation == Qt::Horizontal ? d->hasOwnGridAttributesHorizontal
+                                         : d->hasOwnGridAttributesVertical;
 }
 
 void CartesianCoordinatePlane::setAutoAdjustGridToZoom( bool autoAdjust )

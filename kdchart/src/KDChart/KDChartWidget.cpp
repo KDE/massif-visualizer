@@ -450,12 +450,14 @@ void Widget::setType( ChartType chartType, SubType chartSubType )
                     newDiag->addAxis ( axis );
                 }
             }
+
+            Q_FOREACH( Legend* l, d->m_chart.legends() ) {
+                l->setDiagram( diag );
+            }
+
             diag->setModel( &d->m_model );
             coordinatePlane()->replaceDiagram( diag );
 
-            LegendList legends = d->m_chart.legends();
-            Q_FOREACH(Legend* l, legends)
-                l->setDiagram( diag );
             //checkDatasetWidth( d->usedDatasetWidth );
         }
         //coordinatePlane()->setGridNeedsRecalculate();
@@ -468,48 +470,42 @@ void Widget::setType( ChartType chartType, SubType chartSubType )
     }
 }
 
+template< class DiagramType, class Subtype >
+void setSubtype( AbstractDiagram *_dia, Subtype st)
+{
+    if ( DiagramType *dia = qobject_cast< DiagramType * >( _dia ) ) {
+        dia->setType( st );
+    }
+}
+
 void Widget::setSubType( SubType subType )
 {
-    BarDiagram*  barDia     = qobject_cast< BarDiagram* >( diagram() );
-    LineDiagram* lineDia    = qobject_cast< LineDiagram* >( diagram() );
-    Plotter*     plotterDia = qobject_cast< Plotter* >( diagram() );
+    // ### at least PieDiagram, PolarDiagram and RingDiagram are unhandled here
 
-//FIXME(khz): Add the impl for these chart types - or remove them from here:
-//    PieDiagram*   pieDia   = qobject_cast< PieDiagram* >( diagram() );
-//    PolarDiagram* polarDia = qobject_cast< PolarDiagram* >( diagram() );
-//    RingDiagram*  ringDia  = qobject_cast< RingDiagram* >( diagram() );
-
-#define SET_SUB_TYPE(DIAGRAM, SUBTYPE) \
-{ \
-    if ( DIAGRAM ) \
-        DIAGRAM->setType( SUBTYPE ); \
-}
-    switch ( subType )
-    {
-        case Normal:
-           SET_SUB_TYPE( barDia,     BarDiagram::Normal );
-           SET_SUB_TYPE( lineDia,    LineDiagram::Normal );
-           SET_SUB_TYPE( plotterDia, Plotter::Normal );
-           break;
-        case Stacked:
-           SET_SUB_TYPE( barDia,  BarDiagram::Stacked );
-           SET_SUB_TYPE( lineDia, LineDiagram::Stacked );
-           //SET_SUB_TYPE( plotterDia, Plotter::Stacked );
-           break;
-        case Percent:
-           SET_SUB_TYPE( barDia,  BarDiagram::Percent );
-           SET_SUB_TYPE( lineDia, LineDiagram::Percent );
-           SET_SUB_TYPE( plotterDia, Plotter::Percent );
-           break;
-        case Rows:
-           SET_SUB_TYPE( barDia, BarDiagram::Rows );
-           break;
-        default:
-           Q_ASSERT_X ( false,
-                        "Widget::setSubType", "Sub-type not supported!" );
-           break;
+    AbstractDiagram *dia = diagram();
+    switch ( subType ) {
+    case Normal:
+        setSubtype< BarDiagram >( dia, BarDiagram::Normal );
+        setSubtype< LineDiagram >( dia, LineDiagram::Normal );
+        setSubtype< Plotter >( dia, Plotter::Normal );
+        break;
+    case Stacked:
+        setSubtype< BarDiagram >( dia, BarDiagram::Stacked );
+        setSubtype< LineDiagram >( dia, LineDiagram::Stacked );
+        // setSubtype< Plotter >( dia, Plotter::Stacked );
+        break;
+    case Percent:
+        setSubtype< BarDiagram >( dia, BarDiagram::Percent );
+        setSubtype< LineDiagram >( dia, LineDiagram::Percent );
+        setSubtype< Plotter >( dia, Plotter::Percent );
+        break;
+    case Rows:
+        setSubtype< BarDiagram >( dia, BarDiagram::Rows );
+        break;
+    default:
+        Q_ASSERT_X ( false, "Widget::setSubType", "Sub-type not supported!" );
+        break;
     }
-//    coordinatePlane()->show();
 }
 
 /**

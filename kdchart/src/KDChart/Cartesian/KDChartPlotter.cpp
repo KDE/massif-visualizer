@@ -66,11 +66,14 @@ void Plotter::init()
     d->stackedPlotter = new StackedPlotter( this );
     d->implementor = d->normalPlotter;
     QObject* test = d->implementor->plotterPrivate();
-    bool connection = connect( this, SIGNAL( boundariesChanged() ), test, SLOT( changedProperties() ) );
-    Q_ASSERT( connection );
-    Q_UNUSED( connection );
-
-    setDatasetDimensionInternal( 2 );    
+    connect( this, SIGNAL( boundariesChanged() ), test, SLOT( changedProperties() ) );
+    // The signal is connected to the superclass's slot at this point because the connection happened
+    // in its constructor when "its type was not Plotter yet".
+    disconnect( this, SIGNAL( attributesModelAboutToChange( AttributesModel*, AttributesModel* ) ),
+                this, SLOT( connectAttributesModel( AttributesModel* ) ) );
+    connect( this, SIGNAL( attributesModelAboutToChange( AttributesModel*, AttributesModel* ) ),
+             this, SLOT( connectAttributesModel( AttributesModel* ) ) );
+    setDatasetDimensionInternal( 2 );
 }
 
 Plotter::~Plotter()
@@ -99,21 +102,30 @@ bool Plotter::compare( const Plotter* other ) const
             ( type() == other->type() );
 }
 
-void Plotter::setModel( QAbstractItemModel *model )
+void Plotter::connectAttributesModel( AttributesModel* newModel )
 {
-    d->plotterCompressor.setModel( NULL );
-    AbstractCartesianDiagram::setModel( model );
-    if ( useDataCompression() != Plotter::NONE )
+    // Order of setting the AttributesModel in compressor and diagram is very important due to slot
+    // invocation order. Refer to the longer comment in
+    // AbstractCartesianDiagram::connectAttributesModel() for details.
+
+    if ( useDataCompression() == Plotter::NONE )
     {
-        d->compressor.setModel( NULL );
+        d->plotterCompressor.setModel( 0 );
+        AbstractCartesianDiagram::connectAttributesModel( newModel );
+    }
+    else
+    {
+        d->compressor.setModel( 0 );
         if ( attributesModel() != d->plotterCompressor.model() )
         {
             d->plotterCompressor.setModel( attributesModel() );
             connect( &d->plotterCompressor, SIGNAL( boundariesChanged() ), this, SLOT(setDataBoundariesDirty() ) );
             if ( useDataCompression() != Plotter::SLOPE )
             {
-                connect( coordinatePlane(), SIGNAL( internal_geometryChanged( QRect,QRect ) ), this, SLOT( setDataBoundariesDirty() ), Qt::QueuedConnection );
-                connect( coordinatePlane(), SIGNAL( geometryChanged( QRect,QRect ) ), this, SLOT( setDataBoundariesDirty() ), Qt::QueuedConnection );
+                connect( coordinatePlane(), SIGNAL( internal_geometryChanged( QRect,QRect ) ),
+                         this, SLOT( setDataBoundariesDirty() ) );
+                connect( coordinatePlane(), SIGNAL( geometryChanged( QRect,QRect ) ),
+                         this, SLOT( setDataBoundariesDirty() ) );
                 calcMergeRadius();
             }
         }

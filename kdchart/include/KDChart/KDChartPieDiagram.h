@@ -64,7 +64,10 @@ public:
     /// Return the decorations to be painted around data labels.
     LabelDecorations labelDecorations() const;
 
-    /// If @p enabled is set to true, labels that would overlap will be moved to avoid overlap.
+    /// If @p enabled is set to true, labels that would overlap will be shuffled to avoid overlap.
+    /// \note Collision avoidance may allow labels to be closer than AbstractDiagram with
+    ///       allowOverlappingDataValueTexts() == false, so you should usually also call
+    ///       setAllowOverlappingDataValueTexts( true ) if you enable this feature.
     void setLabelCollisionAvoidanceEnabled( bool enabled );
     /// Return whether overlapping labels will be moved to until they don't overlap anymore.
     bool isLabelCollisionAvoidanceEnabled() const;

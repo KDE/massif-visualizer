@@ -53,7 +53,7 @@ namespace KDChart {
         enum AxesCalcMode { Linear, Logarithmic };
 
     protected:
-        explicit AbstractCoordinatePlane ( Chart* parent = 0 );
+        explicit AbstractCoordinatePlane( Chart* parent = 0 );
 
     public:
         virtual ~AbstractCoordinatePlane();
@@ -64,7 +64,7 @@ namespace KDChart {
          *
          * \sa replaceDiagram, takeDiagram
          */
-        virtual void addDiagram ( AbstractDiagram* diagram );
+        virtual void addDiagram( AbstractDiagram* diagram );
 
         /**
          * Replaces the old diagram, or appends the
@@ -83,7 +83,7 @@ namespace KDChart {
          *
          * \sa addDiagram, takeDiagram
          */
-        virtual void replaceDiagram ( AbstractDiagram* diagram, AbstractDiagram* oldDiagram = 0 );
+        virtual void replaceDiagram( AbstractDiagram* diagram, AbstractDiagram* oldDiagram = 0 );
 
         /**
          * Removes the diagram from the plane, without deleting it.
@@ -121,7 +121,7 @@ namespace KDChart {
          * @param diagramPoint The point in value coordinates.
          * @returns The translated point.
          */
-        virtual const QPointF translate ( const QPointF& diagramPoint ) const = 0;
+        virtual const QPointF translate( const QPointF& diagramPoint ) const = 0;
 
         /**
          * @return Whether zooming with a rubber band using the mouse is enabled.

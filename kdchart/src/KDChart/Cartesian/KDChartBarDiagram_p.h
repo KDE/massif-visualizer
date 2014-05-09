@@ -96,8 +96,7 @@ KDCHART_IMPL_DERIVED_DIAGRAM( BarDiagram, AbstractCartesianDiagram, CartesianCoo
         ReverseMapper& reverseMapper();
         CartesianDiagramDataCompressor& compressor() const;
 
-        void paintBars( PaintContext* ctx, const QModelIndex& index,
-            const QRectF& bar, qreal& maxDepth );
+        void paintBars( PaintContext* ctx, const QModelIndex& index, const QRectF& bar, qreal maxDepth );
         void calculateValueAndGapWidths( int rowCount, int colCount,
             qreal groupWidth,
             qreal& barWidth,

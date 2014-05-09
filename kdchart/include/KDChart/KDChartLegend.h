@@ -61,7 +61,7 @@ class KDCHART_EXPORT Legend : public AbstractAreaWidget
 
 public:
     explicit Legend( QWidget* parent = 0 );
-    explicit Legend( KDChart::AbstractDiagram* diagram, QWidget* parent );
+    explicit Legend( KDChart::AbstractDiagram* diagram, QWidget* parent = 0 );
     virtual ~Legend();
 
 

@@ -183,7 +183,7 @@ namespace KDChart {
 
         /**
          * Whether the diagram is transposed (X and Y swapped), which has the same effect as rotating
-         * the diagram 90° clockwise and then inverting the vertical (then X) coordinate.
+         * the diagram 90° clockwise and inverting the (then vertical) X coordinate.
          */
         bool isTransposed() const;
 

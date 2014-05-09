@@ -47,11 +47,6 @@ const QPair< QPointF, QPointF > NormalPlotter::calculateDataBoundaries() const
         return compressor().dataBoundaries();
 }
 
-static bool isFinite( const QPointF &point )
-{
-    return !ISINF( point.x() ) && !ISNAN( point.x() ) && !ISINF( point.y() ) && !ISNAN( point.y() );
-}
-
 void NormalPlotter::paint( PaintContext* ctx )
 {
     reverseMapper().clear();
@@ -68,7 +63,6 @@ void NormalPlotter::paint( PaintContext* ctx )
         for ( int dataset = 0; dataset < plotterCompressor().datasetCount(); ++dataset )
         {
             LineAttributesInfoList lineList;
-            LineAttributes laPreviousCell;
             PlotterDiagramCompressor::DataPoint lastPoint;
             for ( PlotterDiagramCompressor::Iterator it = plotterCompressor().begin( dataset ); it != plotterCompressor().end( dataset ); ++ it )
             {
@@ -92,39 +86,37 @@ void NormalPlotter::paint( PaintContext* ctx )
                     }
                 }
 
-                // area corners, a + b are the line ends:
-                const QPointF a( plane->translate( QPointF( lastPoint.key, lastPoint.value ) ) );
+                // data area painting: a and b are prev / current data points, c and d are on the null line
                 const QPointF b( plane->translate( QPointF( point.key, point.value ) ) );
-                if ( a.toPoint() == b.toPoint() )
-                    continue;
 
-                const QPointF c( plane->translate( QPointF( lastPoint.key, 0.0 ) ) );
-                const QPointF d( plane->translate( QPointF( point.key, 0.0 ) ) );
+                if ( !point.hidden && PaintingHelpers::isFinite( b )  ) {
+                    const QPointF a( plane->translate( QPointF( lastPoint.key, lastPoint.value ) ) );
+                    const QPointF c( plane->translate( QPointF( lastPoint.key, 0.0 ) ) );
+                    const QPointF d( plane->translate( QPointF( point.key, 0.0 ) ) );
 
-                // add the pieces to painting if this is not hidden:
-                if ( !point.hidden /*&& !ISNAN( lastPoint.key ) && !ISNAN( lastPoint.value ) */) {
-                    // add data point labels:
+                    // data point label
                     const PositionPoints pts = PositionPoints( b, a, d, c );
-                    // if necessary, add the area to the area list:
-                    QList<QPolygonF> areas;
-                    if ( laCell.displayArea() ) {
-                        QPolygonF polygon;
-                        polygon << a << b << d << c;
-                        areas << polygon;
-                    }
                     m_private->addLabel( &lpc, sourceIndex, 0, pts, Position::NorthWest,
                                          Position::NorthWest, point.value );
-                    if ( !ISNAN( lastPoint.key ) && !ISNAN( lastPoint.value ) )
-                    {
-                        PaintingHelpers::paintAreas( m_private, ctx,
-                                                     attributesModel()->mapToSource( lastPoint.index ),
-                                                     areas, laCell.transparency() );
+
+                    const bool lineValid = a.toPoint() != b.toPoint() && PaintingHelpers::isFinite( a );
+                    if ( lineValid ) {
+                        // data line
                         lineList.append( LineAttributesInfo( sourceIndex, a, b ) );
+
+                        if ( laCell.displayArea() ) {
+                            // data area
+                            QList<QPolygonF> areas;
+                            QPolygonF polygon;
+                            polygon << a << b << d << c;
+                            areas << polygon;
+                            PaintingHelpers::paintAreas( m_private, ctx,
+                                                         attributesModel()->mapToSource( lastPoint.index ),
+                                                         areas, laCell.transparency() );
+                        }
                     }
                 }
 
-                // wrap it up:
-                laPreviousCell = laCell;
                 lastPoint = point;
             }
             PaintingHelpers::paintElements( m_private, ctx, lpc, lineList );
@@ -137,8 +129,6 @@ void NormalPlotter::paint( PaintContext* ctx )
         for ( int column = 0; column < colCount; ++column )
         {
             LineAttributesInfoList lineList;
-            LineAttributes laPreviousCell;
-            CartesianDiagramDataCompressor::CachePosition previousCellPosition;
             CartesianDiagramDataCompressor::DataPoint lastPoint;
 
             for ( int row = 0; row < rowCount; ++row )
@@ -159,45 +149,42 @@ void NormalPlotter::paint( PaintContext* ctx )
                     case LineAttributes::MissingValuesShownAsZero: // fall-through since that attribute makes no sense for the plotter
                     case LineAttributes::MissingValuesHideSegments: // fall-through since they're just hidden
                     default:
-                        previousCellPosition = CartesianDiagramDataCompressor::CachePosition();
                         lastPoint = CartesianDiagramDataCompressor::DataPoint();
                         continue;
                     }
                 }
 
-                // area corners, a + b are the line ends:
-                const QPointF a( plane->translate( QPointF( lastPoint.key, lastPoint.value ) ) );
+                // data area painting: a and b are prev / current data points, c and d are on the null line
                 const QPointF b( plane->translate( QPointF( point.key, point.value ) ) );
-                if ( a.toPoint() == b.toPoint() || !isFinite( a ) || !isFinite( b ) ) {
-                    lastPoint = point;
-                    continue;
-                }
 
-                const QPointF c( plane->translate( QPointF( lastPoint.key, 0.0 ) ) );
-                const QPointF d( plane->translate( QPointF( point.key, 0.0 ) ) );
+                if ( !point.hidden && PaintingHelpers::isFinite( b )  ) {
+                    const QPointF a( plane->translate( QPointF( lastPoint.key, lastPoint.value ) ) );
+                    const QPointF c( plane->translate( QPointF( lastPoint.key, 0.0 ) ) );
+                    const QPointF d( plane->translate( QPointF( point.key, 0.0 ) ) );
 
-                // add the pieces to painting if this is not hidden:
-                if ( !point.hidden ) {
-                    // add data point labels:
+                    // data point label
                     const PositionPoints pts = PositionPoints( b, a, d, c );
-                    // if necessary, add the area to the area list:
-                    QList<QPolygonF> areas;
-                    if ( laCell.displayArea() ) {
-                        QPolygonF polygon;
-                        polygon << a << b << d << c;
-                        areas << polygon;
-                    }
                     m_private->addLabel( &lpc, sourceIndex, 0, pts, Position::NorthWest,
                                          Position::NorthWest, point.value );
-                    PaintingHelpers::paintAreas( m_private, ctx,
-                                                 attributesModel()->mapToSource( lastPoint.index ),
-                                                 areas, laCell.transparency() );
-                    lineList.append( LineAttributesInfo( sourceIndex, a, b ) );
+
+                    const bool lineValid = a.toPoint() != b.toPoint() && PaintingHelpers::isFinite( a );
+                    if ( lineValid ) {
+                        // data line
+                        lineList.append( LineAttributesInfo( sourceIndex, a, b ) );
+
+                        if ( laCell.displayArea() ) {
+                            // data area
+                            QList<QPolygonF> areas;
+                            QPolygonF polygon;
+                            polygon << a << b << d << c;
+                            areas << polygon;
+                            PaintingHelpers::paintAreas( m_private, ctx,
+                                                         attributesModel()->mapToSource( lastPoint.index ),
+                                                         areas, laCell.transparency() );
+                        }
+                    }
                 }
 
-                // wrap it up:
-                previousCellPosition = position;
-                laPreviousCell = laCell;
                 lastPoint = point;
             }
             PaintingHelpers::paintElements( m_private, ctx, lpc, lineList );

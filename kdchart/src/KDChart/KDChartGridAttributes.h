@@ -48,11 +48,19 @@ public:
     void setGridVisible( bool visible );
     bool isGridVisible() const;
 
+    /**
+     * When this is enabled, grid lines are drawn only where axis annotations are.
+     * Otherwise annotations are disregarded as far as the grid is concerned.
+     *
+     * The default is false.
+     */
+    void setLinesOnAnnotations( bool );
+    bool linesOnAnnotations() const;
 
-    void setGridStepWidth( qreal stepWidth=0.0 );
+    void setGridStepWidth( qreal stepWidth = 0.0 );
     qreal gridStepWidth() const;
 
-    void setGridSubStepWidth( qreal subStepWidth=0.0 );
+    void setGridSubStepWidth( qreal subStepWidth = 0.0 );
     qreal gridSubStepWidth() const;
 
     /**
@@ -83,10 +91,8 @@ public:
     bool adjustLowerBoundToGrid() const;
     bool adjustUpperBoundToGrid() const;
 
-
     void setGridPen( const QPen & pen );
     QPen gridPen() const;
-
 
     void setSubGridVisible( bool visible );
     bool isSubGridVisible() const;
@@ -94,10 +100,8 @@ public:
     void setSubGridPen( const QPen & pen );
     QPen subGridPen() const;
 
-
     void setOuterLinesVisible( bool visible );
     bool isOuterLinesVisible() const;
-
 
     void setZeroLinePen( const QPen & pen );
     QPen zeroLinePen() const;

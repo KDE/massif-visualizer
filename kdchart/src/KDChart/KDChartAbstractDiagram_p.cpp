@@ -109,10 +109,48 @@ bool AbstractDiagram::Private::usesExternalAttributesModel() const
 
 void AbstractDiagram::Private::setAttributesModel( AttributesModel* amodel )
 {
-    if ( !attributesModel.isNull() &&
-        qobject_cast<PrivateAttributesModel*>(attributesModel) ) {
-        delete attributesModel;
+    if ( attributesModel == amodel ) {
+        return;
     }
+
+    if ( !attributesModel.isNull() ) {
+        if ( qobject_cast< PrivateAttributesModel* >( attributesModel ) ) {
+            delete attributesModel;
+        } else {
+            disconnect( attributesModel, SIGNAL( rowsInserted( QModelIndex, int, int ) ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( columnsInserted( QModelIndex, int, int ) ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( rowsRemoved( QModelIndex, int, int ) ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( columnsRemoved( QModelIndex, int, int ) ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( modelReset() ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( layoutChanged() ),
+                        diagram, SLOT( setDataBoundariesDirty() ) );
+            disconnect( attributesModel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ),
+                        diagram, SIGNAL( modelDataChanged() ));
+        }
+    }
+
+    emit diagram->attributesModelAboutToChange( amodel, attributesModel );
+
+    connect( amodel, SIGNAL( rowsInserted( QModelIndex, int, int ) ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( columnsInserted( QModelIndex, int, int ) ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( rowsRemoved( QModelIndex, int, int ) ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( columnsRemoved( QModelIndex, int, int ) ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( modelReset() ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( layoutChanged() ),
+             diagram, SLOT( setDataBoundariesDirty() ) );
+    connect( amodel, SIGNAL( dataChanged( QModelIndex, QModelIndex ) ),
+             diagram, SIGNAL( modelDataChanged() ));
+
     attributesModel = amodel;
 }
 
@@ -287,8 +325,13 @@ void AbstractDiagram::Private::addLabel(
         }
 
         QPainterPath labelArea;
-        labelArea.addPolygon( transform.mapToPolygon( plainRect.toRect() ) );
-        labelArea.closeSubpath();
+        //labelArea.addPolygon( transform.mapToPolygon( plainRect.toRect() ) );
+        //labelArea.closeSubpath();
+        // Not doing that because QTransform has a special case for 180° that gives a different than
+        // usual ordering of the points in the polygon returned by mapToPolygon( const QRect & ).
+        // We expect a particular ordering in paintDataValueTextsAndMarkers() by using elementAt( 0 ),
+        // and similar things might happen elsewhere.
+        labelArea.addPolygon( transform.map( QPolygon( plainRect.toRect(), true ) ) );
 
         // store the label geometry and auxiliary data
         cache->paintReplay.append( LabelPaintInfo( it.key(), dva, labelArea,
@@ -392,6 +435,9 @@ void AbstractDiagram::Private::paintDataValueTextsAndMarkers(
             item.setGeometry( rect );
             item.paint( ctx->painter() );
         }
+    }
+    if ( cumulatedBoundingRect ) {
+        *cumulatedBoundingRect = ctx->painter()->transform().inverted().mapRect( *cumulatedBoundingRect );
     }
 }
 

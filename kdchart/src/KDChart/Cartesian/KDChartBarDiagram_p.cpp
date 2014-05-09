@@ -33,119 +33,89 @@ BarDiagram::Private::Private( const Private& rhs )
 {
 }
 
-void BarDiagram::BarDiagramType::paintBars( PaintContext* ctx, const QModelIndex& index, const QRectF& bar, qreal& maxDepth )
+void BarDiagram::BarDiagramType::paintBars( PaintContext* ctx, const QModelIndex& index, const QRectF& bar, qreal maxDepth )
 {
-    QRectF isoRect;
-    QPolygonF topPoints, sidePoints;
-    ThreeDBarAttributes threeDAttrs = diagram()->threeDBarAttributes( index );
-    qreal usedDepth = 0;
+    PainterSaver painterSaver( ctx->painter() );
 
     //Pending Michel: configure threeDBrush settings - shadowColor etc...
     QBrush indexBrush( diagram()->brush( index ) );
     QPen indexPen( diagram()->pen( index ) );
-    PainterSaver painterSaver( ctx->painter() );
 
     ctx->painter()->setRenderHint( QPainter::Antialiasing, diagram()->antiAliasing() );
-    if ( threeDAttrs.isEnabled() )
+    ThreeDBarAttributes threeDAttrs = diagram()->threeDBarAttributes( index );
+    if ( threeDAttrs.isEnabled() ) {
         indexBrush = threeDAttrs.threeDBrush( indexBrush, bar );
+    }
     ctx->painter()->setBrush( indexBrush );
     ctx->painter()->setPen( PrintingParameters::scalePen( indexPen ) );
 
     if ( threeDAttrs.isEnabled() ) {
-        bool stackedMode = false;
-        bool percentMode = false;
-        bool paintTop = true;
-        if ( maxDepth )
+        if ( maxDepth ) {
             threeDAttrs.setDepth( -maxDepth );
-        //fixme adjust the painting to reasonable depth value
-        switch ( type() )
-        {
-        case BarDiagram::Normal:
-            usedDepth = threeDAttrs.depth()/4;
-            stackedMode = false;
-            percentMode = false;
-            break;
-        case BarDiagram::Stacked:
-            usedDepth = threeDAttrs.depth();
-            stackedMode = true;
-            percentMode = false;
-            break;
-        case BarDiagram::Percent:
-            usedDepth = threeDAttrs.depth();
-            stackedMode = false;
-            percentMode = true;
-            break;
-        default:
-            Q_ASSERT_X ( false, "dataBoundaries()",
-                         "Type item does not match a defined bar chart Type." );
         }
-        isoRect = bar.translated( usedDepth, -usedDepth );
+        //fixme adjust the painting to reasonable depth value
+        const qreal usedDepth = threeDAttrs.depth() * ( type() == BarDiagram::Normal ? 0.25 : 1.0 );
+
+        const QRectF isoRect = bar.translated( usedDepth, -usedDepth );
         // we need to find out if the height is negative
         // and in this case paint it up and down
-        //qDebug() << isoRect.height();
+        QPolygonF topPoints;
         if ( isoRect.height() < 0 ) {
-          topPoints << isoRect.bottomLeft() << isoRect.bottomRight()
-                    << bar.bottomRight() << bar.bottomLeft();
-          if ( stackedMode ) {
-              // fix it when several negative stacked values
-              if ( index.column() == 0 ) {
-                  paintTop = true;
-              }
-              else
-                  paintTop = false;
-          }
-
+            if ( !( type() == BarDiagram::Stacked && index.column() != 0 ) ) {
+                // fix it when several negative stacked values
+                topPoints << isoRect.bottomLeft() << isoRect.bottomRight()
+                          << bar.bottomRight() << bar.bottomLeft();
+            }
         } else {
             reverseMapper().addRect( index.row(), index.column(), isoRect );
             ctx->painter()->drawRect( isoRect );
-            topPoints << bar.topLeft() << bar.topRight() << isoRect.topRight() << isoRect.topLeft();
+            if ( !( type() == BarDiagram::Percent && isoRect.height() == 0 ) ) {
+                topPoints << bar.topLeft() << bar.topRight() << isoRect.topRight() << isoRect.topLeft();
+            }
         }
 
-        if ( percentMode && isoRect.height() == 0 )
-            paintTop = false;
-
-        bool needToSetClippingOffForTop = false;
-        if ( paintTop ) {
+        bool noClippingForTop = false;
+        if ( !topPoints.isEmpty() ) {
             // Draw the top, if at least one of the top's points is
             // either inside or near at the edge of the coordinate plane:
             bool drawIt = false;
             bool hasPointOutside = false;
-            const QRectF r( ctx->rectangle().adjusted(0,-1,1,0) );
+            const QRectF r( ctx->rectangle().adjusted( 0, -1, 1, 0 ) );
             KDAB_FOREACH( QPointF pt, topPoints ) {
-                if ( r.contains( pt ) )
+                if ( r.contains( pt ) ) {
                     drawIt = true;
-                else
+                } else {
                     hasPointOutside = true;
+                }
             }
             if ( drawIt ) {
                 const PainterSaver p( ctx->painter() );
-                needToSetClippingOffForTop = hasPointOutside && ctx->painter()->hasClipping();
-                if ( needToSetClippingOffForTop )
+                noClippingForTop = hasPointOutside && ctx->painter()->hasClipping();
+                if ( noClippingForTop ) {
                     ctx->painter()->setClipping( false );
+                }
                 reverseMapper().addPolygon( index.row(), index.column(), topPoints );
                 ctx->painter()->drawPolygon( topPoints );
             }
         }
 
-
-
-        sidePoints << bar.topRight() << isoRect.topRight() << isoRect.bottomRight() << bar.bottomRight();
         if ( bar.height() != 0 ) {
             const PainterSaver p( ctx->painter() );
-            if ( needToSetClippingOffForTop )
+            if ( noClippingForTop ) {
                 ctx->painter()->setClipping( false );
+            }
+            QPolygonF sidePoints;
+            sidePoints << bar.topRight() << isoRect.topRight()
+                       << isoRect.bottomRight() << bar.bottomRight();
             reverseMapper().addPolygon( index.row(), index.column(), sidePoints );
             ctx->painter()->drawPolygon( sidePoints );
         }
     }
 
-    if ( bar.height() != 0 )
-    {
+    if ( bar.height() != 0 ) {
         reverseMapper().addRect( index.row(), index.column(), bar );
         ctx->painter()->drawRect( bar );
     }
-    // reset
-    //diagram()->maxDepth = threeDAttrs.depth();
 }
 
 AttributesModel* BarDiagram::BarDiagramType::attributesModel() const
@@ -163,7 +133,7 @@ BarDiagram* BarDiagram::BarDiagramType::diagram() const
     return static_cast< BarDiagram* >( m_private->diagram );
 }
 
-void BarDiagram::BarDiagramType::calculateValueAndGapWidths( int rowCount,int colCount,
+void BarDiagram::BarDiagramType::calculateValueAndGapWidths( int rowCount, int colCount,
                                              qreal groupWidth,
                                              qreal& outBarWidth,
                                              qreal& outSpaceBetweenBars,
@@ -171,7 +141,6 @@ void BarDiagram::BarDiagramType::calculateValueAndGapWidths( int rowCount,int co
 {
 
     Q_UNUSED( rowCount );
-
     BarAttributes ba = diagram()->barAttributes();
 
     // Pending Michel Fixme
@@ -182,15 +151,20 @@ void BarDiagram::BarDiagramType::calculateValueAndGapWidths( int rowCount,int co
      * also one unit, by default. */
 
     qreal units;
-    if ( type() == Normal )
+    if ( type() == Normal ) {
         units = colCount // number of bars in group * 1.0
                 + (colCount-1) * ba.barGapFactor() // number of bar gaps
                 + 1 * ba.groupGapFactor(); // number of group gaps
-    else
+    } else {
         units = 1 + 1 * ba.groupGapFactor();
+    }
 
     qreal unitWidth = groupWidth / units;
-    outBarWidth = unitWidth;
+
+    if ( !ba.useFixedBarWidth() ) {
+        outBarWidth = unitWidth;
+    }
+
     outSpaceBetweenBars += unitWidth * ba.barGapFactor();
 
     // Pending Michel - minLimit: allow space between bars to be reduced until the bars are displayed next to each other.

@@ -135,17 +135,11 @@ void AbstractPieDiagram::setPieAttributes( const QModelIndex & index, const PieA
 	emit layoutChanged( this );
 }
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
 PieAttributes AbstractPieDiagram::pieAttributes() const
 {
     return d->attributesModel->data( PieAttributesRole ).value<PieAttributes>();
 }
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
 PieAttributes AbstractPieDiagram::pieAttributes( int column ) const
 {
     const QVariant attrs( d->datasetAttrs( column, PieAttributesRole ) );
@@ -180,17 +174,11 @@ void AbstractPieDiagram::setThreeDPieAttributes( const QModelIndex & index, cons
     emit layoutChanged( this );
 }
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
 ThreeDPieAttributes AbstractPieDiagram::threeDPieAttributes() const
 {
     return d->attributesModel->data( ThreeDPieAttributesRole ).value<ThreeDPieAttributes>();
 }
 
-// Note: Our users NEED this method - even if
-//       we do not need it at drawing time!
-//       (khz, 2006-07-28)
 ThreeDPieAttributes AbstractPieDiagram::threeDPieAttributes( int column ) const
 {
     const QVariant attrs( d->datasetAttrs( column, ThreeDPieAttributesRole ) );

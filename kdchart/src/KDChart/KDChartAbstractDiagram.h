@@ -602,15 +602,15 @@ namespace KDChart {
                                   const QPointF& point, const QSizeF& size );
 
         /**
-         * The dataset dimension of a diagram determines, how many value dimensions
+         * The dataset dimension of a diagram determines how many value dimensions
          * it expects each datapoint to have.
-         * For each dimension it will expect one column of values in the model.
-         * If the dimensionality is 1, automatic values will be used for the abscissa.
+         * For each dimension and data series it will expect one column of values in the model.
+         * If the dimension is 1, automatic values will be used for X.
          *
-         * For example a diagram with the default dimension of 1, will have one column
-         * per datapoint (the y values) and will use automatic values for the x axis
+         * For example, a diagram with the default dimension of 1 will have one column
+         * per data series (the Y values) and will use automatic values for X
          * (1, 2, 3, ... n).
-         * If the dimension is  2, the diagram will use the first, (and the third,
+         * If the dimension is 2, the diagram will use the first, (and the third,
          * fifth, etc) columns as X values, and the second, (and the fourth, sixth,
          * etc) column as Y values.
          * @return The dataset dimension of the diagram.
@@ -700,8 +700,12 @@ namespace KDChart {
          */
         void aboutToBeDestroyed();
 
-        /** This signal is emitted, when either the model or the AttributesModel is replaced. */
+        /** This signal is emitted when either the model or the AttributesModel is replaced. */
         void modelsChanged();
+
+        /** This signal is emitted just before the new attributes model is connected internally.
+            It gives you a chance to connect to its signals first or perform other setup work. */
+        void attributesModelAboutToChange( AttributesModel* newModel, AttributesModel* oldModel );
 
         /** This signal is emitted, when the model data is changed. */
         void modelDataChanged();

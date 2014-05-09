@@ -402,42 +402,10 @@ bool KDChart::TextLayoutItem::intersects( const TextLayoutItem& other, const QPo
 
 bool KDChart::TextLayoutItem::intersects( const TextLayoutItem& other, const QPoint& myPos, const QPoint& otherPos ) const
 {
-    if ( mAttributes.rotation() != other.mAttributes.rotation() )
-    {
-        // that's the code for the common case: the rotation angles don't need to match here
-        QPolygon myPolygon = boundingPolygon().translated( myPos );
-        QPolygon otherPolygon = other.boundingPolygon().translated( otherPos );
+    QRegion myRegion( boundingPolygon().translated( myPos - otherPos ) );
+    QRegion otherRegion( other.boundingPolygon() );
 
-        // create regions out of it
-        QRegion myRegion( myPolygon );
-        QRegion otherRegion( otherPolygon );
-
-        // now the question - do they intersect or not?
-        return ! myRegion.intersected( otherRegion ).isEmpty();
-
-    } else {
-        // the rotation angles match so we can use a faster algorithm
-        const qreal angle = DEGTORAD( mAttributes.rotation() );
-        // both sizes
-        const QSizeF mySize( unrotatedSizeHint() );
-        const QSizeF otherSize( other.unrotatedSizeHint() );
-
-        // that's myP1 relative to myPos
-        QPointF myP1( mySize.height() * sin( angle ), 0.0 );
-        // that's otherP1 to myPos
-        QPointF otherP1 = QPointF( otherSize.height() * sin( angle ), 0.0 ) + otherPos - myPos;
-
-        // now rotate both points the negative angle around myPos
-        myP1 = QPointF( myP1.x() * cos( -angle ), myP1.x() * sin( -angle ) );
-        qreal r = sqrt( otherP1.x() * otherP1.x() + otherP1.y() * otherP1.y() );
-        if ( myP1.x() == otherP1.x() ) { // vertical
-            otherP1 = QPointF( r * sin( -angle ), r * cos( -angle ) );
-        } else if ( myP1.y() == otherP1.y() ) { // horizontal
-            otherP1 = QPointF( r * cos( -angle ), r * sin( -angle ) );
-        }
-
-        return QRectF( myP1, mySize ).intersects( QRectF( otherP1, otherSize ) );
-    }
+    return myRegion.intersects( otherRegion );
 }
 
 QSize KDChart::TextLayoutItem::sizeHint() const

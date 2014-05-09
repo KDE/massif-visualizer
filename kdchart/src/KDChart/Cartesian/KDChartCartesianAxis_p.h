@@ -59,9 +59,10 @@ public:
         , cachedLabelHeight( 0.0 )
         , cachedFontHeight( 0 )
         , axisTitleSpace( 1.0 )
-        , axisSize(1.0)
     {}
     ~Private() {}
+
+    static const Private *get( const CartesianAxis *axis ) { return axis->d_func(); };
 
     CartesianAxis* axis() const { return static_cast<CartesianAxis *>( mAxis ); }
     void drawTitleText( QPainter*, CartesianCoordinatePlane* plane, const QRect& areaGeoRect ) const;
@@ -69,6 +70,8 @@ public:
     QSize calculateMaximumSize() const;
     QString customizedLabelText( const QString& text, Qt::Orientation orientation, qreal value ) const;
     bool isVertical() const;
+
+    QMap< qreal, QString > annotations;
 
 private:
     friend class TickIterator;
@@ -78,7 +81,6 @@ private:
     Position position;
     QRect geometry;
     int customTickLength;
-    QMap< qreal, QString > annotations;
     QList< qreal > customTicksPositions;
     mutable QStringList cachedHeaderLabels;
     mutable qreal cachedLabelHeight;
@@ -87,7 +89,6 @@ private:
     mutable int cachedFontWidth;
     mutable QSize cachedMaximumSize;
     qreal axisTitleSpace;
-    qreal axisSize;
 };
 
 inline CartesianAxis::CartesianAxis( Private * p, AbstractDiagram* diagram )
@@ -130,10 +131,12 @@ public:
         MinorTick,
         CustomTick
     };
+    // this constructor is for use in CartesianAxis
     TickIterator( CartesianAxis *a, CartesianCoordinatePlane* plane, uint majorThinningFactor,
                   bool omitLastTick /* sorry about that */ );
-    TickIterator( bool isY, const DataDimension& dimension, bool hasMajorTicks, bool hasMinorTicks,
-                  CartesianCoordinatePlane* plane, uint majorThinningFactor );
+    // this constructor is for use in CartesianGrid
+    TickIterator( bool isY, const DataDimension& dimension, bool useAnnotationsForTicks,
+                  bool hasMajorTicks, bool hasMinorTicks, CartesianCoordinatePlane* plane );
 
     qreal position() const { return m_position; }
     QString text() const { return m_text; }

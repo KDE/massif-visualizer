@@ -1,10 +1,12 @@
+cmake_minimum_required(VERSION 2.8.9)
 PROJECT(massif-visualizer)
 
 enable_testing()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
-find_package(KDE4 REQUIRED)
+set(KDE_MIN_VERSION "4.7.0")
+find_package(KDE4 4.7.0 REQUIRED)
 
 include (KDE4Defaults)
 include (MacroLibrary)

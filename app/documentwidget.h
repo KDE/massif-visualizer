@@ -2,7 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
-   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -41,6 +41,7 @@ class QLabel;
 class QProgressBar;
 class QToolButton;
 class QStackedWidget;
+class QTabWidget;
 
 class KMessageWidget;
 
@@ -89,8 +90,8 @@ public:
 #ifdef HAVE_KGRAPHVIEWER
     KGraphViewer::KGraphViewerInterface* graphViewer();
     void showDotGraph(const QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*>& item);
-    void showDotGraph();
     void focusExpensiveGraphNode();
+    int currentIndex();
 #endif
 
     bool isLoaded() const;
@@ -114,6 +115,10 @@ public slots:
     void setLoadingMessage(const QString& message);
 
     void showError(const QString& title, const QString& error);
+
+#ifdef HAVE_KGRAPHVIEWER
+    void showDotGraph();
+#endif
 
 private slots:
 #ifdef HAVE_KGRAPHVIEWER
@@ -151,6 +156,7 @@ private:
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
     QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
     QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*> m_lastDotItem;
+    QTabWidget* m_displayTabWidget;
 #endif
 };
 

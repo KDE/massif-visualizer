@@ -51,7 +51,7 @@ public:
      *
      * @p customAllocators list of wildcard patterns used to find custom allocators
      * @p shouldStop if supplied, this is checked periodically. If the atomic
-     *               evalutes to true, parser stops and returns 0.
+     *               evaluates to true, parser stops and returns 0.
      *
      * @return Data or null if file could not be parsed.
      *

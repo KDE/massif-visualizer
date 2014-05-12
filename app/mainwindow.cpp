@@ -2,7 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
-   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -50,8 +50,8 @@
 #include <KStatusBar>
 #include <KToolBar>
 #include <KParts/Part>
-#include <KLibFactory>
-#include <KLibLoader>
+#include <KPluginFactory>
+#include <KPluginLoader>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -82,6 +82,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_toggleTotal(0)
     , m_selectPeak(0)
     , m_recentFiles(0)
+    , m_box(new QSpinBox(this))
     , m_zoomIn(0)
     , m_zoomOut(0)
     , m_focusExpensive(0)
@@ -104,9 +105,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     // NOTE: just check if kgraphviewer is available at runtime.
     // The former logic has been moved to DocumentWidget constructor.
 #ifdef HAVE_KGRAPHVIEWER
-    KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
-        if (factory->create<KParts::ReadOnlyPart>(this)) {
+        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
+        if (readOnlyPart) {
+            readOnlyPart->widget()->hide();
             haveGraphViewer = true;
         }
     }
@@ -238,12 +241,11 @@ void MainWindow::setupActions()
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
     stackNumLayout->addWidget(new QLabel(i18n("Stacked diagrams:")));
-    QSpinBox* box = new QSpinBox;
-    box->setMinimum(0);
-    box->setMaximum(50);
-    box->setValue(10);
-    connect(box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
-    stackNumLayout->addWidget(box);
+    m_box->setMinimum(0);
+    m_box->setMaximum(50);
+    m_box->setValue(10);
+    connect(m_box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
+    stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
 
@@ -561,7 +563,7 @@ void MainWindow::selectPeakSnapshot()
 
 void MainWindow::setStackNum(int num)
 {
-    if (!m_currentDocument) {
+    if (!m_currentDocument || !m_currentDocument->isLoaded()) {
         return;
     }
     m_currentDocument->detailedCostModel()->setMaximumDatasetCount(num);
@@ -778,7 +780,7 @@ void MainWindow::documentChanged()
         m_focusExpensive->setEnabled(m_currentDocument && m_currentDocument->graphViewer());
     }
 #endif
-    m_print->setEnabled(m_currentDocument);
+    m_print->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
     m_selectPeak->setEnabled(m_currentDocument && m_currentDocument->data());
     actionCollection()->action("file_reload")->setEnabled(m_currentDocument);
     m_toggleDetailed->setEnabled(m_currentDocument && m_currentDocument->detailedDiagram());
@@ -801,6 +803,9 @@ void MainWindow::documentChanged()
         connect(m_currentDocument->detailedDiagram(), SIGNAL(clicked(QModelIndex)),
                 this, SLOT(detailedItemClicked(QModelIndex)));
     }
+    if (m_currentDocument->detailedCostModel()) {
+        m_box->setValue(m_currentDocument->detailedCostModel()->maximumDatasetCount());
+    }
     if (m_currentDocument->chart()) {
         connect(m_currentDocument->chart(), SIGNAL(customContextMenuRequested(QPoint)),
                 this, SLOT(chartContextMenuRequested(QPoint)));
@@ -820,7 +825,11 @@ void MainWindow::documentChanged()
         m_toggleTotal->setChecked(!m_currentDocument->totalDiagram()->isHidden());
     }
 
+#ifdef HAVE_KGRAPHVIEWER
+    documentTabChanged(m_currentDocument->currentIndex());
+#else
     documentTabChanged(0);
+#endif
 }
 
 bool MainWindow::currentChangingSelections() const

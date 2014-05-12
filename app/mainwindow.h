@@ -2,7 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
-   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -31,6 +31,7 @@
 #include "ui_mainwindow.h"
 #include "documentwidget.h"
 
+class QSpinBox;
 class QStringListModel;
 
 namespace KDChart {
@@ -161,6 +162,7 @@ private:
     KAction* m_toggleDetailed;
     KAction* m_selectPeak;
     KRecentFilesAction* m_recentFiles;
+    QSpinBox* m_box;
 
     QHash<DocumentWidget*, bool> m_changingSelections;
     bool currentChangingSelections() const;

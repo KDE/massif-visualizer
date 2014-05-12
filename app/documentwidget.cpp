@@ -2,7 +2,7 @@
    This file is part of Massif Visualizer
 
    Copyright 2010 Milian Wolff <mail@milianw.de>
-   Copyright 2013 Arnold Dumas <contact@arnolddumas.com>
+   Copyright 2013 Arnold Dumas <contact@arnolddumas.fr>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -50,10 +50,11 @@
 #include <KStandardAction>
 #include <KColorScheme>
 #include <KParts/Part>
-#include <KLibFactory>
-#include <KLibLoader>
+#include <KPluginFactory>
+#include <KPluginLoader>
 #include <KLocalizedString>
-#include <KMessageWidget>
+// forward include not available until later KDE versions...
+#include <kmessagewidget.h>
 #include <KIcon>
 #include <KDebug>
 
@@ -123,6 +124,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_graphViewerPart(0)
   , m_graphViewer(0)
   , m_dotGenerator(0)
+  , m_displayTabWidget(0)
 #endif
 {
     // HACK: otherwise the legend becomes _really_ large and might even crash X...
@@ -159,24 +161,24 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     memoryConsumptionWidget->layout()->addWidget(m_chart);
 
 #ifdef HAVE_KGRAPHVIEWER
-    static KLibFactory *factory = KLibLoader::self()->factory("kgraphviewerpart");
+    static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
-        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>(this);
+        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (m_graphViewerPart) {
-            QTabWidget* displayTabWidget = new QTabWidget(m_stackedWidget);
-            displayTabWidget->setTabPosition(QTabWidget::South);
-            displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
+            m_displayTabWidget = new QTabWidget(m_stackedWidget);
+            m_displayTabWidget->setTabPosition(QTabWidget::South);
+            m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
-            QWidget* dotGraphWidget = new QWidget(displayTabWidget);
+            QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
             dotGraphWidget->setLayout(new QGridLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
-            displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
-            m_stackedWidget->addWidget(displayTabWidget);
+            m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
+            m_stackedWidget->addWidget(m_displayTabWidget);
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
 
-            connect(displayTabWidget, SIGNAL(currentChanged(int)),
+            connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
                     this, SLOT(slotTabChanged(int)));
-            slotTabChanged(displayTabWidget->currentIndex());
+            slotTabChanged(m_displayTabWidget->currentIndex());
         }
     }
 
@@ -336,6 +338,16 @@ void DocumentWidget::focusExpensiveGraphNode()
 
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
+
+int DocumentWidget::currentIndex()
+{
+    if (!m_displayTabWidget) {
+        // happens when kgraphviewer part is not available at runtime
+        return 0;
+    }
+    return m_displayTabWidget->currentIndex();
+}
+
 #endif
 
 bool DocumentWidget::isLoaded() const
@@ -572,8 +584,8 @@ void DocumentWidget::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& ite
     } else {
         m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
     }
-    connect(m_dotGenerator.data(), SIGNAL(finished()), SLOT(showDotGraph()));
     m_dotGenerator->start();
+    connect(m_dotGenerator.data(), SIGNAL(finished()), this, SLOT(showDotGraph()));
 }
 
 void DocumentWidget::showDotGraph()

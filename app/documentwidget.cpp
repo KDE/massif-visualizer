@@ -62,6 +62,8 @@
 #include <QStackedWidget>
 #include <QTabWidget>
 #include <QToolButton>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
@@ -123,6 +125,10 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_dotGenerator(0)
 #endif
 {
+    // HACK: otherwise the legend becomes _really_ large and might even crash X...
+    // to visualize the issue, try: m_chart->setMaximumSize(QSize(10000, 10000));
+    m_chart->setMaximumSize(qApp->desktop()->size());
+
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_legend->setPosition(Position(KDChartEnums::PositionFloating));

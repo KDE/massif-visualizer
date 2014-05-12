@@ -336,7 +336,7 @@ QByteArray ParserPrivate::getLabel(const QByteArray& original)
 {
     QSet<QByteArray>::const_iterator it = m_labels.constFind(original);
     if (it != m_labels.constEnd()) {
-        // reuse known label to leverage implit sharing
+        // reuse known label to leverage implicit sharing
         return *it;
     } else {
         m_labels.insert(original);

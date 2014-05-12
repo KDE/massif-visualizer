@@ -152,7 +152,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     m_legend->hide();
 
     // Set m_stackedWidget as the main widget.
-    setLayout(new QGridLayout(this));
+    setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_stackedWidget);
 
     QWidget* memoryConsumptionWidget = new QWidget;
@@ -170,7 +170,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
             m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
-            dotGraphWidget->setLayout(new QGridLayout);
+            dotGraphWidget->setLayout(new QVBoxLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
             m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
             m_stackedWidget->addWidget(m_displayTabWidget);
@@ -251,8 +251,6 @@ DocumentWidget::~DocumentWidget()
 
         m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
         m_legend->removeDiagrams();
-        m_legend->hide();
-        m_header->setText("");
 
         foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
             m_detailedDiagram->takeAxis(axis);
@@ -445,7 +443,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     updatePeaks();
 
-    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+    coordinatePlane->addDiagram(m_detailedDiagram);
 
     m_legend->addDiagram(m_detailedDiagram);
     m_legend->show();

@@ -58,6 +58,7 @@ class FilteredDataTreeModel;
 class TreeLeafItem;
 class SnapshotItem;
 class DotGraphGenerator;
+class FlameGraph;
 }
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -138,6 +139,8 @@ private:
     Massif::DetailedCostModel* m_detailedCostModel;
 
     KDChart::Legend* m_legend;
+
+    Massif::FlameGraph* m_flameGraph;
 
     Massif::DataTreeModel* m_dataTreeModel;
     Massif::FilteredDataTreeModel* m_dataTreeFilterModel;

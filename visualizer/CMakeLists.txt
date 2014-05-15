@@ -9,6 +9,7 @@ set(visualizer_SRCS
     datatreemodel.cpp
     filtereddatatreemodel.cpp
     dotgraphgenerator.cpp
+    flamegraph.cpp
 )
 
 kde4_add_library(mv-visualizer ${visualizer_SRCS})

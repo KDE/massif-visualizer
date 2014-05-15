@@ -46,6 +46,7 @@
 #include "visualizer/datatreemodel.h"
 #include "visualizer/filtereddatatreemodel.h"
 #include "visualizer/dotgraphgenerator.h"
+#include "visualizer/flamegraph.h"
 
 #include <KStandardAction>
 #include <KColorScheme>
@@ -111,6 +112,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_detailedDiagram(0)
   , m_detailedCostModel(new DetailedCostModel(m_chart))
   , m_legend(new Legend(m_chart))
+  , m_flameGraph(0)
   , m_dataTreeModel(new DataTreeModel(m_chart))
   , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
   , m_data(0)
@@ -160,33 +162,30 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     memoryConsumptionWidget->layout()->addWidget(m_header);
     memoryConsumptionWidget->layout()->addWidget(m_chart);
 
+    m_flameGraph = new FlameGraph(this);
+
+    m_displayTabWidget = new QTabWidget(m_stackedWidget);
+    m_displayTabWidget->setTabPosition(QTabWidget::South);
+    m_displayTabWidget->addTab(m_flameGraph, i18n("&Flame Graph"));
+    m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
+    connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
+            this, SLOT(slotTabChanged(int)));
+    slotTabChanged(m_displayTabWidget->currentIndex());
+    m_stackedWidget->addWidget(m_displayTabWidget);
+
 #ifdef HAVE_KGRAPHVIEWER
     static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
         m_graphViewerPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (m_graphViewerPart) {
-            m_displayTabWidget = new QTabWidget(m_stackedWidget);
-            m_displayTabWidget->setTabPosition(QTabWidget::South);
-            m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
             dotGraphWidget->setLayout(new QVBoxLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
             m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
-            m_stackedWidget->addWidget(m_displayTabWidget);
             connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
-
-            connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
-                    this, SLOT(slotTabChanged(int)));
-            slotTabChanged(m_displayTabWidget->currentIndex());
         }
     }
-
-    if (!m_graphViewerPart) {
-        m_stackedWidget->addWidget(memoryConsumptionWidget);
-    }
-#else
-    m_stackedWidget->addWidget(memoryConsumptionWidget);
 #endif
 
 
@@ -270,6 +269,7 @@ DocumentWidget::~DocumentWidget()
         m_dataTreeFilterModel->setFilter("");
         m_detailedCostModel->setSource(0);
         m_totalCostModel->setSource(0);
+        m_flameGraph->setData(0);
 
         delete m_data;
         m_data = 0;
@@ -450,6 +450,8 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     m_dataTreeModel->setSource(m_data);
     m_isLoaded = true;
+
+    m_flameGraph->setData(m_data);
 
     // Switch to the display page and notify that everything is setup.
     m_stackedWidget->setCurrentIndex(0);

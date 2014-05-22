@@ -190,6 +190,7 @@ void MainWindow::setupActions()
 
     KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
     actionCollection()->addAction("file_reload", reload);
+    reload->setEnabled(false);
 
     m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
     m_close->setEnabled(false);

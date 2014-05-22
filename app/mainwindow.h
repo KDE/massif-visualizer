@@ -84,6 +84,11 @@ public slots:
     void openFile(const KUrl& file);
 
     /**
+     * Open a save as dialog and write current document to the selected file.
+     */
+    void saveCurrentDocument();
+
+    /**
      * reload currently opened file
      */
     void reloadCurrentFile();
@@ -173,6 +178,7 @@ private:
     KAction* m_focusExpensive;
     KAction* m_close;
     KAction* m_print;
+    KAction* m_saveAs;
     KAction* m_stopParser;
 
     QStringListModel* m_allocatorModel;

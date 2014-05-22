@@ -34,6 +34,8 @@
 #include "KDChartDataValueAttributes"
 #include "KDChartBackgroundAttributes"
 
+#include "massif-visualizer-settings.h"
+
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/parseworker.h"
@@ -131,21 +133,14 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     m_chart->setGlobalLeadingTop(20);
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    m_legend->setPosition(Position(KDChartEnums::PositionFloating));
+    updateLegendPosition();
     m_legend->setTitleText("");
-    m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     m_legend->setSortOrder(Qt::DescendingOrder);
 
     m_chart->addLegend(m_legend);
 
     //NOTE: this has to be set _after_ the legend was added to the chart...
-    TextAttributes att = m_legend->textAttributes();
-    att.setAutoShrink(true);
-    att.setFontSize(Measure(12));
-    QFont font("monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    att.setFont(font);
-    m_legend->setTextAttributes(att);
+    updateLegendFont();
     m_legend->setTextAlignment(Qt::AlignLeft);
     m_legend->hide();
 
@@ -526,6 +521,78 @@ void DocumentWidget::updatePeaks()
         markPeak(m_totalDiagram, peak, m_data->peak()->cost(), foreground);
     }
     updateDetailedPeaks();
+}
+
+void DocumentWidget::updateLegendPosition()
+{
+    KDChartEnums::PositionValue pos;
+    switch (Settings::self()->legendPosition()) {
+        case Settings::EnumLegendPosition::North:
+            pos = KDChartEnums::PositionNorth;
+            break;
+        case Settings::EnumLegendPosition::South:
+            pos = KDChartEnums::PositionSouth;
+            break;
+        case Settings::EnumLegendPosition::East:
+            pos = KDChartEnums::PositionEast;
+            break;
+        case Settings::EnumLegendPosition::West:
+            pos = KDChartEnums::PositionWest;
+            break;
+        case Settings::EnumLegendPosition::Floating:
+            pos = KDChartEnums::PositionFloating;
+            break;
+        default:
+            pos = KDChartEnums::PositionFloating;
+            kDebug() << "invalid legend position";
+    }
+    m_legend->setPosition(Position(pos));
+
+    Qt::Alignment align;
+    switch (Settings::self()->legendAlignment()) {
+        case Settings::EnumLegendAlignment::Left:
+            align = Qt::AlignLeft;
+            break;
+        case Settings::EnumLegendAlignment::Center:
+            align = Qt::AlignHCenter | Qt::AlignVCenter;
+            break;
+        case Settings::EnumLegendAlignment::Right:
+            align = Qt::AlignRight;
+            break;
+        case Settings::EnumLegendAlignment::Top:
+            align = Qt::AlignTop;
+            break;
+        case Settings::EnumLegendAlignment::Bottom:
+            align = Qt::AlignBottom;
+            break;
+        default:
+            align = Qt::AlignHCenter | Qt::AlignVCenter;
+            kDebug() << "invalid legend alignmemnt";
+    }
+
+    // do something reasonable since top,bottom have no effect
+    // when used with north,south, same for left,right used with
+    // east,west
+    if ((((pos == KDChartEnums::PositionNorth) || (pos == KDChartEnums::PositionSouth))
+         && ((align == Qt::AlignTop) || (align == Qt::AlignBottom)))
+         || (((pos == KDChartEnums::PositionEast) || (pos == KDChartEnums::PositionWest))
+         && ((align == Qt::AlignLeft) || (align == Qt::AlignRight)))) {
+
+         align = Qt::AlignHCenter | Qt::AlignVCenter;
+    }
+
+    m_legend->setAlignment(align);
+}
+
+void DocumentWidget::updateLegendFont()
+{
+    TextAttributes att = m_legend->textAttributes();
+    att.setAutoShrink(true);
+    att.setFontSize(Measure(Settings::self()->legendFontSize()));
+    QFont font("monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    att.setFont(font);
+    m_legend->setTextAttributes(att);
 }
 
 void DocumentWidget::updateDetailedPeaks()

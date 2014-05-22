@@ -315,6 +315,8 @@ void MainWindow::settingsChanged()
     if (m_currentDocument) {
         m_currentDocument->updateHeader();
         m_currentDocument->updatePeaks();
+        m_currentDocument->updateLegendPosition();
+        m_currentDocument->updateLegendFont();
     }
     ui.dataTreeView->viewport()->update();
 }

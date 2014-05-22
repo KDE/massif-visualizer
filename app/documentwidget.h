@@ -76,6 +76,8 @@ public:
 
     void updateHeader();
     void updatePeaks();
+    void updateLegendPosition();
+    void updateLegendFont();
 
     KUrl file() const;
     Massif::FileData* data() const;

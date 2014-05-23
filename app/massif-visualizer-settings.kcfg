@@ -16,7 +16,7 @@
     </entry>
     <entry name="LegendPosition" key="legendPosition" type="Enum">
         <default>EnumLegendPosition::Floating</default>
-        <label>Legend Positon</label>
+        <label>Legend Position</label>
         <tooltip>Defines the position of the legend relative to the plot.</tooltip>
         <choices label="PositionValue">
             <choice name="North"/>

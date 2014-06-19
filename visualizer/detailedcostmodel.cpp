@@ -42,6 +42,18 @@
 
 using namespace Massif;
 
+namespace {
+
+// used to ensure we pick the const overloads of e.g. QVector::first
+// instead of the detaching non-const version
+template<typename T>
+const T& constify(const T& v)
+{
+    return v;
+}
+
+}
+
 DetailedCostModel::DetailedCostModel(QObject* parent)
     : QAbstractTableModel(parent), m_data(0), m_maxDatasetCount(10)
 {
@@ -75,8 +87,8 @@ void DetailedCostModel::setSource(const FileData* data)
                     }
                     // find interesting node, i.e. until first fork
                     const TreeLeafItem* firstNode = node;
-                    while (node->children().size() == 1 && node->children().first()->cost() == node->cost()) {
-                        node = node->children().first();
+                    while (node->children().size() == 1 && constify(node->children()).first()->cost() == node->cost()) {
+                        node = constify(node->children()).first();
                     }
                     if (node->children().isEmpty()) {
                         // when we traverse the tree down until the end (i.e. no forks),

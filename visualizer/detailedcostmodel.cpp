@@ -66,15 +66,15 @@ void DetailedCostModel::setSource(const FileData* data)
         // get top cost points:
         // we traverse the detailed heap trees until the first fork
         QMultiMap<int, QByteArray> sortColumnMap;
-        foreach (SnapshotItem* snapshot, data->snapshots()) {
+        foreach (const SnapshotItem* snapshot, data->snapshots()) {
             if (snapshot->heapTree()) {
-                QVector<TreeLeafItem*> nodes;
-                foreach (TreeLeafItem* node, snapshot->heapTree()->children()) {
+                QVector<const TreeLeafItem*> nodes;
+                foreach (const TreeLeafItem* node, snapshot->heapTree()->children()) {
                     if (isBelowThreshold(node->label())) {
                         continue;
                     }
                     // find interesting node, i.e. until first fork
-                    TreeLeafItem* firstNode = node;
+                    const TreeLeafItem* firstNode = node;
                     while (node->children().size() == 1 && node->children().first()->cost() == node->cost()) {
                         node = node->children().first();
                     }
@@ -202,7 +202,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         }
     }
 
-    SnapshotItem* snapshot;
+    const SnapshotItem* snapshot;
     if (role == Qt::ToolTipRole) {
         // hack: the ToolTip will only be queried by KDChart and that one uses the
         // left index, but we want it to query the right one
@@ -215,9 +215,9 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     if (index.column() % 2 == 0 && role != Qt::ToolTipRole) {
         return snapshot->time();
     } else {
-        TreeLeafItem* node = 0;
+        const TreeLeafItem* node = 0;
         const QByteArray needle = m_columns.at(index.column() / 2);
-        foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+        foreach(const TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
                 node = n;
                 break;
@@ -273,10 +273,10 @@ int DetailedCostModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
+DetailedCostModel::Peaks DetailedCostModel::peaks() const
 {
-    QMap< QModelIndex, TreeLeafItem* > peaks;
-    QHash< QByteArray, QPair<TreeLeafItem*,SnapshotItem*> >::const_iterator it = m_peaks.constBegin();
+    Peaks peaks;
+    QHash<QByteArray, ModelItem>::const_iterator it = m_peaks.constBegin();
     while (it != m_peaks.end()) {
         int row = m_rows.indexOf(it->second);
         Q_ASSERT(row >= 0);
@@ -293,7 +293,7 @@ QMap< QModelIndex, TreeLeafItem* > DetailedCostModel::peaks() const
     return peaks;
 }
 
-QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
+QModelIndex DetailedCostModel::indexForSnapshot(const SnapshotItem* snapshot) const
 {
     int row = m_rows.indexOf(snapshot);
     if (row == -1) {
@@ -302,13 +302,13 @@ QModelIndex DetailedCostModel::indexForSnapshot(SnapshotItem* snapshot) const
     return index(row + 1, 0);
 }
 
-QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
+QModelIndex DetailedCostModel::indexForTreeLeaf(const TreeLeafItem* node) const
 {
     int column = m_columns.indexOf(node->label());
     if (column == -1 || column >= m_maxDatasetCount) {
         return QModelIndex();
     }
-    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::const_iterator it = m_nodes.constBegin();
+    Nodes::const_iterator it = m_nodes.constBegin();
     while (it != m_nodes.constEnd()) {
         if (it->contains(node)) {
             return index(m_rows.indexOf(it.key()), column * 2);
@@ -318,27 +318,27 @@ QModelIndex DetailedCostModel::indexForTreeLeaf(TreeLeafItem* node) const
     return QModelIndex();
 }
 
-QPair< TreeLeafItem*, SnapshotItem* > DetailedCostModel::itemForIndex(const QModelIndex& idx) const
+ModelItem DetailedCostModel::itemForIndex(const QModelIndex& idx) const
 {
     if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
-        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+        return ModelItem(0, 0);
     }
     if (idx.row() == 0) {
-        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+        return ModelItem(0, 0);
     }
     const QByteArray needle = m_columns.at(idx.column() / 2);
     for (int i = 1; i < 3 && idx.row() - i >= 0; ++i) {
-        SnapshotItem* snapshot = m_rows.at(idx.row() - i);
-        foreach(TreeLeafItem* n, m_nodes[snapshot]) {
+        const SnapshotItem* snapshot = m_rows.at(idx.row() - i);
+        foreach(const TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
-                return QPair< TreeLeafItem*, SnapshotItem* >(n, 0);
+                return ModelItem(n, 0);
             }
         }
     }
-    return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+    return ModelItem(0, 0);
 }
 
-QModelIndex DetailedCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+QModelIndex DetailedCostModel::indexForItem(const ModelItem& item) const
 {
     if (!item.first && !item.second) {
         return QModelIndex();
@@ -356,12 +356,12 @@ void DetailedCostModel::setSelection(const QModelIndex& index)
     m_selection = index;
 }
 
-void DetailedCostModel::hideFunction(TreeLeafItem* node)
+void DetailedCostModel::hideFunction(const TreeLeafItem* node)
 {
     beginResetModel();
-    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator it = m_nodes.begin();
+    Nodes::iterator it = m_nodes.begin();
     while (it != m_nodes.end()) {
-        QVector< TreeLeafItem* >::iterator it2 = it.value().begin();
+        QVector< const TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() == node->label()) {
                 it2 = it.value().erase(it2);
@@ -378,16 +378,16 @@ void DetailedCostModel::hideFunction(TreeLeafItem* node)
     endResetModel();
 }
 
-void DetailedCostModel::hideOtherFunctions(TreeLeafItem* node)
+void DetailedCostModel::hideOtherFunctions(const TreeLeafItem* node)
 {
     beginResetModel();
     m_columns.clear();
     m_columns << node->label();
 
-    QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator it = m_nodes.begin();
-    const QHash< SnapshotItem*, QVector< TreeLeafItem* > >::iterator end = m_nodes.end();
+    Nodes::iterator it = m_nodes.begin();
+    const Nodes::iterator end = m_nodes.end();
     while (it != end) {
-        QVector< TreeLeafItem* >::iterator it2 = it.value().begin();
+        QVector< const TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() != node->label()) {
                 it2 = it.value().erase(it2);

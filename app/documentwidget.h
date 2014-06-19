@@ -27,6 +27,7 @@
 #include <QWidget>
 #include <KUrl>
 
+#include "visualizer/modelitem.h"
 
 namespace KDChart {
 class Chart;
@@ -91,7 +92,7 @@ public:
 
 #ifdef HAVE_KGRAPHVIEWER
     KGraphViewer::KGraphViewerInterface* graphViewer();
-    void showDotGraph(const QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*>& item);
+    void showDotGraph(const Massif::ModelItem& item);
     void focusExpensiveGraphNode();
     int currentIndex();
 #endif
@@ -157,7 +158,7 @@ private:
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
     QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
-    QPair<Massif::TreeLeafItem*, Massif::SnapshotItem*> m_lastDotItem;
+    Massif::ModelItem m_lastDotItem;
     QTabWidget* m_displayTabWidget;
 #endif
 };

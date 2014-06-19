@@ -89,5 +89,6 @@ private:
 }
 
 Q_DECLARE_METATYPE(Massif::TreeLeafItem*);
+Q_DECLARE_METATYPE(const Massif::TreeLeafItem*);
 
 #endif // TREELEAFITEM_H

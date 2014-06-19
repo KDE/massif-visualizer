@@ -145,7 +145,7 @@ QString formatLabel(const QByteArray& label)
     return ret;
 }
 
-QString tooltipForTreeLeaf(TreeLeafItem* node, SnapshotItem* snapshot, const QByteArray& label)
+QString tooltipForTreeLeaf(const TreeLeafItem* node, const SnapshotItem* snapshot, const QByteArray& label)
 {
     QString tooltip = "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n";
     tooltip += i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),

@@ -23,10 +23,10 @@
 #ifndef MASSIF_DETAILEDCOSTMODEL_H
 #define MASSIF_DETAILEDCOSTMODEL_H
 
-#include <QBrush>
-#include <QPair>
 #include <QtCore/QAbstractTableModel>
-#include <QtCore/QStringList>
+#include <QtCore/QVector>
+
+#include "modelitem.h"
 
 #include "visualizer_export.h"
 
@@ -62,30 +62,31 @@ public:
 
     int maximumDatasetCount() const;
 
+    typedef QMap<QModelIndex, const TreeLeafItem*> Peaks;
     /**
      * @return List of peaks with their heap tree leaf items.
      */
-    QMap<QModelIndex, TreeLeafItem*> peaks() const;
+    Peaks peaks() const;
 
     /**
-     * @return Item for given index. At maximum one of the pointers in the pair will be valid.
+     * @return ModelItem for given index. At maximum one of the pointers in the pair will be valid.
      */
-    QPair<TreeLeafItem*, SnapshotItem*> itemForIndex(const QModelIndex& idx) const;
+    ModelItem itemForIndex(const QModelIndex& idx) const;
 
     /**
      * @return Index for given item. Only one of the pointers in the pair should be valid.
      */
-    QModelIndex indexForItem(const QPair<TreeLeafItem*, SnapshotItem*>& item) const;
+    QModelIndex indexForItem(const ModelItem& item) const;
 
     /**
      * @return Index for given snapshot, or invalid if it's not a detailed snapshot.
      */
-    QModelIndex indexForSnapshot(SnapshotItem* snapshot) const;
+    QModelIndex indexForSnapshot(const SnapshotItem* snapshot) const;
 
     /**
      * @return Index for given TreeLeafItem, or invalid if it's not covered by this model.
      */
-    QModelIndex indexForTreeLeaf(TreeLeafItem* node) const;
+    QModelIndex indexForTreeLeaf(const TreeLeafItem* node) const;
 
     /**
      * Select @p index, which changes the graphical representation of its data.
@@ -95,23 +96,24 @@ public:
     /**
      * Hide function @p func.
      */
-    void hideFunction(TreeLeafItem* node);
+    void hideFunction(const TreeLeafItem* node);
 
     /**
      * Hide all functions except for @p func.
      */
-    void hideOtherFunctions(TreeLeafItem* node);
+    void hideOtherFunctions(const TreeLeafItem* node);
 
 private:
     const FileData* m_data;
     // columns => label
     QVector<QByteArray> m_columns;
     // only to sort snapshots by number
-    QVector<SnapshotItem*> m_rows;
+    QVector<const SnapshotItem*> m_rows;
+    typedef QHash<const SnapshotItem*, QVector<const TreeLeafItem*> > Nodes;
     // snapshot item => cost intensive nodes
-    QHash<SnapshotItem*, QVector<TreeLeafItem*> > m_nodes;
+    Nodes m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot
-    QHash<QByteArray, QPair<TreeLeafItem*,SnapshotItem*> > m_peaks;
+    QHash<QByteArray, ModelItem> m_peaks;
     // selected item
     QModelIndex m_selection;
     int m_maxDatasetCount;

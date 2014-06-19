@@ -454,7 +454,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
     setCurrentChangingSelections(true);
 
-    const QPair< TreeLeafItem*, SnapshotItem* >& item = m_currentDocument->dataTreeModel()->itemForIndex(
+    const ModelItem& item = m_currentDocument->dataTreeModel()->itemForIndex(
        m_currentDocument->dataTreeFilterModel()->mapToSource(now)
     );
 
@@ -492,7 +492,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
     ui.dataTreeView->selectionModel()->clearSelection();
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
+    ModelItem item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
     const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
         m_currentDocument->dataTreeModel()->indexForItem(item)
     );
@@ -523,7 +523,7 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
     m_currentDocument->detailedCostModel()->setSelection(QModelIndex());
     m_currentDocument->totalCostModel()->setSelection(idx);
 
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->totalCostModel()->itemForIndex(idx);
+    ModelItem item = m_currentDocument->totalCostModel()->itemForIndex(idx);
 
     ui.dataTreeView->selectionModel()->clearSelection();
     const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
@@ -692,7 +692,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     }
 
     QMenu menu;
-    TreeLeafItem* item = m_currentDocument->dataTreeModel()->itemForIndex(idx).first;
+    const TreeLeafItem* item = m_currentDocument->dataTreeModel()->itemForIndex(idx).first;
     Q_ASSERT(item);
     prepareActions(&menu, item);
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
@@ -709,7 +709,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
+    ModelItem item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
 
     if (!item.first) {
         return;
@@ -721,7 +721,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     menu.exec(m_currentDocument->detailedDiagram()->mapToGlobal(dPos));
 }
 
-void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
+void MainWindow::prepareActions(QMenu* menu, const TreeLeafItem* item)
 {
     QString func = functionInLabel(item->label());
     if (func.length() > 40) {

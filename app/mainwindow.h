@@ -158,7 +158,7 @@ private slots:
 private:
     void updateDetailedPeaks();
     void updateWindowTitle();
-    void prepareActions(QMenu* menu, TreeLeafItem* item);
+    void prepareActions(QMenu* menu, const TreeLeafItem* item);
 
     // Helper
     Ui::MainWindow ui;

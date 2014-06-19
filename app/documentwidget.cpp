@@ -370,7 +370,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     #ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
-        showDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+        showDotGraph(ModelItem(0, m_data->peak()));
     }
     #endif
 
@@ -600,8 +600,8 @@ void DocumentWidget::updateDetailedPeaks()
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
-    QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
-    QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
+    const DetailedCostModel::Peaks& peaks = m_detailedCostModel->peaks();
+    DetailedCostModel::Peaks::const_iterator it = peaks.constBegin();
     while (it != peaks.constEnd()) {
         const QModelIndex peak = it.key();
         Q_ASSERT(peak.isValid());
@@ -620,7 +620,7 @@ void DocumentWidget::slotTabChanged(int index)
     }
 }
 
-void DocumentWidget::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
+void DocumentWidget::showDotGraph(const ModelItem& item)
 {
     if (item == m_lastDotItem) {
         return;

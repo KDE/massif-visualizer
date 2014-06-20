@@ -40,6 +40,8 @@
 #include <massifdata/treeleafitem.h>
 #include <massifdata/util.h>
 
+#include <KLocalizedString>
+
 using namespace Massif;
 
 namespace {
@@ -72,6 +74,7 @@ public:
         : QGraphicsRectItem(rect)
         , m_label(label)
     {
+        setToolTip(m_label);
     }
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0)
@@ -114,10 +117,9 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
 
     for (; it != data.constEnd(); ++it) {
         const qreal w = maxWidth * double(it.value().cost) / totalCost;
-        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), it.key());
+        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), i18nc("%1: memory cost, %2: function label", "%1: %2", prettyCost(it.value().cost), QString::fromUtf8(it.key())));
         item->setBrush(QColor(Qt::white));
         ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w);
-//         qDebug() << x << y << w << h << it.key() << prettyCost(it.value().cost);
         x += w + x_margin;
         ret << item;
     }

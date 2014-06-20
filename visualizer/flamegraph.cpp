@@ -156,10 +156,10 @@ bool FlameGraph::eventFilter(QObject* object, QEvent* event)
 {
     if (object == m_view && event->type() == QEvent::Wheel) {
         QWheelEvent* wheelEvent = static_cast<QWheelEvent*>(event);
-//         m_view->scale(wheelEvent->);
-        qreal scale = pow(1.1, double(wheelEvent->delta()) / (120.0 * 2.));
-        qDebug() << wheelEvent->delta() << scale;
-        m_view->scale(scale, scale);
+        if (wheelEvent->modifiers() == Qt::ControlModifier) {
+            qreal scale = pow(1.1, double(wheelEvent->delta()) / (120.0 * 2.));
+            m_view->scale(scale, scale);
+        }
 
     }
     return QObject::eventFilter(object, event);

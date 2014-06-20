@@ -51,6 +51,12 @@ struct Frame {
     QMap<QByteArray, Frame> children;
 };
 
+QColor color(quint64 cost, quint64 maxCost)
+{
+    const double ratio = double(cost) / maxCost;
+    return QColor::fromHsv(120 - ratio * 120, 255, 255, (-((ratio-1) * (ratio-1))) * 120 + 120);
+}
+
 static const QString emptyLabel = QLatin1String("???");
 
 typedef QMap<QByteArray, Frame> StackData;
@@ -85,7 +91,7 @@ public:
 
         const QPen oldPen = painter->pen();
         QPen pen = oldPen;
-        pen.setColor(Qt::black);
+        pen.setColor(Qt::white);
         painter->setPen(pen);
         static QFontMetrics m(QFont("monospace", 12));
         const int margin = 5;
@@ -99,7 +105,7 @@ private:
     QString m_label;
 };
 
-QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 = 0, const qreal y_0 = 0, const qreal maxWidth = 4096.0)
+QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 = 0, const qreal y_0 = 0, const qreal maxWidth = 4096.0, qreal totalCostForColor = 0)
 {
     QVector<QGraphicsItem*> ret;
     ret.reserve(data.size());
@@ -107,6 +113,9 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
     double totalCost = 0;
     foreach(const Frame& frame, data) {
         totalCost += frame.cost;
+    }
+    if (!totalCostForColor) {
+        totalCostForColor = totalCost;
     }
 
     QMap<QByteArray, Frame>::const_iterator it = data.constBegin();
@@ -120,8 +129,8 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
     for (; it != data.constEnd(); ++it) {
         const qreal w = maxWidth * double(it.value().cost) / totalCost;
         FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), i18nc("%1: memory cost, %2: function label", "%1: %2", prettyCost(it.value().cost), it.key().isEmpty() ? emptyLabel : QString::fromUtf8(it.key())));
-        item->setBrush(QColor(Qt::white));
-        ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w);
+        item->setBrush(color(it.value().cost, totalCostForColor));
+        ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w, totalCostForColor);
         x += w + x_margin;
         ret << item;
     }
@@ -190,7 +199,7 @@ void FlameGraph::setData(const FileData* data)
     }
 
     m_view->fitInView( m_scene->itemsBoundingRect(), Qt::KeepAspectRatio );
-    m_view->scale(5, 5);
+    m_view->scale(15, 15);
 
     qDebug() << "took me: " << t.elapsed();
 }

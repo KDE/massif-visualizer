@@ -67,7 +67,7 @@ MASSIFDATA_EXPORT bool isBelowThreshold(const QByteArray& label);
 /**
  * Formats a label with richtext for showing in tooltips e.g.
  */
-MASSIFDATA_EXPORT QString tooltipForTreeLeaf(Massif::TreeLeafItem* node, Massif::SnapshotItem* snapshot, const QByteArray& label);
+MASSIFDATA_EXPORT QString tooltipForTreeLeaf(const Massif::TreeLeafItem* node, const Massif::SnapshotItem* snapshot, const QByteArray& label);
 
 }
 

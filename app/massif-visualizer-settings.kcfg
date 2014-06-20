@@ -14,5 +14,36 @@
         <label>Shorten Templates</label>
         <tooltip>Defines whether identifiers of C++ template instantiations should be shortened by removing their template arguments.</tooltip>
     </entry>
+    <entry name="LegendPosition" key="legendPosition" type="Enum">
+        <default>EnumLegendPosition::Floating</default>
+        <label>Legend Position</label>
+        <tooltip>Defines the position of the legend relative to the plot.</tooltip>
+        <choices label="PositionValue">
+            <choice name="North"/>
+            <choice name="East"/>
+            <choice name="South"/>
+            <choice name="West"/>
+            <choice name="Floating"/>
+        </choices>
+    </entry>
+    <entry name="LegendAlignment" key="legendAlignment" type="Enum">
+        <default>EnumLegendAlignment::Center</default>
+        <label>Legend Alignment</label>
+        <tooltip>Defines the alignment of the legend.</tooltip>
+        <choices label="AlignmentValue">
+            <choice name="Left"/>
+            <choice name="Center"/>
+            <choice name="Right"/>
+            <choice name="Top"/>
+            <choice name="Bottom"/>
+        </choices>
+    </entry>
+    <entry name="LegendFontSize" key="legendFontSize" type="int">
+        <default>12</default>
+        <min>6</min>
+        <max>14</max>
+        <label>Legend Font Size</label>
+        <tooltip>Defines the font size used in the legend.</tooltip>
+    </entry>
   </group>
 </kcfg>

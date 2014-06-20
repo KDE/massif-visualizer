@@ -61,6 +61,7 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QPixmap>
 
 #include <KMessageBox>
 
@@ -88,6 +89,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     , m_focusExpensive(0)
     , m_close(0)
     , m_print(0)
+    , m_saveAs(0)
     , m_stopParser(0)
     , m_allocatorModel(new QStringListModel(this))
     , m_newAllocator(0)
@@ -174,10 +176,16 @@ MainWindow::~MainWindow()
 void MainWindow::setupActions()
 {
     KAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
-    actionCollection()->addAction("file_reload", reload);
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
+
+    m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
+    actionCollection()->addAction("file_save_as", m_saveAs);
+    m_saveAs->setEnabled(false);
+
+    KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
+    actionCollection()->addAction("file_reload", reload);
+    reload->setEnabled(false);
 
     m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
     m_close->setEnabled(false);
@@ -310,6 +318,8 @@ void MainWindow::settingsChanged()
     if (m_currentDocument) {
         m_currentDocument->updateHeader();
         m_currentDocument->updatePeaks();
+        m_currentDocument->updateLegendPosition();
+        m_currentDocument->updateLegendFont();
     }
     ui.dataTreeView->viewport()->update();
 }
@@ -321,6 +331,34 @@ void MainWindow::openFile()
                                                       this, i18n("Open Massif Output File"));
     foreach (const KUrl& file, files) {
         openFile(file);
+    }
+}
+
+void MainWindow::saveCurrentDocument()
+{
+    QString saveFilename = KFileDialog::getSaveFileName(KUrl("kfiledialog:///massif-visualizer"),
+                                                        QString("image/png image/jpeg image/tiff"),
+                                                        this, i18n("Save Current Visualization"));
+
+    if (!saveFilename.isEmpty()) {
+
+        if ( !QFile::exists(saveFilename) ||
+                (KMessageBox::warningYesNo(this, QString(
+                    i18n("Warning, the file(%1) exists.\n Is it OK to overwrite it?")
+                        ).arg(saveFilename)) == KMessageBox::Yes)) {
+
+            // TODO: implement a dialog to expose more options to the user.
+            // for example we could expose dpi, size, and various format
+            // dependent options such as compressions settings.
+            // TODO: implement support for vector formats such as ps,svg etc.
+
+            if(!QPixmap::grabWidget(m_currentDocument).save(saveFilename)) {
+
+                KMessageBox::sorry(this, QString(
+                    i18n("Error, failed to save the image to %1.")
+                        ).arg(saveFilename));
+            }
+        }
     }
 }
 
@@ -411,7 +449,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
     }
     setCurrentChangingSelections(true);
 
-    const QPair< TreeLeafItem*, SnapshotItem* >& item = m_currentDocument->dataTreeModel()->itemForIndex(
+    const ModelItem& item = m_currentDocument->dataTreeModel()->itemForIndex(
        m_currentDocument->dataTreeFilterModel()->mapToSource(now)
     );
 
@@ -449,7 +487,7 @@ void MainWindow::detailedItemClicked(const QModelIndex& idx)
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
     ui.dataTreeView->selectionModel()->clearSelection();
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
+    ModelItem item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
     const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
         m_currentDocument->dataTreeModel()->indexForItem(item)
     );
@@ -480,7 +518,7 @@ void MainWindow::totalItemClicked(const QModelIndex& idx_)
     m_currentDocument->detailedCostModel()->setSelection(QModelIndex());
     m_currentDocument->totalCostModel()->setSelection(idx);
 
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->totalCostModel()->itemForIndex(idx);
+    ModelItem item = m_currentDocument->totalCostModel()->itemForIndex(idx);
 
     ui.dataTreeView->selectionModel()->clearSelection();
     const QModelIndex& newIndex = m_currentDocument->dataTreeFilterModel()->mapFromSource(
@@ -649,7 +687,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     }
 
     QMenu menu;
-    TreeLeafItem* item = m_currentDocument->dataTreeModel()->itemForIndex(idx).first;
+    const TreeLeafItem* item = m_currentDocument->dataTreeModel()->itemForIndex(idx).first;
     Q_ASSERT(item);
     prepareActions(&menu, item);
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
@@ -666,7 +704,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     // hack: the ToolTip will only be queried by KDChart and that one uses the
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_currentDocument->detailedCostModel()->index(idx.row() + 1, idx.column(), idx.parent());
-    QPair< TreeLeafItem*, SnapshotItem* > item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
+    ModelItem item = m_currentDocument->detailedCostModel()->itemForIndex(_idx);
 
     if (!item.first) {
         return;
@@ -678,7 +716,7 @@ void MainWindow::chartContextMenuRequested(const QPoint& pos)
     menu.exec(m_currentDocument->detailedDiagram()->mapToGlobal(dPos));
 }
 
-void MainWindow::prepareActions(QMenu* menu, TreeLeafItem* item)
+void MainWindow::prepareActions(QMenu* menu, const TreeLeafItem* item)
 {
     QString func = functionInLabel(item->label());
     if (func.length() > 40) {
@@ -786,6 +824,7 @@ void MainWindow::documentChanged()
     m_toggleDetailed->setEnabled(m_currentDocument && m_currentDocument->detailedDiagram());
     m_toggleTotal->setEnabled(m_currentDocument && m_currentDocument->totalDiagram());
     m_close->setEnabled(m_currentDocument);
+    m_saveAs->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
 
     if (!m_currentDocument) {
         ui.dataTreeView->setModel(0);

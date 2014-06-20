@@ -65,7 +65,36 @@ void aggregateStack(TreeLeafItem* item, StackData* data)
     }
 }
 
-QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 = 0, const qreal y_0 = 0, const qreal maxWidth = 100.0)
+class FrameGraphicsItem : public QGraphicsRectItem
+{
+public:
+    FrameGraphicsItem(const QRectF& rect, const QString& label)
+        : QGraphicsRectItem(rect)
+        , m_label(label)
+    {
+    }
+
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0)
+    {
+        QGraphicsRectItem::paint(painter, option, widget);
+
+        const QPen oldPen = painter->pen();
+        QPen pen = oldPen;
+        pen.setColor(Qt::black);
+        painter->setPen(pen);
+        static QFontMetrics m(QFont("monospace", 12));
+        const int margin = 5;
+        const int width = rect().width() - 2 * margin;
+        const int height = rect().height();
+        painter->drawText(margin + rect().x(), rect().y(), width, height, Qt::AlignCenter | Qt::TextSingleLine, m.elidedText(m_label, Qt::ElideRight, width));
+        painter->setPen(oldPen);
+    }
+
+private:
+    QString m_label;
+};
+
+QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 = 0, const qreal y_0 = 0, const qreal maxWidth = 4096.0)
 {
     QVector<QGraphicsItem*> ret;
     ret.reserve(data.size());
@@ -77,7 +106,7 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
 
     QMap<QByteArray, Frame>::const_iterator it = data.constBegin();
     qreal x = x_0;
-    const qreal h = 20;
+    const qreal h = 25;
     const qreal y = y_0;
 
     const qreal x_margin = 0;
@@ -85,14 +114,12 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
 
     for (; it != data.constEnd(); ++it) {
         const qreal w = maxWidth * double(it.value().cost) / totalCost;
-        QGraphicsRectItem* rect = new QGraphicsRectItem(x, y, w, h);
-        QGraphicsSimpleTextItem* text = new QGraphicsSimpleTextItem(it.key(), rect);
-        text->moveBy(x, y);
-        rect->setBrush(QColor(Qt::white));
+        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), it.key());
+        item->setBrush(QColor(Qt::white));
         ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w);
-        qDebug() << x << y << w << h << it.key() << prettyCost(it.value().cost);
+//         qDebug() << x << y << w << h << it.key() << prettyCost(it.value().cost);
         x += w + x_margin;
-        ret << rect;
+        ret << item;
     }
 
     return ret;
@@ -158,7 +185,7 @@ void FlameGraph::setData(const FileData* data)
         m_scene->addItem(item);
     }
 
-    m_view->fitInView( m_scene->itemsBoundingRect(), Qt::IgnoreAspectRatio );
+    m_view->fitInView( m_scene->itemsBoundingRect(), Qt::KeepAspectRatio );
     m_view->scale(5, 5);
 
     qDebug() << "took me: " << t.elapsed();

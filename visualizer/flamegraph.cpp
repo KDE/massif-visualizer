@@ -51,6 +51,8 @@ struct Frame {
     QMap<QByteArray, Frame> children;
 };
 
+static const QString emptyLabel = QLatin1String("???");
+
 typedef QMap<QByteArray, Frame> StackData;
 
 // TODO: aggregate top-down instead of bottom-up to better resemble
@@ -117,7 +119,7 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
 
     for (; it != data.constEnd(); ++it) {
         const qreal w = maxWidth * double(it.value().cost) / totalCost;
-        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), i18nc("%1: memory cost, %2: function label", "%1: %2", prettyCost(it.value().cost), QString::fromUtf8(it.key())));
+        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), i18nc("%1: memory cost, %2: function label", "%1: %2", prettyCost(it.value().cost), it.key().isEmpty() ? emptyLabel : QString::fromUtf8(it.key())));
         item->setBrush(QColor(Qt::white));
         ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w);
         x += w + x_margin;

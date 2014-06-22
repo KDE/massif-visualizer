@@ -134,7 +134,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
     updateLegendPosition();
-    m_legend->setTitleText("");
+    m_legend->setTitleText(QString());
     m_legend->setSortOrder(Qt::DescendingOrder);
 
     m_chart->addLegend(m_legend);
@@ -245,7 +245,7 @@ DocumentWidget::~DocumentWidget()
         m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
         m_legend->removeDiagrams();
         m_legend->hide();
-        m_header->setText("");
+        m_header->setText(QString());
 
         foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
             m_detailedDiagram->takeAxis(axis);
@@ -262,7 +262,7 @@ DocumentWidget::~DocumentWidget()
         m_totalDiagram = 0;
 
         m_dataTreeModel->setSource(0);
-        m_dataTreeFilterModel->setFilter("");
+        m_dataTreeFilterModel->setFilter(QString());
         m_detailedCostModel->setSource(0);
         m_totalCostModel->setSource(0);
 

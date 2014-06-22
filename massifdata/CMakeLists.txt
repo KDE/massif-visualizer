@@ -13,9 +13,9 @@ set(massifdata_SRCS
     util.cpp
 )
 
-kde4_add_library(mv-massifdata ${massifdata_SRCS})
+kde4_add_library(mv-massifdata STATIC ${massifdata_SRCS})
 
-target_link_libraries(mv-massifdata
+target_link_libraries(mv-massifdata LINK_PRIVATE
     ${QT_QTCORE_LIBRARY}
     # required for Qt::escape() in QTextDocument
     ${QT_QTGUI_LIBRARY}

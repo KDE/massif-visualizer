@@ -114,5 +114,5 @@ qt_wrap_cpp(mv-kdchart kdchart_LIB_SRCS KDChartEnums.h)
 
 kde4_add_library(mv-kdchart STATIC ${kdchart_LIB_SRCS})
 
-#target_link_libraries(kdchart ${QT_QT3SUPPORT_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )
-target_link_libraries(mv-kdchart  ${QT_QTSVG_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )
+target_link_libraries(mv-kdchart LINK_PRIVATE
+${QT_QTSVG_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )

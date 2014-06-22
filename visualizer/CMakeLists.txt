@@ -11,9 +11,9 @@ set(visualizer_SRCS
     dotgraphgenerator.cpp
 )
 
-kde4_add_library(mv-visualizer ${visualizer_SRCS})
+kde4_add_library(mv-visualizer STATIC ${visualizer_SRCS})
 
-target_link_libraries(mv-visualizer
+target_link_libraries(mv-visualizer LINK_PRIVATE
     mv-massifdata
     mv-kdchart
     ${QT_QTCORE_LIBRARY}

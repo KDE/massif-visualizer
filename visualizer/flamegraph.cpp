@@ -78,10 +78,13 @@ void aggregateStack(TreeLeafItem* item, StackData* data)
 class FrameGraphicsItem : public QGraphicsRectItem
 {
 public:
-    FrameGraphicsItem(const QRectF& rect, const QString& label)
+    FrameGraphicsItem(const QRectF& rect, const quint64 cost, const QByteArray& function)
         : QGraphicsRectItem(rect)
-        , m_label(label)
     {
+        m_label = i18nc("%1: memory cost, %2: function label",
+                        "%1: %2",
+                        prettyCost(cost),
+                        function.isEmpty() ? emptyLabel : QString::fromUtf8(function));
         setToolTip(m_label);
     }
 
@@ -128,7 +131,7 @@ QVector<QGraphicsItem*> toGraphicsItems(const StackData& data, const qreal x_0 =
 
     for (; it != data.constEnd(); ++it) {
         const qreal w = maxWidth * double(it.value().cost) / totalCost;
-        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), i18nc("%1: memory cost, %2: function label", "%1: %2", prettyCost(it.value().cost), it.key().isEmpty() ? emptyLabel : QString::fromUtf8(it.key())));
+        FrameGraphicsItem* item = new FrameGraphicsItem(QRectF(x, y, w, h), it.value().cost, it.key());
         item->setBrush(color(it.value().cost, totalCostForColor));
         ret += toGraphicsItems(it.value().children, x, y + h + y_margin, w, totalCostForColor);
         x += w + x_margin;

@@ -151,7 +151,7 @@ FlameGraph::FlameGraph(QWidget* parent, Qt::WindowFlags flags)
     m_scene->addText("Hello, world!");
 
     m_view->setScene(m_scene);
-    m_view->installEventFilter(this);
+    m_view->viewport()->installEventFilter(this);
 
     layout()->addWidget(m_view);
 }
@@ -163,11 +163,12 @@ FlameGraph::~FlameGraph()
 
 bool FlameGraph::eventFilter(QObject* object, QEvent* event)
 {
-    if (object == m_view && event->type() == QEvent::Wheel) {
+    if (object == m_view->viewport() && event->type() == QEvent::Wheel) {
         QWheelEvent* wheelEvent = static_cast<QWheelEvent*>(event);
         if (wheelEvent->modifiers() == Qt::ControlModifier) {
             qreal scale = pow(1.1, double(wheelEvent->delta()) / (120.0 * 2.));
             m_view->scale(scale, scale);
+            return true;
         }
 
     }

@@ -92,14 +92,18 @@ public:
     {
         QGraphicsRectItem::paint(painter, option, widget);
 
+        static QFontMetrics m(QFont("monospace"));
+        const int margin = 5;
+        const int width = rect().width() - 2 * margin;
+        if (width < m.averageCharWidth() * 6) {
+            return;
+        }
+        const int height = rect().height();
+
         const QPen oldPen = painter->pen();
         QPen pen = oldPen;
         pen.setColor(Qt::white);
         painter->setPen(pen);
-        static QFontMetrics m(QFont("monospace", 12));
-        const int margin = 5;
-        const int width = rect().width() - 2 * margin;
-        const int height = rect().height();
         painter->drawText(margin + rect().x(), rect().y(), width, height, Qt::AlignCenter | Qt::TextSingleLine, m.elidedText(m_label, Qt::ElideRight, width));
         painter->setPen(oldPen);
     }

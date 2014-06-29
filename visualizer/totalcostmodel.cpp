@@ -113,7 +113,7 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         // hack: the ToolTip will only be queried by KDChart and that one uses the
         // left index, but we want it to query the right one
         Q_ASSERT(index.row() + 1 < m_data->snapshots().size());
-        SnapshotItem* snapshot = m_data->snapshots().at(index.row() + 1);
+        const SnapshotItem* snapshot = m_data->snapshots().at(index.row() + 1);
         return i18n("Snapshot #%1:\n"
                     "Heap cost of %2\n"
                     "Extra heap cost of %3\n"
@@ -122,7 +122,7 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
                     prettyCost(snapshot->memStacks()));
     }
 
-    SnapshotItem* snapshot = m_data->snapshots().at(index.row());
+    const SnapshotItem* snapshot = m_data->snapshots().at(index.row());
     if (index.column() == 0) {
         return snapshot->time();
     } else {
@@ -150,31 +150,31 @@ int TotalCostModel::rowCount(const QModelIndex& parent) const
     }
 }
 
-QModelIndex TotalCostModel::indexForSnapshot(SnapshotItem* snapshot) const
+QModelIndex TotalCostModel::indexForSnapshot(const SnapshotItem* snapshot) const
 {
-    int row = m_data->snapshots().indexOf(snapshot);
+    int row = m_data->snapshots().indexOf(const_cast<SnapshotItem*>(snapshot));
     if (row == -1) {
         return QModelIndex();
     }
     return index(row, 0);
 }
 
-QModelIndex TotalCostModel::indexForTreeLeaf(TreeLeafItem* node) const
+QModelIndex TotalCostModel::indexForTreeLeaf(const TreeLeafItem* node) const
 {
     Q_UNUSED(node)
     return QModelIndex();
 }
 
-QPair< TreeLeafItem*, SnapshotItem* > TotalCostModel::itemForIndex(const QModelIndex& idx) const
+ModelItem TotalCostModel::itemForIndex(const QModelIndex& idx) const
 {
     if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
-        return QPair< TreeLeafItem*, SnapshotItem* >(0, 0);
+        return ModelItem(0, 0);
     }
-    SnapshotItem* snapshot = m_data->snapshots().at(idx.row());
-    return QPair< TreeLeafItem*, SnapshotItem* >(0, snapshot);
+    const SnapshotItem* snapshot = m_data->snapshots().at(idx.row());
+    return ModelItem(0, snapshot);
 }
 
-QModelIndex TotalCostModel::indexForItem(const QPair< TreeLeafItem*, SnapshotItem* >& item) const
+QModelIndex TotalCostModel::indexForItem(const ModelItem& item) const
 {
     if ((!item.first && !item.second) || item.first) {
         return QModelIndex();

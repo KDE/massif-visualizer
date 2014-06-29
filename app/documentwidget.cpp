@@ -34,6 +34,8 @@
 #include "KDChartBackgroundAttributes"
 #include "KDChartPlotter"
 
+#include "massif-visualizer-settings.h"
+
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/parseworker.h"
@@ -133,21 +135,14 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
 
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    m_legend->setPosition(Position(KDChartEnums::PositionFloating));
-    m_legend->setTitleText("");
-    m_legend->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    updateLegendPosition();
+    m_legend->setTitleText(QString());
     m_legend->setSortOrder(Qt::DescendingOrder);
 
     m_chart->addLegend(m_legend);
 
     //NOTE: this has to be set _after_ the legend was added to the chart...
-    TextAttributes att = m_legend->textAttributes();
-    att.setAutoShrink(true);
-    att.setFontSize(Measure(12));
-    QFont font("monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    att.setFont(font);
-    m_legend->setTextAttributes(att);
+    updateLegendFont();
     m_legend->setTextAlignment(Qt::AlignLeft);
     m_legend->hide();
 
@@ -267,7 +262,7 @@ DocumentWidget::~DocumentWidget()
         m_totalDiagram = 0;
 
         m_dataTreeModel->setSource(0);
-        m_dataTreeFilterModel->setFilter("");
+        m_dataTreeFilterModel->setFilter(QString());
         m_detailedCostModel->setSource(0);
         m_totalCostModel->setSource(0);
 
@@ -375,7 +370,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     #ifdef HAVE_KGRAPHVIEWER
     if (m_graphViewer) {
-        showDotGraph(QPair<TreeLeafItem*,SnapshotItem*>(0, m_data->peak()));
+        showDotGraph(ModelItem(0, m_data->peak()));
     }
     #endif
 
@@ -528,13 +523,85 @@ void DocumentWidget::updatePeaks()
     updateDetailedPeaks();
 }
 
+void DocumentWidget::updateLegendPosition()
+{
+    KDChartEnums::PositionValue pos;
+    switch (Settings::self()->legendPosition()) {
+        case Settings::EnumLegendPosition::North:
+            pos = KDChartEnums::PositionNorth;
+            break;
+        case Settings::EnumLegendPosition::South:
+            pos = KDChartEnums::PositionSouth;
+            break;
+        case Settings::EnumLegendPosition::East:
+            pos = KDChartEnums::PositionEast;
+            break;
+        case Settings::EnumLegendPosition::West:
+            pos = KDChartEnums::PositionWest;
+            break;
+        case Settings::EnumLegendPosition::Floating:
+            pos = KDChartEnums::PositionFloating;
+            break;
+        default:
+            pos = KDChartEnums::PositionFloating;
+            kDebug() << "invalid legend position";
+    }
+    m_legend->setPosition(Position(pos));
+
+    Qt::Alignment align;
+    switch (Settings::self()->legendAlignment()) {
+        case Settings::EnumLegendAlignment::Left:
+            align = Qt::AlignLeft;
+            break;
+        case Settings::EnumLegendAlignment::Center:
+            align = Qt::AlignHCenter | Qt::AlignVCenter;
+            break;
+        case Settings::EnumLegendAlignment::Right:
+            align = Qt::AlignRight;
+            break;
+        case Settings::EnumLegendAlignment::Top:
+            align = Qt::AlignTop;
+            break;
+        case Settings::EnumLegendAlignment::Bottom:
+            align = Qt::AlignBottom;
+            break;
+        default:
+            align = Qt::AlignHCenter | Qt::AlignVCenter;
+            kDebug() << "invalid legend alignmemnt";
+    }
+
+    // do something reasonable since top,bottom have no effect
+    // when used with north,south, same for left,right used with
+    // east,west
+    if ((((pos == KDChartEnums::PositionNorth) || (pos == KDChartEnums::PositionSouth))
+         && ((align == Qt::AlignTop) || (align == Qt::AlignBottom)))
+         || (((pos == KDChartEnums::PositionEast) || (pos == KDChartEnums::PositionWest))
+         && ((align == Qt::AlignLeft) || (align == Qt::AlignRight)))) {
+
+         align = Qt::AlignHCenter | Qt::AlignVCenter;
+    }
+
+    m_legend->setAlignment(align);
+}
+
+void DocumentWidget::updateLegendFont()
+{
+    TextAttributes att = m_legend->textAttributes();
+    att.setAutoShrink(true);
+    att.setFontSize(Measure(Settings::self()->legendFontSize()));
+    QFont font("monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    att.setFont(font);
+    m_legend->setTextAttributes(att);
+}
+
 void DocumentWidget::updateDetailedPeaks()
 {
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
-    QMap< QModelIndex, TreeLeafItem* > peaks = m_detailedCostModel->peaks();
-    QMap< QModelIndex, TreeLeafItem* >::const_iterator it = peaks.constBegin();
+    const DetailedCostModel::Peaks& peaks = m_detailedCostModel->peaks();
+    DetailedCostModel::Peaks::const_iterator it = peaks.constBegin();
     while (it != peaks.constEnd()) {
         const QModelIndex peak = it.key();
         Q_ASSERT(peak.isValid());
@@ -553,7 +620,7 @@ void DocumentWidget::slotTabChanged(int index)
     }
 }
 
-void DocumentWidget::showDotGraph(const QPair<TreeLeafItem*, SnapshotItem*>& item)
+void DocumentWidget::showDotGraph(const ModelItem& item)
 {
     if (item == m_lastDotItem) {
         return;

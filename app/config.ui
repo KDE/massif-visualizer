@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>283</width>
+    <height>216</height>
    </rect>
   </property>
-  <layout class="QFormLayout" name="formLayout">
+  <layout class="QFormLayout" name="formLayout_2">
    <item row="0" column="0">
     <widget class="QLabel" name="costLabel">
      <property name="text">
@@ -21,7 +21,101 @@
    <item row="0" column="1">
     <widget class="QSpinBox" name="kcfg_PrettyCostPrecision"/>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Legend</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="legendPositionLabel">
+        <property name="text">
+         <string>Position:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="kcfg_LegendPosition">
+        <item>
+         <property name="text">
+          <string>North</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>East</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>South</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>West</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Floating</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="legendAlignmentLabel">
+        <property name="text">
+         <string>Alignment:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="kcfg_LegendAlignment">
+        <item>
+         <property name="text">
+          <string>Left</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Center</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Right</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Top</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Bottom</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="legendFontSizeLabel">
+        <property name="text">
+         <string>Font Size:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="kcfg_LegendFontSize"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QCheckBox" name="kcfg_ShortenTemplates">
      <property name="text">
       <string>Shorten Templates</string>

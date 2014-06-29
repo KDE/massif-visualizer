@@ -23,7 +23,7 @@ kde4_add_ui_files(massif-visualizer_SRCS mainwindow.ui config.ui)
 
 kde4_add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
-target_link_libraries(massif-visualizer
+target_link_libraries(massif-visualizer LINK_PRIVATE
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KPARTS_LIBS}

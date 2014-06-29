@@ -83,8 +83,8 @@ const QPair< QPointF, QPointF > StackedPlotter::calculateDataBoundaries() const
             // take in account all stacked values
             yMin = qMin( qMin( yMin, negativeStackedValues ), stackedValues );
             yMax = qMax( qMax( yMax, negativeStackedValues ), stackedValues );
-            xMin = qMin( xMin, xPoint.key );
-            xMax = qMax( xMax, xPoint.key );
+            xMin = qMin( qreal(xMin), xPoint.key );
+            xMax = qMax( qreal(xMax), xPoint.key );
         }
     }
 

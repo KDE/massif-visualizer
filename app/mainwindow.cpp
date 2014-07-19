@@ -422,7 +422,8 @@ void MainWindow::openFile(const KUrl& file)
         ui.documents->insertTab(indexToInsert, documentWidget, file.fileName());
         ui.documents->setCurrentIndex(indexToInsert);
     } else {
-        ui.documents->addTab(documentWidget, file.fileName());
+        const int idx = ui.documents->addTab(documentWidget, file.fileName());
+        ui.documents->setCurrentIndex(idx);
     }
 
     connect(parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),

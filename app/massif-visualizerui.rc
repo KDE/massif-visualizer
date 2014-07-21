@@ -1,76 +1,56 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="massif-visualizer" version="8">
+<kpartgui name="massif-visualizer" version="9">
 
 <MenuBar>
-  <Menu name="file" noMerge="1"><text>&amp;File</text>
-    <Action name="file_open"/>
-    <Action name="file_open_recent"/>
-    <Action name="file_reload"/>
-    <Action name="file_save_as"/>
-    <Separator/>
-
-    <Action name="file_close"/>
-    <Action name="file_stopparser"/>
-    <Separator/>
-    <Action name="file_print"/>
-    <Separator/>
-    <Action name="file_quit"/>
-    <DefineGroup name="close_merge" append="close_merge"/>
-  </Menu>
-  <Menu name="view" noMerge="1"><text>&amp;View</text>
-    <Action name="toggle_total"/>
-    <Action name="toggle_detailed"/>
-    <Action name="selectPeak"/>
-    <Separator/>
-    <Action name="zoomIn"/>
-    <Action name="zoomOut"/>
-    <Action name="focusExpensive"/>
-  </Menu>
-
-  <Menu name="settings"><text>&amp;Settings</text>
-    <Merge name="StandardToolBarMenuHandler" />
-    <Menu name="dockWidgets"><text>&amp;Dock Widgets</text>
-        <Action name="toggleDataTree" />
-        <Action name="toggleAllocators" />
+    <Menu name="file"><text>&amp;File</text>
+        <Action name="file_open"/>
+        <Action name="file_open_recent"/>
+        <Action name="file_reload"/>
+        <Separator/>
+        <DefineGroup name="file_saveas_merge" append="file_saveas_merge"/>
+        <Separator/>
+        <Action name="file_close"/>
+        <Action name="file_stopparser"/>
+        <Separator/>
+        <Action name="file_quit"/>
+        <DefineGroup name="close_merge" append="close_merge"/>
     </Menu>
-    <DefineGroup name="show_toolbar_merge" />
-    <Action name="set_configure_toolbars" />
-    <Action name="settings_configure" />
-  </Menu>
 
-  <Menu name="help" noMerge="1"><text>&amp;Help</text>
-    <Action name="help_whats_this"/>
-    <Separator/>
-    <Action name="help_report_bug"/>
-    <Separator/>
-    <Action name="help_about_app"/>
-    <Action name="help_about_editor"/>
-    <Action name="help_about_kde"/>
-  </Menu>
+    <Menu name="view">
+        <text>&amp;View</text>
+        <Action name="selectPeak"/>
+    </Menu>
+
+    <Menu name="settings"><text>&amp;Settings</text>
+        <Merge name="StandardToolBarMenuHandler" />
+        <Menu name="dockWidgets"><text>&amp;Dock Widgets</text>
+            <Action name="toggleDataTree" />
+            <Action name="toggleAllocators" />
+        </Menu>
+        <DefineGroup name="show_toolbar_merge" />
+        <Action name="set_configure_toolbars" />
+        <Action name="settings_configure" />
+    </Menu>
+
+    <Menu name="help"><text>&amp;Help</text>
+        <Action name="help_whats_this"/>
+        <Separator/>
+        <Action name="help_report_bug"/>
+        <Separator/>
+        <Action name="help_about_app"/>
+        <Action name="help_about_editor"/>
+        <Action name="help_about_kde"/>
+    </Menu>
 </MenuBar>
 
-<ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
-  <Action name="file_open" />
-  <Separator />
-  <Action name="file_close" />
-  <Separator />
-  <Action name="shorten_templates" />
-  <Separator />
-</ToolBar>
-
-<ToolBar name="chartToolBar">
-    <text>Chart Toolbar</text>
-    <Action name="toggle_total"/>
-    <Action name="toggle_detailed"/>
+<ToolBar name="mainToolBar"><text>Main Toolbar</text>
+    <Action name="file_open" />
+    <Action name="file_close" />
+    <Separator />
+    <Action name="shorten_templates" />
+    <Separator />
     <Action name="selectPeak"/>
-    <Action name="stackNum"/>
-</ToolBar>
-
-<ToolBar name="callgraphToolBar">
-    <text>CallGraph Toolbar</text>
-    <Action name="zoomIn"/>
-    <Action name="zoomOut"/>
-    <Action name="focusExpensive"/>
+    <Separator />
 </ToolBar>
 
 </kpartgui>

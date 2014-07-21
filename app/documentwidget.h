@@ -25,19 +25,14 @@
 #define DOCUMENTWIDGET_H
 
 #include <QWidget>
+
 #include <KUrl>
+#include <KXMLGUIClient>
 
 #include "visualizer/modelitem.h"
 
-namespace KDChart {
-class Chart;
-class HeaderFooter;
-class Plotter;
-class CartesianAxis;
-class Legend;
-class BarDiagram;
-}
-
+class QMenu;
+class DocumentTabInterface;
 class QLabel;
 class QProgressBar;
 class QToolButton;
@@ -46,72 +41,38 @@ class QTabWidget;
 
 class KMessageWidget;
 
-namespace KParts {
-class ReadOnlyPart;
-}
-
 namespace Massif {
 class FileData;
-class TotalCostModel;
-class DetailedCostModel;
-class DataTreeModel;
-class FilteredDataTreeModel;
-class TreeLeafItem;
-class SnapshotItem;
-class DotGraphGenerator;
 }
 
-#ifdef HAVE_KGRAPHVIEWER
-namespace KGraphViewer {
-class KGraphViewerInterface;
-}
-#endif
-
-class DocumentWidget : public QWidget
+class DocumentWidget : public QWidget, public KXMLGUIClient
 {
     Q_OBJECT
 
 public:
-    explicit DocumentWidget(QWidget* parent = 0);
+    explicit DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent = 0);
     ~DocumentWidget();
 
-    void updateHeader();
-    void updatePeaks();
-    void updateLegendPosition();
-    void updateLegendFont();
-
-    KUrl file() const;
     Massif::FileData* data() const;
-    KDChart::Chart* chart() const;
-    KDChart::Plotter* totalDiagram() const;
-    Massif::TotalCostModel* totalCostModel() const;
-    KDChart::Plotter* detailedDiagram() const;
-    Massif::DetailedCostModel* detailedCostModel() const;
-    Massif::DataTreeModel* dataTreeModel() const;
-    Massif::FilteredDataTreeModel* dataTreeFilterModel() const;
-
-#ifdef HAVE_KGRAPHVIEWER
-    KGraphViewer::KGraphViewerInterface* graphViewer();
-    void showDotGraph(const Massif::ModelItem& item);
-    void focusExpensiveGraphNode();
-    int currentIndex();
-#endif
+    KUrl file() const;
 
     bool isLoaded() const;
+
+    void settingsChanged();
+
+    void addGuiActions(KXMLGUIFactory* factory);
+    void clearGuiActions(KXMLGUIFactory* factory);
+
+    void selectModelItem(const Massif::ModelItem& item);
 
 signals:
     void stopParser();
     void loadingFinished();
-    void tabChanged(int);
+    void modelItemSelected(const Massif::ModelItem& item);
+    void contextMenuRequested(const Massif::ModelItem& item, QMenu* menu);
 
 public slots:
     void parserFinished(const KUrl& file, Massif::FileData* data);
-
-    void setDetailedDiagramHidden(bool hidden);
-    void setDetailedDiagramVisible(bool visible);
-
-    void setTotalDiagramHidden(bool hidden);
-    void setTotalDiagramVisible(bool visible);
 
     void setProgress(int value);
     void setRange(int minimum, int maximum);
@@ -119,48 +80,22 @@ public slots:
 
     void showError(const QString& title, const QString& error);
 
-#ifdef HAVE_KGRAPHVIEWER
-    void showDotGraph();
-#endif
-
 private slots:
-#ifdef HAVE_KGRAPHVIEWER
-    void slotTabChanged(int index);
-    void slotGraphLoaded();
-#endif
+    void slotTabChanged(int tab);
 
 private:
-    void updateDetailedPeaks();
-
-    KDChart::Chart* m_chart;
-    QLabel* m_header;
-    KDChart::Plotter* m_totalDiagram;
-    Massif::TotalCostModel* m_totalCostModel;
-
-    KDChart::Plotter* m_detailedDiagram;
-    Massif::DetailedCostModel* m_detailedCostModel;
-
-    KDChart::Legend* m_legend;
-
-    Massif::DataTreeModel* m_dataTreeModel;
-    Massif::FilteredDataTreeModel* m_dataTreeFilterModel;
     Massif::FileData* m_data;
     KUrl m_file;
 
+    DocumentTabInterface* m_currentTab;
+
     QStackedWidget* m_stackedWidget;
+    QTabWidget* m_tabs;
     KMessageWidget* m_errorMessage;
     QLabel* m_loadingMessage;
     QProgressBar* m_loadingProgressBar;
     QToolButton* m_stopParserButton;
     bool m_isLoaded;
-
-#ifdef HAVE_KGRAPHVIEWER
-    KParts::ReadOnlyPart* m_graphViewerPart;
-    KGraphViewer::KGraphViewerInterface* m_graphViewer;
-    QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
-    Massif::ModelItem m_lastDotItem;
-    QTabWidget* m_displayTabWidget;
-#endif
 };
 
 #endif // DOCUMENTWIDGET_H

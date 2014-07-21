@@ -55,10 +55,8 @@ class KGraphViewerInterface;
 namespace Massif {
 
 class ParseWorker;
-class FileData;
-class DetailedCostModel;
-class TotalCostModel;
 class FilteredDataTreeModel;
+class DataTreeModel;
 class SnapshotItem;
 class TreeLeafItem;
 
@@ -84,11 +82,6 @@ public slots:
     void openFile(const KUrl& file);
 
     /**
-     * Open a save as dialog and write current document to the selected file.
-     */
-    void saveCurrentDocument();
-
-    /**
      * reload currently opened file
      */
     void reloadCurrentFile();
@@ -98,43 +91,16 @@ public slots:
      */
     void closeCurrentFile();
 
-    /**
-     * Depending on @p show, the total cost graph is shown or hidden.
-     */
-    void showTotalGraph(bool show);
-
-    /**
-     * Depending on @p show, the detailed cost graph is shown or hidden.
-     */
-    void showDetailedGraph(bool show);
-
-    /**
-     * Show the print preview dialog.
-     */
-    void showPrintPreviewDialog();
-
-    /**
-     * Create a preview of the printed file in the @p printer.
-     */
-    void printFile(QPrinter *printer);
-
 private slots:
     void preferences();
     void settingsChanged();
 
     void treeSelectionChanged(const QModelIndex& now, const QModelIndex& before);
-    void detailedItemClicked(const QModelIndex& item);
-    void totalItemClicked(const QModelIndex& item);
     void selectPeakSnapshot();
-    void setStackNum(int num);
+    void modelItemSelected(const Massif::ModelItem& item);
+    void contextMenuRequested(const Massif::ModelItem& item, QMenu* menu);
 
     void documentChanged();
-
-#ifdef HAVE_KGRAPHVIEWER
-    void zoomIn();
-    void zoomOut();
-    void focusExpensiveGraphNode();
-#endif
 
     void allocatorsChanged();
     void allocatorSelectionChanged();
@@ -145,40 +111,19 @@ private slots:
     void slotMarkCustomAllocator();
     void allocatorViewContextMenuRequested(const QPoint &pos);
 
-    void chartContextMenuRequested(const QPoint &pos);
-
-    void slotHideFunction();
-    void slotHideOtherFunctions();
-
     void slotShortenTemplates(bool);
 
     void stopParser();
-    void documentTabChanged(int index);
 
 private:
-    void updateDetailedPeaks();
     void updateWindowTitle();
-    void prepareActions(QMenu* menu, const TreeLeafItem* item);
 
     // Helper
     Ui::MainWindow ui;
 
-    KAction* m_toggleTotal;
-    KAction* m_toggleDetailed;
-    KAction* m_selectPeak;
     KRecentFilesAction* m_recentFiles;
-    QSpinBox* m_box;
 
-    QHash<DocumentWidget*, bool> m_changingSelections;
-    bool currentChangingSelections() const;
-    void setCurrentChangingSelections(bool changingSelections);
-
-    KAction* m_zoomIn;
-    KAction* m_zoomOut;
-    KAction* m_focusExpensive;
     KAction* m_close;
-    KAction* m_print;
-    KAction* m_saveAs;
     KAction* m_stopParser;
 
     QStringListModel* m_allocatorModel;
@@ -186,13 +131,15 @@ private:
     KAction* m_removeAllocator;
     KAction* m_markCustomAllocator;
 
-    KAction* m_hideFunction;
-    KAction* m_hideOtherFunctions;
-
     KAction* m_shortenTemplates;
+    KAction* m_selectPeak;
 
     DocumentWidget* m_currentDocument;
     QHash<DocumentWidget*, ParseWorker*> m_documentsParseWorkers;
+
+    Massif::DataTreeModel* m_dataTreeModel;
+    Massif::FilteredDataTreeModel* m_dataTreeFilterModel;
+    bool m_settingSelection;
 };
 
 }

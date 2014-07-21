@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="callgraphtab" version="1">
+
+<MenuBar>
+<Menu name="view">
+    <Action name="zoomIn"/>
+    <Action name="zoomOut"/>
+    <Action name="focusExpensive"/>
+</Menu>
+</MenuBar>
+
+<ToolBar name="callgraphToolBar">
+    <text>CallGraph Toolbar</text>
+    <Action name="zoomIn"/>
+    <Action name="zoomOut"/>
+    <Action name="focusExpensive"/>
+</ToolBar>
+
+</kpartgui>

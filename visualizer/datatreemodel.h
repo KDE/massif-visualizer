@@ -70,7 +70,9 @@ public:
     QModelIndex indexForTreeLeaf(const TreeLeafItem* node) const;
 
     enum CustomRoles {
-        RawLabelRole = Qt::UserRole + 1
+        RawLabelRole = Qt::UserRole + 1,
+        TreeItemRole,
+        ModelItemRole,
     };
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

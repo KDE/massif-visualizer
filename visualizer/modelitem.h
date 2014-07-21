@@ -24,6 +24,7 @@
 #define MASSIF_MODEL_ITEM_H
 
 #include <QPair>
+#include <QMetaType>
 
 namespace Massif {
 
@@ -33,5 +34,7 @@ class SnapshotItem;
 typedef QPair<const TreeLeafItem*, const SnapshotItem*> ModelItem;
 
 }
+
+Q_DECLARE_METATYPE(Massif::ModelItem)
 
 #endif // MODEL_ITEM_H

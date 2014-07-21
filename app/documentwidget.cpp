@@ -25,17 +25,6 @@
 
 #include <QApplication>
 
-#include "KDChartChart"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
-#include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
-#include "KDChartLegend"
-#include "KDChartDataValueAttributes"
-#include "KDChartBackgroundAttributes"
-
-#include "massif-visualizer-settings.h"
-
 #include "massifdata/filedata.h"
 #include "massifdata/parser.h"
 #include "massifdata/parseworker.h"
@@ -43,145 +32,59 @@
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
 
-#include "visualizer/totalcostmodel.h"
-#include "visualizer/detailedcostmodel.h"
-#include "visualizer/datatreemodel.h"
-#include "visualizer/filtereddatatreemodel.h"
-#include "visualizer/dotgraphgenerator.h"
-
 #include <KStandardAction>
 #include <KColorScheme>
-#include <KParts/Part>
-#include <KPluginFactory>
-#include <KPluginLoader>
+
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>
 #include <KIcon>
 #include <KDebug>
+#include <KXMLGUIFactory>
 
 #include <QLabel>
 #include <QProgressBar>
 #include <QStackedWidget>
 #include <QTabWidget>
 #include <QToolButton>
+#include <QVBoxLayout>
+
+#include "charttab.h"
 
 #ifdef HAVE_KGRAPHVIEWER
-#include <kgraphviewer_interface.h>
+#include "callgraphtab.h"
+
+#include <KPluginLoader>
+#include <KPluginFactory>
+#include <KParts/ReadOnlyPart>
 #endif
 
 using namespace Massif;
-using namespace KDChart;
 
-static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
+DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
+    : QWidget(parent)
+    , KXMLGUIClient(guiParent)
+    , m_data(0)
+    , m_currentTab(0)
+    , m_stackedWidget(new QStackedWidget(this))
+    , m_tabs(new QTabWidget(m_stackedWidget))
+    , m_errorMessage(0)
+    , m_loadingMessage(0)
+    , m_loadingProgressBar(0)
+    , m_stopParserButton(0)
+    , m_isLoaded(false)
 {
-    DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
-    dataAttributes.setDataLabel(prettyCost(cost));
-    dataAttributes.setVisible(true);
-
-    MarkerAttributes a = dataAttributes.markerAttributes();
-    a.setMarkerSize(QSizeF(2, 2));
-    a.setPen(foreground);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerCircle);
-    a.setVisible(true);
-    dataAttributes.setMarkerAttributes(a);
-
-    TextAttributes txtAttrs = dataAttributes.textAttributes();
-    txtAttrs.setPen(foreground);
-    dataAttributes.setTextAttributes(txtAttrs);
-
-    BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
-    QBrush brush = p->model()->data(peak, DatasetBrushRole).value<QBrush>();
-    QColor c = brush.color();
-    c.setAlpha(127);
-    brush.setColor(c);
-    brush.setStyle(Qt::CrossPattern);
-    bkgAtt.setBrush(brush);
-    bkgAtt.setVisible(true);
-    dataAttributes.setBackgroundAttributes(bkgAtt);
-
-    p->setDataValueAttributes(peak, dataAttributes);
-}
-
-DocumentWidget::DocumentWidget(QWidget* parent) :
-    QWidget(parent), m_chart(new Chart(this))
-  , m_header(new QLabel(this))
-  , m_totalDiagram(0)
-  , m_totalCostModel(new TotalCostModel(m_chart))
-  , m_detailedDiagram(0)
-  , m_detailedCostModel(new DetailedCostModel(m_chart))
-  , m_legend(new Legend(m_chart))
-  , m_dataTreeModel(new DataTreeModel(m_chart))
-  , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
-  , m_data(0)
-  , m_stackedWidget(new QStackedWidget(this))
-  , m_errorMessage(0)
-  , m_loadingMessage(0)
-  , m_loadingProgressBar(0)
-  , m_stopParserButton(0)
-  , m_isLoaded(false)
-#ifdef HAVE_KGRAPHVIEWER
-  , m_graphViewerPart(0)
-  , m_graphViewer(0)
-  , m_dotGenerator(0)
-  , m_displayTabWidget(0)
-#endif
-{
-    // for axis labels to fit
-    m_chart->setGlobalLeadingRight(10);
-    m_chart->setGlobalLeadingLeft(10);
-    m_chart->setGlobalLeadingTop(20);
-    m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
-
-    updateLegendPosition();
-    m_legend->setTitleText(QString());
-    m_legend->setSortOrder(Qt::DescendingOrder);
-
-    m_chart->addLegend(m_legend);
-
-    //NOTE: this has to be set _after_ the legend was added to the chart...
-    updateLegendFont();
-    m_legend->setTextAlignment(Qt::AlignLeft);
-    m_legend->hide();
-
+    setXMLFile("documentwidgetui.rc", true);
     // Set m_stackedWidget as the main widget.
-    setLayout(new QGridLayout(this));
+    setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_stackedWidget);
 
-    QWidget* memoryConsumptionWidget = new QWidget;
-    memoryConsumptionWidget->setLayout(new QVBoxLayout(memoryConsumptionWidget));
-    memoryConsumptionWidget->layout()->addWidget(m_header);
-    memoryConsumptionWidget->layout()->addWidget(m_chart);
+    m_tabs->setTabPosition(QTabWidget::South);
 
-#ifdef HAVE_KGRAPHVIEWER
-    static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
-    if (factory) {
-        m_graphViewerPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
-        if (m_graphViewerPart) {
-            m_displayTabWidget = new QTabWidget(m_stackedWidget);
-            m_displayTabWidget->setTabPosition(QTabWidget::South);
-            m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
-            m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
-            QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
-            dotGraphWidget->setLayout(new QGridLayout);
-            dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
-            m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
-            m_stackedWidget->addWidget(m_displayTabWidget);
-            connect(m_graphViewerPart, SIGNAL(graphLoaded()), this, SLOT(slotGraphLoaded()));
-
-            connect(m_displayTabWidget, SIGNAL(currentChanged(int)),
-                    this, SLOT(slotTabChanged(int)));
-            slotTabChanged(m_displayTabWidget->currentIndex());
-        }
-    }
-
-    if (!m_graphViewerPart) {
-        m_stackedWidget->addWidget(memoryConsumptionWidget);
-    }
-#else
-    m_stackedWidget->addWidget(memoryConsumptionWidget);
-#endif
-
+    m_stackedWidget->addWidget(m_tabs);
+    connect(m_tabs, SIGNAL(currentChanged(int)),
+            this, SLOT(slotTabChanged(int)));
+    slotTabChanged(m_tabs->currentIndex());
 
     // Second widget : loadingPage
     QWidget* loadingPage = new QWidget(m_stackedWidget);
@@ -223,58 +126,10 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
 DocumentWidget::~DocumentWidget()
 {
     if (m_data) {
-
-#ifdef HAVE_KGRAPHVIEWER
-        if (m_dotGenerator) {
-            if (m_dotGenerator->isRunning()) {
-                disconnect(m_dotGenerator.data(), 0, this, 0);
-                connect(m_dotGenerator.data(), SIGNAL(finished()),
-                        m_dotGenerator.data(), SLOT(deleteLater()));
-                m_dotGenerator->cancel();
-                m_dotGenerator.take();
-            }
-            m_dotGenerator.reset();
-        }
-        if (m_graphViewer) {
-            m_graphViewerPart->closeUrl();
-        }
-        m_lastDotItem.first = 0;
-        m_lastDotItem.second = 0;
-#endif
-
-        m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
-        m_legend->removeDiagrams();
-        m_legend->hide();
-        m_header->setText(QString());
-
-        foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
-            m_detailedDiagram->takeAxis(axis);
-            delete axis;
-        }
-        m_detailedDiagram->deleteLater();
-        m_detailedDiagram = 0;
-
-        foreach(CartesianAxis* axis, m_totalDiagram->axes()) {
-            m_totalDiagram->takeAxis(axis);
-            delete axis;
-        }
-        m_totalDiagram->deleteLater();
-        m_totalDiagram = 0;
-
-        m_dataTreeModel->setSource(0);
-        m_dataTreeFilterModel->setFilter(QString());
-        m_detailedCostModel->setSource(0);
-        m_totalCostModel->setSource(0);
-
         delete m_data;
         m_data = 0;
         m_file.clear();
     }
-}
-
-KUrl DocumentWidget::file() const
-{
-    return m_file;
 }
 
 FileData* DocumentWidget::data() const
@@ -282,70 +137,21 @@ FileData* DocumentWidget::data() const
     return m_data;
 }
 
-Chart* DocumentWidget::chart() const
+KUrl DocumentWidget::file() const
 {
-    return m_chart;
+    return m_file;
 }
-
-Plotter* DocumentWidget::totalDiagram() const
-{
-    return m_totalDiagram;
-}
-
-
-TotalCostModel* DocumentWidget::totalCostModel() const
-{
-    return m_totalCostModel;
-}
-
-Plotter* DocumentWidget::detailedDiagram() const
-{
-    return m_detailedDiagram;
-}
-
-DetailedCostModel* DocumentWidget::detailedCostModel() const
-{
-    return m_detailedCostModel;
-}
-
-DataTreeModel* DocumentWidget::dataTreeModel() const
-{
-    return m_dataTreeModel;
-}
-
-FilteredDataTreeModel* DocumentWidget::dataTreeFilterModel() const
-{
-    return m_dataTreeFilterModel;
-}
-
-#ifdef HAVE_KGRAPHVIEWER
-KGraphViewer::KGraphViewerInterface* DocumentWidget::graphViewer()
-{
-    return m_graphViewer;
-}
-
-void DocumentWidget::focusExpensiveGraphNode()
-{
-    Q_ASSERT(m_graphViewer);
-    Q_ASSERT(m_dotGenerator);
-
-    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
-}
-
-int DocumentWidget::currentIndex()
-{
-    if (!m_displayTabWidget) {
-        // happens when kgraphviewer part is not available at runtime
-        return 0;
-    }
-    return m_displayTabWidget->currentIndex();
-}
-
-#endif
 
 bool DocumentWidget::isLoaded() const
 {
     return m_isLoaded;
+}
+
+void DocumentWidget::settingsChanged()
+{
+    for (int i = 0; i < m_tabs->count(); ++i) {
+        static_cast<DocumentTabInterface*>(m_tabs->widget(i))->settingsChanged();
+    }
 }
 
 void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
@@ -368,82 +174,28 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     m_data = data;
     m_file = file;
 
-    #ifdef HAVE_KGRAPHVIEWER
-    if (m_graphViewer) {
-        showDotGraph(ModelItem(0, m_data->peak()));
+    m_tabs->addTab(new ChartTab(m_data, this, this), i18n("&Evolution of Memory Consumption"));
+
+#ifdef HAVE_KGRAPHVIEWER
+    static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
+    if (factory) {
+        KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
+        if (part) {
+            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), i18n("&Detailed Snapshot Analysis"));
+        }
     }
-    #endif
+#endif
 
-    //BEGIN KDChart
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
+    for (int i = 0; i < m_tabs->count(); ++i) {
+        DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));
+        connect(tab, SIGNAL(modelItemSelected(Massif::ModelItem)),
+                this, SIGNAL(modelItemSelected(Massif::ModelItem)));
+        connect(tab, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
+                this, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)));
+    }
 
-    //Begin Legend
-    BackgroundAttributes bkgAtt = m_legend->backgroundAttributes();
-    QColor background = scheme.background(KColorScheme::AlternateBackground).color();
-    background.setAlpha(200);
-    bkgAtt.setBrush(QBrush(background));
-    bkgAtt.setVisible(true);
-    m_legend->setBackgroundAttributes(bkgAtt);
-    TextAttributes txtAttrs = m_legend->textAttributes();
-    txtAttrs.setPen(foreground);
-    m_legend->setTextAttributes(txtAttrs);
+    m_tabs->setCurrentIndex(0);
 
-    m_header->setAlignment(Qt::AlignCenter);
-    updateHeader();
-
-    //BEGIN TotalDiagram
-    m_totalDiagram = new Plotter;
-    m_totalDiagram->setAntiAliasing(true);
-
-    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
-    TextAttributes axisTextAttributes = bottomAxis->textAttributes();
-    axisTextAttributes.setPen(foreground);
-    axisTextAttributes.setFontSize(Measure(10));
-    bottomAxis->setTextAttributes(axisTextAttributes);
-    TextAttributes axisTitleTextAttributes = bottomAxis->titleTextAttributes();
-    axisTitleTextAttributes.setPen(foreground);
-    axisTitleTextAttributes.setFontSize(Measure(12));
-    bottomAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    bottomAxis->setTitleText(i18n("time in %1", m_data->timeUnit()));
-    bottomAxis->setPosition ( CartesianAxis::Bottom );
-    m_totalDiagram->addAxis(bottomAxis);
-
-    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
-    rightAxis->setTextAttributes(axisTextAttributes);
-    rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
-    rightAxis->setPosition ( CartesianAxis::Right );
-    m_totalDiagram->addAxis(rightAxis);
-
-    m_totalCostModel->setSource(m_data);
-    m_totalDiagram->setModel(m_totalCostModel);
-
-    CartesianCoordinatePlane* coordinatePlane = dynamic_cast<CartesianCoordinatePlane*>(m_chart->coordinatePlane());
-    Q_ASSERT(coordinatePlane);
-    coordinatePlane->addDiagram(m_totalDiagram);
-
-    GridAttributes gridAttributes = coordinatePlane->gridAttributes(Qt::Horizontal);
-    gridAttributes.setAdjustBoundsToGrid(false, false);
-    coordinatePlane->setGridAttributes(Qt::Horizontal, gridAttributes);
-
-    m_legend->addDiagram(m_totalDiagram);
-
-    m_detailedDiagram = new Plotter;
-    m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
-
-    m_detailedCostModel->setSource(m_data);
-    m_detailedDiagram->setModel(m_detailedCostModel);
-
-    updatePeaks();
-
-    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
-
-    m_legend->addDiagram(m_detailedDiagram);
-    m_legend->show();
-
-    m_dataTreeModel->setSource(m_data);
     m_isLoaded = true;
 
     // Switch to the display page and notify that everything is setup.
@@ -451,24 +203,42 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     emit loadingFinished();
 }
 
-void DocumentWidget::setDetailedDiagramHidden(bool hidden)
+void DocumentWidget::addGuiActions(KXMLGUIFactory* factory)
 {
-    m_detailedDiagram->setHidden(hidden);
+    factory->addClient(this);
+
+    // ensure only the current tab's client is in the factory
+    // otherwise the actions from the other tabs are visible
+    const int current = m_tabs->currentIndex();
+    for (int i = 0; i < m_tabs->count(); ++i) {
+        if (i != current) {
+            factory->removeClient(static_cast<DocumentTabInterface*>(m_tabs->widget(i)));
+        }
+    }
 }
 
-void DocumentWidget::setDetailedDiagramVisible(bool visible)
+void DocumentWidget::clearGuiActions(KXMLGUIFactory* factory)
 {
-    m_detailedDiagram->setVisible(visible);
+    factory->removeClient(this);
 }
 
-void DocumentWidget::setTotalDiagramHidden(bool hidden)
+void DocumentWidget::slotTabChanged(int tab)
 {
-    m_totalDiagram->setHidden(hidden);
+    if (m_currentTab) {
+        factory()->removeClient(m_currentTab);
+    }
+
+    if (tab >= 0 && tab < m_tabs->count()) {
+        m_currentTab = static_cast<DocumentTabInterface*>(m_tabs->widget(tab));
+        factory()->addClient(m_currentTab);
+    }
 }
 
-void DocumentWidget::setTotalDiagramVisible(bool visible)
+void DocumentWidget::selectModelItem(const ModelItem& item)
 {
-    m_totalDiagram->setVisible(visible);
+    for (int i = 0; i < m_tabs->count(); ++i) {
+        static_cast<DocumentTabInterface*>(m_tabs->widget(i))->selectModelItem(item);
+    }
 }
 
 void DocumentWidget::setProgress(int value)
@@ -498,182 +268,3 @@ void DocumentWidget::showError(const QString& title, const QString& error)
     m_errorMessage->setText(QString("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
     m_stackedWidget->setCurrentWidget(m_errorMessage);
 }
-
-void DocumentWidget::updateHeader()
-{
-    const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
-
-    m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
-                        .arg(i18n("Memory consumption of %1", app))
-                        .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->cost()), m_data->peak()->number()))
-    );
-    m_header->setToolTip(i18n("Command: %1\nValgrind Options: %2", m_data->cmd(), m_data->description()));
-}
-
-void DocumentWidget::updatePeaks()
-{
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
-
-    if (m_data->peak()) {
-        const QModelIndex peak = m_totalCostModel->peak();
-        Q_ASSERT(peak.isValid());
-        markPeak(m_totalDiagram, peak, m_data->peak()->cost(), foreground);
-    }
-    updateDetailedPeaks();
-}
-
-void DocumentWidget::updateLegendPosition()
-{
-    KDChartEnums::PositionValue pos;
-    switch (Settings::self()->legendPosition()) {
-        case Settings::EnumLegendPosition::North:
-            pos = KDChartEnums::PositionNorth;
-            break;
-        case Settings::EnumLegendPosition::South:
-            pos = KDChartEnums::PositionSouth;
-            break;
-        case Settings::EnumLegendPosition::East:
-            pos = KDChartEnums::PositionEast;
-            break;
-        case Settings::EnumLegendPosition::West:
-            pos = KDChartEnums::PositionWest;
-            break;
-        case Settings::EnumLegendPosition::Floating:
-            pos = KDChartEnums::PositionFloating;
-            break;
-        default:
-            pos = KDChartEnums::PositionFloating;
-            kDebug() << "invalid legend position";
-    }
-    m_legend->setPosition(Position(pos));
-
-    Qt::Alignment align;
-    switch (Settings::self()->legendAlignment()) {
-        case Settings::EnumLegendAlignment::Left:
-            align = Qt::AlignLeft;
-            break;
-        case Settings::EnumLegendAlignment::Center:
-            align = Qt::AlignHCenter | Qt::AlignVCenter;
-            break;
-        case Settings::EnumLegendAlignment::Right:
-            align = Qt::AlignRight;
-            break;
-        case Settings::EnumLegendAlignment::Top:
-            align = Qt::AlignTop;
-            break;
-        case Settings::EnumLegendAlignment::Bottom:
-            align = Qt::AlignBottom;
-            break;
-        default:
-            align = Qt::AlignHCenter | Qt::AlignVCenter;
-            kDebug() << "invalid legend alignmemnt";
-    }
-
-    // do something reasonable since top,bottom have no effect
-    // when used with north,south, same for left,right used with
-    // east,west
-    if ((((pos == KDChartEnums::PositionNorth) || (pos == KDChartEnums::PositionSouth))
-         && ((align == Qt::AlignTop) || (align == Qt::AlignBottom)))
-         || (((pos == KDChartEnums::PositionEast) || (pos == KDChartEnums::PositionWest))
-         && ((align == Qt::AlignLeft) || (align == Qt::AlignRight)))) {
-
-         align = Qt::AlignHCenter | Qt::AlignVCenter;
-    }
-
-    m_legend->setAlignment(align);
-}
-
-void DocumentWidget::updateLegendFont()
-{
-    TextAttributes att = m_legend->textAttributes();
-    att.setAutoShrink(true);
-    att.setFontSize(Measure(Settings::self()->legendFontSize()));
-    QFont font("monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    att.setFont(font);
-    m_legend->setTextAttributes(att);
-}
-
-void DocumentWidget::updateDetailedPeaks()
-{
-    KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
-
-    const DetailedCostModel::Peaks& peaks = m_detailedCostModel->peaks();
-    DetailedCostModel::Peaks::const_iterator it = peaks.constBegin();
-    while (it != peaks.constEnd()) {
-        const QModelIndex peak = it.key();
-        Q_ASSERT(peak.isValid());
-        markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
-        ++it;
-    }
-}
-
-#ifdef HAVE_KGRAPHVIEWER
-void DocumentWidget::slotTabChanged(int index)
-{
-    emit tabChanged(index);
-    if (index == 1) {
-        // if we parsed a dot graph we might want to show it now
-        showDotGraph();
-    }
-}
-
-void DocumentWidget::showDotGraph(const ModelItem& item)
-{
-    if (item == m_lastDotItem) {
-        return;
-    }
-    m_lastDotItem = item;
-
-    Q_ASSERT(m_graphViewer);
-
-    kDebug() << "new dot graph requested" << item;
-    if (m_dotGenerator) {
-        kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
-        if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), 0, this, 0);
-            connect(m_dotGenerator.data(), SIGNAL(finished()),
-                    m_dotGenerator.data(), SLOT(deleteLater()));
-            m_dotGenerator->cancel();
-            m_dotGenerator.take();
-        }
-        m_dotGenerator.reset();
-    }
-    if (!item.first && !item.second) {
-        return;
-    }
-    if (item.second) {
-        m_dotGenerator.reset(new DotGraphGenerator(item.second, m_data->timeUnit(), this));
-    } else {
-        m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
-    }
-    m_dotGenerator->start();
-    connect(m_dotGenerator.data(), SIGNAL(finished()), this, SLOT(showDotGraph()));
-}
-
-void DocumentWidget::showDotGraph()
-{
-    if (!m_dotGenerator || !m_graphViewerPart || !m_graphViewerPart->widget()->isVisible()) {
-        return;
-    }
-    kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
-    if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
-        m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
-    }
-}
-
-void DocumentWidget::slotGraphLoaded()
-{
-    Q_ASSERT(m_graphViewer);
-
-    if (!m_dotGenerator) {
-        return;
-    }
-    m_graphViewer->setZoomFactor(0.75);
-    m_graphViewer->setPannerPosition(KGraphViewer::KGraphViewerInterface::BottomRight);
-    m_graphViewer->setPannerEnabled(true);
-    m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
-}
-#endif

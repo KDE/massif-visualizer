@@ -1,0 +1,23 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="charttab" version="1">
+
+<MenuBar>
+    <Menu name="file">
+        <Action name="file_save_as" group="file_saveas_merge"/>
+        <Action name="file_print" group="file_saveas_merge"/>
+    </Menu>
+
+    <Menu name="view">
+        <Action name="toggle_total"/>
+        <Action name="toggle_detailed"/>
+    </Menu>
+</MenuBar>
+
+<ToolBar name="chartToolBar">
+    <text>Chart Toolbar</text>
+    <Action name="toggle_total"/>
+    <Action name="toggle_detailed"/>
+    <Action name="stackNum"/>
+</ToolBar>
+
+</kpartgui>

@@ -132,7 +132,12 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         }
     }
 
-    if ( role != Qt::DisplayRole && role != Qt::ToolTipRole && role != RawLabelRole ) {
+    if (role == ModelItemRole) {
+        return QVariant::fromValue(itemForIndex(index));
+    }
+
+    if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != RawLabelRole && role != TreeItemRole)
+    {
         return QVariant();
     }
 
@@ -146,6 +151,8 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             }
         } else if (role == RawLabelRole) {
             return i18nc("%1: snapshot number", "Snapshot #%1", snapshot->number());
+        } else if (role == TreeItemRole) {
+            return QVariant::fromValue<const TreeLeafItem*>(0);
         }
         const QString costStr = prettyCost(snapshot->cost());
         if (snapshot == m_data->peak()) {
@@ -162,6 +169,8 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
             return tooltipForTreeLeaf(item, snapshotForTreeLeaf(item), item->label());
         } else if (role == RawLabelRole) {
             return item->label();
+        } else if (role == TreeItemRole) {
+            return QVariant::fromValue<const TreeLeafItem*>(item);
         }
         return i18nc("%1: cost, %2: snapshot label (i.e. func name etc.)", "%1: %2",
                      prettyCost(item->cost()), QString::fromLatin1(prettyLabel(item->label())));

@@ -33,7 +33,7 @@ namespace Massif {
 
 class SnapshotItem;
 class TreeLeafItem;
-class GraphNode;
+struct GraphNode;
 
 class VISUALIZER_EXPORT DotGraphGenerator : public QThread
 {

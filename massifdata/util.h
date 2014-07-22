@@ -37,6 +37,21 @@ class SnapshotItem;
  */
 MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
 
+struct ParsedLabel
+{
+    QByteArray address;
+    QByteArray function;
+    QByteArray location;
+
+    bool operator==(const ParsedLabel& o) const
+    {
+        return o.address == address && o.function == function && o.location == location;
+    }
+};
+
+MASSIFDATA_EXPORT ParsedLabel parseLabel(const QByteArray& label);
+MASSIFDATA_EXPORT uint qHash(const ParsedLabel& label);
+
 /**
  * Prepares a tree node's label for the UI.
  * So far, only the Mem-Address will get stripped.
@@ -65,7 +80,19 @@ MASSIFDATA_EXPORT QByteArray locationInLabel(const QByteArray& label);
 MASSIFDATA_EXPORT bool isBelowThreshold(const QByteArray& label);
 
 /**
- * Formats a label with richtext for showing in tooltips e.g.
+ * Formats a label to a richtext tooltip.
+ *
+ * Returns HTML items of a definition list (<dl>).
+ */
+MASSIFDATA_EXPORT QString formatLabelForTooltip(const ParsedLabel& label);
+
+/**
+ * Given a list of HTML definition list items, finalize the richtext tooltip.
+ */
+MASSIFDATA_EXPORT QString finalizeTooltip(const QString& contents);
+
+/**
+ * Prepares a richtext tooltip for the given node, snapshot and label.
  */
 MASSIFDATA_EXPORT QString tooltipForTreeLeaf(const Massif::TreeLeafItem* node, const Massif::SnapshotItem* snapshot, const QByteArray& label);
 

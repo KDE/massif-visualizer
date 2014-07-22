@@ -11,6 +11,7 @@ set(massif-visualizer_SRCS
     documenttabinterface.cpp
     charttab.cpp
     callgraphtab.cpp
+    allocatorstab.cpp
 )
 
 if(KGRAPHVIEWER_FOUND)

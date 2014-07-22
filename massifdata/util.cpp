@@ -67,13 +67,6 @@ void shortenTemplates(QByteArray& function)
     }
 }
 
-struct ParsedLabel
-{
-    QByteArray address;
-    QByteArray function;
-    QByteArray location;
-};
-
 ParsedLabel parseLabel(const QByteArray& label)
 {
     ParsedLabel ret;
@@ -95,6 +88,11 @@ ParsedLabel parseLabel(const QByteArray& label)
     }
     ret.function = label.mid(functionStart, functionEnd - functionStart);
     return ret;
+}
+
+uint qHash(const ParsedLabel& label)
+{
+    return qHash(label.function) + 17 * qHash(label.location) + 19 * qHash(label.address);
 }
 
 QByteArray prettyLabel(const QByteArray& label)
@@ -129,9 +127,8 @@ bool isBelowThreshold(const QByteArray& label)
     return label.indexOf("all below massif's threshold") != -1;
 }
 
-QString formatLabel(const QByteArray& label)
+QString formatLabelForTooltip(const ParsedLabel& parsed)
 {
-    ParsedLabel parsed = parseLabel(label);
     QString ret;
     if (!parsed.function.isEmpty()) {
         ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(parsed.function));
@@ -145,14 +142,19 @@ QString formatLabel(const QByteArray& label)
     return ret;
 }
 
+QString finalizeTooltip(const QString& contents)
+{
+    return "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n"
+        + contents + "</dl></body></html>";
+}
+
 QString tooltipForTreeLeaf(const TreeLeafItem* node, const SnapshotItem* snapshot, const QByteArray& label)
 {
-    QString tooltip = "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n";
-    tooltip += i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),
+    QString tooltip = i18n("<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>", prettyCost(node ? node->cost() : 0),
                     // yeah nice how I round to two decimals, right? :D
                     double(int(double(node ? node->cost() : 0)/snapshot->cost()*10000))/100, snapshot->number());
-    tooltip += formatLabel(label);
-    tooltip += "</dl></body></html>";
+    tooltip += formatLabelForTooltip(parseLabel(label));
+    return finalizeTooltip(tooltip);
     return tooltip;
 }
 

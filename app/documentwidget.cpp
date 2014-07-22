@@ -50,6 +50,7 @@
 #include <QVBoxLayout>
 
 #include "charttab.h"
+#include "allocatorstab.h"
 
 #ifdef HAVE_KGRAPHVIEWER
 #include "callgraphtab.h"
@@ -185,6 +186,8 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
         }
     }
 #endif
+
+    m_tabs->addTab(new AllocatorsTab(m_data, this, this), i18n("&Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {
         DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));

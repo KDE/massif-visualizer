@@ -9,6 +9,7 @@ set(visualizer_SRCS
     datatreemodel.cpp
     filtereddatatreemodel.cpp
     dotgraphgenerator.cpp
+    allocatorsmodel.cpp
 )
 
 kde4_add_library(mv-visualizer STATIC ${visualizer_SRCS})

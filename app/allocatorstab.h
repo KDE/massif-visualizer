@@ -46,6 +46,7 @@ public:
 
 private slots:
     void selectionChanged(const QModelIndex& current, const QModelIndex& previous);
+    void customContextMenuRequested(const QPoint& pos);
 
 private:
     Massif::AllocatorsModel* m_model;

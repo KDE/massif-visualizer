@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QTreeView>
 #include <QSortFilterProxyModel>
+#include <QMenu>
 
 using namespace Massif;
 
@@ -46,8 +47,11 @@ AllocatorsTab::AllocatorsTab(const FileData* data,
     m_view->sortByColumn(AllocatorsModel::Peak);
     m_view->resizeColumnToContents(AllocatorsModel::Function);
     m_view->resizeColumnToContents(AllocatorsModel::Peak);
+    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
             this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
+    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(customContextMenuRequested(QPoint)));
 
     setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_view);
@@ -81,6 +85,18 @@ void AllocatorsTab::selectionChanged(const QModelIndex& current, const QModelInd
     const ModelItem item = current.data(AllocatorsModel::ItemRole).value<ModelItem>();
     if (item.first) {
         emit modelItemSelected(item);
+    }
+}
+
+void AllocatorsTab::customContextMenuRequested(const QPoint& pos)
+{
+    const QModelIndex idx = m_view->indexAt(pos);
+    const ModelItem item = idx.data(AllocatorsModel::ItemRole).value<ModelItem>();
+
+    QMenu menu;
+    emit contextMenuRequested(item, &menu);
+    if (!menu.actions().isEmpty()) {
+        menu.exec(m_view->mapToGlobal(pos));
     }
 }
 

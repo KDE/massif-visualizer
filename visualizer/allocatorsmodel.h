@@ -25,7 +25,9 @@
 
 #include <QAbstractItemModel>
 #include <QVector>
+
 #include <massifdata/util.h>
+#include "modelitem.h"
 
 namespace Massif {
 
@@ -50,6 +52,8 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
+    QModelIndex indexForItem(const Massif::ModelItem& item) const;
+
     enum Columns {
         Function = 0,
         Peak,
@@ -59,12 +63,13 @@ public:
 
     enum Roles {
         SortRole = Qt::UserRole + 1,
+        ItemRole,
     };
 private:
     struct Data
     {
         ParsedLabel label;
-        quint64 peak;
+        const TreeLeafItem* peak;
     };
     QVector<Data> m_data;
 };

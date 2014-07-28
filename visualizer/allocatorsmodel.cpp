@@ -30,6 +30,20 @@
 
 using namespace Massif;
 
+namespace {
+
+ParsedLabel labelForNode(const TreeLeafItem* node)
+{
+    ParsedLabel label;
+    if (!isBelowThreshold(node->label())) {
+        label = parseLabel(node->label());
+        label.address.clear();
+    }
+    return label;
+}
+
+}
+
 AllocatorsModel::AllocatorsModel(const FileData* data, QObject* parent)
     : QAbstractItemModel(parent)
 {
@@ -41,11 +55,7 @@ AllocatorsModel::AllocatorsModel(const FileData* data, QObject* parent)
             continue;
         }
         foreach (const TreeLeafItem* node, snapshot->heapTree()->children()) {
-            ParsedLabel label;
-            if (!isBelowThreshold(node->label())) {
-                label = parseLabel(node->label());
-                label.address.clear();
-            }
+            const ParsedLabel label = labelForNode(node);
 
             int idx = labelToData.value(label, -1);
             if (idx == -1) {
@@ -53,12 +63,14 @@ AllocatorsModel::AllocatorsModel(const FileData* data, QObject* parent)
                 labelToData[label] = idx;
                 Data data;
                 data.label = label;
-                data.peak = 0;
+                data.peak = node;
                 m_data << data;
             }
 
             Data& data = m_data[idx];
-            data.peak = qMax(data.peak, node->cost());
+            if (data.peak->cost() < node->cost()) {
+                data.peak = node;
+            }
         }
     }
 }
@@ -99,7 +111,7 @@ QModelIndex AllocatorsModel::parent(const QModelIndex& /*child*/) const
 
 QVariant AllocatorsModel::data(const QModelIndex& index, int role) const
 {
-    if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != SortRole) {
+    if (role != Qt::DisplayRole && role != Qt::ToolTipRole && role != SortRole && role != ItemRole) {
         return QVariant();
     }
 
@@ -112,9 +124,11 @@ QVariant AllocatorsModel::data(const QModelIndex& index, int role) const
     const Data& data = m_data.value(index.row());
 
     if (role == Qt::ToolTipRole) {
-        QString tooltip = i18n("<dt>peak cost:</dt><dd>%1</dd>", prettyCost(data.peak));
+        QString tooltip = i18n("<dt>peak cost:</dt><dd>%1</dd>", prettyCost(data.peak->cost()));
         tooltip += formatLabelForTooltip(data.label);
         return finalizeTooltip(tooltip);
+    } else if (role == ItemRole) {
+        return QVariant::fromValue(ModelItem(data.peak, 0));
     }
 
     switch (index.column()) {
@@ -127,9 +141,9 @@ QVariant AllocatorsModel::data(const QModelIndex& index, int role) const
             return data.label.location;
         case Peak:
             if (role == SortRole) {
-                return data.peak;
+                return data.peak->cost();
             }
-            return prettyCost(data.peak);
+            return prettyCost(data.peak->cost());
     }
 
     return QVariant();
@@ -151,4 +165,21 @@ QVariant AllocatorsModel::headerData(int section, Qt::Orientation orientation, i
     }
 
     return QVariant();
+}
+
+QModelIndex AllocatorsModel::indexForItem(const ModelItem& item) const
+{
+    if (!item.first) {
+        return QModelIndex();
+    }
+
+    const ParsedLabel label = labelForNode(item.first);
+
+    for (int i = 0; i < m_data.size(); ++i) {
+        if (m_data[i].label == label) {
+            return createIndex(i, Function);
+        }
+    }
+
+    return QModelIndex();
 }

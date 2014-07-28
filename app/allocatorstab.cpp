@@ -34,19 +34,22 @@ AllocatorsTab::AllocatorsTab(const FileData* data,
                              KXMLGUIClient* guiParent, QWidget* parent)
     : DocumentTabInterface(data, guiParent, parent)
     , m_model(new AllocatorsModel(data, this))
+    , m_proxy(new QSortFilterProxyModel(this))
     , m_view(new QTreeView(this))
 {
-    setLayout(new QVBoxLayout(this));
+    m_proxy->setSourceModel(m_model);
+    m_proxy->setSortRole(AllocatorsModel::SortRole);
 
     m_view->setRootIsDecorated(false);
-    QSortFilterProxyModel* proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(m_model);
-    proxy->setSortRole(AllocatorsModel::SortRole);
-    m_view->setModel(proxy);
+    m_view->setModel(m_proxy);
     m_view->setSortingEnabled(true);
     m_view->sortByColumn(AllocatorsModel::Peak);
     m_view->resizeColumnToContents(AllocatorsModel::Function);
     m_view->resizeColumnToContents(AllocatorsModel::Peak);
+    connect(m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
+
+    setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_view);
 }
 
@@ -55,14 +58,30 @@ AllocatorsTab::~AllocatorsTab()
 
 }
 
-void AllocatorsTab::selectModelItem(const ModelItem& /*item*/)
+void AllocatorsTab::selectModelItem(const ModelItem& item)
 {
+    const QModelIndex idx = m_model->indexForItem(item);
+    if (!idx.isValid()) {
+        return;
+    }
 
+    m_view->selectionModel()->clearSelection();
+    m_view->selectionModel()->setCurrentIndex(m_proxy->mapFromSource(idx),
+                                              QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    m_view->scrollTo(m_view->selectionModel()->currentIndex());
 }
 
 void AllocatorsTab::settingsChanged()
 {
 
+}
+
+void AllocatorsTab::selectionChanged(const QModelIndex& current, const QModelIndex& /*previous*/)
+{
+    const ModelItem item = current.data(AllocatorsModel::ItemRole).value<ModelItem>();
+    if (item.first) {
+        emit modelItemSelected(item);
+    }
 }
 
 #include "allocatorstab.moc"

@@ -26,6 +26,8 @@
 #include "documenttabinterface.h"
 
 class QTreeView;
+class QSortFilterProxyModel;
+class QModelIndex;
 
 namespace Massif {
 class AllocatorsModel;
@@ -42,8 +44,12 @@ public:
     virtual void selectModelItem(const Massif::ModelItem& item);
     virtual void settingsChanged();
 
+private slots:
+    void selectionChanged(const QModelIndex& current, const QModelIndex& previous);
+
 private:
     Massif::AllocatorsModel* m_model;
+    QSortFilterProxyModel* m_proxy;
     QTreeView* m_view;
 };
 

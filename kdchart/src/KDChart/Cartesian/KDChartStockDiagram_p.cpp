@@ -292,7 +292,7 @@ void StockDiagram::Private::drawOHLCBar( int dataset, const CartesianDiagramData
         if ( ( angle >= 0 && angle < 90 ) || ( angle >= 180 && angle < 270 ) )
             reversedOrder = true;
         // Z-order is from left to right
-        if ( ( angle >= 90 && angle < 180 ) || ( angle >= 270 && angle < 0 ) )
+        if ( ( angle >= 90 && angle < 180 ) || ( angle >= 270 && angle < 360 ) )
             reversedOrder = false;
     }
 

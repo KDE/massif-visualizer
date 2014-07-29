@@ -688,7 +688,7 @@ void KDChart::MarkerLayoutItem::paintIntoRect(
         const QBrush& brush,
         const QPen& pen )
 {
-    if ( ! rect.isValid() )
+    if ( !rect.isValid() )
         return;
 
     // The layout management may assign a larger rect than what we
@@ -712,7 +712,7 @@ void KDChart::MarkerLayoutItem::paintIntoRect(
 #ifdef DEBUG_ITEMS_PAINT
     const QPen oldPen( painter->pen() );
     painter->setPen( Qt::red );
-    painter->drawRect( QRect(oldPos.toPoint(), siz) );
+    painter->drawRect( QRect( oldPos.toPoint(), siz ) );
     painter->setPen( oldPen );
 #endif
 }
@@ -729,7 +729,7 @@ KDChart::LineLayoutItem::LineLayoutItem( KDChart::AbstractDiagram* diagram,
     , mPen( pen )
     , mLegendLineSymbolAlignment(legendLineSymbolAlignment)
 {
-    //have a mini pen width
+    // enforce a minimum pen width
     if ( pen.width() < 2 )
         mPen.setWidth( 2 );
 }
@@ -766,7 +766,7 @@ void KDChart::LineLayoutItem::setGeometry( const QRect& r )
 
 QSize KDChart::LineLayoutItem::sizeHint() const
 {
-    return QSize( mLength, mPen.width()+2 );
+    return QSize( mLength, mPen.width() + 2 );
 }
 
 
@@ -865,10 +865,8 @@ void KDChart::LineWithMarkerLayoutItem::setGeometry( const QRect& r )
 
 QSize KDChart::LineWithMarkerLayoutItem::sizeHint() const
 {
-    const QSize sizeM = mMarker.markerSize().toSize();
-    const QSize sizeL = QSize( mLineLength, mLinePen.width()+2 );
-    return QSize( qMax(sizeM.width(),  sizeL.width()),
-                  qMax(sizeM.height(), sizeL.height()) );
+    const QSize lineSize( mLineLength, mLinePen.width() + 2 );
+    return lineSize.expandedTo( mMarker.markerSize().toSize() );
 }
 
 void KDChart::LineWithMarkerLayoutItem::paint( QPainter* painter )

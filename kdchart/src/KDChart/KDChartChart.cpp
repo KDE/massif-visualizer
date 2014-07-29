@@ -114,7 +114,6 @@ public:
 // QWidget which has the wrong geometry.
 static void invalidateLayoutTree( QLayoutItem *item )
 {
-    item->invalidate();
     QLayout *layout = item->layout();
     if ( layout ) {
         const int count = layout->count();
@@ -122,6 +121,7 @@ static void invalidateLayoutTree( QLayoutItem *item )
             invalidateLayoutTree( layout->itemAt( i ) );
         }
     }
+    item->invalidate();
 }
 
 using namespace KDChart;
@@ -1418,6 +1418,7 @@ void Chart::Private::slotLegendPositionChanged( AbstractAreaWidget* aw )
 
 void Chart::addLegend( Legend* legend )
 {
+    legend->show();
     addLegendInternal( legend, true );
     emit propertiesChanged();
 }

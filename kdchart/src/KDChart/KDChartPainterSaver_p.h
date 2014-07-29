@@ -59,7 +59,7 @@ namespace KDChart {
    Use this:
 
    \code
-   const QPainterSaver saver( &painter );
+   const KDChart::PainterSaver saver( &painter );
    // ...
    \endcode
 

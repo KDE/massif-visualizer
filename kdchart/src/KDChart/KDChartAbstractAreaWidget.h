@@ -98,22 +98,16 @@ public:
       * e.g. AbstractAreaWidget call this, before calling layout()->setGeometry()
       */ 
     virtual void needSizeHint();
-    //virtual void setGeometry( const QRect & rect );
     virtual void resizeLayout( const QSize& );
+
+Q_SIGNALS:
+    void positionChanged( AbstractAreaWidget * );
 
 protected:
     virtual ~AbstractAreaWidget() ;
     virtual QRect areaGeometry() const;
     virtual void positionHasChanged();
-
-
-public:
-//    virtual AbstractAreaWidget * clone() const = 0;
-
-Q_SIGNALS:
-    void positionChanged( AbstractAreaWidget * );
-
-}; // End of class AbstractAreaWidget
+};
 
 }
 #endif // KDCHARTABSTRACTAREAWIDGET_H

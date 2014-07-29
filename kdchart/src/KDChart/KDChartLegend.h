@@ -388,7 +388,6 @@ m_legend->setFloatingPosition( relativePosition );
     virtual QSize minimumSizeHint() const;
     virtual QSize sizeHint() const;
     virtual void needSizeHint();
-    virtual void resizeLayout( const QSize& size );
 
 Q_SIGNALS:
     void destroyedLegend( Legend* );

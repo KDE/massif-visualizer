@@ -59,6 +59,7 @@
 #include <kmessagewidget.h>
 #include <KIcon>
 #include <KDebug>
+#include <KLocale>
 
 #include <QLabel>
 #include <QProgressBar>
@@ -74,6 +75,37 @@
 
 using namespace Massif;
 using namespace KDChart;
+
+class TimeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit TimeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // squeeze large numbers here
+        // TODO: when the unit is 'b' also use prettyCost() here
+        return QString::number(label.toDouble());
+    }
+};
+
+class SizeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit SizeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // TODO: change distance between labels to 1024 and simply use prettyCost() here
+        return KGlobal::locale()->formatByteSize(label.toDouble(), 1, KLocale::MetricBinaryDialect);
+    }
+};
 
 static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
@@ -396,7 +428,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     m_totalDiagram = new Plotter;
     m_totalDiagram->setAntiAliasing(true);
 
-    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* bottomAxis = new TimeAxis(m_totalDiagram);
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
     axisTextAttributes.setFontSize(Measure(10));
@@ -409,10 +441,10 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* rightAxis = new SizeAxis(m_totalDiagram);
     rightAxis->setTextAttributes(axisTextAttributes);
     rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
+    rightAxis->setTitleText(i18n("memory consumption"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_totalDiagram->addAxis(rightAxis);
 
@@ -677,3 +709,6 @@ void DocumentWidget::slotGraphLoaded()
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 #endif
+
+#include "documentwidget.moc"
+#include "moc_documentwidget.cpp"

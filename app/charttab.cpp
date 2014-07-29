@@ -48,6 +48,8 @@
 #include <QPrintPreviewDialog>
 #include <QLabel>
 #include <QMenu>
+#include <QApplication>
+#include <QDesktopWidget>
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -56,11 +58,43 @@
 #include <KAction>
 #include <KFileDialog>
 #include <KMessageBox>
+#include <KLocale>
 
 using namespace KDChart;
 using namespace Massif;
 
 namespace {
+
+class TimeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit TimeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // squeeze large numbers here
+        // TODO: when the unit is 'b' also use prettyCost() here
+        return QString::number(label.toDouble());
+    }
+};
+
+class SizeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit SizeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // TODO: change distance between labels to 1024 and simply use prettyCost() here
+        return KGlobal::locale()->formatByteSize(label.toDouble(), 1, KLocale::MetricBinaryDialect);
+    }
+};
 
 void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
@@ -77,6 +111,7 @@ void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& for
 
     TextAttributes txtAttrs = dataAttributes.textAttributes();
     txtAttrs.setPen(foreground);
+    txtAttrs.setFontSize(Measure(12));
     dataAttributes.setTextAttributes(txtAttrs);
 
     BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
@@ -171,6 +206,10 @@ void ChartTab::setupGui()
     layout()->addWidget(m_header);
     layout()->addWidget(m_chart);
 
+    // HACK: otherwise the legend becomes _really_ large and might even crash X...
+    // to visualize the issue, try: m_chart->setMaximumSize(QSize(10000, 10000));
+    m_chart->setMaximumSize(qApp->desktop()->size());
+
     // for axis labels to fit
     m_chart->setGlobalLeadingRight(10);
     m_chart->setGlobalLeadingLeft(10);
@@ -213,7 +252,7 @@ void ChartTab::setupGui()
     m_totalDiagram = new Plotter;
     m_totalDiagram->setAntiAliasing(true);
 
-    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* bottomAxis = new TimeAxis(m_totalDiagram);
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
     axisTextAttributes.setFontSize(Measure(10));
@@ -226,10 +265,10 @@ void ChartTab::setupGui()
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* rightAxis = new SizeAxis(m_totalDiagram);
     rightAxis->setTextAttributes(axisTextAttributes);
     rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
+    rightAxis->setTitleText(i18n("memory heap size"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_totalDiagram->addAxis(rightAxis);
 
@@ -560,3 +599,4 @@ void ChartTab::selectModelItem(const ModelItem& item)
 }
 
 #include "charttab.moc"
+#include "moc_charttab.cpp"

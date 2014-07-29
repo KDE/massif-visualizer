@@ -31,8 +31,9 @@
 
 #include "visualizer/modelitem.h"
 
-class QMenu;
 class DocumentTabInterface;
+
+class QMenu;
 class QLabel;
 class QProgressBar;
 class QToolButton;

@@ -83,9 +83,6 @@ DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
     m_tabs->setTabPosition(QTabWidget::South);
 
     m_stackedWidget->addWidget(m_tabs);
-    connect(m_tabs, SIGNAL(currentChanged(int)),
-            this, SLOT(slotTabChanged(int)));
-    slotTabChanged(m_tabs->currentIndex());
 
     // Second widget : loadingPage
     QWidget* loadingPage = new QWidget(m_stackedWidget);
@@ -198,6 +195,9 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     }
 
     m_tabs->setCurrentIndex(0);
+    connect(m_tabs, SIGNAL(currentChanged(int)),
+            this, SLOT(slotTabChanged(int)));
+    slotTabChanged(0);
 
     m_isLoaded = true;
 

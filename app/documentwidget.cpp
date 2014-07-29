@@ -156,9 +156,6 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 {
     Q_ASSERT(data->peak());
 
-    // give the progress bar one last chance to update
-    QApplication::processEvents();
-
     kDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << data->description();
     qDebug() << "command:" << data->cmd();

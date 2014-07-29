@@ -29,10 +29,10 @@
 #include "KDChartGridAttributes"
 #include "KDChartHeaderFooter"
 #include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
 #include "KDChartLegend"
 #include "KDChartDataValueAttributes"
 #include "KDChartBackgroundAttributes"
+#include "KDChartPlotter"
 
 #include "massif-visualizer-settings.h"
 
@@ -59,12 +59,15 @@
 #include <kmessagewidget.h>
 #include <KIcon>
 #include <KDebug>
+#include <KLocale>
 
 #include <QLabel>
 #include <QProgressBar>
 #include <QStackedWidget>
 #include <QTabWidget>
 #include <QToolButton>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #ifdef HAVE_KGRAPHVIEWER
 #include <kgraphviewer_interface.h>
@@ -72,6 +75,37 @@
 
 using namespace Massif;
 using namespace KDChart;
+
+class TimeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit TimeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // squeeze large numbers here
+        // TODO: when the unit is 'b' also use prettyCost() here
+        return QString::number(label.toDouble());
+    }
+};
+
+class SizeAxis : public CartesianAxis
+{
+    Q_OBJECT
+public:
+    explicit SizeAxis(AbstractCartesianDiagram* diagram = 0)
+        : CartesianAxis(diagram)
+    {}
+
+    virtual const QString customizedLabel(const QString& label) const
+    {
+        // TODO: change distance between labels to 1024 and simply use prettyCost() here
+        return KGlobal::locale()->formatByteSize(label.toDouble(), 1, KLocale::MetricBinaryDialect);
+    }
+};
 
 static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
 {
@@ -82,12 +116,13 @@ static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QP
     MarkerAttributes a = dataAttributes.markerAttributes();
     a.setMarkerSize(QSizeF(2, 2));
     a.setPen(foreground);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerCircle);
+    a.setMarkerStyle(MarkerAttributes::MarkerCircle);
     a.setVisible(true);
     dataAttributes.setMarkerAttributes(a);
 
     TextAttributes txtAttrs = dataAttributes.textAttributes();
     txtAttrs.setPen(foreground);
+    txtAttrs.setFontSize(Measure(12));
     dataAttributes.setTextAttributes(txtAttrs);
 
     BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
@@ -95,7 +130,6 @@ static void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QP
     QColor c = brush.color();
     c.setAlpha(127);
     brush.setColor(c);
-    brush.setStyle(Qt::CrossPattern);
     bkgAtt.setBrush(brush);
     bkgAtt.setVisible(true);
     dataAttributes.setBackgroundAttributes(bkgAtt);
@@ -127,10 +161,10 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
   , m_displayTabWidget(0)
 #endif
 {
-    // for axis labels to fit
-    m_chart->setGlobalLeadingRight(10);
-    m_chart->setGlobalLeadingLeft(10);
-    m_chart->setGlobalLeadingTop(20);
+    // HACK: otherwise the legend becomes _really_ large and might even crash X...
+    // to visualize the issue, try: m_chart->setMaximumSize(QSize(10000, 10000));
+    m_chart->setMaximumSize(qApp->desktop()->size());
+
     m_chart->setContextMenuPolicy(Qt::CustomContextMenu);
 
     updateLegendPosition();
@@ -145,7 +179,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
     m_legend->hide();
 
     // Set m_stackedWidget as the main widget.
-    setLayout(new QGridLayout(this));
+    setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_stackedWidget);
 
     QWidget* memoryConsumptionWidget = new QWidget;
@@ -163,7 +197,7 @@ DocumentWidget::DocumentWidget(QWidget* parent) :
             m_displayTabWidget->addTab(memoryConsumptionWidget, i18n("&Evolution of Memory Consumption"));
             m_graphViewer = qobject_cast< KGraphViewer::KGraphViewerInterface* >(m_graphViewerPart);
             QWidget* dotGraphWidget = new QWidget(m_displayTabWidget);
-            dotGraphWidget->setLayout(new QGridLayout);
+            dotGraphWidget->setLayout(new QVBoxLayout);
             dotGraphWidget->layout()->addWidget(m_graphViewerPart->widget());
             m_displayTabWidget->addTab(dotGraphWidget, i18n("&Detailed Snapshot Analysis"));
             m_stackedWidget->addWidget(m_displayTabWidget);
@@ -244,8 +278,6 @@ DocumentWidget::~DocumentWidget()
 
         m_chart->replaceCoordinatePlane(new CartesianCoordinatePlane);
         m_legend->removeDiagrams();
-        m_legend->hide();
-        m_header->setText(QString());
 
         foreach(CartesianAxis* axis, m_detailedDiagram->axes()) {
             m_detailedDiagram->takeAxis(axis);
@@ -396,7 +428,7 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     m_totalDiagram = new Plotter;
     m_totalDiagram->setAntiAliasing(true);
 
-    CartesianAxis* bottomAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* bottomAxis = new TimeAxis(m_totalDiagram);
     TextAttributes axisTextAttributes = bottomAxis->textAttributes();
     axisTextAttributes.setPen(foreground);
     axisTextAttributes.setFontSize(Measure(10));
@@ -409,10 +441,10 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     bottomAxis->setPosition ( CartesianAxis::Bottom );
     m_totalDiagram->addAxis(bottomAxis);
 
-    CartesianAxis* rightAxis = new CartesianAxis(m_totalDiagram);
+    CartesianAxis* rightAxis = new SizeAxis(m_totalDiagram);
     rightAxis->setTextAttributes(axisTextAttributes);
     rightAxis->setTitleTextAttributes(axisTitleTextAttributes);
-    rightAxis->setTitleText(i18n("memory heap size in kilobytes"));
+    rightAxis->setTitleText(i18n("memory consumption"));
     rightAxis->setPosition ( CartesianAxis::Right );
     m_totalDiagram->addAxis(rightAxis);
 
@@ -431,14 +463,14 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
 
     m_detailedDiagram = new Plotter;
     m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
+    m_detailedDiagram->setType(Plotter::Stacked);
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);
 
     updatePeaks();
 
-    m_chart->coordinatePlane()->addDiagram(m_detailedDiagram);
+    coordinatePlane->addDiagram(m_detailedDiagram);
 
     m_legend->addDiagram(m_detailedDiagram);
     m_legend->show();
@@ -677,3 +709,6 @@ void DocumentWidget::slotGraphLoaded()
     m_graphViewer->centerOnNode(m_dotGenerator->mostCostIntensiveGraphvizId());
 }
 #endif
+
+#include "documentwidget.moc"
+#include "moc_documentwidget.cpp"

@@ -32,10 +32,10 @@
 namespace KDChart {
 class Chart;
 class HeaderFooter;
-class Plotter;
 class CartesianAxis;
 class Legend;
 class BarDiagram;
+class Plotter;
 }
 
 class QLabel;

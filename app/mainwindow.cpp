@@ -515,6 +515,10 @@ void MainWindow::updateWindowTitle()
 
 void MainWindow::documentChanged()
 {
+    // required to prevent GUI flickering when changing documents
+    // the changing actions in the toolbar are really flickering bad otherwise
+    setUpdatesEnabled(false);
+
     if (m_currentDocument) {
         m_dataTreeModel->setSource(0);
         m_dataTreeFilterModel->setFilter(QString());
@@ -535,6 +539,7 @@ void MainWindow::documentChanged()
 
     if (!m_currentDocument) {
         ui.stackedWidget->setCurrentWidget(ui.openPage);
+        setUpdatesEnabled(true);
         return;
     } else {
         m_dataTreeModel->setSource(m_currentDocument->data());
@@ -544,6 +549,8 @@ void MainWindow::documentChanged()
         connect(m_currentDocument, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
                 this, SLOT(contextMenuRequested(Massif::ModelItem,QMenu*)));
     }
+
+    setUpdatesEnabled(true);
 }
 
 #include "mainwindow.moc"

@@ -227,6 +227,10 @@ void DocumentWidget::clearGuiActions(KXMLGUIFactory* factory)
 
 void DocumentWidget::slotTabChanged(int tab)
 {
+    if (!factory()) {
+        return;
+    }
+
     if (m_currentTab) {
         factory()->removeClient(m_currentTab);
     }

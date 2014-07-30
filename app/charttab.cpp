@@ -30,6 +30,7 @@
 #include "KDChartLegend"
 #include "KDChartDataValueAttributes"
 #include "KDChartBackgroundAttributes"
+#include <KDChartFrameAttributes.h>
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
@@ -96,16 +97,31 @@ public:
     }
 };
 
-void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& foreground)
+void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const KColorScheme& scheme)
 {
+    QBrush brush = p->model()->data(peak, DatasetBrushRole).value<QBrush>();
+
+    QColor outline = brush.color();
+    QColor foreground = scheme.foreground().color();
+    QBrush background = scheme.background();
+
     DataValueAttributes dataAttributes = p->dataValueAttributes(peak);
     dataAttributes.setDataLabel(prettyCost(cost));
     dataAttributes.setVisible(true);
+    dataAttributes.setShowRepetitiveDataLabels(true);
+    dataAttributes.setShowOverlappingDataLabels(false);
+
+    FrameAttributes frameAttrs = dataAttributes.frameAttributes();
+    QPen framePen(outline);
+    framePen.setWidth(2);
+    frameAttrs.setPen(framePen);
+    frameAttrs.setVisible(true);
+    dataAttributes.setFrameAttributes(frameAttrs);
 
     MarkerAttributes a = dataAttributes.markerAttributes();
-    a.setMarkerSize(QSizeF(2, 2));
-    a.setPen(foreground);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerCircle);
+    a.setMarkerSize(QSizeF(7, 7));
+    a.setPen(outline);
+    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerDiamond);
     a.setVisible(true);
     dataAttributes.setMarkerAttributes(a);
 
@@ -115,11 +131,8 @@ void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& for
     dataAttributes.setTextAttributes(txtAttrs);
 
     BackgroundAttributes bkgAtt = dataAttributes.backgroundAttributes();
-    QBrush brush = p->model()->data(peak, DatasetBrushRole).value<QBrush>();
-    QColor c = brush.color();
-    c.setAlpha(127);
-    brush.setColor(c);
-    bkgAtt.setBrush(brush);
+
+    bkgAtt.setBrush(background);
     bkgAtt.setVisible(true);
     dataAttributes.setBackgroundAttributes(bkgAtt);
 
@@ -337,12 +350,11 @@ void ChartTab::setTotalDiagramVisible(bool visible)
 void ChartTab::updatePeaks()
 {
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
 
     if (m_data->peak()) {
         const QModelIndex peak = m_totalCostModel->peak();
         Q_ASSERT(peak.isValid());
-        markPeak(m_totalDiagram, peak, m_data->peak()->cost(), foreground);
+        markPeak(m_totalDiagram, peak, m_data->peak()->cost(), scheme);
     }
     updateDetailedPeaks();
 }
@@ -422,14 +434,13 @@ void ChartTab::updateLegendFont()
 void ChartTab::updateDetailedPeaks()
 {
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
-    QPen foreground(scheme.foreground().color());
 
     const DetailedCostModel::Peaks& peaks = m_detailedCostModel->peaks();
     DetailedCostModel::Peaks::const_iterator it = peaks.constBegin();
     while (it != peaks.constEnd()) {
         const QModelIndex peak = it.key();
         Q_ASSERT(peak.isValid());
-        markPeak(m_detailedDiagram, peak, it.value()->cost(), foreground);
+        markPeak(m_detailedDiagram, peak, it.value()->cost(), scheme);
         ++it;
     }
 }

@@ -111,8 +111,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     }
     //END KGraphViewer
 
+    ui.documents->setMovable(true);
+    ui.documents->setTabsClosable(true);
     connect(ui.documents, SIGNAL(currentChanged(int)),
             this, SLOT(documentChanged()));
+    connect(ui.documents, SIGNAL(tabCloseRequested(int)),
+            this, SLOT(closeFileTab(int)));
 
     //BEGIN custom allocators
     tabifyDockWidget(ui.allocatorDock, ui.dataTreeDock);

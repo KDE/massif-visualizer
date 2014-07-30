@@ -41,30 +41,32 @@ QString prettyCost(quint64 cost)
     return KGlobal::locale()->formatByteSize(cost, precision);
 }
 
-void shortenTemplates(QByteArray& function)
+QByteArray shortenTemplates(const QByteArray& identifier)
 {
+    QByteArray ret = identifier;
     Q_ASSERT(KGlobal::config());
     KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
     if (conf.readEntry(QLatin1String("shortenTemplates"), false)) {
         // remove template arguments between <...>
         int depth = 0;
         int open = 0;
-        for (int i = 0; i < function.length(); ++i) {
-            if (function.at(i) == '<') {
+        for (int i = 0; i < ret.length(); ++i) {
+            if (ret.at(i) == '<') {
                 if (!depth) {
                     open = i;
                 }
                 ++depth;
-            } else if (function.at(i) == '>') {
+            } else if (ret.at(i) == '>') {
                 --depth;
                 if (!depth) {
-                    function.remove(open + 1, i - open - 1);
+                    ret.remove(open + 1, i - open - 1);
                     i = open + 1;
                     open = 0;
                 }
             }
         }
     }
+    return ret;
 }
 
 ParsedLabel parseLabel(const QByteArray& label)
@@ -98,12 +100,12 @@ uint qHash(const ParsedLabel& label)
 QByteArray prettyLabel(const QByteArray& label)
 {
     ParsedLabel parsed = parseLabel(label);
-    shortenTemplates(parsed.function);
+    const QByteArray func = shortenTemplates(parsed.function);
 
     if (!parsed.location.isEmpty()) {
-        return parsed.function + " (" + parsed.location + ")";
+        return func + " (" + parsed.location + ")";
     } else {
-        return parsed.function;
+        return func;
     }
 }
 

@@ -77,7 +77,7 @@ void AllocatorsTab::selectModelItem(const ModelItem& item)
 
 void AllocatorsTab::settingsChanged()
 {
-
+    m_model->settingsChanged();
 }
 
 void AllocatorsTab::selectionChanged(const QModelIndex& current, const QModelIndex& /*previous*/)

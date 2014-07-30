@@ -53,6 +53,7 @@ public:
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     QModelIndex indexForItem(const Massif::ModelItem& item) const;
+    void settingsChanged();
 
     enum Columns {
         Function = 0,

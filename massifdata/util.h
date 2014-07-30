@@ -59,6 +59,11 @@ MASSIFDATA_EXPORT uint qHash(const ParsedLabel& label);
 MASSIFDATA_EXPORT QByteArray prettyLabel(const QByteArray& label);
 
 /**
+ * If enabled in settings, removes template arguments from identifiers.
+ */
+MASSIFDATA_EXPORT QByteArray shortenTemplates(const QByteArray& label);
+
+/**
  * Extracts the function name from the @p label.
  */
 MASSIFDATA_EXPORT QByteArray functionInLabel(const QByteArray& label);

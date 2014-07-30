@@ -136,7 +136,7 @@ QVariant AllocatorsModel::data(const QModelIndex& index, int role) const
             if (data.label.function.isEmpty()) {
                 return i18n("below threshold");
             }
-            return data.label.function;
+            return shortenTemplates(data.label.function);
         case Location:
             return data.label.location;
         case Peak:
@@ -182,4 +182,14 @@ QModelIndex AllocatorsModel::indexForItem(const ModelItem& item) const
     }
 
     return QModelIndex();
+}
+
+void AllocatorsModel::settingsChanged()
+{
+    if (m_data.isEmpty()) {
+        return;
+    }
+    // update shorten templates
+    dataChanged(createIndex(0, Function),
+                createIndex(m_data.size() - 1, Function));
 }

@@ -189,19 +189,22 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     m_data = data;
     m_file = file;
 
-    m_tabs->addTab(new ChartTab(m_data, this, this), i18n("&Evolution of Memory Consumption"));
+    m_tabs->addTab(new ChartTab(m_data, this, this), KIcon("office-chart-area-stacked"),
+                   i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
     static KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (part) {
-            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), i18n("&Detailed Snapshot Analysis"));
+            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), KIcon("kgraphviewer"),
+                           i18n("Callgraph"));
         }
     }
 #endif
 
-    m_tabs->addTab(new AllocatorsTab(m_data, this, this), i18n("&Allocators"));
+    m_tabs->addTab(new AllocatorsTab(m_data, this, this), KIcon("view-list-text"),
+                   i18n("Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {
         DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));

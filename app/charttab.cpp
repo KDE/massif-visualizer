@@ -119,7 +119,6 @@ void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const QPen& for
     QColor c = brush.color();
     c.setAlpha(127);
     brush.setColor(c);
-    brush.setStyle(Qt::CrossPattern);
     bkgAtt.setBrush(brush);
     bkgAtt.setVisible(true);
     dataAttributes.setBackgroundAttributes(bkgAtt);

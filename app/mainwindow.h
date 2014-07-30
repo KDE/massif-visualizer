@@ -54,7 +54,6 @@ class KGraphViewerInterface;
 
 namespace Massif {
 
-class ParseWorker;
 class FilteredDataTreeModel;
 class DataTreeModel;
 class SnapshotItem;
@@ -92,6 +91,9 @@ public slots:
     void closeCurrentFile();
 
 private slots:
+    void closeRequested();
+    void closeFileTab(int idx);
+
     void preferences();
     void settingsChanged();
 
@@ -113,8 +115,6 @@ private slots:
 
     void slotShortenTemplates(bool);
 
-    void stopParser();
-
 private:
     void updateWindowTitle();
 
@@ -124,7 +124,6 @@ private:
     KRecentFilesAction* m_recentFiles;
 
     KAction* m_close;
-    KAction* m_stopParser;
 
     QStringListModel* m_allocatorModel;
     KAction* m_newAllocator;
@@ -135,7 +134,6 @@ private:
     KAction* m_selectPeak;
 
     DocumentWidget* m_currentDocument;
-    QHash<DocumentWidget*, ParseWorker*> m_documentsParseWorkers;
 
     Massif::DataTreeModel* m_dataTreeModel;
     Massif::FilteredDataTreeModel* m_dataTreeFilterModel;

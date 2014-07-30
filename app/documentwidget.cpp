@@ -62,10 +62,13 @@
 
 using namespace Massif;
 
-DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
+DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAllocators,
+                               KXMLGUIClient* guiParent, QWidget* parent)
     : QWidget(parent)
     , KXMLGUIClient(guiParent)
     , m_data(0)
+    , m_parseWorker(new ParseWorker)
+    , m_file(file)
     , m_currentTab(0)
     , m_stackedWidget(new QStackedWidget(this))
     , m_tabs(new QTabWidget(m_stackedWidget))
@@ -75,13 +78,29 @@ DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
     , m_stopParserButton(0)
     , m_isLoaded(false)
 {
+    connect(m_parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
+            this, SLOT(parserFinished(KUrl, Massif::FileData*)));
+    connect(m_parseWorker, SIGNAL(error(QString, QString)),
+            this, SLOT(showError(QString, QString)));
+    connect(m_parseWorker, SIGNAL(progressRange(int, int)),
+            this, SLOT(setRange(int,int)));
+    connect(m_parseWorker, SIGNAL(progress(int)),
+            this, SLOT(setProgress(int)));
+
+    // Create dedicated thread for this document.
+    // TODO: use ThreadWeaver
+    QThread* thread = new QThread(this);
+    thread->start();
+    m_parseWorker->moveToThread(thread);
+    m_parseWorker->parse(file, customAllocators);
+
     setXMLFile("documentwidgetui.rc", true);
+
     // Set m_stackedWidget as the main widget.
     setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_stackedWidget);
 
     m_tabs->setTabPosition(QTabWidget::South);
-
     m_stackedWidget->addWidget(m_tabs);
 
     // Second widget : loadingPage
@@ -91,7 +110,7 @@ DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
     verticalLayout->addItem(upperSpacerItem);
 
     m_loadingMessage = new QLabel(loadingPage);
-    m_loadingMessage->setText(i18n("loading..."));
+    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
     m_loadingMessage->setAlignment(Qt::AlignCenter);
     verticalLayout->addWidget(m_loadingMessage);
 
@@ -109,7 +128,7 @@ DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
     m_stopParserButton->setIcon(KIcon("process-stop"));
     m_stopParserButton->setIconSize(QSize(48, 48));
     connect(m_stopParserButton, SIGNAL(clicked()),
-            this, SIGNAL(stopParser()));
+            this, SIGNAL(requestClose()));
     stopParserWidgetLayout->addWidget(m_stopParserButton);
     verticalLayout->addWidget(stopParserWidget);
 
@@ -123,6 +142,7 @@ DocumentWidget::DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent)
 
 DocumentWidget::~DocumentWidget()
 {
+    stopParser();
     if (m_data) {
         delete m_data;
         m_data = 0;
@@ -255,11 +275,6 @@ void DocumentWidget::setRange(int minimum, int maximum)
     m_loadingProgressBar->setRange(minimum, maximum);
 }
 
-void DocumentWidget::setLoadingMessage(const QString& message)
-{
-    m_loadingMessage->setText(message);
-}
-
 void DocumentWidget::showError(const QString& title, const QString& error)
 {
     if (!m_errorMessage) {
@@ -271,4 +286,18 @@ void DocumentWidget::showError(const QString& title, const QString& error)
     }
     m_errorMessage->setText(QString("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
     m_stackedWidget->setCurrentWidget(m_errorMessage);
+}
+
+void DocumentWidget::stopParser()
+{
+    if (!m_parseWorker) {
+        return;
+    }
+
+    QThread* thread = m_parseWorker->thread();
+    m_parseWorker->stop();
+    m_parseWorker->deleteLater();
+    m_parseWorker = 0;
+    thread->quit();
+    thread->wait();
 }

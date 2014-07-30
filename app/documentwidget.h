@@ -44,6 +44,7 @@ class KMessageWidget;
 
 namespace Massif {
 class FileData;
+class ParseWorker;
 }
 
 class DocumentWidget : public QWidget, public KXMLGUIClient
@@ -51,7 +52,8 @@ class DocumentWidget : public QWidget, public KXMLGUIClient
     Q_OBJECT
 
 public:
-    explicit DocumentWidget(KXMLGUIClient* guiParent, QWidget* parent = 0);
+    explicit DocumentWidget(const KUrl& file, const QStringList& customAllocators,
+                            KXMLGUIClient* guiParent, QWidget* parent = 0);
     ~DocumentWidget();
 
     Massif::FileData* data() const;
@@ -67,25 +69,25 @@ public:
     void selectModelItem(const Massif::ModelItem& item);
 
 signals:
-    void stopParser();
     void loadingFinished();
     void modelItemSelected(const Massif::ModelItem& item);
     void contextMenuRequested(const Massif::ModelItem& item, QMenu* menu);
+    void requestClose();
 
-public slots:
+private slots:
+    void stopParser();
     void parserFinished(const KUrl& file, Massif::FileData* data);
 
     void setProgress(int value);
     void setRange(int minimum, int maximum);
-    void setLoadingMessage(const QString& message);
 
     void showError(const QString& title, const QString& error);
 
-private slots:
     void slotTabChanged(int tab);
 
 private:
     Massif::FileData* m_data;
+    Massif::ParseWorker* m_parseWorker;
     KUrl m_file;
 
     DocumentTabInterface* m_currentTab;

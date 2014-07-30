@@ -249,7 +249,7 @@ void ChartTab::setupGui()
     updateHeader();
 
     //BEGIN TotalDiagram
-    m_totalDiagram = new Plotter;
+    m_totalDiagram = new Plotter(this);
     m_totalDiagram->setAntiAliasing(true);
 
     CartesianAxis* bottomAxis = new TimeAxis(m_totalDiagram);

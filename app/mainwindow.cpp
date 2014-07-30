@@ -24,8 +24,6 @@
 #include "mainwindow.h"
 
 #include "massifdata/filedata.h"
-#include "massifdata/parser.h"
-#include "massifdata/parseworker.h"
 #include "massifdata/snapshotitem.h"
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
@@ -75,7 +73,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : KParts::MainWindow(parent, f)
     , m_recentFiles(0)
     , m_close(0)
-    , m_stopParser(0)
     , m_allocatorModel(new QStringListModel(this))
     , m_newAllocator(0)
     , m_removeAllocator(0)
@@ -182,13 +179,6 @@ void MainWindow::setupActions()
     m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
     m_close->setEnabled(false);
 
-    m_stopParser = new KAction(i18n("Stop Parser"), actionCollection());
-    m_stopParser->setIcon(KIcon("process-stop"));
-    connect(m_stopParser, SIGNAL(triggered(bool)),
-            this, SLOT(stopParser()));
-    m_stopParser->setEnabled(false);
-    actionCollection()->addAction("file_stopparser", m_stopParser);
-
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
@@ -276,20 +266,6 @@ void MainWindow::reloadCurrentFile()
     }
 }
 
-void MainWindow::stopParser()
-{
-    Q_ASSERT(m_currentDocument);
-    ParseWorker* parseWorker = m_documentsParseWorkers.take(m_currentDocument);
-
-    QThread* thread = parseWorker->thread();
-    parseWorker->stop();
-    parseWorker->deleteLater();
-    thread->quit();
-    thread->wait();
-
-    m_stopParser->setEnabled(!m_documentsParseWorkers.isEmpty());
-}
-
 void MainWindow::openFile(const KUrl& file)
 {
     Q_ASSERT(file.isValid());
@@ -303,16 +279,8 @@ void MainWindow::openFile(const KUrl& file)
         }
     }
 
-    DocumentWidget* documentWidget = new DocumentWidget(this, this);
-    documentWidget->setLoadingMessage(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
-
-    // Create dedicated thread for this document.
-    ParseWorker* parseWorker = new ParseWorker;
-    QThread* thread = new QThread(this);
-    thread->start();
-    parseWorker->moveToThread(thread);
-    // Register thread in the hash map.
-    m_documentsParseWorkers.insert(documentWidget, parseWorker);
+    DocumentWidget* documentWidget = new DocumentWidget(file.pathOrUrl(), m_allocatorModel->stringList(),
+                                                        this, this);
 
     if (indexToInsert != -1) {
         // Remove existing instance of the file.
@@ -325,21 +293,11 @@ void MainWindow::openFile(const KUrl& file)
         const int idx = ui.documents->addTab(documentWidget, file.fileName());
         ui.documents->setCurrentIndex(idx);
     }
-
-    connect(parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
-            documentWidget, SLOT(parserFinished(KUrl, Massif::FileData*)));
-    connect(parseWorker, SIGNAL(error(QString, QString)),
-            documentWidget, SLOT(showError(QString, QString)));
-    connect(parseWorker, SIGNAL(progressRange(int, int)),
-            documentWidget, SLOT(setRange(int,int)));
-    connect(parseWorker, SIGNAL(progress(int)),
-            documentWidget, SLOT(setProgress(int)));
     connect(documentWidget, SIGNAL(loadingFinished()),
             this, SLOT(documentChanged()));
+    connect(documentWidget, SIGNAL(requestClose()),
+            this, SLOT(closeRequested()));
 
-    parseWorker->parse(file, m_allocatorModel->stringList());
-
-    m_stopParser->setEnabled(true);
     m_recentFiles->addUrl(file);
     ui.stackedWidget->setCurrentWidget(ui.displayPage);
 }
@@ -389,12 +347,21 @@ void MainWindow::selectPeakSnapshot()
 
 void MainWindow::closeCurrentFile()
 {
-    stopParser();
+    closeFileTab(ui.documents->currentIndex());
+}
 
-    // Tab is now removed
-    int tabToCloseIndex = ui.documents->currentIndex();
-    ui.documents->widget(tabToCloseIndex)->deleteLater();
-    ui.documents->removeTab(tabToCloseIndex);
+void MainWindow::closeRequested()
+{
+    DocumentWidget* widget = qobject_cast<DocumentWidget*>(sender());
+    Q_ASSERT(widget);
+    closeFileTab(ui.documents->indexOf(widget));
+}
+
+void MainWindow::closeFileTab(int idx)
+{
+    Q_ASSERT(idx != -1);
+    ui.documents->widget(idx)->deleteLater();
+    ui.documents->removeTab(idx);
 }
 
 void MainWindow::allocatorsChanged()

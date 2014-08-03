@@ -10,7 +10,6 @@ set(massif-visualizer_SRCS
     documentwidget.cpp
     documenttabinterface.cpp
     charttab.cpp
-    callgraphtab.cpp
     allocatorstab.cpp
 )
 

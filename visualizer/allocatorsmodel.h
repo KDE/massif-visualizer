@@ -27,7 +27,9 @@
 #include <QVector>
 
 #include <massifdata/util.h>
+
 #include "modelitem.h"
+#include "visualizer_export.h"
 
 namespace Massif {
 
@@ -35,7 +37,7 @@ class TreeLeafItem;
 
 class FileData;
 
-class AllocatorsModel : public QAbstractItemModel
+class VISUALIZER_EXPORT AllocatorsModel : public QAbstractItemModel
 {
     Q_OBJECT
 

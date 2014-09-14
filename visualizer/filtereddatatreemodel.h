@@ -42,7 +42,7 @@ class VISUALIZER_EXPORT FilteredDataTreeModel : public QSortFilterProxyModel
 public:
     explicit FilteredDataTreeModel(DataTreeModel* parent);
 
-public slots:
+public Q_SLOTS:
     void setFilter(const QString& needle);
 
 protected:
@@ -51,7 +51,7 @@ protected:
     /// always true
     virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
 
-private slots:
+private Q_SLOTS:
     void timeout();
 
 private:

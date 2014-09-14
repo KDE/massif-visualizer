@@ -68,13 +68,13 @@ public:
 
     void selectModelItem(const Massif::ModelItem& item);
 
-signals:
+Q_SIGNALS:
     void loadingFinished();
     void modelItemSelected(const Massif::ModelItem& item);
     void contextMenuRequested(const Massif::ModelItem& item, QMenu* menu);
     void requestClose();
 
-private slots:
+private Q_SLOTS:
     void stopParser();
     void parserFinished(const QUrl& file, Massif::FileData* data);
 

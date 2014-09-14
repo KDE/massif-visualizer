@@ -69,7 +69,7 @@ public:
 
     void setupActions();
 
-public slots:
+public Q_SLOTS:
     /**
      * Open a dialog to pick a massif output file(s) to display.
      */
@@ -90,7 +90,7 @@ public slots:
      */
     void closeCurrentFile();
 
-private slots:
+private Q_SLOTS:
     void closeRequested();
     void closeFileTab(int idx);
 

@@ -72,7 +72,7 @@ private:
 
     void printFile(QPrinter *printer);
 
-private slots:
+private Q_SLOTS:
     void setDetailedDiagramHidden(bool hidden);
     void setDetailedDiagramVisible(bool visible);
 

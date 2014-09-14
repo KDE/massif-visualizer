@@ -72,7 +72,7 @@ public:
 
     void setProgress(int value);
 
-signals:
+Q_SIGNALS:
     void progress(int value);
 
 private:

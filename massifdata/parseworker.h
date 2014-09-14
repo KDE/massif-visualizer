@@ -41,10 +41,10 @@ public:
 
     void stop();
 
-public slots:
+public Q_SLOTS:
     void parse(const QUrl &url, const QStringList& allocators);
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted once a file was properly parsed.
      */

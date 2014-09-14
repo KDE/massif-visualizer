@@ -44,7 +44,7 @@ public:
     virtual void selectModelItem(const Massif::ModelItem& item);
     virtual void settingsChanged();
 
-private slots:
+private Q_SLOTS:
     void selectionChanged(const QModelIndex& current, const QModelIndex& previous);
     void customContextMenuRequested(const QPoint& pos);
 

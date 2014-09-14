@@ -45,10 +45,10 @@ public:
 
     virtual void settingsChanged() = 0;
 
-public slots:
+public Q_SLOTS:
     virtual void selectModelItem(const Massif::ModelItem& item) = 0;
 
-signals:
+Q_SIGNALS:
     void modelItemSelected(const Massif::ModelItem& item);
     void contextMenuRequested(const Massif::ModelItem& item, QMenu* menu);
 

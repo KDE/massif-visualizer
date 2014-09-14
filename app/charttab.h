@@ -25,11 +25,11 @@
 
 #include "documenttabinterface.h"
 #include <QSpinBox>
+#include <QPrinter>
 
+class QAction;
 class QLabel;
 class QModelIndex;
-
-class KAction;
 
 namespace KDChart {
 class Chart;
@@ -106,14 +106,14 @@ private:
 
     KDChart::Legend* m_legend;
 
-    KAction* m_print;
-    KAction* m_saveAs;
+    QAction* m_print;
+    QAction* m_saveAs;
 
-    KAction* m_toggleTotal;
-    KAction* m_toggleDetailed;
+    QAction* m_toggleTotal;
+    QAction* m_toggleDetailed;
 
-    KAction* m_hideFunction;
-    KAction* m_hideOtherFunctions;
+    QAction* m_hideFunction;
+    QAction* m_hideOtherFunctions;
 
     QSpinBox* m_box;
 

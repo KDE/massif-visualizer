@@ -26,10 +26,10 @@
 #include <QPair>
 #include <QMetaType>
 
-namespace Massif {
+#include "treeleafitem.h"
+#include "snapshotitem.h"
 
-class TreeLeafItem;
-class SnapshotItem;
+namespace Massif {
 
 typedef QPair<const TreeLeafItem*, const SnapshotItem*> ModelItem;
 

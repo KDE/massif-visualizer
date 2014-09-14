@@ -31,6 +31,7 @@
 #include "ui_mainwindow.h"
 #include "documentwidget.h"
 
+class QAction;
 class QSpinBox;
 class QStringListModel;
 
@@ -43,7 +44,6 @@ class Legend;
 class BarDiagram;
 }
 
-class KAction;
 class KRecentFilesAction;
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -123,15 +123,15 @@ private:
 
     KRecentFilesAction* m_recentFiles;
 
-    KAction* m_close;
+    QAction* m_close;
 
     QStringListModel* m_allocatorModel;
-    KAction* m_newAllocator;
-    KAction* m_removeAllocator;
-    KAction* m_markCustomAllocator;
+    QAction* m_newAllocator;
+    QAction* m_removeAllocator;
+    QAction* m_markCustomAllocator;
 
-    KAction* m_shortenTemplates;
-    KAction* m_selectPeak;
+    QAction* m_shortenTemplates;
+    QAction* m_selectPeak;
 
     DocumentWidget* m_currentDocument;
 

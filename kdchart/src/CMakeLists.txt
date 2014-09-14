@@ -1,5 +1,4 @@
 include_directories(
-    ${KDE4_INCLUDES}
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
     ${CMAKE_CURRENT_SOURCE_DIR}/../kdablibfakes/include
     ${CMAKE_CURRENT_SOURCE_DIR}/KDChart
@@ -120,7 +119,7 @@ qt4_wrap_ui(kdchart_LIB_SRCS
 
 qt_wrap_cpp(mv-kdchart kdchart_LIB_SRCS KDChart/KDChartEnums.h)
 
-kde4_add_library(mv-kdchart STATIC ${kdchart_LIB_SRCS})
+add_library(mv-kdchart STATIC ${kdchart_LIB_SRCS})
 
 target_link_libraries(mv-kdchart LINK_PRIVATE
 ${QT_QTSVG_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )

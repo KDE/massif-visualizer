@@ -48,6 +48,7 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
+#include <KIcon>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -172,11 +173,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-    KAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
+    QAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
 
-    KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
+    QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
     actionCollection()->addAction("file_reload", reload);
     reload->setEnabled(false);
 
@@ -187,23 +188,23 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
 
-    m_shortenTemplates = new KAction(KIcon("shortentemplates"), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates = new QAction(KIcon("shortentemplates"), i18n("Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);
     m_shortenTemplates->setChecked(Settings::shortenTemplates());
     connect(m_shortenTemplates, SIGNAL(toggled(bool)), SLOT(slotShortenTemplates(bool)));
     actionCollection()->addAction("shorten_templates", m_shortenTemplates);
 
-    m_selectPeak = new KAction(KIcon("flag-red"), i18n("Select peak snapshot"), actionCollection());
+    m_selectPeak = new QAction(KIcon("flag-red"), i18n("Select peak snapshot"), actionCollection());
     connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
     actionCollection()->addAction("selectPeak", m_selectPeak);
     m_selectPeak->setEnabled(false);
 
     //BEGIN custom allocators
-    m_newAllocator = new KAction(KIcon("list-add"), i18n("add"), ui.allocatorDock);
+    m_newAllocator = new QAction(KIcon("list-add"), i18n("add"), ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("add custom allocator"));
     connect(m_newAllocator, SIGNAL(triggered()), this, SLOT(slotNewAllocator()));
     ui.dockMenuBar->addAction(m_newAllocator);
-    m_removeAllocator = new KAction(KIcon("list-remove"), i18n("remove"),
+    m_removeAllocator = new QAction(KIcon("list-remove"), i18n("remove"),
                                     ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("remove selected allocator"));
     connect(m_removeAllocator, SIGNAL(triggered()), this, SLOT(slotRemoveAllocator()));
@@ -212,7 +213,7 @@ void MainWindow::setupActions()
     m_removeAllocator->setEnabled(false);
     ui.dockMenuBar->addAction(m_removeAllocator);
 
-    m_markCustomAllocator = new KAction(i18n("mark as custom allocator"), ui.allocatorDock);
+    m_markCustomAllocator = new QAction(i18n("mark as custom allocator"), ui.allocatorDock);
     connect(m_markCustomAllocator, SIGNAL(triggered()),
             this, SLOT(slotMarkCustomAllocator()), Qt::QueuedConnection);
     //END custom allocators

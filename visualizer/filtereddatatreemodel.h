@@ -23,7 +23,7 @@
 #ifndef MASSIF_FILTEREDDATATREEMODEL_H
 #define MASSIF_FILTEREDDATATREEMODEL_H
 
-#include <QtGui/QSortFilterProxyModel>
+#include <QSortFilterProxyModel>
 #include <QTimer>
 
 #include "visualizer_export.h"

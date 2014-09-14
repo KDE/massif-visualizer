@@ -60,6 +60,10 @@
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KLocale>
+#include <KGlobal>
+#include <KDebug>
+#include <KUrl>
+#include <KIcon>
 
 using namespace KDChart;
 using namespace Massif;
@@ -180,19 +184,19 @@ void ChartTab::setupActions()
     m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
     actionCollection()->addAction("file_save_as", m_saveAs);
 
-    m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
+    m_toggleTotal = new QAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
     actionCollection()->addAction("toggle_total", m_toggleTotal);
 
-    m_toggleDetailed = new KAction(KIcon("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new QAction(KIcon("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 
-    KAction* stackNumAction = actionCollection()->addAction("stackNum");
+    QAction* stackNumAction = actionCollection()->addAction("stackNum");
     stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
@@ -203,7 +207,8 @@ void ChartTab::setupActions()
     connect(m_box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
     stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
-    stackNumAction->setDefaultWidget(stackNumWidget);
+    // TODO: KF5
+    // stackNumAction->setDefaultWidget(stackNumWidget);
 
     m_hideFunction = new KAction(i18n("hide function"), this);
     connect(m_hideFunction, SIGNAL(triggered()),

@@ -21,16 +21,18 @@ if(KGRAPHVIEWER_FOUND)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
 endif(KGRAPHVIEWER_FOUND)
 
-kde4_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
+kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
 
-kde4_add_ui_files(massif-visualizer_SRCS mainwindow.ui config.ui)
+qt5_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
 
-kde4_add_executable(massif-visualizer ${massif-visualizer_SRCS})
+add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
 target_link_libraries(massif-visualizer LINK_PRIVATE
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KPARTS_LIBS}
+    Qt5::PrintSupport
+    KF5::KIOCore
+    KF5::KDELibs4Support
+    KF5::Parts
+    KF5::I18n
     mv-kdchart
     mv-massifdata
     mv-visualizer

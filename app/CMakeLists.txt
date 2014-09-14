@@ -42,7 +42,7 @@ install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(
     FILES massif-visualizerui.rc documentwidgetui.rc charttabui.rc callgraphtabui.rc
-    DESTINATION ${DATA_INSTALL_DIR}/massif-visualizer
+    DESTINATION ${KXMLGUI_INSTALL_DIR}/massif-visualizer
 )
 
 install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})

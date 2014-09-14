@@ -58,8 +58,8 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
         file = url.toLocalFile();
     }
 
-    QScopedPointer<QIODevice> device(KFilterDev::deviceForFile(file));
-    if (!device->open(QIODevice::ReadOnly)) {
+    KFilterDev device(file);
+    if (!device.open(QIODevice::ReadOnly)) {
         emit error(i18n("Read Failed"),
                    i18n("Could not open file <i>%1</i> for reading.", file));
         return;
@@ -68,7 +68,7 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
     Parser p;
     emit progressRange(0, 100);
     connect(&p, SIGNAL(progress(int)), this, SIGNAL(progress(int)));
-    QScopedPointer<FileData> data(p.parse(device.data(), allocators, &m_shouldStop));
+    QScopedPointer<FileData> data(p.parse(&device, allocators, &m_shouldStop));
 
     if (!data) {
         if (!m_shouldStop) {

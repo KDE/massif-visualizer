@@ -51,6 +51,7 @@
 #include <QMenu>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QIcon>
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -63,7 +64,6 @@
 #include <KGlobal>
 #include <KDebug>
 #include <KUrl>
-#include <KIcon>
 
 using namespace KDChart;
 using namespace Massif;
@@ -184,13 +184,13 @@ void ChartTab::setupActions()
     m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
     actionCollection()->addAction("file_save_as", m_saveAs);
 
-    m_toggleTotal = new QAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
+    m_toggleTotal = new QAction(QIcon::fromTheme("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
     actionCollection()->addAction("toggle_total", m_toggleTotal);
 
-    m_toggleDetailed = new QAction(KIcon("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new QAction(QIcon::fromTheme("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));

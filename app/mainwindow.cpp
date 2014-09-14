@@ -48,7 +48,6 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
-#include <KIcon>
 #include <KUrl>
 
 #include <QSortFilterProxyModel>
@@ -56,6 +55,7 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QInputDialog>
+#include <QIcon>
 
 #include <KMessageBox>
 
@@ -189,23 +189,23 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
 
-    m_shortenTemplates = new QAction(KIcon("shortentemplates"), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates = new QAction(QIcon::fromTheme("shortentemplates"), i18n("Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);
     m_shortenTemplates->setChecked(Settings::shortenTemplates());
     connect(m_shortenTemplates, SIGNAL(toggled(bool)), SLOT(slotShortenTemplates(bool)));
     actionCollection()->addAction("shorten_templates", m_shortenTemplates);
 
-    m_selectPeak = new QAction(KIcon("flag-red"), i18n("Select peak snapshot"), actionCollection());
+    m_selectPeak = new QAction(QIcon::fromTheme("flag-red"), i18n("Select peak snapshot"), actionCollection());
     connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
     actionCollection()->addAction("selectPeak", m_selectPeak);
     m_selectPeak->setEnabled(false);
 
     //BEGIN custom allocators
-    m_newAllocator = new QAction(KIcon("list-add"), i18n("add"), ui.allocatorDock);
+    m_newAllocator = new QAction(QIcon::fromTheme("list-add"), i18n("add"), ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("add custom allocator"));
     connect(m_newAllocator, SIGNAL(triggered()), this, SLOT(slotNewAllocator()));
     ui.dockMenuBar->addAction(m_newAllocator);
-    m_removeAllocator = new QAction(KIcon("list-remove"), i18n("remove"),
+    m_removeAllocator = new QAction(QIcon::fromTheme("list-remove"), i18n("remove"),
                                     ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("remove selected allocator"));
     connect(m_removeAllocator, SIGNAL(triggered()), this, SLOT(slotRemoveAllocator()));

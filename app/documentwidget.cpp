@@ -38,7 +38,6 @@
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>
-#include <KIcon>
 #include <KDebug>
 #include <KXMLGUIFactory>
 
@@ -48,6 +47,7 @@
 #include <QTabWidget>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QIcon>
 
 #include "charttab.h"
 #include "allocatorstab.h"
@@ -125,7 +125,7 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     m_stopParserButton = new QToolButton(stopParserWidget);
     m_stopParserButton->setObjectName(QString::fromUtf8("stopParsing"));
     m_stopParserButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_stopParserButton->setIcon(KIcon("process-stop"));
+    m_stopParserButton->setIcon(QIcon::fromTheme("process-stop"));
     m_stopParserButton->setIconSize(QSize(48, 48));
     connect(m_stopParserButton, SIGNAL(clicked()),
             this, SIGNAL(requestClose()));
@@ -189,7 +189,7 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
     m_data = data;
     m_file = file;
 
-    m_tabs->addTab(new ChartTab(m_data, this, this), KIcon("office-chart-area-stacked"),
+    m_tabs->addTab(new ChartTab(m_data, this, this), QIcon::fromTheme("office-chart-area-stacked"),
                    i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -197,13 +197,13 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (part) {
-            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), KIcon("kgraphviewer"),
+            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme("kgraphviewer"),
                            i18n("Callgraph"));
         }
     }
 #endif
 
-    m_tabs->addTab(new AllocatorsTab(m_data, this, this), KIcon("view-list-text"),
+    m_tabs->addTab(new AllocatorsTab(m_data, this, this), QIcon::fromTheme("view-list-text"),
                    i18n("Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {

@@ -25,8 +25,8 @@
 
 #include <QThread>
 #include <QStringList>
+#include <QUrl>
 
-#include <KUrl>
 
 namespace Massif {
 
@@ -42,13 +42,13 @@ public:
     void stop();
 
 public slots:
-    void parse(const KUrl& url, const QStringList& allocators);
+    void parse(const QUrl &url, const QStringList& allocators);
 
 signals:
     /**
      * Emitted once a file was properly parsed.
      */
-    void finished(const KUrl& url, Massif::FileData* data);
+    void finished(const QUrl& url, Massif::FileData* data);
 
     /**
      * Emitted if a file could not be parsed.

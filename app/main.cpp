@@ -25,7 +25,7 @@
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KCmdLineOptions>
-#include <KUrl>
+#include <QUrl>
 
 #include <QtCore/QDebug>
 

@@ -78,7 +78,7 @@ public slots:
     /**
      * Opens @p file as massif output file and visualize it.
      */
-    void openFile(const KUrl& file);
+    void openFile(const QUrl& file);
 
     /**
      * reload currently opened file

@@ -24,7 +24,8 @@
 #include "parser.h"
 #include "filedata.h"
 
-#include <KUrl>
+#include <QUrl>
+
 #include <KFilterDev>
 #include <KIO/NetAccess>
 #include <KLocalizedString>
@@ -37,11 +38,11 @@ ParseWorker::ParseWorker(QObject* parent)
 
 }
 
-void ParseWorker::parse(const KUrl& url, const QStringList& allocators)
+void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
 {
     // process in background thread
     if (QThread::currentThread() != thread()) {
-        QMetaObject::invokeMethod(this, "parse", Q_ARG(KUrl, url), Q_ARG(QStringList, allocators));
+        QMetaObject::invokeMethod(this, "parse", Q_ARG(QUrl, url), Q_ARG(QStringList, allocators));
         return;
     }
 
@@ -50,7 +51,7 @@ void ParseWorker::parse(const KUrl& url, const QStringList& allocators)
     if (!url.isLocalFile()) {
         if (!KIO::NetAccess::download(url, file, 0)) {
             emit error(i18n("Download Failed"),
-                       i18n("Failed to download remote massif data file <i>%1</i>.", url.pathOrUrl()));
+                       i18n("Failed to download remote massif data file <i>%1</i>.", url.toString()));
             return;
         }
     } else {
@@ -74,12 +75,12 @@ void ParseWorker::parse(const KUrl& url, const QStringList& allocators)
             emit error(i18n("Parser Failed"),
                        i18n("Could not parse file <i>%1</i>.<br>"
                             "Parse error in line %2:<br>%3",
-                            url.pathOrUrl(), p.errorLine() + 1,
+                            url.toString(), p.errorLine() + 1,
                             QString::fromLatin1(p.errorLineString())));
         }
         return;
     } else if (data->snapshots().isEmpty()) {
-        emit error(i18n("Empty data file <i>%1</i>.", url.pathOrUrl()),
+        emit error(i18n("Empty data file <i>%1</i>.", url.toString()),
                    i18n("Empty Data File"));
         return;
     }

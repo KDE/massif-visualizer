@@ -49,6 +49,7 @@
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
 #include <KIcon>
+#include <KUrl>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
@@ -174,7 +175,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupActions()
 {
     QAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), actionCollection());
     m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
 
     QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
@@ -256,10 +257,10 @@ void MainWindow::settingsChanged()
 
 void MainWindow::openFile()
 {
-    const KUrl::List files = KFileDialog::getOpenUrls(KUrl("kfiledialog:///massif-visualizer"),
+    const QList<QUrl> files = KFileDialog::getOpenUrls(KUrl("kfiledialog:///massif-visualizer"),
                                                       QString("application/x-valgrind-massif"),
                                                       this, i18n("Open Massif Output File"));
-    foreach (const KUrl& file, files) {
+    foreach (const QUrl& file, files) {
         openFile(file);
     }
 }
@@ -267,11 +268,11 @@ void MainWindow::openFile()
 void MainWindow::reloadCurrentFile()
 {
     if (m_currentDocument->file().isValid()) {
-        openFile(KUrl(m_currentDocument->file()));
+        openFile(QUrl(m_currentDocument->file()));
     }
 }
 
-void MainWindow::openFile(const KUrl& file)
+void MainWindow::openFile(const QUrl& file)
 {
     Q_ASSERT(file.isValid());
 
@@ -284,7 +285,7 @@ void MainWindow::openFile(const KUrl& file)
         }
     }
 
-    DocumentWidget* documentWidget = new DocumentWidget(file.pathOrUrl(), m_allocatorModel->stringList(),
+    DocumentWidget* documentWidget = new DocumentWidget(file.toString(), m_allocatorModel->stringList(),
                                                         this, this);
 
     if (indexToInsert != -1) {

@@ -24,9 +24,9 @@
 #ifndef DOCUMENTWIDGET_H
 #define DOCUMENTWIDGET_H
 
+#include <QUrl>
 #include <QWidget>
 
-#include <KUrl>
 #include <KXMLGUIClient>
 
 #include "visualizer/modelitem.h"
@@ -52,12 +52,12 @@ class DocumentWidget : public QWidget, public KXMLGUIClient
     Q_OBJECT
 
 public:
-    explicit DocumentWidget(const KUrl& file, const QStringList& customAllocators,
+    explicit DocumentWidget(const QUrl &file, const QStringList& customAllocators,
                             KXMLGUIClient* guiParent, QWidget* parent = 0);
     ~DocumentWidget();
 
     Massif::FileData* data() const;
-    KUrl file() const;
+    QUrl file() const;
 
     bool isLoaded() const;
 
@@ -76,7 +76,7 @@ signals:
 
 private slots:
     void stopParser();
-    void parserFinished(const KUrl& file, Massif::FileData* data);
+    void parserFinished(const QUrl& file, Massif::FileData* data);
 
     void setProgress(int value);
     void setRange(int minimum, int maximum);
@@ -88,7 +88,7 @@ private slots:
 private:
     Massif::FileData* m_data;
     Massif::ParseWorker* m_parseWorker;
-    KUrl m_file;
+    QUrl m_file;
 
     DocumentTabInterface* m_currentTab;
 

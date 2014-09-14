@@ -62,7 +62,7 @@
 
 using namespace Massif;
 
-DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAllocators,
+DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAllocators,
                                KXMLGUIClient* guiParent, QWidget* parent)
     : QWidget(parent)
     , KXMLGUIClient(guiParent)
@@ -78,8 +78,8 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     , m_stopParserButton(0)
     , m_isLoaded(false)
 {
-    connect(m_parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
-            this, SLOT(parserFinished(KUrl, Massif::FileData*)));
+    connect(m_parseWorker, SIGNAL(finished(QUrl, Massif::FileData*)),
+            this, SLOT(parserFinished(QUrl, Massif::FileData*)));
     connect(m_parseWorker, SIGNAL(error(QString, QString)),
             this, SLOT(showError(QString, QString)));
     connect(m_parseWorker, SIGNAL(progressRange(int, int)),
@@ -110,7 +110,7 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     verticalLayout->addItem(upperSpacerItem);
 
     m_loadingMessage = new QLabel(loadingPage);
-    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.toString()));
     m_loadingMessage->setAlignment(Qt::AlignCenter);
     verticalLayout->addWidget(m_loadingMessage);
 
@@ -155,7 +155,7 @@ FileData* DocumentWidget::data() const
     return m_data;
 }
 
-KUrl DocumentWidget::file() const
+QUrl DocumentWidget::file() const
 {
     return m_file;
 }
@@ -172,7 +172,7 @@ void DocumentWidget::settingsChanged()
     }
 }
 
-void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
+void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
 {
     Q_ASSERT(data->peak());
 

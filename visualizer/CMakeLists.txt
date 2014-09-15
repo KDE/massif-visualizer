@@ -21,4 +21,5 @@ target_link_libraries(mv-visualizer LINK_PRIVATE
     Qt5::Gui
     KF5::KIOCore
     KF5::I18n
+    KF5::KDELibs4Support
 )

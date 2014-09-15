@@ -25,7 +25,6 @@
 #include "snapshotitem.h"
 #include "treeleafitem.h"
 
-#include <KGlobal>
 #include <KLocale>
 #include <KConfigGroup>
 #include <KFormat>
@@ -36,8 +35,8 @@ namespace Massif {
 
 QString prettyCost(quint64 cost)
 {
-    Q_ASSERT(KGlobal::config());
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    Q_ASSERT(KSharedConfig::openConfig());
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
     int precision = conf.readEntry(QLatin1String("prettyCostPrecision"), 1);
     KFormat format(QLocale::system());
     return format.formatByteSize(cost, precision);
@@ -46,8 +45,8 @@ QString prettyCost(quint64 cost)
 QByteArray shortenTemplates(const QByteArray& identifier)
 {
     QByteArray ret = identifier;
-    Q_ASSERT(KGlobal::config());
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    Q_ASSERT(KSharedConfig::openConfig());
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
     if (conf.readEntry(QLatin1String("shortenTemplates"), false)) {
         // remove template arguments between <...>
         int depth = 0;

@@ -61,7 +61,6 @@
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KLocale>
-#include <KGlobal>
 #include <KUrl>
 #include <KFormat>
 

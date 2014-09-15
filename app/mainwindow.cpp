@@ -49,7 +49,6 @@
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
 #include <KUrl>
-#include <KGlobal>
 #include <KLocalizedString>
 
 #include <QSortFilterProxyModel>
@@ -70,7 +69,7 @@ using namespace Massif;
 // Helper function
 static KConfigGroup allocatorConfig()
 {
-    return KGlobal::config()->group("Allocators");
+    return KSharedConfig::openConfig()->group("Allocators");
 }
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -171,14 +170,14 @@ MainWindow::~MainWindow()
         closeCurrentFile();
     }
 
-    m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
+    m_recentFiles->saveEntries(KSharedConfig::openConfig()->group( QString() ));
 }
 
 void MainWindow::setupActions()
 {
     QAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
     m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), actionCollection());
-    m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
+    m_recentFiles->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
     QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
     actionCollection()->addAction("file_reload", reload);

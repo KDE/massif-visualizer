@@ -59,3 +59,5 @@ add_subdirectory(pics)
 
 # TODO: reenable tests
 #add_subdirectory(test)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

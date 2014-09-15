@@ -17,8 +17,6 @@ add_library(mv-massifdata STATIC ${massifdata_SRCS})
 
 target_link_libraries(mv-massifdata LINK_PRIVATE
     Qt5::Core
-    # required for Qt::escape() in QTextDocument
-    Qt5::Gui
     KF5::Archive
     KF5::KIOCore
     KF5::I18n

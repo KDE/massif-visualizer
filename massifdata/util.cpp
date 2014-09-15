@@ -29,8 +29,6 @@
 #include <KConfigGroup>
 #include <KFormat>
 
-#include <QTextDocument>
-
 namespace Massif {
 
 QString prettyCost(quint64 cost)

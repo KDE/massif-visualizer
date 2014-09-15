@@ -57,7 +57,6 @@
 #include <KLocalizedString>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KAction>
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KLocale>
@@ -210,10 +209,10 @@ void ChartTab::setupActions()
     // TODO: KF5
     // stackNumAction->setDefaultWidget(stackNumWidget);
 
-    m_hideFunction = new KAction(i18n("hide function"), this);
+    m_hideFunction = new QAction(i18n("hide function"), this);
     connect(m_hideFunction, SIGNAL(triggered()),
             this, SLOT(slotHideFunction()));
-    m_hideOtherFunctions = new KAction(i18n("hide other functions"), this);
+    m_hideOtherFunctions = new QAction(i18n("hide other functions"), this);
     connect(m_hideOtherFunctions, SIGNAL(triggered()),
             this, SLOT(slotHideOtherFunctions()));
 }

@@ -135,13 +135,13 @@ QString formatLabelForTooltip(const ParsedLabel& parsed)
 {
     QString ret;
     if (!parsed.function.isEmpty()) {
-        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(parsed.function));
+        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", QString(parsed.function).toHtmlEscaped());
     }
     if (!parsed.location.isEmpty()) {
-        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", Qt::escape(parsed.location));
+        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", QString(parsed.location).toHtmlEscaped());
     }
     if (!parsed.address.isEmpty()) {
-        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", Qt::escape(parsed.address));
+        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", QString(parsed.address).toHtmlEscaped());
     }
     return ret;
 }

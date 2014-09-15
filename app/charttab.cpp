@@ -44,6 +44,7 @@
 
 #include "massif-visualizer-settings.h"
 
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QPrinter>
 #include <QPrintPreviewDialog>
@@ -61,7 +62,6 @@
 #include <KMessageBox>
 #include <KLocale>
 #include <KGlobal>
-#include <KDebug>
 #include <KUrl>
 #include <KFormat>
 
@@ -386,7 +386,7 @@ void ChartTab::updateLegendPosition()
             break;
         default:
             pos = KDChartEnums::PositionFloating;
-            kDebug() << "invalid legend position";
+            qDebug() << "invalid legend position";
     }
     m_legend->setPosition(Position(pos));
 
@@ -409,7 +409,7 @@ void ChartTab::updateLegendPosition()
             break;
         default:
             align = Qt::AlignHCenter | Qt::AlignVCenter;
-            kDebug() << "invalid legend alignmemnt";
+            qDebug() << "invalid legend alignmemnt";
     }
 
     // do something reasonable since top,bottom have no effect

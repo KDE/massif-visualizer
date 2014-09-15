@@ -30,10 +30,10 @@
 #include <QTextStream>
 #include <QFile>
 #include <QColor>
+#include <QDebug>
 
 #include <KLocalizedString>
 
-#include <KDebug>
 
 namespace Massif {
 
@@ -79,7 +79,7 @@ DotGraphGenerator::DotGraphGenerator(const TreeLeafItem* node, const QString& ti
 
 DotGraphGenerator::~DotGraphGenerator()
 {
-    kDebug() << "closing generator, file will get removed";
+    qDebug() << "closing generator, file will get removed";
 }
 
 void DotGraphGenerator::cancel()
@@ -174,7 +174,7 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
 void DotGraphGenerator::run()
 {
     if (!m_file.isOpen()) {
-        kWarning() << "could not create temp file for writing Dot-graph";
+        qWarning() << "could not create temp file for writing Dot-graph";
         return;
     }
 
@@ -182,7 +182,7 @@ void DotGraphGenerator::run()
         return;
     }
 
-    kDebug() << "creating new dot file in" << m_file.fileName();
+    qDebug() << "creating new dot file in" << m_file.fileName();
     QTextStream out(&m_file);
 
     out << "digraph callgraph {\n"

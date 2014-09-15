@@ -38,9 +38,9 @@
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>
-#include <KDebug>
 #include <KXMLGUIFactory>
 
+#include <QDebug>
 #include <QLabel>
 #include <QProgressBar>
 #include <QStackedWidget>
@@ -176,7 +176,7 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
 {
     Q_ASSERT(data->peak());
 
-    kDebug() << "loaded massif file:" << file;
+    qDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << data->description();
     qDebug() << "command:" << data->cmd();
     qDebug() << "time unit:" << data->timeUnit();

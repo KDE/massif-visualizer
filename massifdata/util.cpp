@@ -157,7 +157,6 @@ QString tooltipForTreeLeaf(const TreeLeafItem* node, const SnapshotItem* snapsho
                     double(int(double(node ? node->cost() : 0)/snapshot->cost()*10000))/100, snapshot->number());
     tooltip += formatLabelForTooltip(parseLabel(label));
     return finalizeTooltip(tooltip);
-    return tooltip;
 }
 
 }

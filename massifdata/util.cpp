@@ -28,6 +28,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KConfigGroup>
+#include <KFormat>
 
 #include <QTextDocument>
 
@@ -38,7 +39,8 @@ QString prettyCost(quint64 cost)
     Q_ASSERT(KGlobal::config());
     KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
     int precision = conf.readEntry(QLatin1String("prettyCostPrecision"), 1);
-    return KGlobal::locale()->formatByteSize(cost, precision);
+    KFormat format(QLocale::system());
+    return format.formatByteSize(cost, precision);
 }
 
 QByteArray shortenTemplates(const QByteArray& identifier)

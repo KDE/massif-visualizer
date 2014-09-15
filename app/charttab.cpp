@@ -63,6 +63,7 @@
 #include <KGlobal>
 #include <KDebug>
 #include <KUrl>
+#include <KFormat>
 
 using namespace KDChart;
 using namespace Massif;
@@ -96,7 +97,8 @@ public:
     virtual const QString customizedLabel(const QString& label) const
     {
         // TODO: change distance between labels to 1024 and simply use prettyCost() here
-        return KGlobal::locale()->formatByteSize(label.toDouble(), 1, KLocale::MetricBinaryDialect);
+        KFormat format(QLocale::system());
+        return format.formatByteSize(label.toDouble(), 1, KFormat::MetricBinaryDialect);
     }
 };
 

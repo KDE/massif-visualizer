@@ -49,6 +49,8 @@
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
 #include <KUrl>
+#include <KGlobal>
+#include <KLocalizedString>
 
 #include <QSortFilterProxyModel>
 #include <QStringListModel>

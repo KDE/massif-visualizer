@@ -25,7 +25,7 @@
 
 #include <QTextStream>
 #include <QThread>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 
 #include "visualizer_export.h"
 
@@ -70,7 +70,7 @@ private:
     void nodeToDot(GraphNode* node, QTextStream& out, const QString& parentId = QString(), quint64 cost = 0);
     const SnapshotItem* m_snapshot;
     const TreeLeafItem* m_node;
-    KTemporaryFile m_file;
+    QTemporaryFile m_file;
     bool m_canceled;
     quint64 m_maxCost;
     QString m_timeUnit;

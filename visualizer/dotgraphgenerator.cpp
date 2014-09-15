@@ -32,7 +32,6 @@
 #include <QColor>
 
 #include <KLocalizedString>
-#include <KTemporaryFile>
 
 #include <KDebug>
 

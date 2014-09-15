@@ -21,7 +21,8 @@ include(FeatureSummary)
 
 enable_testing()
 
-find_package(KGraphViewer 2.1)
+message("TODO: reenable KGraphViewer support")
+#find_package(KGraphViewer 2.1)
 #macro_log_feature(KGRAPHVIEWER_FOUND "KGraphViewer" "KPart to view callgraph dot files."
 #                  "http://extragear.kde.org/apps/kgraphviewer/" FALSE ""
 #                  "Required for detailed snapshot analysis. From KDE SDK Extragear package, KGraphViewer 2.1 or higher is required.")

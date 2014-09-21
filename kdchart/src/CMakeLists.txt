@@ -113,7 +113,7 @@ set(kdchart_LIB_SRCS
     KDChart/Ternary/TernaryPoint.cpp
 )
 
-qt4_wrap_ui(kdchart_LIB_SRCS
+qt5_wrap_ui(kdchart_LIB_SRCS
     KDChart/KDChartDatasetSelector.ui
 )
 
@@ -122,4 +122,9 @@ qt_wrap_cpp(mv-kdchart kdchart_LIB_SRCS KDChart/KDChartEnums.h)
 add_library(mv-kdchart STATIC ${kdchart_LIB_SRCS})
 
 target_link_libraries(mv-kdchart LINK_PRIVATE
-${QT_QTSVG_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${ZLIB_LIBRARY} )
+    Qt5::Svg
+    Qt5::XmlPatterns
+    Qt5::Gui
+    Qt5::Core
+    ${ZLIB_LIBRARY}
+)

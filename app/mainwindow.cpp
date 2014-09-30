@@ -248,7 +248,7 @@ void MainWindow::settingsChanged()
         m_shortenTemplates->setChecked(Settings::self()->shortenTemplates());
     }
 
-    Settings::self()->writeConfig();
+    Settings::self()->save();
 
     if (m_currentDocument) {
         m_currentDocument->settingsChanged();

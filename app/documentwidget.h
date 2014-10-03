@@ -26,6 +26,7 @@
 
 #include <QUrl>
 #include <QWidget>
+#include <QMenu>
 
 #include <KXMLGUIClient>
 

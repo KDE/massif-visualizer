@@ -78,14 +78,14 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     , m_stopParserButton(0)
     , m_isLoaded(false)
 {
-    connect(m_parseWorker, SIGNAL(finished(QUrl, Massif::FileData*)),
-            this, SLOT(parserFinished(QUrl, Massif::FileData*)));
-    connect(m_parseWorker, SIGNAL(error(QString, QString)),
-            this, SLOT(showError(QString, QString)));
-    connect(m_parseWorker, SIGNAL(progressRange(int, int)),
-            this, SLOT(setRange(int,int)));
-    connect(m_parseWorker, SIGNAL(progress(int)),
-            this, SLOT(setProgress(int)));
+    connect(m_parseWorker, &ParseWorker::finished,
+            this, &DocumentWidget::parserFinished);
+    connect(m_parseWorker, &ParseWorker::error,
+            this, &DocumentWidget::showError);
+    connect(m_parseWorker, &ParseWorker::progressRange,
+            this, &DocumentWidget::setRange);
+    connect(m_parseWorker, &ParseWorker::progress,
+            this, &DocumentWidget::setProgress);
 
     // Create dedicated thread for this document.
     // TODO: use ThreadWeaver
@@ -127,8 +127,8 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     m_stopParserButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_stopParserButton->setIcon(QIcon::fromTheme("process-stop"));
     m_stopParserButton->setIconSize(QSize(48, 48));
-    connect(m_stopParserButton, SIGNAL(clicked()),
-            this, SIGNAL(requestClose()));
+    connect(m_stopParserButton, &QToolButton::clicked,
+            this, &DocumentWidget::requestClose);
     stopParserWidgetLayout->addWidget(m_stopParserButton);
     verticalLayout->addWidget(stopParserWidget);
 
@@ -208,15 +208,15 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
 
     for (int i = 0; i < m_tabs->count(); ++i) {
         DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));
-        connect(tab, SIGNAL(modelItemSelected(Massif::ModelItem)),
-                this, SIGNAL(modelItemSelected(Massif::ModelItem)));
-        connect(tab, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
-                this, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)));
+        connect(tab, &DocumentTabInterface::modelItemSelected,
+                this, &DocumentWidget::modelItemSelected);
+        connect(tab, &DocumentTabInterface::contextMenuRequested,
+                this, &DocumentWidget::contextMenuRequested);
     }
 
     m_tabs->setCurrentIndex(0);
-    connect(m_tabs, SIGNAL(currentChanged(int)),
-            this, SLOT(slotTabChanged(int)));
+    connect(m_tabs, &QTabWidget::currentChanged,
+            this, &DocumentWidget::slotTabChanged);
     slotTabChanged(0);
 
     m_isLoaded = true;

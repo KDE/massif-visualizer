@@ -187,13 +187,13 @@ void ChartTab::setupActions()
     m_toggleTotal = new QAction(QIcon::fromTheme("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
-    connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
+    connect(m_toggleTotal, &QAction::toggled, this, &ChartTab::showTotalGraph);
     actionCollection()->addAction("toggle_total", m_toggleTotal);
 
     m_toggleDetailed = new QAction(QIcon::fromTheme("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
-    connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
+    connect(m_toggleDetailed, &QAction::toggled, this, &ChartTab::showDetailedGraph);
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 
     QAction* stackNumAction = actionCollection()->addAction("stackNum");
@@ -204,18 +204,18 @@ void ChartTab::setupActions()
     m_box->setMinimum(0);
     m_box->setMaximum(50);
     m_box->setValue(10);
-    connect(m_box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
+    connect(m_box, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ChartTab::setStackNum);
     stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
     // TODO: KF5
     // stackNumAction->setDefaultWidget(stackNumWidget);
 
     m_hideFunction = new QAction(i18n("hide function"), this);
-    connect(m_hideFunction, SIGNAL(triggered()),
-            this, SLOT(slotHideFunction()));
+    connect(m_hideFunction, &QAction::triggered,
+            this, &ChartTab::slotHideFunction);
     m_hideOtherFunctions = new QAction(i18n("hide other functions"), this);
-    connect(m_hideOtherFunctions, SIGNAL(triggered()),
-            this, SLOT(slotHideOtherFunctions()));
+    connect(m_hideOtherFunctions, &QAction::triggered,
+            this, &ChartTab::slotHideOtherFunctions);
 }
 
 void ChartTab::setupGui()
@@ -244,8 +244,8 @@ void ChartTab::setupGui()
     m_legend->setTextAlignment(Qt::AlignLeft);
     m_legend->hide();
 
-    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(chartContextMenuRequested(QPoint)));
+    connect(m_chart, &Chart::customContextMenuRequested,
+            this, &ChartTab::chartContextMenuRequested);
 
     //BEGIN KDChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
@@ -318,10 +318,10 @@ void ChartTab::setupGui()
 
     m_box->setValue(m_detailedCostModel->maximumDatasetCount());
 
-    connect(m_totalDiagram, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(totalItemClicked(QModelIndex)));
-    connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(detailedItemClicked(QModelIndex)));
+    connect(m_totalDiagram, &Plotter::clicked,
+            this, &ChartTab::totalItemClicked);
+    connect(m_detailedDiagram, &Plotter::clicked,
+            this, &ChartTab::detailedItemClicked);
 }
 
 void ChartTab::settingsChanged()
@@ -494,7 +494,7 @@ void ChartTab::showPrintPreviewDialog()
     QPrinter printer;
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
     ppd->setAttribute(Qt::WA_DeleteOnClose);
-    connect(ppd, SIGNAL(paintRequested(QPrinter*)), SLOT(printFile(QPrinter*)));
+    connect(ppd, &QPrintPreviewDialog::paintRequested, this, &ChartTab::printFile);
     ppd->setWindowTitle(i18n("Massif Chart Print Preview"));
     ppd->resize(800, 600);
     ppd->exec();

@@ -67,7 +67,7 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
 
     Parser p;
     emit progressRange(0, 100);
-    connect(&p, SIGNAL(progress(int)), this, SIGNAL(progress(int)));
+    connect(&p, &Parser::progress, this, &ParseWorker::progress);
     QScopedPointer<FileData> data(p.parse(&device, allocators, &m_shouldStop));
 
     if (!data) {

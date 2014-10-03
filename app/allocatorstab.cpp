@@ -48,10 +48,10 @@ AllocatorsTab::AllocatorsTab(const FileData* data,
     m_view->resizeColumnToContents(AllocatorsModel::Function);
     m_view->resizeColumnToContents(AllocatorsModel::Peak);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
-    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(customContextMenuRequested(QPoint)));
+    connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &AllocatorsTab::selectionChanged);
+    connect(m_view, &QTreeView::customContextMenuRequested,
+            this, &AllocatorsTab::customContextMenuRequested);
 
     setLayout(new QVBoxLayout(this));
     layout()->addWidget(m_view);

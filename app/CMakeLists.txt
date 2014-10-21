@@ -29,6 +29,7 @@ add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
 target_link_libraries(massif-visualizer LINK_PRIVATE
     Qt5::PrintSupport
+    Qt5::Svg
     KF5::KIOCore
     KF5::KDELibs4Support
     KF5::Parts

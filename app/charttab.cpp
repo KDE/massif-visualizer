@@ -52,7 +52,7 @@
 #include <QMenu>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QIcon>
+#include <QSvgGenerator>
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -464,27 +464,34 @@ void ChartTab::updateHeader()
 void ChartTab::saveCurrentDocument()
 {
     QString saveFilename = KFileDialog::getSaveFileName(KUrl("kfiledialog:///massif-visualizer"),
-                                                        QString("image/png image/jpeg image/tiff"),
-                                                        this, i18n("Save Current Visualization"));
+                                                        QString("image/png image/jpeg image/tiff image/svg+xml"),
+                                                        this, i18n("Save Current Visualization"), KFileDialog::ConfirmOverwrite);
 
     if (!saveFilename.isEmpty()) {
 
-        if ( !QFile::exists(saveFilename) ||
-                (KMessageBox::warningYesNo(this, QString(
-                    i18n("Warning, the file(%1) exists.\n Is it OK to overwrite it?")
-                        ).arg(saveFilename)) == KMessageBox::Yes)) {
+        // TODO: implement a dialog to expose more options to the user.
+        // for example we could expose dpi, size, and various format
+        // dependent options such as compressions settings.
 
-            // TODO: implement a dialog to expose more options to the user.
-            // for example we could expose dpi, size, and various format
-            // dependent options such as compressions settings.
-            // TODO: implement support for vector formats such as ps,svg etc.
+        // Vector graphic format
+        if (QFileInfo(saveFilename).suffix().compare(QLatin1String("svg")) == 0) {
+            QSvgGenerator generator;
+            generator.setFileName(saveFilename);
+            generator.setSize(m_chart->size());
+            generator.setViewBox(m_chart->rect());
 
-            if(!QPixmap::grabWidget(m_chart).save(saveFilename)) {
+            QPainter painter;
+            painter.begin(&generator);
+            m_chart->paint(&painter, m_chart->rect());
+            painter.end();
+        }
 
-                KMessageBox::sorry(this, QString(
-                    i18n("Error, failed to save the image to %1.")
-                        ).arg(saveFilename));
-            }
+        // Other format
+        else if (!QPixmap::grabWidget(m_chart).save(saveFilename)) {
+
+            KMessageBox::sorry(this, QString(
+                i18n("Error, failed to save the image to %1.")
+                    ).arg(saveFilename));
         }
     }
 }

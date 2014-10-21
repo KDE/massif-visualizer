@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
 #if 0
     KCmdLineArgs::init( argc, argv, &aboutData, KCmdLineArgs::CmdLineArgNone );
     KCmdLineOptions options;
-    options.add("+file", ki18n("Opens given output file and visualize it."));
+    options.add("+file(s)", ki18n("Opens given output file(s) and visualize it."));
 
     KCmdLineArgs::addCmdLineOptions( options );
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();

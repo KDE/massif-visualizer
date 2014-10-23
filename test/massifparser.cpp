@@ -47,10 +47,9 @@ int main(int argc, char** argv) {
 
     qDebug() << "parsing file:" << file;
 
-#if QT_VERSION >= 0x040700
     QElapsedTimer t;
     t.start();
-#endif
+
     Massif::Parser parser;
     QScopedPointer<Massif::FileData> data(parser.parse(device.data()));
     if (!data) {
@@ -58,9 +57,8 @@ int main(int argc, char** argv) {
         qWarning() << parser.errorLineString() << "in line" << parser.errorLine();
         return 3;
     }
-#if QT_VERSION >= 0x040700
+
     qDebug() << "finished parsing in" << t.elapsed() << "ms";
-#endif
 
     return 0;
 }

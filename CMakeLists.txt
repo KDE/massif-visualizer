@@ -17,6 +17,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings)
 include(ECMOptionalAddSubdirectory)
 include(ECMInstallIcons)
+include(ECMAddTests)
 include(FeatureSummary)
 
 enable_testing()
@@ -32,6 +33,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Widgets
     Svg
     XmlPatterns
+    Test
 )
 
 find_package(KF5 REQUIRED COMPONENTS
@@ -58,7 +60,6 @@ add_subdirectory(visualizer)
 add_subdirectory(app)
 add_subdirectory(pics)
 
-# TODO: reenable tests
-#add_subdirectory(test)
+add_subdirectory(test)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

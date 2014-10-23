@@ -38,16 +38,16 @@
 #include <QtTest/QTest>
 #include <QtCore/QDebug>
 
+#include <KGlobal>
 #include <KConfigGroup>
-#include <qtest_kde.h>
 
-QTEST_KDEMAIN(DataModelTest, NoGUI)
+QTEST_MAIN(DataModelTest)
 
 using namespace Massif;
 
 void DataModelTest::parseFile()
 {
-    const QString path = QString(KDESRCDIR) + "/data/massif.out.kate";
+    const QString path = QFINDTESTDATA("/data/massif.out.kate");
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
 
@@ -164,7 +164,7 @@ void DataModelTest::bigMem()
 {
     // see also: https://bugs.kde.org/show_bug.cgi?id=294108
 
-    const QString path = QString(KDESRCDIR) + "/data/massif.out.huge";
+    const QString path = QFINDTESTDATA("/data/massif.out.huge");
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
 

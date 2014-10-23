@@ -39,8 +39,8 @@ int main(int argc, char** argv) {
     }
 
     const QString file = app.arguments().at(1);
-    QScopedPointer<QIODevice> device(KFilterDev::deviceForFile(file));
-    if (!device->open(QIODevice::ReadOnly)) {
+    KFilterDev device(file);
+    if (!device.open(QIODevice::ReadOnly)) {
         qWarning() << "could not open file:" << file;
         return 2;
     }
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     t.start();
 
     Massif::Parser parser;
-    QScopedPointer<Massif::FileData> data(parser.parse(device.data()));
+    QScopedPointer<Massif::FileData> data(parser.parse(&device));
     if (!data) {
         qWarning() << "failed to parse file:" << file;
         qWarning() << parser.errorLineString() << "in line" << parser.errorLine();

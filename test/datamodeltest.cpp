@@ -38,8 +38,8 @@
 #include <QtTest/QTest>
 #include <QtCore/QDebug>
 
-#include <KGlobal>
 #include <KConfigGroup>
+#include <KSharedConfig>
 
 QTEST_MAIN(DataModelTest)
 
@@ -152,7 +152,7 @@ void DataModelTest::shortenTemplates()
     QFETCH(QByteArray, id);
     QFETCH(QByteArray, idShortened);
 
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
 
     conf.writeEntry(QLatin1String("shortenTemplates"), true);
     QCOMPARE(prettyLabel(id), idShortened);

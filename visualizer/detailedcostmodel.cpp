@@ -42,6 +42,20 @@
 
 using namespace Massif;
 
+namespace {
+
+QVariant colorForColumn(int column, int columnCount, int role)
+{
+    QColor c = QColor::fromHsv(double(column + 1) / columnCount * 255, 255, 255);
+    if (role == KDChart::DatasetBrushRole) {
+        return QBrush(c);
+    } else {
+        return QPen(c);
+    }
+}
+
+}
+
 DetailedCostModel::DetailedCostModel(QObject* parent)
     : QAbstractTableModel(parent), m_data(0), m_maxDatasetCount(10)
 {
@@ -170,12 +184,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     }
 
     if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
-        QColor c = QColor::fromHsv(double(index.column() + 1) / columnCount() * 255, 255, 255);
-        if (role == KDChart::DatasetBrushRole) {
-            return QBrush(c);
-        } else {
-            return QPen(c);
-        }
+        return colorForColumn(index.column(), columnCount(), role);
     }
 
     if ( role != Qt::DisplayRole && role != Qt::ToolTipRole ) {
@@ -233,23 +242,27 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 
 QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole && section % 2 == 0 && section < columnCount()) {
-        // only show name without memory address or location
-        QByteArray label = prettyLabel(m_columns.at(section / 2));
-        if (label.indexOf("???") != -1) {
+    if (orientation == Qt::Horizontal && section % 2 == 0 && section < columnCount()) {
+        if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+            return colorForColumn(section, columnCount(), role);
+        } else if (role == Qt::DisplayRole ) {
+            // only show name without memory address or location
+            QByteArray label = prettyLabel(m_columns.at(section / 2));
+            if (label.indexOf("???") != -1) {
+                return label;
+            }
+            int endPos = label.lastIndexOf('(');
+            if (endPos == -1) {
+                return label;
+            }
+            label = label.mid(0, endPos - 1);
+            const int maxLen = 40;
+            if (label.length() > maxLen) {
+                label.resize(maxLen - 3);
+                label.append("...");
+            }
             return label;
         }
-        int endPos = label.lastIndexOf('(');
-        if (endPos == -1) {
-            return label;
-        }
-        label = label.mid(0, endPos - 1);
-        const int maxLen = 40;
-        if (label.length() > maxLen) {
-            label.resize(maxLen - 3);
-            label.append("...");
-        }
-        return label;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

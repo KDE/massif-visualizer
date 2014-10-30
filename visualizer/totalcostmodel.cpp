@@ -70,8 +70,14 @@ QModelIndex TotalCostModel::peak() const
 QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_ASSERT(orientation != Qt::Horizontal || section < columnCount());
-    if (section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        return i18n("Total Memory Heap Consumption");
+    if (section == 0 && orientation == Qt::Horizontal) {
+        if ( role == KDChart::DatasetPenRole ) {
+            return QPen(Qt::red);
+        } else if ( role == KDChart::DatasetBrushRole ) {
+            return QBrush(Qt::red);
+        } else if ( role == Qt::DisplayRole ) {
+            return i18n("Total Memory Heap Consumption");
+        }
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

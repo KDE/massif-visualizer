@@ -353,14 +353,12 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
     VALIDATE_RETURN(colonPos != -1, false)
     bool ok;
 
-    QByteArray tmpStr = QByteArray::fromRawData(line.data() + depth + 1, colonPos - depth - 1);
-    unsigned int children = tmpStr.toUInt(&ok);
+    unsigned int children = QByteArray::fromRawData(line.data() + depth + 1, colonPos - depth - 1).toUInt(&ok);
     VALIDATE_RETURN(ok, false)
 
     int spacePos = line.indexOf(' ', colonPos + 2);
     VALIDATE_RETURN(spacePos != -1, false)
-    tmpStr = QByteArray::fromRawData(line.data() + colonPos + 2, spacePos - colonPos - 2);
-    quint64 cost = tmpStr.toULongLong(&ok);
+    quint64 cost = QByteArray::fromRawData(line.data() + colonPos + 2, spacePos - colonPos - 2).toULongLong(&ok);
     VALIDATE_RETURN(ok, false)
 
     if (!cost && !children) {

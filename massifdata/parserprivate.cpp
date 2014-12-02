@@ -38,6 +38,11 @@ using namespace Massif;
 
 #define VALIDATE_RETURN(l, x, y) if (!(x)) { m_errorLineString = l; m_error = Invalid; return y; }
 
+static QByteArray midRef(const QByteArray& line, int offset, int length = -1)
+{
+    return QByteArray::fromRawData(line.data() + offset, length == -1 ? (line.length() - offset) : length);
+}
+
 ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                              const QStringList& customAllocators,
                              QAtomicInt* shouldStop)
@@ -187,7 +192,7 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     QByteArray nextLine = readLine();
     VALIDATE(nextLine, nextLine.startsWith("snapshot="))
     bool ok;
-    uint number = QByteArray::fromRawData(nextLine.data() + 9, nextLine.size() - 9).toUInt(&ok);
+    uint number = midRef(nextLine, 9).toUInt(&ok);
     VALIDATE(nextLine, ok)
     nextLine = readLine();
     VALIDATE(nextLine, nextLine == "#-----------")
@@ -206,9 +211,8 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 {
     VALIDATE(line, line.startsWith("time="))
-    QByteArray timeStr(line.mid(5));
     bool ok;
-    double time = timeStr.toDouble(&ok);
+    double time = midRef(line, 5).toDouble(&ok);
     VALIDATE(line, ok)
     m_snapshot->setTime(time);
     m_nextLine = SnapshotMemHeap;
@@ -217,9 +221,8 @@ void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 {
     VALIDATE(line, line.startsWith("mem_heap_B="))
-    QByteArray byteStr(line.mid(11));
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
+    quint64 bytes = midRef(line, 11).toULongLong(&ok);
     VALIDATE(line, ok)
     m_snapshot->setMemHeap(bytes);
     m_nextLine = SnapshotMemHeapExtra;
@@ -228,9 +231,8 @@ void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
     VALIDATE(line, line.startsWith("mem_heap_extra_B="))
-    QByteArray byteStr(line.mid(17));
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
+    quint64 bytes = midRef(line, 17).toULongLong(&ok);
     VALIDATE(line, ok)
     m_snapshot->setMemHeapExtra(bytes);
     m_nextLine = SnapshotMemStacks;
@@ -239,9 +241,8 @@ void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 {
     VALIDATE(line, line.startsWith("mem_stacks_B="))
-    QByteArray byteStr(line.mid(13));
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
+    quint64 bytes = midRef(line, 13).toULongLong(&ok);
     VALIDATE(line, ok)
     m_snapshot->setMemStacks(bytes);
     m_nextLine = SnapshotHeapTree;
@@ -250,12 +251,12 @@ void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
 {
     VALIDATE(line, line.startsWith("heap_tree="))
-    QByteArray value = line.mid(10);
-    if (value == "empty") {
+    QByteArray valueRef = midRef(line, 10);
+    if (valueRef == "empty") {
         m_nextLine = Snapshot;
-    } else if (value == "detailed") {
+    } else if (valueRef == "detailed") {
         m_nextLine = HeapTreeLeaf;
-    } else if (value == "peak") {
+    } else if (valueRef == "peak") {
         m_nextLine = HeapTreeLeaf;
         m_data->setPeak(m_snapshot);
     } else {
@@ -351,12 +352,12 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
     VALIDATE_RETURN(line, colonPos != -1, false)
     bool ok;
 
-    unsigned int children = QByteArray::fromRawData(line.data() + depth + 1, colonPos - depth - 1).toUInt(&ok);
+    unsigned int children = midRef(line, depth + 1, colonPos - depth - 1).toUInt(&ok);
     VALIDATE_RETURN(line, ok, false)
 
     int spacePos = line.indexOf(' ', colonPos + 2);
     VALIDATE_RETURN(line, spacePos != -1, false)
-    quint64 cost = QByteArray::fromRawData(line.data() + colonPos + 2, spacePos - colonPos - 2).toULongLong(&ok);
+    quint64 cost = midRef(line, colonPos + 2, spacePos - colonPos - 2).toULongLong(&ok);
     VALIDATE_RETURN(line, ok, false)
 
     if (!cost && !children) {

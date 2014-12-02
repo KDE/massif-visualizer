@@ -123,6 +123,7 @@ private:
 
     /// list of custom allocator wildcards
     QVector<QRegExp> m_allocators;
+    QVector<QByteArray> m_plainAllocators;
 
     /// improve memory consumption by re-using known labels
     /// and making use of the implicit sharing of QByteArrays

@@ -53,7 +53,11 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
     , m_expectedSnapshots(100)
 {
     foreach(const QString& allocator, customAllocators) {
-        m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
+        if (allocator.contains('*')) {
+            m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
+        } else {
+            m_plainAllocators << allocator.toLatin1();
+        }
     }
 
     while (!file->atEnd()) {
@@ -366,15 +370,18 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 
     if (depth > 0 && !m_allocators.isEmpty()) {
         const QByteArray func = functionInLabel(label);
-        foreach(const QRegExp& allocator, m_allocators) {
-            if (allocator.pattern().contains('*')) {
+        foreach(const QByteArray& allocator, m_plainAllocators) {
+            if (func.contains(allocator)) {
+                isCustomAlloc = true;
+                break;
+            }
+        }
+        if (!isCustomAlloc) {
+            foreach(const QRegExp& allocator, m_allocators) {
                 if (allocator.indexIn(func) != -1) {
                     isCustomAlloc = true;
                     break;
                 }
-            } else if (func.contains(allocator.pattern().toLatin1())) {
-                isCustomAlloc = true;
-                break;
             }
         }
     }

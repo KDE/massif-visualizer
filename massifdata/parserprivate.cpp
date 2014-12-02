@@ -34,9 +34,9 @@
 
 using namespace Massif;
 
-#define VALIDATE(x) if (!(x)) { m_error = Invalid; return; }
+#define VALIDATE(l, x) if (!(x)) { m_errorLineString = l; m_error = Invalid; return; }
 
-#define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
+#define VALIDATE_RETURN(l, x, y) if (!(x)) { m_errorLineString = l; m_error = Invalid; return y; }
 
 ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                              const QStringList& customAllocators,
@@ -103,13 +103,15 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                 break;
         }
         if (m_error != NoError) {
-            qWarning() << "invalid line" << (m_currentLine + 1) << line;
+            qWarning() << "invalid line" << m_currentLine << line;
             m_error = Invalid;
-            m_errorLineString = line;
+            if (m_errorLineString.isEmpty()) {
+                m_errorLineString = line;
+            }
+            // we use fromRawData, so better detach here
             m_errorLineString.detach();
             break;
         }
-        ++m_currentLine;
     }
     if (!file->atEnd()) {
         m_error = Invalid;
@@ -143,7 +145,7 @@ QByteArray ParserPrivate::errorLineString() const
 void ParserPrivate::parseFileDesc(const QByteArray& line)
 {
     // desc: ...
-    VALIDATE(line.startsWith("desc: "))
+    VALIDATE(line, line.startsWith("desc: "))
 
     m_data->setDescription(line.mid(6));
     m_nextLine = FileCmd;
@@ -162,7 +164,7 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
 void ParserPrivate::parseFileCmd(const QByteArray& line)
 {
     // cmd: ...
-    VALIDATE(line.startsWith("cmd: "))
+    VALIDATE(line, line.startsWith("cmd: "))
 
     m_data->setCmd(line.mid(5));
     m_nextLine = FileTimeUnit;
@@ -171,7 +173,7 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
 void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
 {
     // time_unit: ...
-    VALIDATE(line.startsWith("time_unit: "))
+    VALIDATE(line, line.startsWith("time_unit: "))
 
     m_data->setTimeUnit(line.mid(11));
     m_nextLine = Snapshot;
@@ -179,18 +181,16 @@ void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
 
 void ParserPrivate::parseSnapshot(const QByteArray& line)
 {
-    VALIDATE(line == "#-----------")
+    VALIDATE(line, line == "#-----------")
 
     // snapshot=N
     QByteArray nextLine = readLine();
-    ++m_currentLine;
-    VALIDATE(nextLine.startsWith("snapshot="))
+    VALIDATE(nextLine, nextLine.startsWith("snapshot="))
     bool ok;
     uint number = QByteArray::fromRawData(nextLine.data() + 9, nextLine.size() - 9).toUInt(&ok);
-    VALIDATE(ok)
+    VALIDATE(nextLine, ok)
     nextLine = readLine();
-    ++m_currentLine;
-    VALIDATE(nextLine == "#-----------")
+    VALIDATE(nextLine, nextLine == "#-----------")
 
     m_snapshot = new SnapshotItem;
     m_data->addSnapshot(m_snapshot);
@@ -205,51 +205,51 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
 
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("time="))
+    VALIDATE(line, line.startsWith("time="))
     QByteArray timeStr(line.mid(5));
     bool ok;
     double time = timeStr.toDouble(&ok);
-    VALIDATE(ok)
+    VALIDATE(line, ok)
     m_snapshot->setTime(time);
     m_nextLine = SnapshotMemHeap;
 }
 
 void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_heap_B="))
+    VALIDATE(line, line.startsWith("mem_heap_B="))
     QByteArray byteStr(line.mid(11));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    VALIDATE(line, ok)
     m_snapshot->setMemHeap(bytes);
     m_nextLine = SnapshotMemHeapExtra;
 }
 
 void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_heap_extra_B="))
+    VALIDATE(line, line.startsWith("mem_heap_extra_B="))
     QByteArray byteStr(line.mid(17));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    VALIDATE(line, ok)
     m_snapshot->setMemHeapExtra(bytes);
     m_nextLine = SnapshotMemStacks;
 }
 
 void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_stacks_B="))
+    VALIDATE(line, line.startsWith("mem_stacks_B="))
     QByteArray byteStr(line.mid(13));
     bool ok;
     quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    VALIDATE(line, ok)
     m_snapshot->setMemStacks(bytes);
     m_nextLine = SnapshotHeapTree;
 }
 
 void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("heap_tree="))
+    VALIDATE(line, line.startsWith("heap_tree="))
     QByteArray value = line.mid(10);
     if (value == "empty") {
         m_nextLine = Snapshot;
@@ -346,18 +346,18 @@ QByteArray ParserPrivate::getLabel(const QByteArray& original)
 
 bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 {
-    VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', false)
+    VALIDATE_RETURN(line, line.length() > depth + 1 && line.at(depth) == 'n', false)
     int colonPos = line.indexOf(':', depth);
-    VALIDATE_RETURN(colonPos != -1, false)
+    VALIDATE_RETURN(line, colonPos != -1, false)
     bool ok;
 
     unsigned int children = QByteArray::fromRawData(line.data() + depth + 1, colonPos - depth - 1).toUInt(&ok);
-    VALIDATE_RETURN(ok, false)
+    VALIDATE_RETURN(line, ok, false)
 
     int spacePos = line.indexOf(' ', colonPos + 2);
-    VALIDATE_RETURN(spacePos != -1, false)
+    VALIDATE_RETURN(line, spacePos != -1, false)
     quint64 cost = QByteArray::fromRawData(line.data() + colonPos + 2, spacePos - colonPos - 2).toULongLong(&ok);
-    VALIDATE_RETURN(ok, false)
+    VALIDATE_RETURN(line, ok, false)
 
     if (!cost && !children) {
         // ignore these empty entries
@@ -413,7 +413,6 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
     SaveAndRestoreItem lastParent(&m_parentItem, newParent);
 
     for (unsigned int i = 0; i < children; ++i) {
-        ++m_currentLine;
         QByteArray nextLine = readLine();
         if (nextLine.isEmpty()) {
             // fail gracefully if the tree is not complete, esp. useful for cases where
@@ -431,6 +430,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 QByteArray ParserPrivate::readLine()
 {
     const int read = m_file->readLine(m_lineBuffer, BUF_SIZE);
+    ++m_currentLine;
     return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
 }
 

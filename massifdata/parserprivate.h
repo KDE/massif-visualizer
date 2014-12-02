@@ -75,6 +75,7 @@ private:
     void parseSnapshotMemStacks(const QByteArray& line);
     void parseHeapTreeLeaf(const QByteArray& line);
     bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
+    QByteArray readLine();
 
     QByteArray getLabel(const QByteArray& original);
 
@@ -128,6 +129,9 @@ private:
     QSet<QByteArray> m_labels;
 
     int m_expectedSnapshots;
+
+    static const int BUF_SIZE = 4096;
+    char m_lineBuffer[BUF_SIZE];
 };
 
 }

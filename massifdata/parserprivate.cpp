@@ -56,9 +56,6 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
         m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
     }
 
-    const int BUF_SIZE = 4096;
-    char line_buf[BUF_SIZE];
-
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
             m_error = Stopped;
@@ -68,8 +65,7 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
             // use pos to determine progress when reading the file, won't work for compressed files
             parser->setProgress(static_cast<int>(double(file->pos() * 100) / file->size()));
         }
-        const int read = m_file->readLine(line_buf, BUF_SIZE);
-        const QByteArray& line = QByteArray::fromRawData(line_buf, read - 1 /* -1 to remove trailing \n */);
+        const QByteArray& line = readLine();
         switch (m_nextLine) {
             case FileDesc:
                 parseFileDesc(line);
@@ -182,17 +178,15 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
     VALIDATE(line == "#-----------")
 
     // snapshot=N
-    QByteArray nextLine = m_file->readLine(1024);
+    QByteArray nextLine = readLine();
     ++m_currentLine;
     VALIDATE(nextLine.startsWith("snapshot="))
-    nextLine.chop(1);
-    QByteArray i(nextLine.mid(9));
     bool ok;
-    uint number = i.toUInt(&ok);
+    uint number = QByteArray::fromRawData(nextLine.data() + 9, nextLine.size() - 9).toUInt(&ok);
     VALIDATE(ok)
-    nextLine = m_file->readLine(1024);
+    nextLine = readLine();
     ++m_currentLine;
-    VALIDATE(nextLine == "#-----------\n")
+    VALIDATE(nextLine == "#-----------")
 
     m_snapshot = new SnapshotItem;
     m_data->addSnapshot(m_snapshot);
@@ -412,20 +406,24 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 
     for (unsigned int i = 0; i < children; ++i) {
         ++m_currentLine;
-        QByteArray nextLine = m_file->readLine();
+        QByteArray nextLine = readLine();
         if (nextLine.isEmpty()) {
             // fail gracefully if the tree is not complete, esp. useful for cases where
             // an app run with massif crashes and massif doesn't finish the full tree dump.
             return true;
         }
-        // remove trailing \n
-        nextLine.chop(1);
         if (!parseheapTreeLeafInternal(nextLine, depth + 1)) {
             return false;
         }
     }
 
     return true;
+}
+
+QByteArray ParserPrivate::readLine()
+{
+    const int read = m_file->readLine(m_lineBuffer, BUF_SIZE);
+    return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
 }
 
 //END Parser Functions

@@ -56,7 +56,8 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
         m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
     }
 
-    QByteArray line;
+    const int BUF_SIZE = 4096;
+    char line_buf[BUF_SIZE];
 
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
@@ -67,9 +68,8 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
             // use pos to determine progress when reading the file, won't work for compressed files
             parser->setProgress(static_cast<int>(double(file->pos() * 100) / file->size()));
         }
-        line = m_file->readLine();
-        // remove trailing \n
-        line.chop(1);
+        const int read = m_file->readLine(line_buf, BUF_SIZE);
+        const QByteArray& line = QByteArray::fromRawData(line_buf, read - 1 /* -1 to remove trailing \n */);
         switch (m_nextLine) {
             case FileDesc:
                 parseFileDesc(line);
@@ -106,6 +106,7 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
             qWarning() << "invalid line" << (m_currentLine + 1) << line;
             m_error = Invalid;
             m_errorLineString = line;
+            m_errorLineString.detach();
             break;
         }
         ++m_currentLine;

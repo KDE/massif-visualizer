@@ -377,8 +377,9 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
             }
         }
         if (!isCustomAlloc) {
+            const QString funcString = QString::fromLatin1(func);
             foreach(const QRegExp& allocator, m_allocators) {
-                if (allocator.indexIn(func) != -1) {
+                if (allocator.indexIn(funcString) != -1) {
                     isCustomAlloc = true;
                     break;
                 }

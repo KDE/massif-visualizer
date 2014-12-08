@@ -133,7 +133,7 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         return snapshot->time();
     } else {
         Q_ASSERT(index.column() == 1);
-        return double(snapshot->cost()) / 1024;
+        return snapshot->cost();
     }
 }
 

@@ -235,7 +235,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         if (role == Qt::ToolTipRole) {
             return tooltipForTreeLeaf(node, snapshot, needle);
         } else {
-            return double(node ? node->cost() : 0) / 1024;
+            return node ? node->cost() : 0;
         }
     }
 }

@@ -24,8 +24,7 @@
 #define KDAB_LIB_FAKES_H
 
 #if defined Q_OS_DARWIN
-/* On Mac OS X, ensure that <cmath> will define std::isnan */
-#define _GLIBCPP_USE_C99 1
+#include <math.h>
 #endif
 
 #include <cmath>
@@ -55,12 +54,17 @@
 
 // We use our own ISNAN / ISINF in the code to detect
 // that we defined them.
-// reason: Windows / MacOS do not have isnan() / isinf()
+// reason: Windows does not have isnan() / isinf()
 #if defined (Q_OS_WIN)
 #include <float.h>
 #define ISNAN(x ) _isnan(x )
 #define ISINF(x ) (!(_finite(x ) + _isnan(x ) ) )
-#elif defined (Q_OS_DARWIN) || defined (Q_OS_CYGWIN) || __cplusplus >= 201103L
+#elif defined (Q_OS_DARWIN)
+// OS X does have isnan() & isinf() in math.h, but it appears to be
+// required to cast the argument to a double explicitly.
+#define ISNAN(x) isnan(double(x))
+#define ISINF(x) isinf(double(x))
+#elif defined (Q_OS_CYGWIN) || __cplusplus >= 201103L
 #define ISNAN(x) std::isnan(x)
 #define ISINF(x) std::isinf(x)
 #else

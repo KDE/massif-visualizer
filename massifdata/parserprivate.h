@@ -75,6 +75,7 @@ private:
     void parseSnapshotMemStacks(const QByteArray& line);
     void parseHeapTreeLeaf(const QByteArray& line);
     bool parseheapTreeLeafInternal(const QByteArray& line, int depth);
+    QByteArray readLine();
 
     QByteArray getLabel(const QByteArray& original);
 
@@ -122,12 +123,16 @@ private:
 
     /// list of custom allocator wildcards
     QVector<QRegExp> m_allocators;
+    QVector<QByteArray> m_plainAllocators;
 
     /// improve memory consumption by re-using known labels
     /// and making use of the implicit sharing of QByteArrays
     QSet<QByteArray> m_labels;
 
     int m_expectedSnapshots;
+
+    static const int BUF_SIZE = 4096;
+    char m_lineBuffer[BUF_SIZE];
 };
 
 }

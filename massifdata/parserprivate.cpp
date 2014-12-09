@@ -34,9 +34,14 @@
 
 using namespace Massif;
 
-#define VALIDATE(x) if (!(x)) { m_error = Invalid; return; }
+#define VALIDATE(l, x) if (!(x)) { m_errorLineString = l; m_error = Invalid; return; }
 
-#define VALIDATE_RETURN(x, y) if (!(x)) { m_error = Invalid; return y; }
+#define VALIDATE_RETURN(l, x, y) if (!(x)) { m_errorLineString = l; m_error = Invalid; return y; }
+
+static QByteArray midRef(const QByteArray& line, int offset, int length = -1)
+{
+    return QByteArray::fromRawData(line.data() + offset, length == -1 ? (line.length() - offset) : length);
+}
 
 ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                              const QStringList& customAllocators,
@@ -53,10 +58,12 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
     , m_expectedSnapshots(100)
 {
     foreach(const QString& allocator, customAllocators) {
-        m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
+        if (allocator.contains('*')) {
+            m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
+        } else {
+            m_plainAllocators << allocator.toLatin1();
+        }
     }
-
-    QByteArray line;
 
     while (!file->atEnd()) {
         if (shouldStop && *shouldStop) {
@@ -67,9 +74,7 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
             // use pos to determine progress when reading the file, won't work for compressed files
             parser->setProgress(static_cast<int>(double(file->pos() * 100) / file->size()));
         }
-        line = m_file->readLine();
-        // remove trailing \n
-        line.chop(1);
+        const QByteArray& line = readLine();
         switch (m_nextLine) {
             case FileDesc:
                 parseFileDesc(line);
@@ -103,12 +108,15 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
                 break;
         }
         if (m_error != NoError) {
-            qWarning() << "invalid line" << (m_currentLine + 1) << line;
+            qWarning() << "invalid line" << m_currentLine << line;
             m_error = Invalid;
-            m_errorLineString = line;
+            if (m_errorLineString.isEmpty()) {
+                m_errorLineString = line;
+            }
+            // we use fromRawData, so better detach here
+            m_errorLineString.detach();
             break;
         }
-        ++m_currentLine;
     }
     if (!file->atEnd()) {
         m_error = Invalid;
@@ -142,7 +150,7 @@ QByteArray ParserPrivate::errorLineString() const
 void ParserPrivate::parseFileDesc(const QByteArray& line)
 {
     // desc: ...
-    VALIDATE(line.startsWith("desc: "))
+    VALIDATE(line, line.startsWith("desc: "))
 
     m_data->setDescription(line.mid(6));
     m_nextLine = FileCmd;
@@ -161,7 +169,7 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
 void ParserPrivate::parseFileCmd(const QByteArray& line)
 {
     // cmd: ...
-    VALIDATE(line.startsWith("cmd: "))
+    VALIDATE(line, line.startsWith("cmd: "))
 
     m_data->setCmd(line.mid(5));
     m_nextLine = FileTimeUnit;
@@ -170,7 +178,7 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
 void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
 {
     // time_unit: ...
-    VALIDATE(line.startsWith("time_unit: "))
+    VALIDATE(line, line.startsWith("time_unit: "))
 
     m_data->setTimeUnit(line.mid(11));
     m_nextLine = Snapshot;
@@ -178,20 +186,16 @@ void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
 
 void ParserPrivate::parseSnapshot(const QByteArray& line)
 {
-    VALIDATE(line == "#-----------")
+    VALIDATE(line, line == "#-----------")
 
     // snapshot=N
-    QByteArray nextLine = m_file->readLine(1024);
-    ++m_currentLine;
-    VALIDATE(nextLine.startsWith("snapshot="))
-    nextLine.chop(1);
-    QByteArray i(nextLine.mid(9));
+    QByteArray nextLine = readLine();
+    VALIDATE(nextLine, nextLine.startsWith("snapshot="))
     bool ok;
-    uint number = i.toUInt(&ok);
-    VALIDATE(ok)
-    nextLine = m_file->readLine(1024);
-    ++m_currentLine;
-    VALIDATE(nextLine == "#-----------\n")
+    uint number = midRef(nextLine, 9).toUInt(&ok);
+    VALIDATE(nextLine, ok)
+    nextLine = readLine();
+    VALIDATE(nextLine, nextLine == "#-----------")
 
     m_snapshot = new SnapshotItem;
     m_data->addSnapshot(m_snapshot);
@@ -206,57 +210,53 @@ void ParserPrivate::parseSnapshot(const QByteArray& line)
 
 void ParserPrivate::parseSnapshotTime(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("time="))
-    QByteArray timeStr(line.mid(5));
+    VALIDATE(line, line.startsWith("time="))
     bool ok;
-    double time = timeStr.toDouble(&ok);
-    VALIDATE(ok)
+    double time = midRef(line, 5).toDouble(&ok);
+    VALIDATE(line, ok)
     m_snapshot->setTime(time);
     m_nextLine = SnapshotMemHeap;
 }
 
 void ParserPrivate::parseSnapshotMemHeap(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_heap_B="))
-    QByteArray byteStr(line.mid(11));
+    VALIDATE(line, line.startsWith("mem_heap_B="))
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    quint64 bytes = midRef(line, 11).toULongLong(&ok);
+    VALIDATE(line, ok)
     m_snapshot->setMemHeap(bytes);
     m_nextLine = SnapshotMemHeapExtra;
 }
 
 void ParserPrivate::parseSnapshotMemHeapExtra(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_heap_extra_B="))
-    QByteArray byteStr(line.mid(17));
+    VALIDATE(line, line.startsWith("mem_heap_extra_B="))
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    quint64 bytes = midRef(line, 17).toULongLong(&ok);
+    VALIDATE(line, ok)
     m_snapshot->setMemHeapExtra(bytes);
     m_nextLine = SnapshotMemStacks;
 }
 
 void ParserPrivate::parseSnapshotMemStacks(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("mem_stacks_B="))
-    QByteArray byteStr(line.mid(13));
+    VALIDATE(line, line.startsWith("mem_stacks_B="))
     bool ok;
-    quint64 bytes = byteStr.toULongLong(&ok);
-    VALIDATE(ok)
+    quint64 bytes = midRef(line, 13).toULongLong(&ok);
+    VALIDATE(line, ok)
     m_snapshot->setMemStacks(bytes);
     m_nextLine = SnapshotHeapTree;
 }
 
 void ParserPrivate::parseSnapshotHeapTree(const QByteArray& line)
 {
-    VALIDATE(line.startsWith("heap_tree="))
-    QByteArray value = line.mid(10);
-    if (value == "empty") {
+    VALIDATE(line, line.startsWith("heap_tree="))
+    QByteArray valueRef = midRef(line, 10);
+    if (valueRef == "empty") {
         m_nextLine = Snapshot;
-    } else if (value == "detailed") {
+    } else if (valueRef == "detailed") {
         m_nextLine = HeapTreeLeaf;
-    } else if (value == "peak") {
+    } else if (valueRef == "peak") {
         m_nextLine = HeapTreeLeaf;
         m_data->setPeak(m_snapshot);
     } else {
@@ -347,20 +347,18 @@ QByteArray ParserPrivate::getLabel(const QByteArray& original)
 
 bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 {
-    VALIDATE_RETURN(line.length() > depth + 1 && line.at(depth) == 'n', false)
+    VALIDATE_RETURN(line, line.length() > depth + 1 && line.at(depth) == 'n', false)
     int colonPos = line.indexOf(':', depth);
-    VALIDATE_RETURN(colonPos != -1, false)
+    VALIDATE_RETURN(line, colonPos != -1, false)
     bool ok;
 
-    QByteArray tmpStr = line.mid(depth + 1, colonPos - depth - 1);
-    unsigned int children = tmpStr.toUInt(&ok);
-    VALIDATE_RETURN(ok, false)
+    unsigned int children = midRef(line, depth + 1, colonPos - depth - 1).toUInt(&ok);
+    VALIDATE_RETURN(line, ok, false)
 
     int spacePos = line.indexOf(' ', colonPos + 2);
-    VALIDATE_RETURN(spacePos != -1, false)
-    tmpStr = line.mid(colonPos + 2, spacePos - colonPos - 2);
-    quint64 cost = tmpStr.toULongLong(&ok);
-    VALIDATE_RETURN(ok, false)
+    VALIDATE_RETURN(line, spacePos != -1, false)
+    quint64 cost = midRef(line, colonPos + 2, spacePos - colonPos - 2).toULongLong(&ok);
+    VALIDATE_RETURN(line, ok, false)
 
     if (!cost && !children) {
         // ignore these empty entries
@@ -373,15 +371,19 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 
     if (depth > 0 && !m_allocators.isEmpty()) {
         const QByteArray func = functionInLabel(label);
-        foreach(const QRegExp& allocator, m_allocators) {
-            if (allocator.pattern().contains('*')) {
-                if (allocator.indexIn(func) != -1) {
+        foreach(const QByteArray& allocator, m_plainAllocators) {
+            if (func.contains(allocator)) {
+                isCustomAlloc = true;
+                break;
+            }
+        }
+        if (!isCustomAlloc) {
+            const QString funcString = QString::fromLatin1(func);
+            foreach(const QRegExp& allocator, m_allocators) {
+                if (allocator.indexIn(funcString) != -1) {
                     isCustomAlloc = true;
                     break;
                 }
-            } else if (func.contains(allocator.pattern().toLatin1())) {
-                isCustomAlloc = true;
-                break;
             }
         }
     }
@@ -412,21 +414,25 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
     SaveAndRestoreItem lastParent(&m_parentItem, newParent);
 
     for (unsigned int i = 0; i < children; ++i) {
-        ++m_currentLine;
-        QByteArray nextLine = m_file->readLine();
+        QByteArray nextLine = readLine();
         if (nextLine.isEmpty()) {
             // fail gracefully if the tree is not complete, esp. useful for cases where
             // an app run with massif crashes and massif doesn't finish the full tree dump.
             return true;
         }
-        // remove trailing \n
-        nextLine.chop(1);
         if (!parseheapTreeLeafInternal(nextLine, depth + 1)) {
             return false;
         }
     }
 
     return true;
+}
+
+QByteArray ParserPrivate::readLine()
+{
+    const int read = m_file->readLine(m_lineBuffer, BUF_SIZE);
+    ++m_currentLine;
+    return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
 }
 
 //END Parser Functions

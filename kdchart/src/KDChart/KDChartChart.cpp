@@ -1634,7 +1634,14 @@ bool Chart::event( QEvent* event )
     if ( event->type() == QEvent::ToolTip ) {
         const QHelpEvent* const helpEvent = static_cast< QHelpEvent* >( event );
         KDAB_FOREACH( const AbstractCoordinatePlane* const plane, d->coordinatePlanes ) {
-            KDAB_FOREACH( const AbstractDiagram* diagram, plane->diagrams() ) {
+            // iterate diagrams in reverse, so that the top-most painted diagram is
+            // queried first for a tooltip before the diagrams behind it
+            const ConstAbstractDiagramList& diagrams = plane->diagrams();
+            for (int i = diagrams.size() - 1; i >= 0; --i) {
+                const AbstractDiagram* diagram = diagrams[i];
+                if (diagram->isHidden()) {
+                    continue;
+                }
                 const QModelIndex index = diagram->indexAt( helpEvent->pos() );
                 const QVariant toolTip = index.data( Qt::ToolTipRole );
                 if ( toolTip.isValid() ) {

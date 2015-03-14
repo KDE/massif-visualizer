@@ -14,12 +14,14 @@ set(visualizer_SRCS
 
 add_library(mv-visualizer STATIC ${visualizer_SRCS})
 
-target_link_libraries(mv-visualizer LINK_PRIVATE
+target_link_libraries(mv-visualizer
+LINK_PUBLIC
+    KF5::KDELibs4Support
+LINK_PRIVATE
     mv-massifdata
     mv-kdchart
     Qt5::Core
     Qt5::Gui
     KF5::KIOCore
     KF5::I18n
-    KF5::KDELibs4Support
 )

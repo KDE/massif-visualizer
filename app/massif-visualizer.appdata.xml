@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop">
+  <id>massif-visualizer.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Massif-Visualizer</name>
+  <summary>A visualizer for Valgrind Massif data files.</summary>
+  <description>
+    <p>
+      Massif Visualizer is a tool that - who'd guess that - visualizes massif data.
+      You run your application in Valgrind with --tool=massif and then open the generated
+      massif.out.%pid in the visualizer. Gzip or Bzip2 compressed massif files can also be
+      opened transparently.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Interactive chart of memory consumption over time.</li>
+      <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
+      <li>Summary of peak memory consumption of all allocating functions.</li>
+    </ul>
+  </description>
+  <url type="homepage">projects.kde.org/massif-visualizer</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=massif-visualizer</url>
+  <url type="help">https://mail.kde.org/mailman/listinfo/massif-visualizer</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://milianw.de/files/massif-visualizer/memory-chart.png</image>
+      <caption>Interactive chart of memory consumption over time.</caption>
+    </screenshot>
+    <screenshot>
+      <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
+      <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
+    </screenshot>
+    <screenshot>
+      <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
+      <caption>Summary of peak memory consumption of all allocating functions.</caption>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>massif-visualizer</binary>
+  </provides>
+</component>

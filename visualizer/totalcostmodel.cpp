@@ -117,9 +117,9 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
 
     if ( role == Qt::ToolTipRole ) {
         // hack: the ToolTip will only be queried by KDChart and that one uses the
-        // left index, but we want it to query the right one
-        Q_ASSERT(index.row() + 1 < m_data->snapshots().size());
-        const SnapshotItem* snapshot = m_data->snapshots().at(index.row() + 1);
+        // left index, but we want it to query the right one. but we also need to
+        // take the very last data set into account to prevent an overflow there
+        const SnapshotItem* snapshot = m_data->snapshots().at(qMin(index.row() + 1, m_data->snapshots().size() - 1));
         return i18n("Snapshot #%1:\n"
                     "Heap cost of %2\n"
                     "Extra heap cost of %3\n"

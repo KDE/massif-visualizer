@@ -6,6 +6,7 @@
   <name>Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="cs">Massif-Visualizer</name>
+  <name xml:lang="en-GB">Massif-Visualizer</name>
   <name xml:lang="es">Massif-Visualizer</name>
   <name xml:lang="nl">Massif-Visualizer</name>
   <name xml:lang="pt">Visualizador do Massif</name>
@@ -16,6 +17,7 @@
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <summary>A visualizer for Valgrind Massif data files.</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
+  <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files.</summary>
   <summary xml:lang="es">Un visualizador para archivos de datos Massif de Valgrind.</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif.</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind.</summary>
@@ -31,6 +33,7 @@
       opened transparently.
     </p>
     <p xml:lang="ca">Massif Visualizer és una eina que -com imagineu- visualitza les dades massif. Executeu l'aplicació en Valgrind amb --tool=massif i després obriu el massif.out.%pid generat en el visualitzador. Els fitxers massif comprimits amb gzip o bzip2 també es poden obrir de forma transparent.</p>
+    <p xml:lang="en-GB">Massif Visualizer is a tool that - who'd guess that - visualises massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualiser. Gzip or Bzip2 compressed massif files can also be opened transparently.</p>
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visualizador el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
     <p xml:lang="nl">Massif Visualizer is een hulpmiddel dat - u raad het - massif-gegevens visualiseert. U kunt uw toepassing in Valgrind uitvoeren met --tool=massif en dan de gegenereerde massif.out.%pid openen in het visualisatieprogramma. Gzip of Bzip2 gecomprimeerde massif-bestanden kunnen ook transparent geopend worden.</p>
     <p xml:lang="pt">O Visualizador do Massif é uma ferramenta que, como é óbvio, apresenta dados do Massif. Você poderá executar a sua aplicação no Valgrind com a opção --tool=massif e depois abrir o ficheiro massif.out.%pid gerado no visualizador. Poderá abrir de forma transparente os ficheiros do Massif comprimidos com Gzip ou Bzip2.</p>
@@ -41,6 +44,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
+    <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="pt">Funcionalidades:</p>
@@ -52,6 +56,7 @@
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>
+      <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
       <li xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</li>
@@ -61,6 +66,7 @@
       <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
       <li xml:lang="ca">Anàlisis detallat de les instantànies amb visualització de «callgraph» (requereix el KGraphViewer).</li>
+      <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
       <li xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</li>
@@ -70,6 +76,7 @@
       <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
+      <li xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
       <li xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</li>
       <li xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
@@ -87,6 +94,7 @@
       <image>http://milianw.de/files/massif-visualizer/memory-chart.png</image>
       <caption>Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
+      <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</caption>
@@ -99,6 +107,7 @@
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
       <caption xml:lang="ca">Anàlisis detallat de les instantànies amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
+      <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</caption>
@@ -111,6 +120,7 @@
       <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
       <caption>Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
+      <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>

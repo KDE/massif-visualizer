@@ -65,7 +65,7 @@
       <li xml:lang="uk">Інтерактивна діаграма споживання пам’яті.</li>
       <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
-      <li xml:lang="ca">Anàlisis detallat de les instantànies amb visualització de «callgraph» (requereix el KGraphViewer).</li>
+      <li xml:lang="ca">Anàlisis detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
       <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
@@ -106,7 +106,7 @@
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
-      <caption xml:lang="ca">Anàlisis detallat de les instantànies amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
+      <caption xml:lang="ca">Anàlisis detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>

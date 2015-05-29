@@ -27,8 +27,9 @@
 
 #include <QApplication>
 #include <QUrl>
-
-#include <QtCore/QDebug>
+#include <QDir>
+#include <QCommandLineParser>
+#include <QDebug>
 
 #include "mainwindow.h"
 
@@ -55,25 +56,22 @@ int main( int argc, char *argv[] )
     app.setWindowIcon(QIcon::fromTheme("office-chart-area"));
     app.setApplicationVersion(aboutData.version());
 
-// TODO: KF5
-#if 0
-    KCmdLineArgs::init( argc, argv, &aboutData, KCmdLineArgs::CmdLineArgNone );
-    KCmdLineOptions options;
-    options.add("+file(s)", ki18n("Opens given output file(s) and visualize it."));
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(aboutData);
+    parser.addVersionOption();
+    parser.addHelpOption();
+    aboutData.setupCommandLine(&parser);
 
-    KCmdLineArgs::addCmdLineOptions( options );
-    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-    KApplication app;
-#endif
+    parser.addPositionalArgument("files", i18n( "Files to load" ), "[FILE...]");
+
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
     Massif::MainWindow* window = new Massif::MainWindow;
 
-// TODO: KF5
-#if 0
-    for (int i = 0; i < args->count(); ++i) {
-        window->openFile(args->url(i));
+    foreach (const QString &file, parser.positionalArguments()) {
+        window->openFile(QUrl::fromUserInput(file, QDir::currentPath(), QUrl::AssumeLocalFile));
     }
-#endif
 
     window->show();
     return app.exec();

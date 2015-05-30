@@ -25,9 +25,10 @@
 #include "filedata.h"
 
 #include <QUrl>
+#include <QTemporaryFile>
 
 #include <KFilterDev>
-#include <KIO/NetAccess>
+#include <KIO/TransferJob>
 #include <KLocalizedString>
 
 namespace Massif {
@@ -47,21 +48,23 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
     }
 
     m_shouldStop = 0;
-    QString file;
+    QTemporaryFile tempFile;
+    QString filePath;
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::download(url, file, 0)) {
+        if (!tempFile.open() || !KIO::file_copy(url, QUrl::fromLocalFile(tempFile.fileName()), -1, KIO::Overwrite | KIO::HideProgressInfo)->exec()) {
             emit error(i18n("Download Failed"),
                        i18n("Failed to download remote massif data file <i>%1</i>.", url.toString()));
             return;
         }
+        filePath = tempFile.fileName();
     } else {
-        file = url.toLocalFile();
+        filePath = url.toLocalFile();
     }
 
-    KFilterDev device(file);
+    KFilterDev device(filePath);
     if (!device.open(QIODevice::ReadOnly)) {
         emit error(i18n("Read Failed"),
-                   i18n("Could not open file <i>%1</i> for reading.", file));
+                   i18n("Could not open file <i>%1</i> for reading.", filePath));
         return;
     }
 

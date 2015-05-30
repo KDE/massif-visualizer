@@ -523,5 +523,3 @@ void MainWindow::documentChanged()
 
     setUpdatesEnabled(true);
 }
-
-#include "mainwindow.moc"

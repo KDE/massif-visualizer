@@ -100,5 +100,3 @@ void ParseWorker::stop()
 }
 
 }
-
-#include "parseworker.moc"

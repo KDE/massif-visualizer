@@ -50,5 +50,3 @@ bool ConfigDialog::isShown()
 {
     return KConfigDialog::showDialog("settings");
 }
-
-#include "configdialog.moc"

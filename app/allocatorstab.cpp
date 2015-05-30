@@ -99,5 +99,3 @@ void AllocatorsTab::customContextMenuRequested(const QPoint& pos)
         menu.exec(m_view->mapToGlobal(pos));
     }
 }
-
-#include "allocatorstab.moc"

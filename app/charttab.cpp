@@ -619,4 +619,3 @@ void ChartTab::selectModelItem(const ModelItem& item)
 }
 
 #include "charttab.moc"
-#include "moc_charttab.cpp"

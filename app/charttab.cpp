@@ -54,12 +54,12 @@
 #include <QDesktopWidget>
 #include <QSvgGenerator>
 #include <QWidgetAction>
+#include <QFileDialog>
 
 #include <KColorScheme>
 #include <KLocalizedString>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KFileDialog>
 #include <KMessageBox>
 #include <KLocale>
 #include <KFormat>
@@ -463,9 +463,8 @@ void ChartTab::updateHeader()
 
 void ChartTab::saveCurrentDocument()
 {
-    QString saveFilename = KFileDialog::getSaveFileName(QUrl("kfiledialog:///massif-visualizer"),
-                                                        QString("image/png image/jpeg image/tiff image/svg+xml"),
-                                                        this, i18n("Save Current Visualization"), KFileDialog::ConfirmOverwrite);
+    const auto saveFilename = QFileDialog::getSaveFileName(this, i18n("Save Current Visualization"), QString(),
+                                                           i18n("Images (*.png *.jpg *.tiff *.svg)"));
 
     if (!saveFilename.isEmpty()) {
 

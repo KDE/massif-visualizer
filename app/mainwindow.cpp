@@ -39,7 +39,6 @@
 
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KFileDialog>
 #include <KRecentFilesAction>
 #include <KColorScheme>
 #include <KStatusBar>
@@ -50,6 +49,7 @@
 #include <KXMLGUIFactory>
 #include <KLocalizedString>
 
+#include <QFileDialog>
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QLabel>
@@ -257,9 +257,8 @@ void MainWindow::settingsChanged()
 
 void MainWindow::openFile()
 {
-    const QList<QUrl> files = KFileDialog::getOpenUrls(QUrl("kfiledialog:///massif-visualizer"),
-                                                      QString("application/x-valgrind-massif"),
-                                                      this, i18n("Open Massif Output File"));
+    const QList<QUrl> files = QFileDialog::getOpenFileUrls(this, i18n("Open Massif Output File"), QUrl(),
+                                                           i18n("Massif data files (massif.out.*)"));
     foreach (const QUrl& file, files) {
         openFile(file);
     }

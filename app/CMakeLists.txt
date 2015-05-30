@@ -31,7 +31,6 @@ target_link_libraries(massif-visualizer LINK_PRIVATE
     Qt5::PrintSupport
     Qt5::Svg
     KF5::KIOCore
-    KF5::KDELibs4Support
     KF5::Parts
     KF5::I18n
     KChart

@@ -61,7 +61,6 @@
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KMessageBox>
-#include <KLocale>
 #include <KFormat>
 
 using namespace KChart;

@@ -41,7 +41,6 @@
 #include <KActionCollection>
 #include <KRecentFilesAction>
 #include <KColorScheme>
-#include <KStatusBar>
 #include <KToolBar>
 #include <KParts/Part>
 #include <KPluginFactory>

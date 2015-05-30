@@ -25,7 +25,8 @@
 #include "snapshotitem.h"
 #include "treeleafitem.h"
 
-#include <KLocale>
+#include <KSharedConfig>
+#include <KLocalizedString>
 #include <KConfigGroup>
 #include <KFormat>
 

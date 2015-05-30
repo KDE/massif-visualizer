@@ -15,8 +15,6 @@ set(visualizer_SRCS
 add_library(mv-visualizer STATIC ${visualizer_SRCS})
 
 target_link_libraries(mv-visualizer
-LINK_PUBLIC
-    KF5::KDELibs4Support
 LINK_PRIVATE
     mv-massifdata
     KChart

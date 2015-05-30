@@ -22,8 +22,6 @@
 
 #include <KLocalizedString>
 #include <KAboutData>
-#include <KCmdLineArgs>
-#include <KCmdLineOptions>
 
 #include <QApplication>
 #include <QUrl>

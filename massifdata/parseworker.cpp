@@ -28,7 +28,7 @@
 #include <QTemporaryFile>
 
 #include <KFilterDev>
-#include <KIO/TransferJob>
+#include <KIO/FileCopyJob>
 #include <KLocalizedString>
 
 namespace Massif {

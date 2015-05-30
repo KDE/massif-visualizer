@@ -34,6 +34,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Svg
     XmlPatterns
     Test
+    PrintSupport
 )
 
 find_package(KF5 REQUIRED COMPONENTS
@@ -43,7 +44,6 @@ find_package(KF5 REQUIRED COMPONENTS
     Parts
     KIO
     I18n
-    KDELibs4Support
 )
 
 find_package(KChart "2.6.0" REQUIRED)

@@ -53,6 +53,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QSvgGenerator>
+#include <QWidgetAction>
 
 #include <KColorScheme>
 #include <KLocalizedString>
@@ -196,7 +197,8 @@ void ChartTab::setupActions()
     connect(m_toggleDetailed, &QAction::toggled, this, &ChartTab::showDetailedGraph);
     actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
 
-    QAction* stackNumAction = actionCollection()->addAction("stackNum");
+    QWidgetAction* stackNumAction = new QWidgetAction(actionCollection());
+    actionCollection()->addAction("stackNum", stackNumAction);
     stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
@@ -207,8 +209,7 @@ void ChartTab::setupActions()
     connect(m_box, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ChartTab::setStackNum);
     stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
-    // TODO: KF5
-    // stackNumAction->setDefaultWidget(stackNumWidget);
+    stackNumAction->setDefaultWidget(stackNumWidget);
 
     m_hideFunction = new QAction(i18n("hide function"), this);
     connect(m_hideFunction, &QAction::triggered,

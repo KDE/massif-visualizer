@@ -158,8 +158,9 @@ void CallGraphTab::showDotGraph()
         return;
     }
     kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
-    if (!m_dotGenerator->outputFile().isEmpty() && m_graphViewerPart->url() != KUrl(m_dotGenerator->outputFile())) {
-        m_graphViewerPart->openUrl(KUrl(m_dotGenerator->outputFile()));
+    const auto url = QUrl::fromLocalFile(m_dotGenerator->outputFile());
+    if (url.isValid() && m_graphViewerPart->url() != url) {
+        m_graphViewerPart->openUrl(url);
     }
 }
 

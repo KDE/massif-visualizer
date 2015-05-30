@@ -62,7 +62,6 @@
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KLocale>
-#include <KUrl>
 #include <KFormat>
 
 using namespace KChart;
@@ -464,7 +463,7 @@ void ChartTab::updateHeader()
 
 void ChartTab::saveCurrentDocument()
 {
-    QString saveFilename = KFileDialog::getSaveFileName(KUrl("kfiledialog:///massif-visualizer"),
+    QString saveFilename = KFileDialog::getSaveFileName(QUrl("kfiledialog:///massif-visualizer"),
                                                         QString("image/png image/jpeg image/tiff image/svg+xml"),
                                                         this, i18n("Save Current Visualization"), KFileDialog::ConfirmOverwrite);
 

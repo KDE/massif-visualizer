@@ -48,7 +48,6 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
-#include <KUrl>
 #include <KLocalizedString>
 
 #include <QSortFilterProxyModel>
@@ -258,7 +257,7 @@ void MainWindow::settingsChanged()
 
 void MainWindow::openFile()
 {
-    const QList<QUrl> files = KFileDialog::getOpenUrls(KUrl("kfiledialog:///massif-visualizer"),
+    const QList<QUrl> files = KFileDialog::getOpenUrls(QUrl("kfiledialog:///massif-visualizer"),
                                                       QString("application/x-valgrind-massif"),
                                                       this, i18n("Open Massif Output File"));
     foreach (const QUrl& file, files) {

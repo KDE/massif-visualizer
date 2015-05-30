@@ -31,7 +31,7 @@ class QAction;
 class QLabel;
 class QModelIndex;
 
-namespace KDChart {
+namespace KChart {
 class Chart;
 class HeaderFooter;
 class Plotter;
@@ -96,15 +96,15 @@ private Q_SLOTS:
     void totalItemClicked(const QModelIndex& item);
 
 private:
-    KDChart::Chart* m_chart;
+    KChart::Chart* m_chart;
     QLabel* m_header;
-    KDChart::Plotter* m_totalDiagram;
+    KChart::Plotter* m_totalDiagram;
     Massif::TotalCostModel* m_totalCostModel;
 
-    KDChart::Plotter* m_detailedDiagram;
+    KChart::Plotter* m_detailedDiagram;
     Massif::DetailedCostModel* m_detailedCostModel;
 
-    KDChart::Legend* m_legend;
+    KChart::Legend* m_legend;
 
     QAction* m_print;
     QAction* m_saveAs;

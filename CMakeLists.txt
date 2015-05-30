@@ -46,15 +46,15 @@ find_package(KF5 REQUIRED COMPONENTS
     KDELibs4Support
 )
 
+find_package(KChart "2.6.0" REQUIRED)
+
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/kdchart/include/KDChart
 )
 
 add_definitions(-Wall)
 
-add_subdirectory(kdchart)
 add_subdirectory(massifdata)
 add_subdirectory(visualizer)
 add_subdirectory(app)

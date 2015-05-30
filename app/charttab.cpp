@@ -22,15 +22,15 @@
 
 #include "charttab.h"
 
-#include "KDChartChart"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
-#include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
-#include "KDChartLegend"
-#include "KDChartDataValueAttributes"
-#include "KDChartBackgroundAttributes"
-#include <KDChartFrameAttributes.h>
+#include "KChartChart"
+#include "KChartGridAttributes"
+#include "KChartHeaderFooter"
+#include "KChartCartesianCoordinatePlane"
+#include "KChartPlotter"
+#include "KChartLegend"
+#include "KChartDataValueAttributes"
+#include "KChartBackgroundAttributes"
+#include <KChartFrameAttributes.h>
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
@@ -65,7 +65,7 @@
 #include <KUrl>
 #include <KFormat>
 
-using namespace KDChart;
+using namespace KChart;
 using namespace Massif;
 
 namespace {
@@ -126,7 +126,7 @@ void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const KColorSch
     MarkerAttributes a = dataAttributes.markerAttributes();
     a.setMarkerSize(QSizeF(7, 7));
     a.setPen(outline);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerDiamond);
+    a.setMarkerStyle(KChart::MarkerAttributes::MarkerDiamond);
     a.setVisible(true);
     dataAttributes.setMarkerAttributes(a);
 
@@ -248,7 +248,7 @@ void ChartTab::setupGui()
     connect(m_chart, &Chart::customContextMenuRequested,
             this, &ChartTab::chartContextMenuRequested);
 
-    //BEGIN KDChart
+    //BEGIN KChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
@@ -305,7 +305,7 @@ void ChartTab::setupGui()
 
     m_detailedDiagram = new Plotter;
     m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
+    m_detailedDiagram->setType(KChart::Plotter::Stacked);
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);
@@ -367,25 +367,25 @@ void ChartTab::updatePeaks()
 
 void ChartTab::updateLegendPosition()
 {
-    KDChartEnums::PositionValue pos;
+    KChartEnums::PositionValue pos;
     switch (Settings::self()->legendPosition()) {
         case Settings::EnumLegendPosition::North:
-            pos = KDChartEnums::PositionNorth;
+            pos = KChartEnums::PositionNorth;
             break;
         case Settings::EnumLegendPosition::South:
-            pos = KDChartEnums::PositionSouth;
+            pos = KChartEnums::PositionSouth;
             break;
         case Settings::EnumLegendPosition::East:
-            pos = KDChartEnums::PositionEast;
+            pos = KChartEnums::PositionEast;
             break;
         case Settings::EnumLegendPosition::West:
-            pos = KDChartEnums::PositionWest;
+            pos = KChartEnums::PositionWest;
             break;
         case Settings::EnumLegendPosition::Floating:
-            pos = KDChartEnums::PositionFloating;
+            pos = KChartEnums::PositionFloating;
             break;
         default:
-            pos = KDChartEnums::PositionFloating;
+            pos = KChartEnums::PositionFloating;
             qDebug() << "invalid legend position";
     }
     m_legend->setPosition(Position(pos));
@@ -415,9 +415,9 @@ void ChartTab::updateLegendPosition()
     // do something reasonable since top,bottom have no effect
     // when used with north,south, same for left,right used with
     // east,west
-    if ((((pos == KDChartEnums::PositionNorth) || (pos == KDChartEnums::PositionSouth))
+    if ((((pos == KChartEnums::PositionNorth) || (pos == KChartEnums::PositionSouth))
          && ((align == Qt::AlignTop) || (align == Qt::AlignBottom)))
-         || (((pos == KDChartEnums::PositionEast) || (pos == KDChartEnums::PositionWest))
+         || (((pos == KChartEnums::PositionEast) || (pos == KChartEnums::PositionWest))
          && ((align == Qt::AlignLeft) || (align == Qt::AlignRight)))) {
 
          align = Qt::AlignHCenter | Qt::AlignVCenter;
@@ -548,7 +548,7 @@ void ChartTab::chartContextMenuRequested(const QPoint& pos)
     if (!idx.isValid()) {
         return;
     }
-    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // hack: the ToolTip will only be queried by KChart and that one uses the
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
     ModelItem item = m_detailedCostModel->itemForIndex(_idx);
@@ -584,7 +584,7 @@ void ChartTab::detailedItemClicked(const QModelIndex& idx)
     m_totalCostModel->setSelection(QModelIndex());
     m_chart->update();
 
-    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // hack: the ToolTip will only be queried by KChart and that one uses the
     // left index, but we want it to query the right one
     m_settingSelection = true;
     const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());

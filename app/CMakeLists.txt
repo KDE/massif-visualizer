@@ -34,7 +34,7 @@ target_link_libraries(massif-visualizer LINK_PRIVATE
     KF5::KDELibs4Support
     KF5::Parts
     KF5::I18n
-    mv-kdchart
+    KChart
     mv-massifdata
     mv-visualizer
 )

@@ -35,7 +35,7 @@ class QAction;
 class QSpinBox;
 class QStringListModel;
 
-namespace KDChart {
+namespace KChart {
 class Chart;
 class HeaderFooter;
 class Plotter;

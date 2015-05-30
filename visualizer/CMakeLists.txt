@@ -19,7 +19,7 @@ LINK_PUBLIC
     KF5::KDELibs4Support
 LINK_PRIVATE
     mv-massifdata
-    mv-kdchart
+    KChart
     Qt5::Core
     Qt5::Gui
     KF5::KIOCore

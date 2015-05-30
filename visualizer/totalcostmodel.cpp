@@ -27,8 +27,8 @@
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
 
-#include "KDChartGlobal"
-#include "KDChartLineAttributes"
+#include "KChartGlobal"
+#include "KChartLineAttributes"
 
 #include <QtGui/QPen>
 
@@ -71,9 +71,9 @@ QVariant TotalCostModel::headerData(int section, Qt::Orientation orientation, in
 {
     Q_ASSERT(orientation != Qt::Horizontal || section < columnCount());
     if (section == 0 && orientation == Qt::Horizontal) {
-        if ( role == KDChart::DatasetPenRole ) {
+        if ( role == KChart::DatasetPenRole ) {
             return QPen(Qt::red);
-        } else if ( role == KDChart::DatasetBrushRole ) {
+        } else if ( role == KChart::DatasetBrushRole ) {
             return QBrush(Qt::red);
         } else if ( role == Qt::DisplayRole ) {
             return i18n("Total Memory Heap Consumption");
@@ -95,8 +95,8 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
 
-    if ( role == KDChart::LineAttributesRole ) {
-        static KDChart::LineAttributes attributes;
+    if ( role == KChart::LineAttributesRole ) {
+        static KChart::LineAttributes attributes;
         attributes.setDisplayArea(true);
         if (index == m_selection) {
             attributes.setTransparency(255);
@@ -105,9 +105,9 @@ QVariant TotalCostModel::data(const QModelIndex& index, int role) const
         }
         return QVariant::fromValue(attributes);
     }
-    if ( role == KDChart::DatasetPenRole ) {
+    if ( role == KChart::DatasetPenRole ) {
         return QPen(Qt::red);
-    } else if ( role == KDChart::DatasetBrushRole ) {
+    } else if ( role == KChart::DatasetBrushRole ) {
         return QBrush(Qt::red);
     }
 

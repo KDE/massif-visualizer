@@ -51,7 +51,7 @@ int main( int argc, char *argv[] )
     app.setApplicationName(aboutData.componentName());
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setWindowIcon(QIcon::fromTheme("office-chart-area"));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("office-chart-area")));
     app.setApplicationVersion(aboutData.version());
 
     QCommandLineParser parser;
@@ -60,7 +60,7 @@ int main( int argc, char *argv[] )
     parser.addHelpOption();
     aboutData.setupCommandLine(&parser);
 
-    parser.addPositionalArgument("files", i18n( "Files to load" ), "[FILE...]");
+    parser.addPositionalArgument(QStringLiteral("files"), i18n( "Files to load" ), i18n("[FILE...]"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);

@@ -163,7 +163,7 @@ ChartTab::ChartTab(const FileData* data,
     , m_box(new QSpinBox(this))
     , m_settingSelection(false)
 {
-    setXMLFile("charttabui.rc", true);
+    setXMLFile(QStringLiteral("charttabui.rc"), true);
     setupActions();
 
     setLayout(new QVBoxLayout(this));
@@ -178,25 +178,25 @@ ChartTab::~ChartTab()
 void ChartTab::setupActions()
 {
     m_print = KStandardAction::print(this, SLOT(showPrintPreviewDialog()), actionCollection());
-    actionCollection()->addAction("file_print", m_print);
+    actionCollection()->addAction(QStringLiteral("file_print"), m_print);
 
     m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
-    actionCollection()->addAction("file_save_as", m_saveAs);
+    actionCollection()->addAction(QStringLiteral("file_save_as"), m_saveAs);
 
-    m_toggleTotal = new QAction(QIcon::fromTheme("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
+    m_toggleTotal = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area")), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     connect(m_toggleTotal, &QAction::toggled, this, &ChartTab::showTotalGraph);
-    actionCollection()->addAction("toggle_total", m_toggleTotal);
+    actionCollection()->addAction(QStringLiteral("toggle_total"), m_toggleTotal);
 
-    m_toggleDetailed = new QAction(QIcon::fromTheme("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     connect(m_toggleDetailed, &QAction::toggled, this, &ChartTab::showDetailedGraph);
-    actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
+    actionCollection()->addAction(QStringLiteral("toggle_detailed"), m_toggleDetailed);
 
     QWidgetAction* stackNumAction = new QWidgetAction(actionCollection());
-    actionCollection()->addAction("stackNum", stackNumAction);
+    actionCollection()->addAction(QStringLiteral("stackNum"), stackNumAction);
     stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
@@ -429,7 +429,7 @@ void ChartTab::updateLegendFont()
     TextAttributes att = m_legend->textAttributes();
     att.setAutoShrink(true);
     att.setFontSize(Measure(Settings::self()->legendFontSize()));
-    QFont font("monospace");
+    QFont font(QStringLiteral("monospace"));
     font.setStyleHint(QFont::TypeWriter);
     att.setFont(font);
     m_legend->setTextAttributes(att);
@@ -451,9 +451,9 @@ void ChartTab::updateDetailedPeaks()
 
 void ChartTab::updateHeader()
 {
-    const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
+    const QString app = m_data->cmd().split(QLatin1Char(' '), QString::SkipEmptyParts).first();
 
-    m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
+    m_header->setText(QString::fromLatin1("<b>%1</b><br /><i>%2</i>")
                         .arg(i18n("Memory consumption of %1", app))
                         .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->cost()), m_data->peak()->number()))
     );

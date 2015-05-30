@@ -133,21 +133,21 @@ QString formatLabelForTooltip(const ParsedLabel& parsed)
 {
     QString ret;
     if (!parsed.function.isEmpty()) {
-        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", QString(parsed.function).toHtmlEscaped());
+        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.function).toHtmlEscaped());
     }
     if (!parsed.location.isEmpty()) {
-        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", QString(parsed.location).toHtmlEscaped());
+        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.location).toHtmlEscaped());
     }
     if (!parsed.address.isEmpty()) {
-        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", QString(parsed.address).toHtmlEscaped());
+        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.address).toHtmlEscaped());
     }
     return ret;
 }
 
 QString finalizeTooltip(const QString& contents)
 {
-    return "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n"
-        + contents + "</dl></body></html>";
+    return QLatin1String("<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n")
+        + contents + QLatin1String("</dl></body></html>");
 }
 
 QString tooltipForTreeLeaf(const TreeLeafItem* node, const SnapshotItem* snapshot, const QByteArray& label)

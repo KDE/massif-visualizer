@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     if (!haveGraphViewer) {
         // cleanup UI when we installed with kgraphviewer but it's not available at runtime
-        KToolBar* callgraphToolbar = toolBar("callgraphToolBar");
+        KToolBar* callgraphToolbar = toolBar(QStringLiteral("callgraphToolBar"));
         removeToolBar(callgraphToolbar);
         delete callgraphToolbar;
     }
@@ -178,7 +178,7 @@ void MainWindow::setupActions()
     m_recentFiles->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
     QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
-    actionCollection()->addAction("file_reload", reload);
+    actionCollection()->addAction(QStringLiteral("file_reload"), reload);
     reload->setEnabled(false);
 
     m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
@@ -188,23 +188,23 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
 
-    m_shortenTemplates = new QAction(QIcon::fromTheme("shortentemplates"), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates = new QAction(QIcon::fromTheme(QStringLiteral("shortentemplates")), i18n("Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);
     m_shortenTemplates->setChecked(Settings::shortenTemplates());
     connect(m_shortenTemplates, &QAction::toggled, this, &MainWindow::slotShortenTemplates);
-    actionCollection()->addAction("shorten_templates", m_shortenTemplates);
+    actionCollection()->addAction(QStringLiteral("shorten_templates"), m_shortenTemplates);
 
-    m_selectPeak = new QAction(QIcon::fromTheme("flag-red"), i18n("Select peak snapshot"), actionCollection());
+    m_selectPeak = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Select peak snapshot"), actionCollection());
     connect(m_selectPeak, &QAction::triggered, this, &MainWindow::selectPeakSnapshot);
-    actionCollection()->addAction("selectPeak", m_selectPeak);
+    actionCollection()->addAction(QStringLiteral("selectPeak"), m_selectPeak);
     m_selectPeak->setEnabled(false);
 
     //BEGIN custom allocators
-    m_newAllocator = new QAction(QIcon::fromTheme("list-add"), i18n("add"), ui.allocatorDock);
+    m_newAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("add"), ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("add custom allocator"));
     connect(m_newAllocator, &QAction::triggered, this, &MainWindow::slotNewAllocator);
     ui.dockMenuBar->addAction(m_newAllocator);
-    m_removeAllocator = new QAction(QIcon::fromTheme("list-remove"), i18n("remove"),
+    m_removeAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-remove")), i18n("remove"),
                                     ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("remove selected allocator"));
     connect(m_removeAllocator, &QAction::triggered, this, &MainWindow::slotRemoveAllocator);
@@ -219,8 +219,8 @@ void MainWindow::setupActions()
     //END custom allocators
 
     //dock actions
-    actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
-    actionCollection()->addAction("toggleAllocators", ui.allocatorDock->toggleViewAction());
+    actionCollection()->addAction(QStringLiteral("toggleDataTree"), ui.dataTreeDock->toggleViewAction());
+    actionCollection()->addAction(QStringLiteral("toggleAllocators"), ui.allocatorDock->toggleViewAction());
 
     //open page actions
     ui.openFile->setDefaultAction(openFile);
@@ -283,7 +283,7 @@ void MainWindow::openFile(const QUrl& file)
         }
     }
 
-    DocumentWidget* documentWidget = new DocumentWidget(file.toString(), m_allocatorModel->stringList(),
+    DocumentWidget* documentWidget = new DocumentWidget(file, m_allocatorModel->stringList(),
                                                         this, this);
 
     if (indexToInsert != -1) {
@@ -454,12 +454,12 @@ void MainWindow::contextMenuRequested(const ModelItem& item, QMenu* menu)
         return;
     }
 
-    QString func = functionInLabel(item.first->label());
+    QByteArray func = functionInLabel(item.first->label());
     if (func.length() > 40) {
         func.resize(40);
         func.append("...");
     }
-    menu->setTitle(func);
+    menu->setTitle(QString::fromUtf8(func));
 
     m_markCustomAllocator->setData(item.first->label());
     menu->addAction(m_markCustomAllocator);
@@ -504,7 +504,7 @@ void MainWindow::documentChanged()
 
     updateWindowTitle();
 
-    actionCollection()->action("file_reload")->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
+    actionCollection()->action(QStringLiteral("file_reload"))->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
     m_close->setEnabled(m_currentDocument);
     m_selectPeak->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
 

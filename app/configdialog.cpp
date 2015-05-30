@@ -30,7 +30,7 @@
 using namespace Massif;
 
 ConfigDialog::ConfigDialog(QWidget* parent)
-: KConfigDialog(parent, "settings", Settings::self())
+: KConfigDialog(parent, QStringLiteral("settings"), Settings::self())
 , m_ui(new Ui::Config)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -48,5 +48,5 @@ ConfigDialog::~ConfigDialog()
 
 bool ConfigDialog::isShown()
 {
-    return KConfigDialog::showDialog("settings");
+    return KConfigDialog::showDialog(QStringLiteral("settings"));
 }

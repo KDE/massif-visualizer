@@ -94,7 +94,7 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     m_parseWorker->moveToThread(thread);
     m_parseWorker->parse(file, customAllocators);
 
-    setXMLFile("documentwidgetui.rc", true);
+    setXMLFile(QStringLiteral("documentwidgetui.rc"), true);
 
     // Set m_stackedWidget as the main widget.
     setLayout(new QVBoxLayout(this));
@@ -123,9 +123,9 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     stopParserWidget->setLayoutDirection(Qt::LeftToRight);
     QHBoxLayout* stopParserWidgetLayout = new QHBoxLayout(stopParserWidget);
     m_stopParserButton = new QToolButton(stopParserWidget);
-    m_stopParserButton->setObjectName(QString::fromUtf8("stopParsing"));
+    m_stopParserButton->setObjectName(QStringLiteral("stopParsing"));
     m_stopParserButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_stopParserButton->setIcon(QIcon::fromTheme("process-stop"));
+    m_stopParserButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     m_stopParserButton->setIconSize(QSize(48, 48));
     connect(m_stopParserButton, &QToolButton::clicked,
             this, &DocumentWidget::requestClose);
@@ -181,15 +181,15 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
     qDebug() << "command:" << data->cmd();
     qDebug() << "time unit:" << data->timeUnit();
     qDebug() << "snapshots:" << data->snapshots().size();
-    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << QString("%1%2").arg(data->peak()->time()).arg(data->timeUnit());
-    qDebug() << "peak cost:" << prettyCost(data->peak()->memHeap()) << " heap"
-                             << prettyCost(data->peak()->memHeapExtra()) << " heap extra"
-                             << prettyCost(data->peak()->memStacks()) << " stacks";
+    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << data->peak()->time() << data->timeUnit();
+    qDebug() << "peak cost:" << prettyCost(data->peak()->memHeap()) << "heap"
+                             << prettyCost(data->peak()->memHeapExtra()) << "heap extra"
+                             << prettyCost(data->peak()->memStacks()) << "stacks";
 
     m_data = data;
     m_file = file;
 
-    m_tabs->addTab(new ChartTab(m_data, this, this), QIcon::fromTheme("office-chart-area-stacked"),
+    m_tabs->addTab(new ChartTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")),
                    i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -197,13 +197,13 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (part) {
-            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme("kgraphviewer"),
+            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme(QStringLiteral("kgraphviewer")),
                            i18n("Callgraph"));
         }
     }
 #endif
 
-    m_tabs->addTab(new AllocatorsTab(m_data, this, this), QIcon::fromTheme("view-list-text"),
+    m_tabs->addTab(new AllocatorsTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("view-list-text")),
                    i18n("Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {
@@ -287,7 +287,7 @@ void DocumentWidget::showError(const QString& title, const QString& error)
         m_errorMessage->setMessageType(KMessageWidget::Error);
         m_errorMessage->setCloseButtonVisible(false);
     }
-    m_errorMessage->setText(QString("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
+    m_errorMessage->setText(QString::fromLatin1("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
     m_stackedWidget->setCurrentWidget(m_errorMessage);
 }
 

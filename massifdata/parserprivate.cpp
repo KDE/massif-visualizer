@@ -58,7 +58,7 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
     , m_expectedSnapshots(100)
 {
     foreach(const QString& allocator, customAllocators) {
-        if (allocator.contains('*')) {
+        if (allocator.contains(QLatin1Char('*'))) {
             m_allocators << QRegExp(allocator, Qt::CaseSensitive, QRegExp::Wildcard);
         } else {
             m_plainAllocators << allocator.toLatin1();
@@ -152,14 +152,14 @@ void ParserPrivate::parseFileDesc(const QByteArray& line)
     // desc: ...
     VALIDATE(line, line.startsWith("desc: "))
 
-    m_data->setDescription(line.mid(6));
+    m_data->setDescription(QString::fromUtf8(line.mid(6)));
     m_nextLine = FileCmd;
 
     if (!m_file->size()) {
         // for zipped files, parse the desc line for a --max-snapshots parameter
         // and use that number for the progress bar. read the manual to know that
         // this might not be a good measure, but better than nothing.
-        QRegExp pattern("--max-snapshots=([0-9]+)", Qt::CaseSensitive, QRegExp::RegExp2);
+        QRegExp pattern(QStringLiteral("--max-snapshots=([0-9]+)"), Qt::CaseSensitive, QRegExp::RegExp2);
         if (pattern.indexIn(m_data->description()) != -1) {
             m_expectedSnapshots = pattern.cap(1).toInt();
         }
@@ -171,7 +171,7 @@ void ParserPrivate::parseFileCmd(const QByteArray& line)
     // cmd: ...
     VALIDATE(line, line.startsWith("cmd: "))
 
-    m_data->setCmd(line.mid(5));
+    m_data->setCmd(QString::fromUtf8(line.mid(5)));
     m_nextLine = FileTimeUnit;
 }
 
@@ -180,7 +180,7 @@ void ParserPrivate::parseFileTimeUnit(const QByteArray& line)
     // time_unit: ...
     VALIDATE(line, line.startsWith("time_unit: "))
 
-    m_data->setTimeUnit(line.mid(11));
+    m_data->setTimeUnit(QString::fromUtf8(line.mid(11)));
     m_nextLine = Snapshot;
 }
 
@@ -284,7 +284,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         uint places = 0;
         QString oldPlaces;
         ///TODO: is massif translateable?
-        QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
+        QRegExp matchBT(QStringLiteral("in ([0-9]+) places, all below massif's threshold"),
                                             Qt::CaseSensitive, QRegExp::RegExp2);
         QVector<TreeLeafItem*>::iterator it = newChildren.begin();
         while(it != newChildren.end()) {
@@ -307,7 +307,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         }
         if (belowThreshold) {
             QByteArray label = belowThreshold->label();
-            label.replace(oldPlaces, QByteArray::number(places));
+            label.replace(oldPlaces.toUtf8(), QByteArray::number(places));
             belowThreshold->setLabel(label);
         }
         qSort(newChildren.begin(), newChildren.end(), sortLeafsByCost);

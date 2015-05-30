@@ -53,7 +53,12 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_definitions(-Wall)
+add_definitions(-Wall
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII
+    -DQT_NO_CAST_FROM_BYTEARRAY
+    -DQT_USE_QSTRINGBUILDER
+)
 
 add_subdirectory(massifdata)
 add_subdirectory(visualizer)

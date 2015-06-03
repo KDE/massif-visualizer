@@ -70,8 +70,6 @@ private:
     void updateLegendFont();
     void updateDetailedPeaks();
 
-    void printFile(QPrinter *printer);
-
 private slots:
     void setDetailedDiagramHidden(bool hidden);
     void setDetailedDiagramVisible(bool visible);
@@ -94,6 +92,8 @@ private slots:
 
     void detailedItemClicked(const QModelIndex& item);
     void totalItemClicked(const QModelIndex& item);
+
+    void printFile(QPrinter *printer);
 
 private:
     KDChart::Chart* m_chart;

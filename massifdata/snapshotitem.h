@@ -23,14 +23,14 @@
 #ifndef SNAPSHOTITEM_H
 #define SNAPSHOTITEM_H
 
-#include "massifdata_export.h"
+#include <qglobal.h>
 
 namespace Massif
 {
 
 class TreeLeafItem;
 
-class MASSIFDATA_EXPORT SnapshotItem
+class SnapshotItem
 {
 public:
     SnapshotItem();

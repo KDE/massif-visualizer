@@ -23,8 +23,6 @@
 #ifndef MASSIF_FILEDATA_H
 #define MASSIF_FILEDATA_H
 
-#include "massifdata_export.h"
-
 #include <QtCore/QObject>
 #include <QtCore/QVector>
 
@@ -35,7 +33,7 @@ class SnapshotItem;
 /**
  * This structure holds all information that can be extracted from a massif output file.
  */
-class MASSIFDATA_EXPORT FileData : public QObject
+class FileData : public QObject
 {
     Q_OBJECT
 public:

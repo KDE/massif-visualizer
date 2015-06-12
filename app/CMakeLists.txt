@@ -47,7 +47,7 @@ install(
 
 install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
-install(PROGRAMS massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(PROGRAMS org.kde.massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 # XML mime type
 set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )

@@ -67,6 +67,7 @@
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>
+      <li xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</li>
       <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
@@ -111,6 +112,7 @@
       <image>http://milianw.de/files/massif-visualizer/memory-chart.png</image>
       <caption>Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
+      <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</caption>
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>

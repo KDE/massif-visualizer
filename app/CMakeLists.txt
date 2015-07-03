@@ -23,7 +23,7 @@ endif(KGRAPHVIEWER_FOUND)
 
 kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
 
-qt5_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
+ki18n_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
 
 add_executable(massif-visualizer ${massif-visualizer_SRCS})
 

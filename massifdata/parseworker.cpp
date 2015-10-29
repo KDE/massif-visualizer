@@ -24,9 +24,11 @@
 #include "parser.h"
 #include "filedata.h"
 
-#include <KUrl>
+#include <QUrl>
+#include <QTemporaryFile>
+
 #include <KFilterDev>
-#include <KIO/NetAccess>
+#include <KIO/FileCopyJob>
 #include <KLocalizedString>
 
 namespace Massif {
@@ -37,49 +39,51 @@ ParseWorker::ParseWorker(QObject* parent)
 
 }
 
-void ParseWorker::parse(const KUrl& url, const QStringList& allocators)
+void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
 {
     // process in background thread
     if (QThread::currentThread() != thread()) {
-        QMetaObject::invokeMethod(this, "parse", Q_ARG(KUrl, url), Q_ARG(QStringList, allocators));
+        QMetaObject::invokeMethod(this, "parse", Q_ARG(QUrl, url), Q_ARG(QStringList, allocators));
         return;
     }
 
     m_shouldStop = 0;
-    QString file;
+    QTemporaryFile tempFile;
+    QString filePath;
     if (!url.isLocalFile()) {
-        if (!KIO::NetAccess::download(url, file, 0)) {
+        if (!tempFile.open() || !KIO::file_copy(url, QUrl::fromLocalFile(tempFile.fileName()), -1, KIO::Overwrite | KIO::HideProgressInfo)->exec()) {
             emit error(i18n("Download Failed"),
-                       i18n("Failed to download remote massif data file <i>%1</i>.", url.pathOrUrl()));
+                       i18n("Failed to download remote massif data file <i>%1</i>.", url.toString()));
             return;
         }
+        filePath = tempFile.fileName();
     } else {
-        file = url.toLocalFile();
+        filePath = url.toLocalFile();
     }
 
-    QScopedPointer<QIODevice> device(KFilterDev::deviceForFile(file));
-    if (!device->open(QIODevice::ReadOnly)) {
+    KFilterDev device(filePath);
+    if (!device.open(QIODevice::ReadOnly)) {
         emit error(i18n("Read Failed"),
-                   i18n("Could not open file <i>%1</i> for reading.", file));
+                   i18n("Could not open file <i>%1</i> for reading.", filePath));
         return;
     }
 
     Parser p;
     emit progressRange(0, 100);
-    connect(&p, SIGNAL(progress(int)), this, SIGNAL(progress(int)));
-    QScopedPointer<FileData> data(p.parse(device.data(), allocators, &m_shouldStop));
+    connect(&p, &Parser::progress, this, &ParseWorker::progress);
+    QScopedPointer<FileData> data(p.parse(&device, allocators, &m_shouldStop));
 
     if (!data) {
         if (!m_shouldStop) {
             emit error(i18n("Parser Failed"),
                        i18n("Could not parse file <i>%1</i>.<br>"
                             "Parse error in line %2:<br>%3",
-                            url.pathOrUrl(), p.errorLine() + 1,
+                            url.toString(), p.errorLine() + 1,
                             QString::fromLatin1(p.errorLineString())));
         }
         return;
     } else if (data->snapshots().isEmpty()) {
-        emit error(i18n("Empty data file <i>%1</i>.", url.pathOrUrl()),
+        emit error(i18n("Empty data file <i>%1</i>.", url.toString()),
                    i18n("Empty Data File"));
         return;
     }
@@ -96,5 +100,3 @@ void ParseWorker::stop()
 }
 
 }
-
-#include "parseworker.moc"

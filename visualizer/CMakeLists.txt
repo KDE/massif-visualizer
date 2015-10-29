@@ -12,12 +12,14 @@ set(visualizer_SRCS
     allocatorsmodel.cpp
 )
 
-kde4_add_library(mv-visualizer STATIC ${visualizer_SRCS})
+add_library(mv-visualizer STATIC ${visualizer_SRCS})
 
-target_link_libraries(mv-visualizer LINK_PRIVATE
+target_link_libraries(mv-visualizer
+LINK_PRIVATE
     mv-massifdata
-    mv-kdchart
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY}
-    ${KDE4_KDECORE_LIBS}
+    KChart
+    Qt5::Core
+    Qt5::Gui
+    KF5::KIOCore
+    KF5::I18n
 )

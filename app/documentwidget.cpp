@@ -38,16 +38,16 @@
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>
-#include <KIcon>
-#include <KDebug>
 #include <KXMLGUIFactory>
 
+#include <QDebug>
 #include <QLabel>
 #include <QProgressBar>
 #include <QStackedWidget>
 #include <QTabWidget>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QIcon>
 
 #include "charttab.h"
 #include "allocatorstab.h"
@@ -62,7 +62,7 @@
 
 using namespace Massif;
 
-DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAllocators,
+DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAllocators,
                                KXMLGUIClient* guiParent, QWidget* parent)
     : QWidget(parent)
     , KXMLGUIClient(guiParent)
@@ -78,14 +78,14 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     , m_stopParserButton(0)
     , m_isLoaded(false)
 {
-    connect(m_parseWorker, SIGNAL(finished(KUrl, Massif::FileData*)),
-            this, SLOT(parserFinished(KUrl, Massif::FileData*)));
-    connect(m_parseWorker, SIGNAL(error(QString, QString)),
-            this, SLOT(showError(QString, QString)));
-    connect(m_parseWorker, SIGNAL(progressRange(int, int)),
-            this, SLOT(setRange(int,int)));
-    connect(m_parseWorker, SIGNAL(progress(int)),
-            this, SLOT(setProgress(int)));
+    connect(m_parseWorker, &ParseWorker::finished,
+            this, &DocumentWidget::parserFinished);
+    connect(m_parseWorker, &ParseWorker::error,
+            this, &DocumentWidget::showError);
+    connect(m_parseWorker, &ParseWorker::progressRange,
+            this, &DocumentWidget::setRange);
+    connect(m_parseWorker, &ParseWorker::progress,
+            this, &DocumentWidget::setProgress);
 
     // Create dedicated thread for this document.
     // TODO: use ThreadWeaver
@@ -94,7 +94,7 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     m_parseWorker->moveToThread(thread);
     m_parseWorker->parse(file, customAllocators);
 
-    setXMLFile("documentwidgetui.rc", true);
+    setXMLFile(QStringLiteral("documentwidgetui.rc"), true);
 
     // Set m_stackedWidget as the main widget.
     setLayout(new QVBoxLayout(this));
@@ -110,7 +110,7 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     verticalLayout->addItem(upperSpacerItem);
 
     m_loadingMessage = new QLabel(loadingPage);
-    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.pathOrUrl()));
+    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.toString()));
     m_loadingMessage->setAlignment(Qt::AlignCenter);
     verticalLayout->addWidget(m_loadingMessage);
 
@@ -123,12 +123,12 @@ DocumentWidget::DocumentWidget(const KUrl& file, const QStringList& customAlloca
     stopParserWidget->setLayoutDirection(Qt::LeftToRight);
     QHBoxLayout* stopParserWidgetLayout = new QHBoxLayout(stopParserWidget);
     m_stopParserButton = new QToolButton(stopParserWidget);
-    m_stopParserButton->setObjectName(QString::fromUtf8("stopParsing"));
+    m_stopParserButton->setObjectName(QStringLiteral("stopParsing"));
     m_stopParserButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_stopParserButton->setIcon(KIcon("process-stop"));
+    m_stopParserButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     m_stopParserButton->setIconSize(QSize(48, 48));
-    connect(m_stopParserButton, SIGNAL(clicked()),
-            this, SIGNAL(requestClose()));
+    connect(m_stopParserButton, &QToolButton::clicked,
+            this, &DocumentWidget::requestClose);
     stopParserWidgetLayout->addWidget(m_stopParserButton);
     verticalLayout->addWidget(stopParserWidget);
 
@@ -155,7 +155,7 @@ FileData* DocumentWidget::data() const
     return m_data;
 }
 
-KUrl DocumentWidget::file() const
+QUrl DocumentWidget::file() const
 {
     return m_file;
 }
@@ -172,24 +172,24 @@ void DocumentWidget::settingsChanged()
     }
 }
 
-void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
+void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
 {
     Q_ASSERT(data->peak());
 
-    kDebug() << "loaded massif file:" << file;
+    qDebug() << "loaded massif file:" << file;
     qDebug() << "description:" << data->description();
     qDebug() << "command:" << data->cmd();
     qDebug() << "time unit:" << data->timeUnit();
     qDebug() << "snapshots:" << data->snapshots().size();
-    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << QString("%1%2").arg(data->peak()->time()).arg(data->timeUnit());
-    qDebug() << "peak cost:" << prettyCost(data->peak()->memHeap()) << " heap"
-                             << prettyCost(data->peak()->memHeapExtra()) << " heap extra"
-                             << prettyCost(data->peak()->memStacks()) << " stacks";
+    qDebug() << "peak: snapshot #" << data->peak()->number() << "after" << data->peak()->time() << data->timeUnit();
+    qDebug() << "peak cost:" << prettyCost(data->peak()->memHeap()) << "heap"
+                             << prettyCost(data->peak()->memHeapExtra()) << "heap extra"
+                             << prettyCost(data->peak()->memStacks()) << "stacks";
 
     m_data = data;
     m_file = file;
 
-    m_tabs->addTab(new ChartTab(m_data, this, this), KIcon("office-chart-area-stacked"),
+    m_tabs->addTab(new ChartTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")),
                    i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -197,26 +197,26 @@ void DocumentWidget::parserFinished(const KUrl& file, FileData* data)
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
         if (part) {
-            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), KIcon("kgraphviewer"),
+            m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme(QStringLiteral("kgraphviewer")),
                            i18n("Callgraph"));
         }
     }
 #endif
 
-    m_tabs->addTab(new AllocatorsTab(m_data, this, this), KIcon("view-list-text"),
+    m_tabs->addTab(new AllocatorsTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("view-list-text")),
                    i18n("Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {
         DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));
-        connect(tab, SIGNAL(modelItemSelected(Massif::ModelItem)),
-                this, SIGNAL(modelItemSelected(Massif::ModelItem)));
-        connect(tab, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
-                this, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)));
+        connect(tab, &DocumentTabInterface::modelItemSelected,
+                this, &DocumentWidget::modelItemSelected);
+        connect(tab, &DocumentTabInterface::contextMenuRequested,
+                this, &DocumentWidget::contextMenuRequested);
     }
 
     m_tabs->setCurrentIndex(0);
-    connect(m_tabs, SIGNAL(currentChanged(int)),
-            this, SLOT(slotTabChanged(int)));
+    connect(m_tabs, &QTabWidget::currentChanged,
+            this, &DocumentWidget::slotTabChanged);
     slotTabChanged(0);
 
     m_isLoaded = true;
@@ -287,7 +287,7 @@ void DocumentWidget::showError(const QString& title, const QString& error)
         m_errorMessage->setMessageType(KMessageWidget::Error);
         m_errorMessage->setCloseButtonVisible(false);
     }
-    m_errorMessage->setText(QString("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
+    m_errorMessage->setText(QString::fromLatin1("<b>%1</b><p style=\"text-align:left\">%2</p>").arg(title).arg(error));
     m_stackedWidget->setCurrentWidget(m_errorMessage);
 }
 

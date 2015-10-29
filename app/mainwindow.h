@@ -31,10 +31,11 @@
 #include "ui_mainwindow.h"
 #include "documentwidget.h"
 
+class QAction;
 class QSpinBox;
 class QStringListModel;
 
-namespace KDChart {
+namespace KChart {
 class Chart;
 class HeaderFooter;
 class Plotter;
@@ -43,7 +44,6 @@ class Legend;
 class BarDiagram;
 }
 
-class KAction;
 class KRecentFilesAction;
 
 #ifdef HAVE_KGRAPHVIEWER
@@ -69,7 +69,7 @@ public:
 
     void setupActions();
 
-public slots:
+public Q_SLOTS:
     /**
      * Open a dialog to pick a massif output file(s) to display.
      */
@@ -78,7 +78,7 @@ public slots:
     /**
      * Opens @p file as massif output file and visualize it.
      */
-    void openFile(const KUrl& file);
+    void openFile(const QUrl& file);
 
     /**
      * reload currently opened file
@@ -90,7 +90,7 @@ public slots:
      */
     void closeCurrentFile();
 
-private slots:
+private Q_SLOTS:
     void closeRequested();
     void closeFileTab(int idx);
 
@@ -123,15 +123,15 @@ private:
 
     KRecentFilesAction* m_recentFiles;
 
-    KAction* m_close;
+    QAction* m_close;
 
     QStringListModel* m_allocatorModel;
-    KAction* m_newAllocator;
-    KAction* m_removeAllocator;
-    KAction* m_markCustomAllocator;
+    QAction* m_newAllocator;
+    QAction* m_removeAllocator;
+    QAction* m_markCustomAllocator;
 
-    KAction* m_shortenTemplates;
-    KAction* m_selectPeak;
+    QAction* m_shortenTemplates;
+    QAction* m_selectPeak;
 
     DocumentWidget* m_currentDocument;
 

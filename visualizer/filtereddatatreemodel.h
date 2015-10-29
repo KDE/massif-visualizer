@@ -23,10 +23,8 @@
 #ifndef MASSIF_FILTEREDDATATREEMODEL_H
 #define MASSIF_FILTEREDDATATREEMODEL_H
 
-#include <QtGui/QSortFilterProxyModel>
+#include <QSortFilterProxyModel>
 #include <QTimer>
-
-#include "visualizer_export.h"
 
 namespace Massif {
 
@@ -35,14 +33,14 @@ class DataTreeModel;
 /**
  * Filter class for DataTreeModel
  */
-class VISUALIZER_EXPORT FilteredDataTreeModel : public QSortFilterProxyModel
+class FilteredDataTreeModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
     explicit FilteredDataTreeModel(DataTreeModel* parent);
 
-public slots:
+public Q_SLOTS:
     void setFilter(const QString& needle);
 
 protected:
@@ -51,7 +49,7 @@ protected:
     /// always true
     virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
 
-private slots:
+private Q_SLOTS:
     void timeout();
 
 private:

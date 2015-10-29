@@ -32,7 +32,7 @@ FilteredDataTreeModel::FilteredDataTreeModel(DataTreeModel* parent)
     setSourceModel(parent);
     m_timer.setSingleShot(true);
     m_timer.setInterval(150);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    connect(&m_timer, &QTimer::timeout, this, &FilteredDataTreeModel::timeout);
 }
 
 void FilteredDataTreeModel::setFilter(const QString& needle)
@@ -76,5 +76,3 @@ void FilteredDataTreeModel::setSourceModel(QAbstractItemModel* sourceModel)
 {
     QSortFilterProxyModel::setSourceModel(sourceModel);
 }
-
-#include "filtereddatatreemodel.moc"

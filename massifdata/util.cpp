@@ -25,27 +25,27 @@
 #include "snapshotitem.h"
 #include "treeleafitem.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <KSharedConfig>
+#include <KLocalizedString>
 #include <KConfigGroup>
-
-#include <QTextDocument>
+#include <KFormat>
 
 namespace Massif {
 
 QString prettyCost(quint64 cost)
 {
-    Q_ASSERT(KGlobal::config());
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    Q_ASSERT(KSharedConfig::openConfig());
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
     int precision = conf.readEntry(QLatin1String("prettyCostPrecision"), 1);
-    return KGlobal::locale()->formatByteSize(cost, precision);
+    KFormat format(QLocale::system());
+    return format.formatByteSize(cost, precision);
 }
 
 QByteArray shortenTemplates(const QByteArray& identifier)
 {
     QByteArray ret = identifier;
-    Q_ASSERT(KGlobal::config());
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    Q_ASSERT(KSharedConfig::openConfig());
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
     if (conf.readEntry(QLatin1String("shortenTemplates"), false)) {
         // remove template arguments between <...>
         int depth = 0;
@@ -133,21 +133,21 @@ QString formatLabelForTooltip(const ParsedLabel& parsed)
 {
     QString ret;
     if (!parsed.function.isEmpty()) {
-        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", Qt::escape(parsed.function));
+        ret += i18n("<dt>function:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.function).toHtmlEscaped());
     }
     if (!parsed.location.isEmpty()) {
-        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", Qt::escape(parsed.location));
+        ret += i18n("<dt>location:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.location).toHtmlEscaped());
     }
     if (!parsed.address.isEmpty()) {
-        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", Qt::escape(parsed.address));
+        ret += i18n("<dt>address:</dt><dd>%1</dd>\n", QString::fromUtf8(parsed.address).toHtmlEscaped());
     }
     return ret;
 }
 
 QString finalizeTooltip(const QString& contents)
 {
-    return "<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n"
-        + contents + "</dl></body></html>";
+    return QLatin1String("<html><head><style>dt{font-weight:bold;} dd {font-family:monospace;}</style></head><body><dl>\n")
+        + contents + QLatin1String("</dl></body></html>");
 }
 
 QString tooltipForTreeLeaf(const TreeLeafItem* node, const SnapshotItem* snapshot, const QByteArray& label)

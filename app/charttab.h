@@ -25,13 +25,13 @@
 
 #include "documenttabinterface.h"
 #include <QSpinBox>
+#include <QPrinter>
 
+class QAction;
 class QLabel;
 class QModelIndex;
 
-class KAction;
-
-namespace KDChart {
+namespace KChart {
 class Chart;
 class HeaderFooter;
 class Plotter;
@@ -70,7 +70,9 @@ private:
     void updateLegendFont();
     void updateDetailedPeaks();
 
-private slots:
+    void printFile(QPrinter *printer);
+
+private Q_SLOTS:
     void setDetailedDiagramHidden(bool hidden);
     void setDetailedDiagramVisible(bool visible);
 
@@ -93,27 +95,25 @@ private slots:
     void detailedItemClicked(const QModelIndex& item);
     void totalItemClicked(const QModelIndex& item);
 
-    void printFile(QPrinter *printer);
-
 private:
-    KDChart::Chart* m_chart;
+    KChart::Chart* m_chart;
     QLabel* m_header;
-    KDChart::Plotter* m_totalDiagram;
+    KChart::Plotter* m_totalDiagram;
     Massif::TotalCostModel* m_totalCostModel;
 
-    KDChart::Plotter* m_detailedDiagram;
+    KChart::Plotter* m_detailedDiagram;
     Massif::DetailedCostModel* m_detailedCostModel;
 
-    KDChart::Legend* m_legend;
+    KChart::Legend* m_legend;
 
-    KAction* m_print;
-    KAction* m_saveAs;
+    QAction* m_print;
+    QAction* m_saveAs;
 
-    KAction* m_toggleTotal;
-    KAction* m_toggleDetailed;
+    QAction* m_toggleTotal;
+    QAction* m_toggleDetailed;
 
-    KAction* m_hideFunction;
-    KAction* m_hideOtherFunctions;
+    QAction* m_hideFunction;
+    QAction* m_hideOtherFunctions;
 
     QSpinBox* m_box;
 

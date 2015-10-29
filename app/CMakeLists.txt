@@ -21,17 +21,19 @@ if(KGRAPHVIEWER_FOUND)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
 endif(KGRAPHVIEWER_FOUND)
 
-kde4_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
+kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
 
-kde4_add_ui_files(massif-visualizer_SRCS mainwindow.ui config.ui)
+ki18n_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
 
-kde4_add_executable(massif-visualizer ${massif-visualizer_SRCS})
+add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
 target_link_libraries(massif-visualizer LINK_PRIVATE
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KPARTS_LIBS}
-    mv-kdchart
+    Qt5::PrintSupport
+    Qt5::Svg
+    KF5::KIOCore
+    KF5::Parts
+    KF5::I18n
+    KChart
     mv-massifdata
     mv-visualizer
 )
@@ -40,12 +42,12 @@ install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(
     FILES massif-visualizerui.rc documentwidgetui.rc charttabui.rc callgraphtabui.rc
-    DESTINATION ${DATA_INSTALL_DIR}/massif-visualizer
+    DESTINATION ${KXMLGUI_INSTALL_DIR}/massif-visualizer
 )
 
 install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 
-install(PROGRAMS massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(PROGRAMS org.kde.massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 # XML mime type
 set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )

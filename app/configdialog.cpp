@@ -20,6 +20,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <KLocalizedString>
+
 #include "configdialog.h"
 
 #include "massif-visualizer-settings.h"
@@ -28,7 +30,7 @@
 using namespace Massif;
 
 ConfigDialog::ConfigDialog(QWidget* parent)
-: KConfigDialog(parent, "settings", Settings::self())
+: KConfigDialog(parent, QStringLiteral("settings"), Settings::self())
 , m_ui(new Ui::Config)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -46,7 +48,5 @@ ConfigDialog::~ConfigDialog()
 
 bool ConfigDialog::isShown()
 {
-    return KConfigDialog::showDialog("settings");
+    return KConfigDialog::showDialog(QStringLiteral("settings"));
 }
-
-#include "configdialog.moc"

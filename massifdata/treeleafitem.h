@@ -27,11 +27,9 @@
 #include <QtCore/QVector>
 #include <QtCore/QMetaType>
 
-#include "massifdata_export.h"
-
 namespace Massif {
 
-class MASSIFDATA_EXPORT TreeLeafItem
+class TreeLeafItem
 {
 public:
     TreeLeafItem();

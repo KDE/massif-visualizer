@@ -27,8 +27,6 @@
 
 #include "modelitem.h"
 
-#include "visualizer_export.h"
-
 namespace Massif {
 
 class FileData;
@@ -38,7 +36,7 @@ class SnapshotItem;
 /**
  * A model that gives a tree representation of the full Massif data. Useful for e.g. ListViews.
  */
-class VISUALIZER_EXPORT DataTreeModel : public QAbstractItemModel
+class DataTreeModel : public QAbstractItemModel
 {
 public:
     DataTreeModel(QObject* parent = 0);

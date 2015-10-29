@@ -28,8 +28,6 @@
 
 #include "modelitem.h"
 
-#include "visualizer_export.h"
-
 namespace Massif {
 
 class FileData;
@@ -39,7 +37,7 @@ class TreeLeafItem;
 /**
  * A model that gives a tabular access on the costs in a massif output file.
  */
-class VISUALIZER_EXPORT DetailedCostModel : public QAbstractTableModel
+class DetailedCostModel : public QAbstractTableModel
 {
 public:
     DetailedCostModel(QObject* parent = 0);

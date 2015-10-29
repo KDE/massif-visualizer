@@ -39,28 +39,26 @@ int main(int argc, char** argv) {
     }
 
     const QString file = app.arguments().at(1);
-    QScopedPointer<QIODevice> device(KFilterDev::deviceForFile(file));
-    if (!device->open(QIODevice::ReadOnly)) {
+    KFilterDev device(file);
+    if (!device.open(QIODevice::ReadOnly)) {
         qWarning() << "could not open file:" << file;
         return 2;
     }
 
     qDebug() << "parsing file:" << file;
 
-#if QT_VERSION >= 0x040700
     QElapsedTimer t;
     t.start();
-#endif
+
     Massif::Parser parser;
-    QScopedPointer<Massif::FileData> data(parser.parse(device.data()));
+    QScopedPointer<Massif::FileData> data(parser.parse(&device));
     if (!data) {
         qWarning() << "failed to parse file:" << file;
         qWarning() << parser.errorLineString() << "in line" << parser.errorLine();
         return 3;
     }
-#if QT_VERSION >= 0x040700
+
     qDebug() << "finished parsing in" << t.elapsed() << "ms";
-#endif
 
     return 0;
 }

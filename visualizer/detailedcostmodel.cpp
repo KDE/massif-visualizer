@@ -27,9 +27,9 @@
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
 
-#include "KDChartGlobal"
-#include "KDChartDataValueAttributes"
-#include "KDChartLineAttributes"
+#include "KChartGlobal"
+#include "KChartDataValueAttributes"
+#include "KChartLineAttributes"
 
 #include <QtGui/QColor>
 #include <QtGui/QPen>
@@ -47,7 +47,7 @@ namespace {
 QVariant colorForColumn(int column, int columnCount, int role)
 {
     QColor c = QColor::fromHsv(double(column + 1) / columnCount * 255, 255, 255);
-    if (role == KDChart::DatasetBrushRole) {
+    if (role == KChart::DatasetBrushRole) {
         return QBrush(c);
     } else {
         return QPen(c);
@@ -170,8 +170,8 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     Q_ASSERT(m_data);
     Q_ASSERT(!index.parent().isValid());
 
-    if ( role == KDChart::LineAttributesRole ) {
-        static KDChart::LineAttributes attributes;
+    if ( role == KChart::LineAttributesRole ) {
+        static KChart::LineAttributes attributes;
         attributes.setDisplayArea(true);
         if (index == m_selection) {
             attributes.setTransparency(255);
@@ -183,7 +183,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(attributes);
     }
 
-    if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+    if (role == KChart::DatasetBrushRole || role == KChart::DatasetPenRole) {
         return colorForColumn(index.column(), columnCount(), role);
     }
 
@@ -213,7 +213,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 
     const SnapshotItem* snapshot;
     if (role == Qt::ToolTipRole) {
-        // hack: the ToolTip will only be queried by KDChart and that one uses the
+        // hack: the ToolTip will only be queried by KChart and that one uses the
         // left index, but we want it to query the right one
         Q_ASSERT(index.row() < m_rows.size());
         snapshot = m_rows.at(index.row());
@@ -243,7 +243,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
 QVariant DetailedCostModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && section % 2 == 0 && section < columnCount()) {
-        if (role == KDChart::DatasetBrushRole || role == KDChart::DatasetPenRole) {
+        if (role == KChart::DatasetBrushRole || role == KChart::DatasetPenRole) {
             return colorForColumn(section, columnCount(), role);
         } else if (role == Qt::DisplayRole ) {
             // only show name without memory address or location

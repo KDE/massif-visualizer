@@ -30,11 +30,10 @@
 #include <QTextStream>
 #include <QFile>
 #include <QColor>
+#include <QDebug>
 
 #include <KLocalizedString>
-#include <KTemporaryFile>
 
-#include <KDebug>
 
 namespace Massif {
 
@@ -80,7 +79,7 @@ DotGraphGenerator::DotGraphGenerator(const TreeLeafItem* node, const QString& ti
 
 DotGraphGenerator::~DotGraphGenerator()
 {
-    kDebug() << "closing generator, file will get removed";
+    qDebug() << "closing generator, file will get removed";
 }
 
 void DotGraphGenerator::cancel()
@@ -90,7 +89,7 @@ void DotGraphGenerator::cancel()
 
 QString getLabel(const TreeLeafItem* node)
 {
-    QString label = prettyLabel(node->label());
+    QByteArray label = prettyLabel(node->label());
     const int lineWidth = 40;
     if (label.length() > lineWidth) {
         int lastPos = 0;
@@ -109,7 +108,7 @@ QString getLabel(const TreeLeafItem* node)
             }
         }
     }
-    return label;
+    return QString::fromUtf8(label);
 }
 
 QString getColor(quint64 cost, quint64 maxCost)
@@ -121,12 +120,12 @@ QString getColor(quint64 cost, quint64 maxCost)
 //     return QColor::fromHsv(120 - ratio * 120, 255, 255).name();
 }
 
-GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>& knownNodes,
+GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QByteArray, GraphNode*>& knownNodes,
                       quint64& maxCost, GraphNode* parent = 0)
 {
     // merge below-threshold items
     if (parent && item->children().isEmpty()) {
-        static QRegExp matchBT("in ([0-9]+) places, all below massif's threshold",
+        static QRegExp matchBT(QStringLiteral("in ([0-9]+) places, all below massif's threshold"),
                                                 Qt::CaseSensitive, QRegExp::RegExp2);
         if (matchBT.indexIn(QString::fromLatin1(item->label())) != -1) {
             parent->belowThresholdCost += item->cost();
@@ -175,7 +174,7 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QString, GraphNode*>&
 void DotGraphGenerator::run()
 {
     if (!m_file.isOpen()) {
-        kWarning() << "could not create temp file for writing Dot-graph";
+        qWarning() << "could not create temp file for writing Dot-graph";
         return;
     }
 
@@ -183,7 +182,7 @@ void DotGraphGenerator::run()
         return;
     }
 
-    kDebug() << "creating new dot file in" << m_file.fileName();
+    qDebug() << "creating new dot file in" << m_file.fileName();
     QTextStream out(&m_file);
 
     out << "digraph callgraph {\n"
@@ -211,7 +210,7 @@ void DotGraphGenerator::run()
     }
 
     if (m_node) {
-        QMultiHash<QString, GraphNode*> nodes;
+        QMultiHash<QByteArray, GraphNode*> nodes;
         GraphNode* root = buildGraph(m_node, nodes, m_maxCost);
         m_highestCost = 0;
         nodeToDot(root, out, parentId, 0);
@@ -269,22 +268,22 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
         }
         node = child;
 
-        label += " | " + prettyLabel(node->item->label());
+        label += QLatin1String(" | ") + QString::fromUtf8(prettyLabel(node->item->label()));
         wasGrouped = true;
     }
 
     QString shape;
     if (wasGrouped) {
-        label = "{" + label + "}";
+        label = QLatin1Char('{') + label + QLatin1Char('}');
         // <...> would be an id, escape it
-        label = label.replace('<', "\\<");
-        label = label.replace('>', "\\>");
-        shape = "record";
+        label = label.replace(QLatin1Char('<'), QLatin1String("\\<"));
+        label = label.replace(QLatin1Char('>'), QLatin1String("\\>"));
+        shape = QStringLiteral("record");
     } else {
-        shape = "box";
+        shape = QStringLiteral("box");
     }
 
-    const QString color = isRoot ? "white" : getColor(node->accumulatedCost, m_maxCost);
+    const QString color = isRoot ? QStringLiteral("white") : getColor(node->accumulatedCost, m_maxCost);
     out << '"' << nodeId << "\" [shape=" << shape << ",label=\"" << label << "\",fillcolor=\"" << color << "\"];\n";
     if (!node) {
         return;

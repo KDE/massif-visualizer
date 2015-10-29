@@ -97,5 +97,3 @@ void Parser::setProgress(int value)
 {
     emit progress(value);
 }
-
-#include "parser.moc"

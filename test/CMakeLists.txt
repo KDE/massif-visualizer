@@ -1,18 +1,13 @@
-set(datamodeltest_SRCS
-    datamodeltest.cpp
-    modeltest.cpp
-)
-kde4_add_unit_test(datamodeltest ${datamodeltest_SRCS})
-target_link_libraries(datamodeltest LINK_PRIVATE
-    mv-massifdata
-    mv-visualizer
-    ${QT_QTTEST_LIBRARY}
+ecm_add_test(datamodeltest datamodeltest.cpp modeltest.cpp
+    TEST_NAME "datamodeltest"
+    LINK_LIBRARIES mv-massifdata mv-visualizer Qt5::Core Qt5::Test KF5::KIOCore
 )
 
-kde4_add_executable(massifparser massifparser.cpp)
+add_executable(massifparser massifparser.cpp)
 
 target_link_libraries(massifparser LINK_PRIVATE
-    ${QT_QTCORE_LIBRARY}
-    ${KDE4_KDECORE_LIBS}
+    Qt5::Core
+    KF5::Archive
+    KF5::CoreAddons
     mv-massifdata
 )

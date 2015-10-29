@@ -25,8 +25,6 @@
 
 #include <QString>
 
-#include "massifdata_export.h"
-
 namespace Massif {
 
 class TreeLeafItem;
@@ -35,7 +33,7 @@ class SnapshotItem;
 /**
  * Returns a prettified cost string.
  */
-MASSIFDATA_EXPORT QString prettyCost(quint64 cost);
+QString prettyCost(quint64 cost);
 
 struct ParsedLabel
 {
@@ -49,57 +47,57 @@ struct ParsedLabel
     }
 };
 
-MASSIFDATA_EXPORT ParsedLabel parseLabel(const QByteArray& label);
-MASSIFDATA_EXPORT uint qHash(const ParsedLabel& label);
+ParsedLabel parseLabel(const QByteArray& label);
+uint qHash(const ParsedLabel& label);
 
 /**
  * Prepares a tree node's label for the UI.
  * So far, only the Mem-Address will get stripped.
  */
-MASSIFDATA_EXPORT QByteArray prettyLabel(const QByteArray& label);
+QByteArray prettyLabel(const QByteArray& label);
 
 /**
  * If enabled in settings, removes template arguments from identifiers.
  */
-MASSIFDATA_EXPORT QByteArray shortenTemplates(const QByteArray& label);
+QByteArray shortenTemplates(const QByteArray& label);
 
 /**
  * Extracts the function name from the @p label.
  */
-MASSIFDATA_EXPORT QByteArray functionInLabel(const QByteArray& label);
+QByteArray functionInLabel(const QByteArray& label);
 
 /**
  * Extracts the address from the @p label if it exists.
  */
-MASSIFDATA_EXPORT QByteArray addressInLabel(const QByteArray& label);
+QByteArray addressInLabel(const QByteArray& label);
 
 /**
  * Extracts the location from the @p label if it exists.
  */
-MASSIFDATA_EXPORT QByteArray locationInLabel(const QByteArray& label);
+QByteArray locationInLabel(const QByteArray& label);
 
 /**
  * Checks whether this label denotes a tree node
  * with aggregated items below massif's threshold.
  */
-MASSIFDATA_EXPORT bool isBelowThreshold(const QByteArray& label);
+bool isBelowThreshold(const QByteArray& label);
 
 /**
  * Formats a label to a richtext tooltip.
  *
  * Returns HTML items of a definition list (<dl>).
  */
-MASSIFDATA_EXPORT QString formatLabelForTooltip(const ParsedLabel& label);
+QString formatLabelForTooltip(const ParsedLabel& label);
 
 /**
  * Given a list of HTML definition list items, finalize the richtext tooltip.
  */
-MASSIFDATA_EXPORT QString finalizeTooltip(const QString& contents);
+QString finalizeTooltip(const QString& contents);
 
 /**
  * Prepares a richtext tooltip for the given node, snapshot and label.
  */
-MASSIFDATA_EXPORT QString tooltipForTreeLeaf(const Massif::TreeLeafItem* node, const Massif::SnapshotItem* snapshot, const QByteArray& label);
+QString tooltipForTreeLeaf(const Massif::TreeLeafItem* node, const Massif::SnapshotItem* snapshot, const QByteArray& label);
 
 }
 

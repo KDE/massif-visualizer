@@ -23,13 +23,12 @@
 #ifndef MASSIF_PARSER_H
 #define MASSIF_PARSER_H
 
-class QIODevice;
 
 #include <QObject>
 #include <QString>
 #include <QStringList>
 
-#include "massifdata_export.h"
+class QIODevice;
 
 namespace Massif {
 
@@ -38,7 +37,7 @@ class FileData;
 /**
  * This class parses a Massif output file and stores it's information.
  */
-class MASSIFDATA_EXPORT Parser : public QObject
+class Parser : public QObject
 {
     Q_OBJECT
 
@@ -72,7 +71,7 @@ public:
 
     void setProgress(int value);
 
-signals:
+Q_SIGNALS:
     void progress(int value);
 
 private:

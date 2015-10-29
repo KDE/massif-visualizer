@@ -22,15 +22,15 @@
 
 #include "charttab.h"
 
-#include "KDChartChart"
-#include "KDChartGridAttributes"
-#include "KDChartHeaderFooter"
-#include "KDChartCartesianCoordinatePlane"
-#include "KDChartPlotter"
-#include "KDChartLegend"
-#include "KDChartDataValueAttributes"
-#include "KDChartBackgroundAttributes"
-#include <KDChartFrameAttributes.h>
+#include "KChartChart"
+#include "KChartGridAttributes"
+#include "KChartHeaderFooter"
+#include "KChartCartesianCoordinatePlane"
+#include "KChartPlotter"
+#include "KChartLegend"
+#include "KChartDataValueAttributes"
+#include "KChartBackgroundAttributes"
+#include <KChartFrameAttributes.h>
 
 #include "visualizer/totalcostmodel.h"
 #include "visualizer/detailedcostmodel.h"
@@ -44,6 +44,7 @@
 
 #include "massif-visualizer-settings.h"
 
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QPrinter>
 #include <QPrintPreviewDialog>
@@ -52,17 +53,17 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QSvgGenerator>
+#include <QWidgetAction>
+#include <QFileDialog>
 
 #include <KColorScheme>
 #include <KLocalizedString>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KAction>
-#include <KFileDialog>
 #include <KMessageBox>
-#include <KLocale>
+#include <KFormat>
 
-using namespace KDChart;
+using namespace KChart;
 using namespace Massif;
 
 namespace {
@@ -94,7 +95,8 @@ public:
     virtual const QString customizedLabel(const QString& label) const
     {
         // TODO: change distance between labels to 1024 and simply use prettyCost() here
-        return KGlobal::locale()->formatByteSize(label.toDouble(), 1, KLocale::MetricBinaryDialect);
+        KFormat format(QLocale::system());
+        return format.formatByteSize(label.toDouble(), 1, KFormat::MetricBinaryDialect);
     }
 };
 
@@ -122,7 +124,7 @@ void markPeak(Plotter* p, const QModelIndex& peak, quint64 cost, const KColorSch
     MarkerAttributes a = dataAttributes.markerAttributes();
     a.setMarkerSize(QSizeF(7, 7));
     a.setPen(outline);
-    a.setMarkerStyle(KDChart::MarkerAttributes::MarkerDiamond);
+    a.setMarkerStyle(KChart::MarkerAttributes::MarkerDiamond);
     a.setVisible(true);
     dataAttributes.setMarkerAttributes(a);
 
@@ -161,7 +163,7 @@ ChartTab::ChartTab(const FileData* data,
     , m_box(new QSpinBox(this))
     , m_settingSelection(false)
 {
-    setXMLFile("charttabui.rc", true);
+    setXMLFile(QStringLiteral("charttabui.rc"), true);
     setupActions();
 
     setLayout(new QVBoxLayout(this));
@@ -176,24 +178,25 @@ ChartTab::~ChartTab()
 void ChartTab::setupActions()
 {
     m_print = KStandardAction::print(this, SLOT(showPrintPreviewDialog()), actionCollection());
-    actionCollection()->addAction("file_print", m_print);
+    actionCollection()->addAction(QStringLiteral("file_print"), m_print);
 
     m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
-    actionCollection()->addAction("file_save_as", m_saveAs);
+    actionCollection()->addAction(QStringLiteral("file_save_as"), m_saveAs);
 
-    m_toggleTotal = new KAction(KIcon("office-chart-area"), i18n("Toggle total cost graph"), actionCollection());
+    m_toggleTotal = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area")), i18n("Toggle total cost graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
-    connect(m_toggleTotal, SIGNAL(toggled(bool)), SLOT(showTotalGraph(bool)));
-    actionCollection()->addAction("toggle_total", m_toggleTotal);
+    connect(m_toggleTotal, &QAction::toggled, this, &ChartTab::showTotalGraph);
+    actionCollection()->addAction(QStringLiteral("toggle_total"), m_toggleTotal);
 
-    m_toggleDetailed = new KAction(KIcon("office-chart-area-stacked"), i18n("Toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")), i18n("Toggle detailed cost graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
-    connect(m_toggleDetailed, SIGNAL(toggled(bool)), SLOT(showDetailedGraph(bool)));
-    actionCollection()->addAction("toggle_detailed", m_toggleDetailed);
+    connect(m_toggleDetailed, &QAction::toggled, this, &ChartTab::showDetailedGraph);
+    actionCollection()->addAction(QStringLiteral("toggle_detailed"), m_toggleDetailed);
 
-    KAction* stackNumAction = actionCollection()->addAction("stackNum");
+    QWidgetAction* stackNumAction = new QWidgetAction(actionCollection());
+    actionCollection()->addAction(QStringLiteral("stackNum"), stackNumAction);
     stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
@@ -201,17 +204,17 @@ void ChartTab::setupActions()
     m_box->setMinimum(0);
     m_box->setMaximum(50);
     m_box->setValue(10);
-    connect(m_box, SIGNAL(valueChanged(int)), this, SLOT(setStackNum(int)));
+    connect(m_box, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ChartTab::setStackNum);
     stackNumLayout->addWidget(m_box);
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
 
-    m_hideFunction = new KAction(i18n("hide function"), this);
-    connect(m_hideFunction, SIGNAL(triggered()),
-            this, SLOT(slotHideFunction()));
-    m_hideOtherFunctions = new KAction(i18n("hide other functions"), this);
-    connect(m_hideOtherFunctions, SIGNAL(triggered()),
-            this, SLOT(slotHideOtherFunctions()));
+    m_hideFunction = new QAction(i18n("hide function"), this);
+    connect(m_hideFunction, &QAction::triggered,
+            this, &ChartTab::slotHideFunction);
+    m_hideOtherFunctions = new QAction(i18n("hide other functions"), this);
+    connect(m_hideOtherFunctions, &QAction::triggered,
+            this, &ChartTab::slotHideOtherFunctions);
 }
 
 void ChartTab::setupGui()
@@ -240,10 +243,10 @@ void ChartTab::setupGui()
     m_legend->setTextAlignment(Qt::AlignLeft);
     m_legend->hide();
 
-    connect(m_chart, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(chartContextMenuRequested(QPoint)));
+    connect(m_chart, &Chart::customContextMenuRequested,
+            this, &ChartTab::chartContextMenuRequested);
 
-    //BEGIN KDChart
+    //BEGIN KChart
     KColorScheme scheme(QPalette::Active, KColorScheme::Window);
     QPen foreground(scheme.foreground().color());
 
@@ -300,7 +303,7 @@ void ChartTab::setupGui()
 
     m_detailedDiagram = new Plotter;
     m_detailedDiagram->setAntiAliasing(true);
-    m_detailedDiagram->setType(KDChart::Plotter::Stacked);
+    m_detailedDiagram->setType(KChart::Plotter::Stacked);
 
     m_detailedCostModel->setSource(m_data);
     m_detailedDiagram->setModel(m_detailedCostModel);
@@ -314,10 +317,10 @@ void ChartTab::setupGui()
 
     m_box->setValue(m_detailedCostModel->maximumDatasetCount());
 
-    connect(m_totalDiagram, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(totalItemClicked(QModelIndex)));
-    connect(m_detailedDiagram, SIGNAL(clicked(QModelIndex)),
-            this, SLOT(detailedItemClicked(QModelIndex)));
+    connect(m_totalDiagram, &Plotter::clicked,
+            this, &ChartTab::totalItemClicked);
+    connect(m_detailedDiagram, &Plotter::clicked,
+            this, &ChartTab::detailedItemClicked);
 }
 
 void ChartTab::settingsChanged()
@@ -362,26 +365,26 @@ void ChartTab::updatePeaks()
 
 void ChartTab::updateLegendPosition()
 {
-    KDChartEnums::PositionValue pos;
+    KChartEnums::PositionValue pos;
     switch (Settings::self()->legendPosition()) {
         case Settings::EnumLegendPosition::North:
-            pos = KDChartEnums::PositionNorth;
+            pos = KChartEnums::PositionNorth;
             break;
         case Settings::EnumLegendPosition::South:
-            pos = KDChartEnums::PositionSouth;
+            pos = KChartEnums::PositionSouth;
             break;
         case Settings::EnumLegendPosition::East:
-            pos = KDChartEnums::PositionEast;
+            pos = KChartEnums::PositionEast;
             break;
         case Settings::EnumLegendPosition::West:
-            pos = KDChartEnums::PositionWest;
+            pos = KChartEnums::PositionWest;
             break;
         case Settings::EnumLegendPosition::Floating:
-            pos = KDChartEnums::PositionFloating;
+            pos = KChartEnums::PositionFloating;
             break;
         default:
-            pos = KDChartEnums::PositionFloating;
-            kDebug() << "invalid legend position";
+            pos = KChartEnums::PositionFloating;
+            qDebug() << "invalid legend position";
     }
     m_legend->setPosition(Position(pos));
 
@@ -404,15 +407,15 @@ void ChartTab::updateLegendPosition()
             break;
         default:
             align = Qt::AlignHCenter | Qt::AlignVCenter;
-            kDebug() << "invalid legend alignmemnt";
+            qDebug() << "invalid legend alignmemnt";
     }
 
     // do something reasonable since top,bottom have no effect
     // when used with north,south, same for left,right used with
     // east,west
-    if ((((pos == KDChartEnums::PositionNorth) || (pos == KDChartEnums::PositionSouth))
+    if ((((pos == KChartEnums::PositionNorth) || (pos == KChartEnums::PositionSouth))
          && ((align == Qt::AlignTop) || (align == Qt::AlignBottom)))
-         || (((pos == KDChartEnums::PositionEast) || (pos == KDChartEnums::PositionWest))
+         || (((pos == KChartEnums::PositionEast) || (pos == KChartEnums::PositionWest))
          && ((align == Qt::AlignLeft) || (align == Qt::AlignRight)))) {
 
          align = Qt::AlignHCenter | Qt::AlignVCenter;
@@ -426,7 +429,7 @@ void ChartTab::updateLegendFont()
     TextAttributes att = m_legend->textAttributes();
     att.setAutoShrink(true);
     att.setFontSize(Measure(Settings::self()->legendFontSize()));
-    QFont font("monospace");
+    QFont font(QStringLiteral("monospace"));
     font.setStyleHint(QFont::TypeWriter);
     att.setFont(font);
     m_legend->setTextAttributes(att);
@@ -448,9 +451,9 @@ void ChartTab::updateDetailedPeaks()
 
 void ChartTab::updateHeader()
 {
-    const QString app = m_data->cmd().split(' ', QString::SkipEmptyParts).first();
+    const QString app = m_data->cmd().split(QLatin1Char(' '), QString::SkipEmptyParts).first();
 
-    m_header->setText(QString("<b>%1</b><br /><i>%2</i>")
+    m_header->setText(QString::fromLatin1("<b>%1</b><br /><i>%2</i>")
                         .arg(i18n("Memory consumption of %1", app))
                         .arg(i18n("Peak of %1 at snapshot #%2", prettyCost(m_data->peak()->cost()), m_data->peak()->number()))
     );
@@ -459,9 +462,8 @@ void ChartTab::updateHeader()
 
 void ChartTab::saveCurrentDocument()
 {
-    QString saveFilename = KFileDialog::getSaveFileName(KUrl("kfiledialog:///massif-visualizer"),
-                                                        QString("image/png image/jpeg image/tiff image/svg+xml"),
-                                                        this, i18n("Save Current Visualization"), KFileDialog::ConfirmOverwrite);
+    const auto saveFilename = QFileDialog::getSaveFileName(this, i18n("Save Current Visualization"), QString(),
+                                                           i18n("Images (*.png *.jpg *.tiff *.svg)"));
 
     if (!saveFilename.isEmpty()) {
 
@@ -497,7 +499,7 @@ void ChartTab::showPrintPreviewDialog()
     QPrinter printer;
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
     ppd->setAttribute(Qt::WA_DeleteOnClose);
-    connect(ppd, SIGNAL(paintRequested(QPrinter*)), SLOT(printFile(QPrinter*)));
+    connect(ppd, &QPrintPreviewDialog::paintRequested, this, &ChartTab::printFile);
     ppd->setWindowTitle(i18n("Massif Chart Print Preview"));
     ppd->resize(800, 600);
     ppd->exec();
@@ -543,7 +545,7 @@ void ChartTab::chartContextMenuRequested(const QPoint& pos)
     if (!idx.isValid()) {
         return;
     }
-    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // hack: the ToolTip will only be queried by KChart and that one uses the
     // left index, but we want it to query the right one
     const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
     ModelItem item = m_detailedCostModel->itemForIndex(_idx);
@@ -579,7 +581,7 @@ void ChartTab::detailedItemClicked(const QModelIndex& idx)
     m_totalCostModel->setSelection(QModelIndex());
     m_chart->update();
 
-    // hack: the ToolTip will only be queried by KDChart and that one uses the
+    // hack: the ToolTip will only be queried by KChart and that one uses the
     // left index, but we want it to query the right one
     m_settingSelection = true;
     const QModelIndex _idx = m_detailedCostModel->index(idx.row() + 1, idx.column(), idx.parent());
@@ -617,4 +619,3 @@ void ChartTab::selectModelItem(const ModelItem& item)
 }
 
 #include "charttab.moc"
-#include "moc_charttab.cpp"

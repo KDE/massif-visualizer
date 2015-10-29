@@ -39,21 +39,22 @@
 
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KFileDialog>
 #include <KRecentFilesAction>
 #include <KColorScheme>
-#include <KStatusBar>
 #include <KToolBar>
 #include <KParts/Part>
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
+#include <KLocalizedString>
 
+#include <QFileDialog>
 #include <QSortFilterProxyModel>
 #include <QStringListModel>
 #include <QLabel>
 #include <QSpinBox>
 #include <QInputDialog>
+#include <QIcon>
 
 #include <KMessageBox>
 
@@ -66,7 +67,7 @@ using namespace Massif;
 // Helper function
 static KConfigGroup allocatorConfig()
 {
-    return KGlobal::config()->group("Allocators");
+    return KSharedConfig::openConfig()->group("Allocators");
 }
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -105,7 +106,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     if (!haveGraphViewer) {
         // cleanup UI when we installed with kgraphviewer but it's not available at runtime
-        KToolBar* callgraphToolbar = toolBar("callgraphToolBar");
+        KToolBar* callgraphToolbar = toolBar(QStringLiteral("callgraphToolBar"));
         removeToolBar(callgraphToolbar);
         delete callgraphToolbar;
     }
@@ -113,10 +114,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     ui.documents->setMovable(true);
     ui.documents->setTabsClosable(true);
-    connect(ui.documents, SIGNAL(currentChanged(int)),
-            this, SLOT(documentChanged()));
-    connect(ui.documents, SIGNAL(tabCloseRequested(int)),
-            this, SLOT(closeFileTab(int)));
+    connect(ui.documents, &QTabWidget::currentChanged,
+            this, &MainWindow::documentChanged);
+    connect(ui.documents, &QTabWidget::tabCloseRequested,
+            this, &MainWindow::closeFileTab);
 
     //BEGIN custom allocators
     tabifyDockWidget(ui.allocatorDock, ui.dataTreeDock);
@@ -131,18 +132,18 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     KConfigGroup cfg = allocatorConfig();
     m_allocatorModel->setStringList(cfg.entryMap().values());
 
-    connect(m_allocatorModel, SIGNAL(modelReset()),
-            this, SLOT(allocatorsChanged()));
+    connect(m_allocatorModel, &QStringListModel::modelReset,
+            this, &MainWindow::allocatorsChanged);
 
-    connect(m_allocatorModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-            this, SLOT(allocatorsChanged()));
+    connect(m_allocatorModel, &QStringListModel::dataChanged,
+            this, &MainWindow::allocatorsChanged);
 
-    connect(ui.dataTreeView, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(dataTreeContextMenuRequested(QPoint)));
+    connect(ui.dataTreeView, &QTreeView::customContextMenuRequested,
+            this, &MainWindow::dataTreeContextMenuRequested);
     ui.dataTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(ui.allocatorView, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(allocatorViewContextMenuRequested(QPoint)));
+    connect(ui.allocatorView, &QTreeView::customContextMenuRequested,
+            this, &MainWindow::allocatorViewContextMenuRequested);
     ui.allocatorView->setContextMenuPolicy(Qt::CustomContextMenu);
     //END custom allocators
 
@@ -152,10 +153,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
     ui.dataTreeView->setModel(m_dataTreeFilterModel);
 
-    connect(ui.filterDataTree, SIGNAL(textChanged(QString)),
-            m_dataTreeFilterModel, SLOT(setFilter(QString)));
-    connect(ui.dataTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(treeSelectionChanged(QModelIndex,QModelIndex)));
+    connect(ui.filterDataTree, &KLineEdit::textChanged,
+            m_dataTreeFilterModel, &FilteredDataTreeModel::setFilter);
+    connect(ui.dataTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &MainWindow::treeSelectionChanged);
 
     // open page
     ui.stackedWidget->setCurrentWidget(ui.openPage);
@@ -167,17 +168,17 @@ MainWindow::~MainWindow()
         closeCurrentFile();
     }
 
-    m_recentFiles->saveEntries(KGlobal::config()->group( QString() ));
+    m_recentFiles->saveEntries(KSharedConfig::openConfig()->group( QString() ));
 }
 
 void MainWindow::setupActions()
 {
-    KAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(KUrl)), actionCollection());
-    m_recentFiles->loadEntries(KGlobal::config()->group( QString() ));
+    QAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), actionCollection());
+    m_recentFiles->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
-    KAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
-    actionCollection()->addAction("file_reload", reload);
+    QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
+    actionCollection()->addAction(QStringLiteral("file_reload"), reload);
     reload->setEnabled(false);
 
     m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
@@ -187,39 +188,39 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
 
-    m_shortenTemplates = new KAction(KIcon("shortentemplates"), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates = new QAction(QIcon::fromTheme(QStringLiteral("shortentemplates")), i18n("Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);
     m_shortenTemplates->setChecked(Settings::shortenTemplates());
-    connect(m_shortenTemplates, SIGNAL(toggled(bool)), SLOT(slotShortenTemplates(bool)));
-    actionCollection()->addAction("shorten_templates", m_shortenTemplates);
+    connect(m_shortenTemplates, &QAction::toggled, this, &MainWindow::slotShortenTemplates);
+    actionCollection()->addAction(QStringLiteral("shorten_templates"), m_shortenTemplates);
 
-    m_selectPeak = new KAction(KIcon("flag-red"), i18n("Select peak snapshot"), actionCollection());
-    connect(m_selectPeak, SIGNAL(triggered()), this, SLOT(selectPeakSnapshot()));
-    actionCollection()->addAction("selectPeak", m_selectPeak);
+    m_selectPeak = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Select peak snapshot"), actionCollection());
+    connect(m_selectPeak, &QAction::triggered, this, &MainWindow::selectPeakSnapshot);
+    actionCollection()->addAction(QStringLiteral("selectPeak"), m_selectPeak);
     m_selectPeak->setEnabled(false);
 
     //BEGIN custom allocators
-    m_newAllocator = new KAction(KIcon("list-add"), i18n("add"), ui.allocatorDock);
+    m_newAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("add"), ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("add custom allocator"));
-    connect(m_newAllocator, SIGNAL(triggered()), this, SLOT(slotNewAllocator()));
+    connect(m_newAllocator, &QAction::triggered, this, &MainWindow::slotNewAllocator);
     ui.dockMenuBar->addAction(m_newAllocator);
-    m_removeAllocator = new KAction(KIcon("list-remove"), i18n("remove"),
+    m_removeAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-remove")), i18n("remove"),
                                     ui.allocatorDock);
     m_newAllocator->setToolTip(i18n("remove selected allocator"));
-    connect(m_removeAllocator, SIGNAL(triggered()), this, SLOT(slotRemoveAllocator()));
-    connect(ui.allocatorView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-            this, SLOT(allocatorSelectionChanged()));
+    connect(m_removeAllocator, &QAction::triggered, this, &MainWindow::slotRemoveAllocator);
+    connect(ui.allocatorView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &MainWindow::allocatorSelectionChanged);
     m_removeAllocator->setEnabled(false);
     ui.dockMenuBar->addAction(m_removeAllocator);
 
-    m_markCustomAllocator = new KAction(i18n("mark as custom allocator"), ui.allocatorDock);
-    connect(m_markCustomAllocator, SIGNAL(triggered()),
-            this, SLOT(slotMarkCustomAllocator()), Qt::QueuedConnection);
+    m_markCustomAllocator = new QAction(i18n("mark as custom allocator"), ui.allocatorDock);
+    connect(m_markCustomAllocator, &QAction::triggered,
+            this, &MainWindow::slotMarkCustomAllocator, Qt::QueuedConnection);
     //END custom allocators
 
     //dock actions
-    actionCollection()->addAction("toggleDataTree", ui.dataTreeDock->toggleViewAction());
-    actionCollection()->addAction("toggleAllocators", ui.allocatorDock->toggleViewAction());
+    actionCollection()->addAction(QStringLiteral("toggleDataTree"), ui.dataTreeDock->toggleViewAction());
+    actionCollection()->addAction(QStringLiteral("toggleAllocators"), ui.allocatorDock->toggleViewAction());
 
     //open page actions
     ui.openFile->setDefaultAction(openFile);
@@ -234,8 +235,8 @@ void MainWindow::preferences()
     }
 
     ConfigDialog* dlg = new ConfigDialog(this);
-    connect(dlg, SIGNAL(settingsChanged(QString)),
-            this, SLOT(settingsChanged()));
+    connect(dlg, &ConfigDialog::settingsChanged,
+            this, &MainWindow::settingsChanged);
     dlg->show();
 }
 
@@ -245,7 +246,7 @@ void MainWindow::settingsChanged()
         m_shortenTemplates->setChecked(Settings::self()->shortenTemplates());
     }
 
-    Settings::self()->writeConfig();
+    Settings::self()->save();
 
     if (m_currentDocument) {
         m_currentDocument->settingsChanged();
@@ -255,10 +256,9 @@ void MainWindow::settingsChanged()
 
 void MainWindow::openFile()
 {
-    const KUrl::List files = KFileDialog::getOpenUrls(KUrl("kfiledialog:///massif-visualizer"),
-                                                      QString("application/x-valgrind-massif"),
-                                                      this, i18n("Open Massif Output File"));
-    foreach (const KUrl& file, files) {
+    const QList<QUrl> files = QFileDialog::getOpenFileUrls(this, i18n("Open Massif Output File"), QUrl(),
+                                                           i18n("Massif data files (massif.out.*)"));
+    foreach (const QUrl& file, files) {
         openFile(file);
     }
 }
@@ -266,11 +266,11 @@ void MainWindow::openFile()
 void MainWindow::reloadCurrentFile()
 {
     if (m_currentDocument->file().isValid()) {
-        openFile(KUrl(m_currentDocument->file()));
+        openFile(QUrl(m_currentDocument->file()));
     }
 }
 
-void MainWindow::openFile(const KUrl& file)
+void MainWindow::openFile(const QUrl& file)
 {
     Q_ASSERT(file.isValid());
 
@@ -283,7 +283,7 @@ void MainWindow::openFile(const KUrl& file)
         }
     }
 
-    DocumentWidget* documentWidget = new DocumentWidget(file.pathOrUrl(), m_allocatorModel->stringList(),
+    DocumentWidget* documentWidget = new DocumentWidget(file, m_allocatorModel->stringList(),
                                                         this, this);
 
     if (indexToInsert != -1) {
@@ -297,10 +297,10 @@ void MainWindow::openFile(const KUrl& file)
         const int idx = ui.documents->addTab(documentWidget, file.fileName());
         ui.documents->setCurrentIndex(idx);
     }
-    connect(documentWidget, SIGNAL(loadingFinished()),
-            this, SLOT(documentChanged()));
-    connect(documentWidget, SIGNAL(requestClose()),
-            this, SLOT(closeRequested()));
+    connect(documentWidget, &DocumentWidget::loadingFinished,
+            this, &MainWindow::documentChanged);
+    connect(documentWidget, &DocumentWidget::requestClose,
+            this, &MainWindow::closeRequested);
 
     m_recentFiles->addUrl(file);
     ui.stackedWidget->setCurrentWidget(ui.displayPage);
@@ -454,12 +454,12 @@ void MainWindow::contextMenuRequested(const ModelItem& item, QMenu* menu)
         return;
     }
 
-    QString func = functionInLabel(item.first->label());
+    QByteArray func = functionInLabel(item.first->label());
     if (func.length() > 40) {
         func.resize(40);
         func.append("...");
     }
-    menu->setTitle(func);
+    menu->setTitle(QString::fromUtf8(func));
 
     m_markCustomAllocator->setData(item.first->label());
     menu->addAction(m_markCustomAllocator);
@@ -494,17 +494,17 @@ void MainWindow::documentChanged()
         m_dataTreeModel->setSource(0);
         m_dataTreeFilterModel->setFilter(QString());
         m_currentDocument->clearGuiActions(guiFactory());
-        disconnect(m_currentDocument, SIGNAL(modelItemSelected(Massif::ModelItem)),
-                   this, SLOT(modelItemSelected(Massif::ModelItem)));
-        disconnect(m_currentDocument, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
-                   this, SLOT(contextMenuRequested(Massif::ModelItem,QMenu*)));
+        disconnect(m_currentDocument, &DocumentWidget::modelItemSelected,
+                   this, &MainWindow::modelItemSelected);
+        disconnect(m_currentDocument, &DocumentWidget::contextMenuRequested,
+                   this, &MainWindow::contextMenuRequested);
     }
 
     m_currentDocument = qobject_cast<DocumentWidget*>(ui.documents->currentWidget());
 
     updateWindowTitle();
 
-    actionCollection()->action("file_reload")->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
+    actionCollection()->action(QStringLiteral("file_reload"))->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
     m_close->setEnabled(m_currentDocument);
     m_selectPeak->setEnabled(m_currentDocument && m_currentDocument->isLoaded());
 
@@ -515,13 +515,11 @@ void MainWindow::documentChanged()
     } else {
         m_dataTreeModel->setSource(m_currentDocument->data());
         m_currentDocument->addGuiActions(guiFactory());
-        connect(m_currentDocument, SIGNAL(modelItemSelected(Massif::ModelItem)),
-                this, SLOT(modelItemSelected(Massif::ModelItem)));
-        connect(m_currentDocument, SIGNAL(contextMenuRequested(Massif::ModelItem,QMenu*)),
-                this, SLOT(contextMenuRequested(Massif::ModelItem,QMenu*)));
+        connect(m_currentDocument, &DocumentWidget::modelItemSelected,
+                this, &MainWindow::modelItemSelected);
+        connect(m_currentDocument, &DocumentWidget::contextMenuRequested,
+                this, &MainWindow::contextMenuRequested);
     }
 
     setUpdatesEnabled(true);
 }
-
-#include "mainwindow.moc"

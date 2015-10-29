@@ -39,15 +39,15 @@
 #include <QtCore/QDebug>
 
 #include <KConfigGroup>
-#include <qtest_kde.h>
+#include <KSharedConfig>
 
-QTEST_KDEMAIN(DataModelTest, NoGUI)
+QTEST_MAIN(DataModelTest)
 
 using namespace Massif;
 
 void DataModelTest::parseFile()
 {
-    const QString path = QString(KDESRCDIR) + "/data/massif.out.kate";
+    const QString path = QFINDTESTDATA("/data/massif.out.kate");
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
 
@@ -152,7 +152,7 @@ void DataModelTest::shortenTemplates()
     QFETCH(QByteArray, id);
     QFETCH(QByteArray, idShortened);
 
-    KConfigGroup conf = KGlobal::config()->group(QLatin1String("Settings"));
+    KConfigGroup conf = KSharedConfig::openConfig()->group(QLatin1String("Settings"));
 
     conf.writeEntry(QLatin1String("shortenTemplates"), true);
     QCOMPARE(prettyLabel(id), idShortened);
@@ -164,7 +164,7 @@ void DataModelTest::bigMem()
 {
     // see also: https://bugs.kde.org/show_bug.cgi?id=294108
 
-    const QString path = QString(KDESRCDIR) + "/data/massif.out.huge";
+    const QString path = QFINDTESTDATA("/data/massif.out.huge");
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
 

@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-subdirs="app kdchart massifdata visualizer"
+subdirs="app massifdata visualizer"
 rcfiles="`find $subdirs -name \*.rc`"
 uifiles="`find $subdirs -name \*.ui`"
 kcfgfiles="`find $subdirs -name \*.kcfg`"

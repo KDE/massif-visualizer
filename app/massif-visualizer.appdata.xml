@@ -29,6 +29,7 @@
   <summary xml:lang="el">Ένας οπτικός αναπαραγωγέας για αρχεία δεδομένων Valgrind Massif.</summary>
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files.</summary>
   <summary xml:lang="es">Un visualizador para archivos de datos Massif de Valgrind.</summary>
+  <summary xml:lang="fi">Valgrind Massif -datatiedostojen visualisointi.</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind.</summary>
   <summary xml:lang="ko">Valgrind의 massif 도구의 출력을 시각화합니다.</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif.</summary>
@@ -51,6 +52,7 @@
     <p xml:lang="el">Το Massif Visualizer είναι ένα εργαλείο το οποίο - ποιος το περίμενε - οπτικοποιεί δεδομένα massif. Εκτελείτε την εφαρμογή σας στο Valgrind με --tool=massif και ανοίγετε το παραγόμενο massif.out.%pid στον οπτικό αναπαραγωγέα. Ανοίγει και συμπιεσμένα Gzip ή Bzip αρχεία masif.</p>
     <p xml:lang="en-GB">Massif Visualizer is a tool that - who'd guess that - visualises massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualiser. Gzip or Bzip2 compressed massif files can also be opened transparently.</p>
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visualizador el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
+    <p xml:lang="fi">Massif-visualisointi on työkalu, joka – arvatenkin – visualisoi massif-dataa. Suorita ensin ohjelmasi Valgrindilla käyttäen valitsinta --tool=massif ja avaa sitten luotu massif.out.%pid Massif-visualisoinnissa. Myös Gzip- tai Bzip2-pakatut massif-tiedostot voi avata suoraan.</p>
     <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute o seu programa en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
     <p xml:lang="ko">Massif 시각화 도구는 massif 데이터를 표시합니다. Valgrind에서 프로그램을 실행시킬 때 --tool=massif 인자로 실행시키고, 생성된 massif.out.%pid 파일을 시각화 도구로 엽니다. Gzip/Bzip2 압축된 파일도 별도의 과정 없이 열 수 있습니다.</p>
     <p xml:lang="nl">Massif Visualizer is een hulpmiddel dat - u raad het - massif-gegevens visualiseert. U kunt uw toepassing in Valgrind uitvoeren met --tool=massif en dan de gegenereerde massif.out.%pid openen in het visualisatieprogramma. Gzip of Bzip2 gecomprimeerde massif-bestanden kunnen ook transparent geopend worden.</p>
@@ -88,6 +90,7 @@
       <li xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης.</li>
       <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
+      <li xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</li>
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="ko">시간별 메모리 사용량 차트 표시.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
@@ -104,6 +107,7 @@
       <li xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</li>
       <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
+      <li xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</li>
       <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
       <li xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
@@ -120,6 +124,7 @@
       <li xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες.</li>
       <li xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
+      <li xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</li>
       <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
       <li xml:lang="ko">모든 할당된 함수의 메모리 소모 요약.</li>
       <li xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</li>
@@ -145,6 +150,7 @@
       <caption xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης.</caption>
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
+      <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
       <caption xml:lang="ko">시간별 메모리 사용량 차트 표시.</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
@@ -164,6 +170,7 @@
       <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
+      <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
       <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
       <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
@@ -183,6 +190,7 @@
       <caption xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες.</caption>
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
+      <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>
       <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
       <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약.</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>

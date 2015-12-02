@@ -45,7 +45,7 @@ int main( int argc, char *argv[] )
                         QStringLiteral("mail@milianw.de"), QStringLiteral("http://milianw.de"));
 
     aboutData.addAuthor(i18n("Arnold Dumas"), i18n("Multiple document interface, bug fixes"),
-                        QStringLiteral("contact@arnolddumas.fr"), QStringLiteral("http://arnolddumas.fr"));
+                        QStringLiteral("arnold@dumas.at"), QStringLiteral("http://arnold.dumas.at"));
 
     aboutData.setOrganizationDomain("kde.org");
     KAboutData::setApplicationData(aboutData);

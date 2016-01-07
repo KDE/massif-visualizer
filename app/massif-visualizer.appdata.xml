@@ -9,6 +9,7 @@
   <name xml:lang="en-GB">Massif-Visualizer</name>
   <name xml:lang="es">Massif-Visualizer</name>
   <name xml:lang="fi">Massif-visualisointi</name>
+  <name xml:lang="gl">Visualizador Massif</name>
   <name xml:lang="nl">Massif - programma voor visualiseren</name>
   <name xml:lang="pl">Wizualizacja-Massif</name>
   <name xml:lang="pt">Visualizador do Massif</name>
@@ -23,6 +24,7 @@
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files.</summary>
   <summary xml:lang="es">Un visualizador para archivos de datos Massif de Valgrind.</summary>
   <summary xml:lang="fi">Valgrind Massif -datatiedostojen visualisointi.</summary>
+  <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind.</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif.</summary>
   <summary xml:lang="pl">Wizualizacja dla plików Valgrind Massif.</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind.</summary>
@@ -43,6 +45,7 @@
     <p xml:lang="en-GB">Massif Visualizer is a tool that - who'd guess that - visualises massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualiser. Gzip or Bzip2 compressed massif files can also be opened transparently.</p>
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visualizador el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
     <p xml:lang="fi">Massif-visualisointi on työkalu, joka – arvatenkin – visualisoi massif-dataa. Suorita ensin ohjelmasi Valgrindilla käyttäen valitsinta --tool=massif ja avaa sitten luotu massif.out.%pid Massif-visualisoinnissa. Myös Gzip- tai Bzip2-pakatut massif-tiedostot voi avata suoraan.</p>
+    <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute o seu programa en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
     <p xml:lang="nl">Massif Visualizer is een hulpmiddel dat - u raad het - massif-gegevens visualiseert. U kunt uw toepassing in Valgrind uitvoeren met --tool=massif en dan de gegenereerde massif.out.%pid openen in het visualisatieprogramma. Gzip of Bzip2 gecomprimeerde massif-bestanden kunnen ook transparent geopend worden.</p>
     <p xml:lang="pl">Program do wizualizacji Massif jest narzędziem, które wizualizuje dane massif. Uruchamiasz swoją aplikację w Valgrind przy użyciu --tool=massif a następnie otwierasz utworzony massif.out.%pid w programie do wizualizacji. Można otwierać pliki massif skompresowane przy użyciu Gzip lub Bzip2.</p>
     <p xml:lang="pt">O Visualizador do Massif é uma ferramenta que, como é óbvio, apresenta dados do Massif. Você poderá executar a sua aplicação no Valgrind com a opção --tool=massif e depois abrir o ficheiro massif.out.%pid gerado no visualizador. Poderá abrir de forma transparente os ficheiros do Massif comprimidos com Gzip ou Bzip2.</p>
@@ -57,6 +60,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
+    <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
@@ -72,6 +76,7 @@
       <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</li>
+      <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
       <li xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</li>
       <li xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</li>
@@ -86,6 +91,7 @@
       <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</li>
+      <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
       <li xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</li>
       <li xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</li>
@@ -100,6 +106,7 @@
       <li xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
       <li xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</li>
+      <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
       <li xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</li>
       <li xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</li>
       <li xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
@@ -122,6 +129,7 @@
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
       <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>
+      <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
       <caption xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</caption>
@@ -139,6 +147,7 @@
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
+      <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
       <caption xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</caption>
@@ -156,6 +165,7 @@
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>
+      <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>
       <caption xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>

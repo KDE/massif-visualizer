@@ -430,8 +430,18 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
 
 QByteArray ParserPrivate::readLine()
 {
-    const int read = m_file->readLine(m_lineBuffer, BUF_SIZE);
     ++m_currentLine;
+
+    const int read = m_file->readLine(m_lineBuffer, BUF_SIZE);
+    if (read == -1) {
+        return {};
+    }
+    if (read == BUF_SIZE - 1 && m_lineBuffer[BUF_SIZE - 2] != '\n') {
+        // support for really long lines that don't fit into the buffer
+        QByteArray line = QByteArray::fromRawData(m_lineBuffer, read) + m_file->readLine();
+        line.chop(1); // remove trailing \n
+        return line;
+    }
     return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
 }
 

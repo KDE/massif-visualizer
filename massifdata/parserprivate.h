@@ -131,7 +131,7 @@ private:
 
     int m_expectedSnapshots;
 
-    static const int BUF_SIZE = 4096;
+    static const int BUF_SIZE = 65536;
     char m_lineBuffer[BUF_SIZE];
 };
 

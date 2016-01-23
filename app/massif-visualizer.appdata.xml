@@ -6,6 +6,7 @@
   <name>Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>
+  <name xml:lang="cs">Massif-Visualizer</name>
   <name xml:lang="en-GB">Massif-Visualizer</name>
   <name xml:lang="es">Massif-Visualizer</name>
   <name xml:lang="fi">Massif-visualisointi</name>
@@ -57,6 +58,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
+    <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>

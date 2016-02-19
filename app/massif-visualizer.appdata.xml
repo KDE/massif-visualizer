@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Massif-Visualizer</name>
+  <name xml:lang="ast">Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>
   <name xml:lang="cs">Massif-Visualizer</name>
@@ -24,6 +25,7 @@
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files.</summary>
+  <summary xml:lang="ast">Un visualizador pa los ficheros de datos Massif de Valgrind.</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien.</summary>

@@ -7,6 +7,7 @@
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>
   <name xml:lang="cs">Massif-Visualizer</name>
+  <name xml:lang="de">Massif-Visualizer</name>
   <name xml:lang="en-GB">Massif-Visualizer</name>
   <name xml:lang="es">Massif-Visualizer</name>
   <name xml:lang="fi">Massif-visualisointi</name>
@@ -22,6 +23,7 @@
   <summary>A visualizer for Valgrind Massif data files.</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
+  <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien.</summary>
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files.</summary>
   <summary xml:lang="es">Un visualizador para archivos de datos Massif de Valgrind.</summary>
   <summary xml:lang="fi">Valgrind Massif -datatiedostojen visualisointi.</summary>
@@ -59,6 +61,7 @@
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
+    <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
@@ -75,6 +78,7 @@
       <li>Interactive chart of memory consumption over time.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>
       <li xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</li>
+      <li xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</li>
       <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</li>
@@ -128,6 +132,7 @@
       <caption>Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
       <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
+      <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</caption>
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
       <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>

@@ -24,6 +24,7 @@
   <name xml:lang="uk">Візуалізатор Massif</name>
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
+  <name xml:lang="zh-TW">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files.</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
@@ -88,6 +89,7 @@
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>

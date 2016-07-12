@@ -86,8 +86,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 {
     ui.setupUi(this);
 
-    setWindowTitle(i18n("Massif Visualizer"));
-
     //BEGIN KGraphViewer
     bool haveGraphViewer = false;
 
@@ -478,9 +476,9 @@ void MainWindow::slotShortenTemplates(bool shorten)
 void MainWindow::updateWindowTitle()
 {
     if (m_currentDocument && m_currentDocument->isLoaded()) {
-        setWindowTitle(i18n("Massif Visualizer - evaluation of %1 (%2)", m_currentDocument->data()->cmd(), m_currentDocument->file().fileName()));
+        setWindowTitle(i18n("Evaluation of %1 (%2)", m_currentDocument->data()->cmd(), m_currentDocument->file().fileName()));
     } else {
-        setWindowTitle(i18n("Massif Visualizer"));
+        setWindowTitle(QString());
     }
 }
 

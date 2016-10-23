@@ -14,6 +14,7 @@
   <name xml:lang="gl">Visualizador Massif</name>
   <name xml:lang="it">Massif-Visualizer</name>
   <name xml:lang="nl">Massif - programma voor visualiseren</name>
+  <name xml:lang="nn">Massif-visualisering</name>
   <name xml:lang="pl">Wizualizacja-Massif</name>
   <name xml:lang="pt">Visualizador do Massif</name>
   <name xml:lang="pt-BR">Visualizador de Massif</name>
@@ -31,6 +32,7 @@
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind.</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif.</summary>
+  <summary xml:lang="nn">Visualiseringsprogram for data frå «massif»-verktøyet til Valgrind.</summary>
   <summary xml:lang="pl">Wizualizacja dla plików Valgrind Massif.</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind.</summary>
   <summary xml:lang="pt-BR">Um visualizador para arquivos de dados Massif do Valgrind.</summary>
@@ -71,6 +73,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
+    <p xml:lang="nn">Funksjonar:</p>
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>

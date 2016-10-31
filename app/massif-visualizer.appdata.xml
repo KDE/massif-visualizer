@@ -55,6 +55,7 @@
     <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute o seu programa en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
     <p xml:lang="it">Massif Visualizer è uno strumento che - chi l'avrebbe immaginato - mostra i dati di Massif. Esegui la tua applicazione in Valgrind con --tool=massif e quindi apri nel visualizzatore il file generato massif.out.%pid. Anche file Massif compressi con gzip o bzip2 possono essere aperti in modo trasparente.</p>
     <p xml:lang="nl">Massif Visualizer is een hulpmiddel dat - u raad het - massif-gegevens visualiseert. U kunt uw toepassing in Valgrind uitvoeren met --tool=massif en dan de gegenereerde massif.out.%pid openen in het visualisatieprogramma. Gzip of Bzip2 gecomprimeerde massif-bestanden kunnen ook transparent geopend worden.</p>
+    <p xml:lang="nn">Programmet visualiserer data frå Massif-datafiler. Køyr programma dine i Valgrind med «--tool=massif», og opna så den genererte datafila «massif.out.%pid». Du kan òg opna gzip- og bzip2-komprimerte Massif-filer direkte.</p>
     <p xml:lang="pl">Program do wizualizacji Massif jest narzędziem, które wizualizuje dane massif. Uruchamiasz swoją aplikację w Valgrind przy użyciu --tool=massif a następnie otwierasz utworzony massif.out.%pid w programie do wizualizacji. Można otwierać pliki massif skompresowane przy użyciu Gzip lub Bzip2.</p>
     <p xml:lang="pt">O Visualizador do Massif é uma ferramenta que, como é óbvio, apresenta dados do Massif. Você poderá executar a sua aplicação no Valgrind com a opção --tool=massif e depois abrir o ficheiro massif.out.%pid gerado no visualizador. Poderá abrir de forma transparente os ficheiros do Massif comprimidos com Gzip ou Bzip2.</p>
     <p xml:lang="pt-BR">O Visualizador de Massif é uma ferramenta que, como o nome sugere, visualiza dados Massif. Você pode executar seu aplicativo no Valgrind com a opção --tool=massif e depois abrir o arquivo massif.out.%pid gerado no visualizador. Os arquivos Massif compactados com Gzip ou Bzip2 podem ser abertos de forma transparente.</p>
@@ -92,6 +93,7 @@
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
+      <li xml:lang="nn">Interaktivt diagram som viser minnebruken over tid.</li>
       <li xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</li>
       <li xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</li>
       <li xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo.</li>
@@ -108,6 +110,7 @@
       <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
       <li xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
+      <li xml:lang="nn">Detaljert analyse av minnebilete med kallgraf-visualisering (krev KGraphViewer).</li>
       <li xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</li>
       <li xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</li>
       <li xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer).</li>
@@ -124,6 +127,7 @@
       <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
       <li xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</li>
       <li xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</li>
+      <li xml:lang="nn">Samandrag av høgste minnebruk for alle allokerande funksjonar.</li>
       <li xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</li>
       <li xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
       <li xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
@@ -149,6 +153,7 @@
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
+      <caption xml:lang="nn">Interaktivt diagram som viser minnebruken over tid.</caption>
       <caption xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</caption>
       <caption xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo.</caption>
@@ -168,6 +173,7 @@
       <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
+      <caption xml:lang="nn">Detaljert analyse av minnebilete med kallgraf-visualisering (krev KGraphViewer).</caption>
       <caption xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</caption>
       <caption xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer).</caption>
@@ -187,6 +193,7 @@
       <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>
+      <caption xml:lang="nn">Samandrag av høgste minnebruk for alle allokerande funksjonar.</caption>
       <caption xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>
       <caption xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>

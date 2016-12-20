@@ -28,7 +28,6 @@
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files.</summary>
-  <summary xml:lang="ast">Un visualizador pa los ficheros de datos Massif de Valgrind.</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien.</summary>
@@ -76,7 +75,6 @@
     <p xml:lang="uk">Візуалізатор Massif, яким би дивним це не здавалося, — засіб для візуалізації даних massif. Ви запускаєте вашу програму у Valgrind із параметром --tool=massif, а потім відкриваєте створений файл massif.out.%pid у засобі візуалізації. Передбачено прозоре відкриття файлів massif, запакованих за допомогою Gzip або Bzip2.</p>
     <p xml:lang="x-test">xxMassif Visualizer is a tool that - who'd guess that - visualizes massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualizer. Gzip or Bzip2 compressed massif files can also be opened transparently.xx</p>
     <p>Features:</p>
-    <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>

@@ -38,7 +38,7 @@ target_link_libraries(massif-visualizer LINK_PRIVATE
     mv-visualizer
 )
 
-install( TARGETS massif-visualizer  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install( TARGETS massif-visualizer  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(
     FILES massif-visualizerui.rc documentwidgetui.rc charttabui.rc callgraphtabui.rc

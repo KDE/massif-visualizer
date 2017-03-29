@@ -26,12 +26,12 @@
 #include "massifdata/filedata.h"
 
 #include <QVBoxLayout>
+#include <QAction>
+#include <QDebug>
 
-#include <KDebug>
-#include <KParts/Part>
+#include <KParts/ReadOnlyPart>
 #include <KStandardAction>
 #include <KActionCollection>
-#include <KAction>
 #include <KLocalizedString>
 
 #include <kgraphviewer_interface.h>
@@ -48,7 +48,7 @@ CallGraphTab::CallGraphTab(const FileData* data, KParts::ReadOnlyPart* graphView
     , m_zoomOut(0)
     , m_focusExpensive(0)
 {
-    setXMLFile("callgraphtabui.rc", true);
+    setXMLFile(QStringLiteral("callgraphtabui.rc"), true);
     setupActions();
 
     Q_ASSERT(m_graphViewer);
@@ -83,12 +83,12 @@ CallGraphTab::~CallGraphTab()
 void CallGraphTab::setupActions()
 {
     m_zoomIn = KStandardAction::zoomIn(this, SLOT(zoomIn()), actionCollection());
-    actionCollection()->addAction("zoomIn", m_zoomIn);
+    actionCollection()->addAction(QStringLiteral("zoomIn"), m_zoomIn);
     m_zoomOut = KStandardAction::zoomOut(this, SLOT(zoomOut()), actionCollection());
-    actionCollection()->addAction("zoomOut", m_zoomOut);
-    m_focusExpensive = new KAction(KIcon("flag-red"), i18n("Focus most expensive node"), actionCollection());
+    actionCollection()->addAction(QStringLiteral("zoomOut"), m_zoomOut);
+    m_focusExpensive = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Focus most expensive node"), actionCollection());
     connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
-    actionCollection()->addAction("focusExpensive", m_focusExpensive);
+    actionCollection()->addAction(QStringLiteral("focusExpensive"), m_focusExpensive);
 }
 
 void CallGraphTab::settingsChanged()
@@ -119,9 +119,9 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
 
     Q_ASSERT(m_graphViewer);
 
-    kDebug() << "new dot graph requested" << item;
+    qDebug() << "new dot graph requested" << item;
     if (m_dotGenerator) {
-        kDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
+        qDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
             disconnect(m_dotGenerator.data(), 0, this, 0);
             connect(m_dotGenerator.data(), SIGNAL(finished()),
@@ -157,7 +157,7 @@ void CallGraphTab::showDotGraph()
     if (!m_dotGenerator || !m_graphViewerPart || !isVisible()) {
         return;
     }
-    kDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
+    qDebug() << "show dot graph in output file" << m_dotGenerator->outputFile();
     const auto url = QUrl::fromLocalFile(m_dotGenerator->outputFile());
     if (url.isValid() && m_graphViewerPart->url() != url) {
         m_graphViewerPart->openUrl(url);

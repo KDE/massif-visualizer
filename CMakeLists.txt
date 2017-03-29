@@ -22,12 +22,6 @@ include(FeatureSummary)
 
 enable_testing()
 
-message("TODO: reenable KGraphViewer support")
-#find_package(KGraphViewer 2.1)
-#macro_log_feature(KGRAPHVIEWER_FOUND "KGraphViewer" "KPart to view callgraph dot files."
-#                  "http://extragear.kde.org/apps/kgraphviewer/" FALSE ""
-#                  "Required for detailed snapshot analysis. From KDE SDK Extragear package, KGraphViewer 2.1 or higher is required.")
-
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Core
     Widgets
@@ -47,6 +41,13 @@ find_package(KF5 REQUIRED COMPONENTS
 )
 
 find_package(KChart "2.6.0" REQUIRED)
+
+find_package(KGraphViewerPart 2.3.90)
+set_package_properties(KGraphViewerPart PROPERTIES
+    DESCRIPTION "KPart to view callgraph dot files"
+    PURPOSE "Required for detailed snapshot analysis"
+    URL "https://www.kde.org/applications/graphics/kgraphviewer/"
+    TYPE RECOMMENDED)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}

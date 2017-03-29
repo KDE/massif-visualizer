@@ -13,13 +13,13 @@ set(massif-visualizer_SRCS
     allocatorstab.cpp
 )
 
-if(KGRAPHVIEWER_FOUND)
+if(KGraphViewerPart_FOUND)
     include_directories(
-        ${KGRAPHVIEWER_INCLUDE_DIRECTORIES}
+        ${KGraphViewerPart_INCLUDE_DIRS}
     )
     add_definitions(-DHAVE_KGRAPHVIEWER)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
-endif(KGRAPHVIEWER_FOUND)
+endif()
 
 kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
 

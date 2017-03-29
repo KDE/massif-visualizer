@@ -27,7 +27,7 @@
 
 #include <visualizer/modelitem.h>
 
-class KAction;
+class QAction;
 
 namespace KGraphViewer {
 class KGraphViewerInterface;
@@ -76,9 +76,9 @@ private:
     Massif::ModelItem m_lastDotItem;
     Massif::ModelItem m_nextDotItem;
 
-    KAction* m_zoomIn;
-    KAction* m_zoomOut;
-    KAction* m_focusExpensive;
+    QAction* m_zoomIn;
+    QAction* m_zoomOut;
+    QAction* m_focusExpensive;
 };
 
 #endif // CALLGRAPHTAB_H

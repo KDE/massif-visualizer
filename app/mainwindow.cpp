@@ -42,7 +42,7 @@
 #include <KRecentFilesAction>
 #include <KColorScheme>
 #include <KToolBar>
-#include <KParts/Part>
+#include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KXMLGUIFactory>
@@ -92,9 +92,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     // NOTE: just check if kgraphviewer is available at runtime.
     // The former logic has been moved to DocumentWidget constructor.
 #ifdef HAVE_KGRAPHVIEWER
-    KPluginFactory *factory = KPluginLoader("kgraphviewerpart").factory();
+    KPluginFactory *factory = KPluginLoader(QStringLiteral("kgraphviewerpart")).factory();
     if (factory) {
-        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>("kgraphviewerpart", this);
+        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>(QString(), this);
         if (readOnlyPart) {
             readOnlyPart->widget()->hide();
             haveGraphViewer = true;

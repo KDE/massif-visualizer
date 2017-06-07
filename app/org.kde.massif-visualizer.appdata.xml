@@ -27,7 +27,7 @@
   <name xml:lang="uk">Візуалізатор Massif</name>
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
-  <summary>A visualizer for Valgrind Massif data files.</summary>
+  <summary>A visualizer for Valgrind Massif data files</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind.</summary>
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien.</summary>
@@ -161,7 +161,7 @@
       <li xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</li>
     </ul>
   </description>
-  <url type="homepage">projects.kde.org/massif-visualizer</url>
+  <url type="homepage">https://phabricator.kde.org/source/massif-visualizer/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=massif-visualizer</url>
   <url type="help">https://mail.kde.org/mailman/listinfo/massif-visualizer</url>
   <screenshots>

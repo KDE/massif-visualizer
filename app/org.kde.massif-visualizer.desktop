@@ -4,7 +4,7 @@ Type=Application
 Exec=massif-visualizer %u
 MimeType=application/x-valgrind-massif;
 # FIXME: get an icon!
-Icon=office-chart-area
+Icon=massif-visualizer
 # FIXME: write docs!
 # X-DocPath=kcachegrind/index.html
 Terminal=false

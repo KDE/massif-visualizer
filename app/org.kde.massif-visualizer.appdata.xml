@@ -28,6 +28,12 @@
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files</summary>
+  <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
+  <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
+  <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind</summary>
+  <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
+  <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
+  <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>
   <description>
     <p>
       Massif Visualizer is a tool that - who'd guess that - visualizes massif data.

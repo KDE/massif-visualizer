@@ -36,6 +36,7 @@
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
   <summary xml:lang="pl">Wizualizacja dla plików Valgrind Massif</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind</summary>
+  <summary xml:lang="sk">Vizualizátor pre dátové súbory Valgrind Massif</summary>
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
   <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>

@@ -4,7 +4,6 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>Massif-Visualizer</name>
-  <name xml:lang="ast">Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>
   <name xml:lang="cs">Massif-Visualizer</name>
@@ -27,19 +26,8 @@
   <name xml:lang="uk">Візуалізатор Massif</name>
   <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
+  <name xml:lang="zh-TW">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files</summary>
-  <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
-  <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
-  <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
-  <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind</summary>
-  <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
-  <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
-  <summary xml:lang="pl">Wizualizacja dla plików Valgrind Massif</summary>
-  <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind</summary>
-  <summary xml:lang="sk">Vizualizátor pre dátové súbory Valgrind Massif</summary>
-  <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
-  <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
-  <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>
   <description>
     <p>
       Massif Visualizer is a tool that - who'd guess that - visualizes massif data.
@@ -90,6 +78,7 @@
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>

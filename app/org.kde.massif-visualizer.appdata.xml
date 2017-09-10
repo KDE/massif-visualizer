@@ -30,8 +30,10 @@
   <summary>A visualizer for Valgrind Massif data files</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
+  <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind</summary>
+  <summary xml:lang="sk">Vizualizátor pre dátové súbory Valgrind Massif</summary>
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
   <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>

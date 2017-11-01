@@ -49,6 +49,7 @@
     </p>
     <p xml:lang="ca">Massif Visualizer és una eina que -com imagineu- visualitza les dades massif. Executeu l'aplicació en Valgrind amb --tool=massif i després obriu el massif.out.%pid generat en el visualitzador. Els fitxers massif comprimits amb gzip o bzip2 també es poden obrir de forma transparent.</p>
     <p xml:lang="ca-valencia">Massif Visualizer és una eina que -com imagineu- visualitza les dades massif. Executeu l'aplicació en Valgrind amb --tool=massif i després obriu el massif.out.%pid generat en el visualitzador. Els fitxers massif comprimits amb gzip o bzip2 també es poden obrir de forma transparent.</p>
+    <p xml:lang="de">Massif Visualizer ist ein Programm, das die Daten von Massif anzeigt. Starten Sie Ihre Anwendung in Valgrind mit --tool=massif und öffnen Sie dann im Betrachter die Datei massif. Out. %pid. Komprimierte Massivdateien mit gzip oder bzip2 können auch transparent geöffnet werden.</p>
     <p xml:lang="en-GB">Massif Visualizer is a tool that - who'd guess that - visualises massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualiser. Gzip or Bzip2 compressed massif files can also be opened transparently.</p>
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visualizador el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
     <p xml:lang="fi">Massif-visualisointi on työkalu, joka – arvatenkin – visualisoi massif-dataa. Suorita ensin ohjelmasi Valgrindilla käyttäen valitsinta --tool=massif ja avaa sitten luotu massif.out.%pid Massif-visualisoinnissa. Myös Gzip- tai Bzip2-pakatut massif-tiedostot voi avata suoraan.</p>
@@ -105,6 +106,7 @@
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
       <li xml:lang="ca">Anàlisi detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
       <li xml:lang="ca-valencia">Anàlisi detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
+      <li xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</li>
       <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</li>
@@ -122,6 +124,7 @@
       <li>Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
       <li xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
+      <li xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</li>
       <li xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
       <li xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</li>
@@ -168,6 +171,7 @@
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
       <caption xml:lang="ca">Anàlisi detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallat de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
+      <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
@@ -188,6 +192,7 @@
       <caption>Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
+      <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</caption>
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>

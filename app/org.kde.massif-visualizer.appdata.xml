@@ -45,6 +45,7 @@
   <summary xml:lang="tr">Valgrind Massif veri dosyaları için bir görselleyici</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
   <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>
+  <summary xml:lang="zh-CN">用于 Valgrind Massif 数据文件的可视化工具</summary>
   <description>
     <p>
       Massif Visualizer is a tool that - who'd guess that - visualizes massif data.

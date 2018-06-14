@@ -38,6 +38,7 @@
   <summary xml:lang="el">Ένας οπτικός αναπαραγωγέας για αρχεία δεδομένων Valgrind Massif</summary>
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files</summary>
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
+  <summary xml:lang="fr">Un visualiseur de fichiers de données Valgrind Massif</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
@@ -116,6 +117,7 @@
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="et">Interaktiivne mälutarvet ajas näitav diagramm</li>
       <li xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</li>
+      <li xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</li>
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</li>
       <li xml:lang="ko">시간별 메모리 사용량 차트 표시.</li>
@@ -193,6 +195,7 @@
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
       <caption xml:lang="et">Interaktiivne mälutarvet ajas näitav diagramm</caption>
       <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>
+      <caption xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</caption>
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</caption>
       <caption xml:lang="ko">시간별 메모리 사용량 차트 표시.</caption>

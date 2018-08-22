@@ -23,7 +23,7 @@
 #ifndef MASSIF_DATATREEMODEL_H
 #define MASSIF_DATATREEMODEL_H
 
-#include <QtCore/QAbstractItemModel>
+#include <QAbstractItemModel>
 
 #include "modelitem.h"
 
@@ -39,7 +39,7 @@ class SnapshotItem;
 class DataTreeModel : public QAbstractItemModel
 {
 public:
-    DataTreeModel(QObject* parent = 0);
+    explicit DataTreeModel(QObject* parent = 0);
     virtual ~DataTreeModel();
 
     /**

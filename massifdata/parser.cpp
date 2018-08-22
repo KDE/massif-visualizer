@@ -26,7 +26,7 @@
 #include "parserprivate.h"
 #include "snapshotitem.h"
 
-#include <QtCore/QIODevice>
+#include <QIODevice>
 
 using namespace Massif;
 

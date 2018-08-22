@@ -31,12 +31,12 @@
 #include "KChartDataValueAttributes"
 #include "KChartLineAttributes"
 
-#include <QtGui/QColor>
-#include <QtGui/QPen>
-#include <QtGui/QBrush>
+#include <QColor>
+#include <QPen>
+#include <QBrush>
 
-#include <QtCore/QMultiMap>
-#include <QtCore/qalgorithms.h>
+#include <QMultiMap>
+#include <qalgorithms.h>
 
 #include <KLocalizedString>
 

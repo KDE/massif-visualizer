@@ -29,7 +29,7 @@
 
 #include <KLocalizedString>
 
-#include <QtGui/QBrush>
+#include <QBrush>
 
 using namespace Massif;
 

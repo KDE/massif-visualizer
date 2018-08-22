@@ -20,9 +20,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <KLocalizedString>
-
 #include "configdialog.h"
+
+#include <KLocalizedString>
 
 #include "massif-visualizer-settings.h"
 #include "ui_config.h"

@@ -34,9 +34,9 @@
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
 
-#include <QtCore/QFile>
-#include <QtTest/QTest>
-#include <QtCore/QDebug>
+#include <QFile>
+#include <QTest>
+#include <QDebug>
 
 #include <KConfigGroup>
 #include <KSharedConfig>

@@ -23,9 +23,9 @@
 #ifndef MASSIF_PARSERPRIVATE_H
 #define MASSIF_PARSERPRIVATE_H
 
-#include <QtCore/QByteArray>
-#include <QtCore/QStringList>
-#include <QtCore/QSet>
+#include <QByteArray>
+#include <QStringList>
+#include <QSet>
 #include <QVector>
 
 class QIODevice;

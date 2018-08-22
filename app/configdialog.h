@@ -39,7 +39,7 @@ class ConfigDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget* parent);
+    explicit ConfigDialog(QWidget* parent);
     virtual ~ConfigDialog();
 
     static bool isShown();

@@ -64,7 +64,7 @@ class MainWindow : public KParts::MainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    explicit MainWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
     virtual ~MainWindow();
 
     void setupActions();

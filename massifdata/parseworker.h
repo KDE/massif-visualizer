@@ -20,8 +20,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MASSIFDATA_PARSETHREAD_H
-#define MASSIFDATA_PARSETHREAD_H
+#ifndef MASSIFDATA_PARSEWORKER_H
+#define MASSIFDATA_PARSEWORKER_H
 
 #include <QThread>
 #include <QStringList>
@@ -64,4 +64,4 @@ private:
 
 }
 
-#endif // MASSIFDATA_PARSETHREAD_H
+#endif // MASSIFDATA_PARSEWORKER_H

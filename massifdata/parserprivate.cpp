@@ -28,9 +28,9 @@
 #include "util.h"
 #include "parser.h"
 
-#include <QtCore/QIODevice>
+#include <QIODevice>
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 using namespace Massif;
 

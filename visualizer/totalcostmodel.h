@@ -23,7 +23,7 @@
 #ifndef MASSIF_TOTALCOSTMODEL_H
 #define MASSIF_TOTALCOSTMODEL_H
 
-#include <QtCore/QAbstractTableModel>
+#include <QAbstractTableModel>
 
 #include "modelitem.h"
 
@@ -39,7 +39,7 @@ class SnapshotItem;
 class TotalCostModel : public QAbstractTableModel
 {
 public:
-    TotalCostModel(QObject* parent = 0);
+    explicit TotalCostModel(QObject* parent = 0);
     virtual ~TotalCostModel();
 
     /**

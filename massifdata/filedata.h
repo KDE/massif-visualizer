@@ -23,8 +23,8 @@
 #ifndef MASSIF_FILEDATA_H
 #define MASSIF_FILEDATA_H
 
-#include <QtCore/QObject>
-#include <QtCore/QVector>
+#include <QObject>
+#include <QVector>
 
 namespace Massif {
 
@@ -37,7 +37,7 @@ class FileData : public QObject
 {
     Q_OBJECT
 public:
-    FileData(QObject* parent = 0);
+    explicit FileData(QObject* parent = 0);
     virtual ~FileData();
 
     /**

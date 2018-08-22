@@ -23,8 +23,8 @@
 #ifndef MASSIF_DETAILEDCOSTMODEL_H
 #define MASSIF_DETAILEDCOSTMODEL_H
 
-#include <QtCore/QAbstractTableModel>
-#include <QtCore/QVector>
+#include <QAbstractTableModel>
+#include <QVector>
 
 #include "modelitem.h"
 
@@ -40,7 +40,7 @@ class TreeLeafItem;
 class DetailedCostModel : public QAbstractTableModel
 {
 public:
-    DetailedCostModel(QObject* parent = 0);
+    explicit DetailedCostModel(QObject* parent = 0);
     virtual ~DetailedCostModel();
 
     /**

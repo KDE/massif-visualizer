@@ -23,7 +23,7 @@
 #ifndef DATAMODELTEST_H
 #define DATAMODELTEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 namespace Massif {
 class DataModel;

@@ -23,9 +23,9 @@
 #ifndef TREELEAFITEM_H
 #define TREELEAFITEM_H
 
-#include <QtCore/QString>
-#include <QtCore/QVector>
-#include <QtCore/QMetaType>
+#include <QString>
+#include <QVector>
+#include <QMetaType>
 
 namespace Massif {
 

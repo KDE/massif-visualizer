@@ -43,16 +43,16 @@
 #ifndef MODELTEST_H
 #define MODELTEST_H
 
-#include <QtCore/QObject>
-#include <QtCore/QAbstractItemModel>
-#include <QtCore/QStack>
+#include <QObject>
+#include <QAbstractItemModel>
+#include <QStack>
 
 class ModelTest : public QObject
 {
   Q_OBJECT
 
 public:
-  ModelTest( QAbstractItemModel *model, QObject *parent = 0 );
+  explicit ModelTest( QAbstractItemModel *model, QObject *parent = 0 );
 
 private Q_SLOTS:
   void nonDestructiveBasicTest();

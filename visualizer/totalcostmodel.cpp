@@ -30,7 +30,7 @@
 #include "KChartGlobal"
 #include "KChartLineAttributes"
 
-#include <QtGui/QPen>
+#include <QPen>
 
 #include <KLocalizedString>
 

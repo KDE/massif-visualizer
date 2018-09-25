@@ -23,6 +23,7 @@
   <name xml:lang="pl">Wizualizacja-Massif</name>
   <name xml:lang="pt">Visualizador do Massif</name>
   <name xml:lang="pt-BR">Visualizador de Massif</name>
+  <name xml:lang="ru">Визуализатор Massif</name>
   <name xml:lang="sk">Massif-Visualizer</name>
   <name xml:lang="sv">Massif visualisering</name>
   <name xml:lang="tr">Massif-Görselleyici</name>
@@ -100,6 +101,7 @@
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>

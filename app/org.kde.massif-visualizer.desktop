@@ -9,7 +9,6 @@ Icon=massif-visualizer
 # X-DocPath=kcachegrind/index.html
 Terminal=false
 Name=Massif-Visualizer
-Name[ast]=Massif-Visualizer
 Name[bs]=Massif-Visualizer
 Name[ca]=Massif-Visualizer
 Name[ca@valencia]=Massif-Visualizer

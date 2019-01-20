@@ -39,10 +39,10 @@ class AllocatorsTab : public DocumentTabInterface
 
 public:
     explicit AllocatorsTab(const Massif::FileData* data, KXMLGUIClient* guiParent, QWidget* parent = 0);
-    virtual ~AllocatorsTab();
+    ~AllocatorsTab() override;
 
-    virtual void selectModelItem(const Massif::ModelItem& item);
-    virtual void settingsChanged();
+    void selectModelItem(const Massif::ModelItem& item) override;
+    void settingsChanged() override;
 
 private Q_SLOTS:
     void selectionChanged(const QModelIndex& current, const QModelIndex& previous);

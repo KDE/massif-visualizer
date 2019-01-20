@@ -40,7 +40,7 @@ class TotalCostModel : public QAbstractTableModel
 {
 public:
     explicit TotalCostModel(QObject* parent = 0);
-    virtual ~TotalCostModel();
+    ~TotalCostModel() override;
 
     /**
      * That the source data for this model.
@@ -52,10 +52,10 @@ public:
      */
     QModelIndex peak() const;
 
-    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     /**
      * @return Item for given index. At maximum one of the pointers in the pair will be valid.

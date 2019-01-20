@@ -41,17 +41,17 @@ class DetailedCostModel : public QAbstractTableModel
 {
 public:
     explicit DetailedCostModel(QObject* parent = 0);
-    virtual ~DetailedCostModel();
+    ~DetailedCostModel() override;
 
     /**
      * That the source data for this model.
      */
     void setSource(const FileData* data);
 
-    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     /**
      * Sets the maximum number of datasets in this model to @p count.

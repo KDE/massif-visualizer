@@ -55,11 +55,11 @@ class ChartTab : public DocumentTabInterface
 public:
     ChartTab(const Massif::FileData* data,
              KXMLGUIClient* guiParent, QWidget* parent = 0);
-    ~ChartTab();
+    ~ChartTab() override;
 
-    virtual void settingsChanged();
+    void settingsChanged() override;
 
-    virtual void selectModelItem(const Massif::ModelItem& item);
+    void selectModelItem(const Massif::ModelItem& item) override;
 
 private:
     void setupGui();

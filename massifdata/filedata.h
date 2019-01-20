@@ -38,7 +38,7 @@ class FileData : public QObject
     Q_OBJECT
 public:
     explicit FileData(QObject* parent = 0);
-    virtual ~FileData();
+    ~FileData() override;
 
     /**
      * Set the @p cmd that was profiled with massif.

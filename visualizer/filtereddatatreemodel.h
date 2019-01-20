@@ -45,16 +45,16 @@ public Q_SLOTS:
 
 protected:
     /// true for any branch that has an item in it that matches m_needle
-    virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
+    bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
     /// always true
-    virtual bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const;
+    bool filterAcceptsColumn(int source_column, const QModelIndex& source_parent) const override;
 
 private Q_SLOTS:
     void timeout();
 
 private:
     /// we don't want that
-    virtual void setSourceModel(QAbstractItemModel* sourceModel);
+    void setSourceModel(QAbstractItemModel* sourceModel) override;
 
     /// search string that should be contained in the data (case insensitively)
     QString m_needle;

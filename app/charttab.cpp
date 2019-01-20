@@ -76,7 +76,7 @@ public:
         : CartesianAxis(diagram)
     {}
 
-    virtual const QString customizedLabel(const QString& label) const
+    const QString customizedLabel(const QString& label) const override
     {
         // squeeze large numbers here
         // TODO: when the unit is 'b' also use prettyCost() here
@@ -92,7 +92,7 @@ public:
         : CartesianAxis(diagram)
     {}
 
-    virtual const QString customizedLabel(const QString& label) const
+    const QString customizedLabel(const QString& label) const override
     {
         // TODO: change distance between labels to 1024 and simply use prettyCost() here
         KFormat format(QLocale::system());

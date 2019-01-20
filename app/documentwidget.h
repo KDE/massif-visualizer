@@ -55,7 +55,7 @@ class DocumentWidget : public QWidget, public KXMLGUIClient
 public:
     explicit DocumentWidget(const QUrl &file, const QStringList& customAllocators,
                             KXMLGUIClient* guiParent, QWidget* parent = 0);
-    ~DocumentWidget();
+    ~DocumentWidget() override;
 
     Massif::FileData* data() const;
     QUrl file() const;

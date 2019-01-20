@@ -43,7 +43,7 @@ class Parser : public QObject
 
 public:
     Parser();
-    ~Parser();
+    ~Parser() override;
 
     /**
      * Parse @p file and return a FileData structure representing the data.

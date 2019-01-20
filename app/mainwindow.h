@@ -65,7 +65,7 @@ class MainWindow : public KParts::MainWindow
 
 public:
     explicit MainWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
     void setupActions();
 

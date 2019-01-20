@@ -40,7 +40,7 @@ class ConfigDialog : public KConfigDialog
 
 public:
     explicit ConfigDialog(QWidget* parent);
-    virtual ~ConfigDialog();
+    ~ConfigDialog() override;
 
     static bool isShown();
 

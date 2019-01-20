@@ -40,7 +40,7 @@ class DataTreeModel : public QAbstractItemModel
 {
 public:
     explicit DataTreeModel(QObject* parent = 0);
-    virtual ~DataTreeModel();
+    ~DataTreeModel() override;
 
     /**
      * That the source data for this model.
@@ -73,12 +73,12 @@ public:
         ModelItemRole,
     };
 
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-    virtual QModelIndex parent(const QModelIndex& child) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& child) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     const SnapshotItem* snapshotForTreeLeaf(const TreeLeafItem* node) const;
 private:

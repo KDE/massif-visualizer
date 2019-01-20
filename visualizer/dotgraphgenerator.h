@@ -47,14 +47,14 @@ public:
      * and writes it to a temporary file.
      */
     DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent = 0);
-    ~DotGraphGenerator();
+    ~DotGraphGenerator() override;
 
     /**
      * Stops generating the Dot graph file and deletes the temp file.
      */
     void cancel();
 
-    virtual void run();
+    void run() override;
     /**
      * @return A path to the generated Dot graph file. Path might be empty if errors occurred.
      */

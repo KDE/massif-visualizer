@@ -19,8 +19,6 @@ include(ECMInstallIcons)
 include(ECMAddTests)
 include(FeatureSummary)
 
-enable_testing()
-
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Core
     Widgets

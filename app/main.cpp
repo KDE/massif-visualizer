@@ -50,7 +50,7 @@ int main( int argc, char *argv[] )
     aboutData.setOrganizationDomain("kde.org");
 
     KAboutData::setApplicationData(aboutData);
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("office-chart-area")));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("massif-visualizer")));
 
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);

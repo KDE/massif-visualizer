@@ -63,6 +63,8 @@ add_subdirectory(visualizer)
 add_subdirectory(app)
 add_subdirectory(pics)
 
-add_subdirectory(test)
+if (BUILD_TESTING)
+    add_subdirectory(test)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -53,8 +53,6 @@ int main( int argc, char *argv[] )
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("office-chart-area")));
 
     QCommandLineParser parser;
-    parser.addVersionOption();
-    parser.addHelpOption();
     aboutData.setupCommandLine(&parser);
 
     parser.addPositionalArgument(QStringLiteral("files"), i18n( "Files to load" ), i18n("[FILE...]"));

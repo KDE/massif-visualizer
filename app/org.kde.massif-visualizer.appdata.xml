@@ -16,6 +16,7 @@
   <name xml:lang="fi">Massif-visualisointi</name>
   <name xml:lang="fr">Massif-Visualizer</name>
   <name xml:lang="gl">Visualizador de Massif</name>
+  <name xml:lang="id">Massif-Visualizer</name>
   <name xml:lang="it">Massif-Visualizer</name>
   <name xml:lang="ko">Massif 시각화 도구</name>
   <name xml:lang="nl">Massif-Visualizer</name>
@@ -40,6 +41,7 @@
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
   <summary xml:lang="fr">Un visualiseur de fichiers de données Valgrind Massif</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind</summary>
+  <summary xml:lang="id">Sebuah visualizer untuk file data Valgrind Massif</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
   <summary xml:lang="nn">Visualiseringsprogram for data frå «massif»-verktøyet til Valgrind</summary>
@@ -69,6 +71,7 @@
     <p xml:lang="et">Massif-Visualizer on, nagu niimigi ütleb, massif-andmete visualiseerimiseks mõeldud tööriist. Kui käivitada oma rakendus Valgrindis võtmega --tool=massif, saab hiljem loodud faili massif.out.%pid ava visualiseerijas. Läbipaistvalt saab avada ka gzip- või bzip2-tihendusega massif-faile.</p>
     <p xml:lang="fi">Massif-visualisointi on työkalu, joka – arvatenkin – visualisoi massif-dataa. Suorita ensin ohjelmasi Valgrindilla käyttäen valitsinta --tool=massif ja avaa sitten luotu massif.out.%pid Massif-visualisoinnissa. Myös Gzip- tai Bzip2-pakatut massif-tiedostot voi avata suoraan.</p>
     <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute o seu aplicativo en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
+    <p xml:lang="id">Massif Visualizer adalah alat yang - akan menebaknya - memvisualisasikan data massif. Kamu menjalankan aplikasimu di Valgrind dengan --tool=massif dan kemudian buka massif.out.%pid yang dihasilkan di visualizer. File massif terkompresi Gzip atau Bzip2 juga dapat dibuka secara transparan.</p>
     <p xml:lang="it">Massif Visualizer è uno strumento che - chi l'avrebbe immaginato - mostra i dati di Massif. Esegui la tua applicazione in Valgrind con --tool=massif e quindi apri nel visualizzatore il file generato massif.out.%pid. Anche file Massif compressi con gzip o bzip2 possono essere aperti in modo trasparente.</p>
     <p xml:lang="ko">Massif 시각화 도구는 massif 데이터를 표시합니다. Valgrind에서 프로그램을 실행시킬 때 --tool=massif 인자로 실행시키고, 생성된 massif.out.%pid 파일을 시각화 도구로 엽니다. Gzip/Bzip2 압축된 파일도 별도의 과정 없이 열 수 있습니다.</p>
     <p xml:lang="nl">Massif Visualizer is een hulpmiddel dat - u raad het - massif-gegevens visualiseert. U kunt uw toepassing in Valgrind uitvoeren met --tool=massif en dan de gegenereerde massif.out.%pid openen in het visualisatieprogramma. Gzip of Bzip2 gecomprimeerde massif-bestanden kunnen ook transparent geopend worden.</p>
@@ -94,6 +97,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Kenmerken:</p>
@@ -122,6 +126,7 @@
       <li xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</li>
       <li xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</li>
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
+      <li xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu.</li>
       <li xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</li>
       <li xml:lang="ko">시간별 메모리 사용량 차트 표시.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
@@ -145,6 +150,7 @@
       <li xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</li>
       <li xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</li>
       <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
+      <li xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</li>
       <li xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</li>
       <li xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요).</li>
       <li xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</li>
@@ -168,6 +174,7 @@
       <li xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</li>
       <li xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</li>
       <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
+      <li xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</li>
       <li xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</li>
       <li xml:lang="ko">모든 할당된 함수의 메모리 소모 요약.</li>
       <li xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</li>
@@ -200,6 +207,7 @@
       <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>
       <caption xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</caption>
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
+      <caption xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu.</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</caption>
       <caption xml:lang="ko">시간별 메모리 사용량 차트 표시.</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
@@ -226,6 +234,7 @@
       <caption xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
       <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
+      <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</caption>
       <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요).</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
@@ -252,6 +261,7 @@
       <caption xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>
       <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
+      <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</caption>
       <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약.</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>

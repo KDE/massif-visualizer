@@ -1,4 +1,4 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="documentwidget" version="1">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="documentwidget" version="1">
 
-</kpartgui>
+</gui>

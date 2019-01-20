@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="callgraphtab" version="1">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="callgraphtab" version="1">
 
 <MenuBar>
 <Menu name="view">
@@ -16,4 +16,4 @@
     <Action name="focusExpensive"/>
 </ToolBar>
 
-</kpartgui>
+</gui>

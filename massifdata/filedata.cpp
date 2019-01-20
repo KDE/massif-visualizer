@@ -25,7 +25,7 @@
 
 using namespace Massif;
 
-FileData::FileData(QObject* parent) : QObject(parent), m_peak(0)
+FileData::FileData(QObject* parent) : QObject(parent), m_peak(nullptr)
 {
 }
 

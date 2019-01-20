@@ -72,14 +72,14 @@ static KConfigGroup allocatorConfig()
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : KParts::MainWindow(parent, f)
-    , m_recentFiles(0)
-    , m_close(0)
+    , m_recentFiles(nullptr)
+    , m_close(nullptr)
     , m_allocatorModel(new QStringListModel(this))
-    , m_newAllocator(0)
-    , m_removeAllocator(0)
-    , m_shortenTemplates(0)
-    , m_selectPeak(0)
-    , m_currentDocument(0)
+    , m_newAllocator(nullptr)
+    , m_removeAllocator(nullptr)
+    , m_shortenTemplates(nullptr)
+    , m_selectPeak(nullptr)
+    , m_currentDocument(nullptr)
     , m_dataTreeModel(new DataTreeModel(this))
     , m_dataTreeFilterModel(new FilteredDataTreeModel(m_dataTreeModel))
     , m_settingSelection(false)
@@ -440,7 +440,7 @@ void MainWindow::dataTreeContextMenuRequested(const QPoint& pos)
     }
 
     QMenu menu;
-    contextMenuRequested(ModelItem(item, 0), &menu);
+    contextMenuRequested(ModelItem(item, nullptr), &menu);
 
     menu.exec(ui.dataTreeView->mapToGlobal(pos));
 }
@@ -489,7 +489,7 @@ void MainWindow::documentChanged()
     setUpdatesEnabled(false);
 
     if (m_currentDocument) {
-        m_dataTreeModel->setSource(0);
+        m_dataTreeModel->setSource(nullptr);
         m_dataTreeFilterModel->setFilter(QString());
         m_currentDocument->clearGuiActions(guiFactory());
         disconnect(m_currentDocument, &DocumentWidget::modelItemSelected,

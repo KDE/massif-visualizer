@@ -66,16 +66,16 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
                                KXMLGUIClient* guiParent, QWidget* parent)
     : QWidget(parent)
     , KXMLGUIClient(guiParent)
-    , m_data(0)
+    , m_data(nullptr)
     , m_parseWorker(new ParseWorker)
     , m_file(file)
-    , m_currentTab(0)
+    , m_currentTab(nullptr)
     , m_stackedWidget(new QStackedWidget(this))
     , m_tabs(new QTabWidget(m_stackedWidget))
-    , m_errorMessage(0)
-    , m_loadingMessage(0)
-    , m_loadingProgressBar(0)
-    , m_stopParserButton(0)
+    , m_errorMessage(nullptr)
+    , m_loadingMessage(nullptr)
+    , m_loadingProgressBar(nullptr)
+    , m_stopParserButton(nullptr)
     , m_isLoaded(false)
 {
     connect(m_parseWorker, &ParseWorker::finished,
@@ -145,7 +145,7 @@ DocumentWidget::~DocumentWidget()
     stopParser();
     if (m_data) {
         delete m_data;
-        m_data = 0;
+        m_data = nullptr;
         m_file.clear();
     }
 }
@@ -300,7 +300,7 @@ void DocumentWidget::stopParser()
     QThread* thread = m_parseWorker->thread();
     m_parseWorker->stop();
     m_parseWorker->deleteLater();
-    m_parseWorker = 0;
+    m_parseWorker = nullptr;
     thread->quit();
     thread->wait();
 }

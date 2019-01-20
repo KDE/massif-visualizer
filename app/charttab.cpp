@@ -72,7 +72,7 @@ class TimeAxis : public CartesianAxis
 {
     Q_OBJECT
 public:
-    explicit TimeAxis(AbstractCartesianDiagram* diagram = 0)
+    explicit TimeAxis(AbstractCartesianDiagram* diagram = nullptr)
         : CartesianAxis(diagram)
     {}
 
@@ -88,7 +88,7 @@ class SizeAxis : public CartesianAxis
 {
     Q_OBJECT
 public:
-    explicit SizeAxis(AbstractCartesianDiagram* diagram = 0)
+    explicit SizeAxis(AbstractCartesianDiagram* diagram = nullptr)
         : CartesianAxis(diagram)
     {}
 
@@ -149,17 +149,17 @@ ChartTab::ChartTab(const FileData* data,
   : DocumentTabInterface(data, guiParent, parent)
     , m_chart(new Chart(this))
     , m_header(new QLabel(this))
-    , m_totalDiagram(0)
+    , m_totalDiagram(nullptr)
     , m_totalCostModel(new TotalCostModel(m_chart))
-    , m_detailedDiagram(0)
+    , m_detailedDiagram(nullptr)
     , m_detailedCostModel(new DetailedCostModel(m_chart))
     , m_legend(new Legend(m_chart))
-    , m_print(0)
-    , m_saveAs(0)
-    , m_toggleTotal(0)
-    , m_toggleDetailed(0)
-    , m_hideFunction(0)
-    , m_hideOtherFunctions(0)
+    , m_print(nullptr)
+    , m_saveAs(nullptr)
+    , m_toggleTotal(nullptr)
+    , m_toggleDetailed(nullptr)
+    , m_hideFunction(nullptr)
+    , m_hideOtherFunctions(nullptr)
     , m_box(new QSpinBox(this))
     , m_settingSelection(false)
 {

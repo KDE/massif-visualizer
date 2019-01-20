@@ -34,7 +34,7 @@
 using namespace Massif;
 
 DataTreeModel::DataTreeModel(QObject* parent)
-    : QAbstractItemModel(parent), m_data(0)
+    : QAbstractItemModel(parent), m_data(nullptr)
 {
 }
 
@@ -46,7 +46,7 @@ void DataTreeModel::setSource(const FileData* data)
 {
     if (m_data) {
         beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
-        m_data = 0;
+        m_data = nullptr;
         m_nodeToRow.clear();
         m_heapRootToSnapshot.clear();
         endRemoveRows();
@@ -152,7 +152,7 @@ QVariant DataTreeModel::data(const QModelIndex& index, int role) const
         } else if (role == RawLabelRole) {
             return i18nc("%1: snapshot number", "Snapshot #%1", snapshot->number());
         } else if (role == TreeItemRole) {
-            return QVariant::fromValue<const TreeLeafItem*>(0);
+            return QVariant::fromValue<const TreeLeafItem*>(nullptr);
         }
         const QString costStr = prettyCost(snapshot->cost());
         if (snapshot == m_data->peak()) {
@@ -264,13 +264,13 @@ QModelIndex DataTreeModel::indexForTreeLeaf(const TreeLeafItem* node) const
 ModelItem DataTreeModel::itemForIndex(const QModelIndex& idx) const
 {
     if (!m_data || !idx.isValid() || idx.row() >= m_data->snapshots().count()) {
-        return ModelItem(0, 0);
+        return ModelItem(nullptr, nullptr);
     }
     if (idx.parent().isValid()) {
         Q_ASSERT(idx.internalPointer());
-        return ModelItem(static_cast<const TreeLeafItem*>(idx.internalPointer()), 0);
+        return ModelItem(static_cast<const TreeLeafItem*>(idx.internalPointer()), nullptr);
     } else {
-        return ModelItem(0, m_data->snapshots().at(idx.row()));
+        return ModelItem(nullptr, m_data->snapshots().at(idx.row()));
     }
 }
 

@@ -54,7 +54,7 @@ class ChartTab : public DocumentTabInterface
 
 public:
     ChartTab(const Massif::FileData* data,
-             KXMLGUIClient* guiParent, QWidget* parent = 0);
+             KXMLGUIClient* guiParent, QWidget* parent = nullptr);
     ~ChartTab() override;
 
     void settingsChanged() override;

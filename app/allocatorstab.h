@@ -38,7 +38,7 @@ class AllocatorsTab : public DocumentTabInterface
     Q_OBJECT
 
 public:
-    explicit AllocatorsTab(const Massif::FileData* data, KXMLGUIClient* guiParent, QWidget* parent = 0);
+    explicit AllocatorsTab(const Massif::FileData* data, KXMLGUIClient* guiParent, QWidget* parent = nullptr);
     ~AllocatorsTab() override;
 
     void selectModelItem(const Massif::ModelItem& item) override;

@@ -40,7 +40,7 @@ class TreeLeafItem;
 class DetailedCostModel : public QAbstractTableModel
 {
 public:
-    explicit DetailedCostModel(QObject* parent = 0);
+    explicit DetailedCostModel(QObject* parent = nullptr);
     ~DetailedCostModel() override;
 
     /**

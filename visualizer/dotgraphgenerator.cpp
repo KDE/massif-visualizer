@@ -68,7 +68,7 @@ DotGraphGenerator::DotGraphGenerator(const SnapshotItem* snapshot, const QString
 
 DotGraphGenerator::DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent)
     : QThread(parent)
-    , m_snapshot(0)
+    , m_snapshot(nullptr)
     , m_node(node)
     , m_canceled(false)
     , m_timeUnit(timeUnit)
@@ -121,7 +121,7 @@ QString getColor(quint64 cost, quint64 maxCost)
 }
 
 GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QByteArray, GraphNode*>& knownNodes,
-                      quint64& maxCost, GraphNode* parent = 0)
+                      quint64& maxCost, GraphNode* parent = nullptr)
 {
     // merge below-threshold items
     if (parent && item->children().isEmpty()) {
@@ -131,9 +131,9 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QByteArray, GraphNode
             parent->belowThresholdCost += item->cost();
             parent->belowThresholdCount += matchBT.cap(1).toInt();
         }
-        return 0;
+        return nullptr;
     }
-    GraphNode* node = knownNodes.value(item->label(), 0);
+    GraphNode* node = knownNodes.value(item->label(), nullptr);
     if (!node) {
         node = new GraphNode;
         knownNodes.insert(item->label(), node);

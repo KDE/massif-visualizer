@@ -39,7 +39,7 @@ class SnapshotItem;
 class DataTreeModel : public QAbstractItemModel
 {
 public:
-    explicit DataTreeModel(QObject* parent = 0);
+    explicit DataTreeModel(QObject* parent = nullptr);
     ~DataTreeModel() override;
 
     /**

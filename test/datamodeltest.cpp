@@ -67,7 +67,7 @@ void DataModelTest::parseFile()
             }
         }
         // remove data
-        model->setSource(0);
+        model->setSource(nullptr);
     }
 
     {
@@ -84,7 +84,7 @@ void DataModelTest::parseFile()
             }
         }
         // remove data
-        model->setSource(0);
+        model->setSource(nullptr);
     }
 
     {
@@ -93,7 +93,7 @@ void DataModelTest::parseFile()
         model->setSource(data);
         QVERIFY(model->rowCount() == data->snapshots().size());
         // remove data
-        model->setSource(0);
+        model->setSource(nullptr);
     }
 
 }

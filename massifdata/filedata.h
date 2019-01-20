@@ -37,7 +37,7 @@ class FileData : public QObject
 {
     Q_OBJECT
 public:
-    explicit FileData(QObject* parent = 0);
+    explicit FileData(QObject* parent = nullptr);
     ~FileData() override;
 
     /**

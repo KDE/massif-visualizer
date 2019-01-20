@@ -41,12 +41,12 @@ public:
      * Generates a Dot graph file representing @p snapshot
      * and writes it to a temporary file.
      */
-    DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent = 0);
+    DotGraphGenerator(const SnapshotItem* snapshot, const QString& timeUnit, QObject* parent = nullptr);
     /**
      * Generates a Dot graph file representing @p node
      * and writes it to a temporary file.
      */
-    DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent = 0);
+    DotGraphGenerator(const TreeLeafItem* node, const QString& timeUnit, QObject* parent = nullptr);
     ~DotGraphGenerator() override;
 
     /**

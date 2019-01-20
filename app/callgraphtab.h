@@ -47,7 +47,7 @@ class CallGraphTab : public DocumentTabInterface
 
 public:
     CallGraphTab(const Massif::FileData* data, KParts::ReadOnlyPart* graphViewerPart,
-                 KXMLGUIClient* guiParent, QWidget* parent = 0);
+                 KXMLGUIClient* guiParent, QWidget* parent = nullptr);
     ~CallGraphTab() override;
 
     void showDotGraph(const Massif::ModelItem& item);

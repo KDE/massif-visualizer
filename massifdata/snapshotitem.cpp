@@ -26,7 +26,7 @@
 using namespace Massif;
 
 SnapshotItem::SnapshotItem()
-    : m_number(0), m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0), m_heapTree(0)
+    : m_number(0), m_time(0), m_memHeap(0), m_memHeapExtra(0), m_memStacks(0), m_heapTree(nullptr)
 {
 }
 

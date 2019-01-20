@@ -41,7 +41,7 @@ class AllocatorsModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit AllocatorsModel(const FileData* data, QObject* parent = 0);
+    explicit AllocatorsModel(const FileData* data, QObject* parent = nullptr);
     ~AllocatorsModel() override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;

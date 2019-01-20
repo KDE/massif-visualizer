@@ -52,8 +52,8 @@ ParserPrivate::ParserPrivate(Parser* parser, QIODevice* file, FileData* data,
     , m_nextLine(FileDesc)
     , m_currentLine(0)
     , m_error(NoError)
-    , m_snapshot(0)
-    , m_parentItem(0)
+    , m_snapshot(nullptr)
+    , m_parentItem(nullptr)
     , m_hadCustomAllocators(false)
     , m_expectedSnapshots(100)
 {
@@ -280,7 +280,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
     if (m_hadCustomAllocators) {
         Q_ASSERT(m_snapshot->heapTree());
         QVector<TreeLeafItem*> newChildren = m_snapshot->heapTree()->children();
-        TreeLeafItem* belowThreshold = 0;
+        TreeLeafItem* belowThreshold = nullptr;
         uint places = 0;
         QString oldPlaces;
         ///TODO: is massif translateable?
@@ -313,7 +313,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         qSort(newChildren.begin(), newChildren.end(), sortLeafsByCost);
         m_snapshot->heapTree()->setChildren(newChildren);
     }
-    m_parentItem = 0;
+    m_parentItem = nullptr;
 }
 
 struct SaveAndRestoreItem
@@ -388,7 +388,7 @@ bool ParserPrivate::parseheapTreeLeafInternal(const QByteArray& line, int depth)
         }
     }
 
-    TreeLeafItem* newParent = 0;
+    TreeLeafItem* newParent = nullptr;
     if (!isCustomAlloc) {
         TreeLeafItem* leaf = new TreeLeafItem;
         leaf->setCost(cost);

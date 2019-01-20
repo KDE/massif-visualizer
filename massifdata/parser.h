@@ -58,7 +58,7 @@ public:
      */
     FileData* parse(QIODevice* file,
                     const QStringList& customAllocators = QStringList(),
-                    QAtomicInt* shouldStop = 0);
+                    QAtomicInt* shouldStop = nullptr);
 
     /**
      * Returns the number of the line which could not be parsed or -1 if no error occurred.

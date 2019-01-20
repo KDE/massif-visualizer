@@ -43,10 +43,10 @@ CallGraphTab::CallGraphTab(const FileData* data, KParts::ReadOnlyPart* graphView
     : DocumentTabInterface(data, guiParent, parent)
     , m_graphViewerPart(graphViewerPart)
     , m_graphViewer(qobject_cast<KGraphViewer::KGraphViewerInterface*>(m_graphViewerPart))
-    , m_dotGenerator(0)
-    , m_zoomIn(0)
-    , m_zoomOut(0)
-    , m_focusExpensive(0)
+    , m_dotGenerator(nullptr)
+    , m_zoomIn(nullptr)
+    , m_zoomOut(nullptr)
+    , m_focusExpensive(nullptr)
 {
     setXMLFile(QStringLiteral("callgraphtabui.rc"), true);
     setupActions();
@@ -58,14 +58,14 @@ CallGraphTab::CallGraphTab(const FileData* data, KParts::ReadOnlyPart* graphView
     connect(m_graphViewerPart, SIGNAL(graphLoaded()),
             this, SLOT(slotGraphLoaded()));
 
-    showDotGraph(ModelItem(0, data->peak()));
+    showDotGraph(ModelItem(nullptr, data->peak()));
 }
 
 CallGraphTab::~CallGraphTab()
 {
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), 0, this, 0);
+            disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
             connect(m_dotGenerator.data(), SIGNAL(finished()),
                     m_dotGenerator.data(), SLOT(deleteLater()));
             m_dotGenerator->cancel();
@@ -76,8 +76,8 @@ CallGraphTab::~CallGraphTab()
     if (m_graphViewer) {
         m_graphViewerPart->closeUrl();
     }
-    m_lastDotItem.first = 0;
-    m_lastDotItem.second = 0;
+    m_lastDotItem.first = nullptr;
+    m_lastDotItem.second = nullptr;
 }
 
 void CallGraphTab::setupActions()
@@ -123,7 +123,7 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
     if (m_dotGenerator) {
         qDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), 0, this, 0);
+            disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
             connect(m_dotGenerator.data(), SIGNAL(finished()),
                     m_dotGenerator.data(), SLOT(deleteLater()));
             m_dotGenerator->cancel();

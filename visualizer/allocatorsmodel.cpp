@@ -128,7 +128,7 @@ QVariant AllocatorsModel::data(const QModelIndex& index, int role) const
         tooltip += formatLabelForTooltip(data.label);
         return finalizeTooltip(tooltip);
     } else if (role == ItemRole) {
-        return QVariant::fromValue(ModelItem(data.peak, 0));
+        return QVariant::fromValue(ModelItem(data.peak, nullptr));
     }
 
     switch (index.column()) {

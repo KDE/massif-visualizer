@@ -36,7 +36,7 @@
 
 using namespace Massif;
 
-TotalCostModel::TotalCostModel(QObject* parent): QAbstractTableModel(parent), m_data(0)
+TotalCostModel::TotalCostModel(QObject* parent): QAbstractTableModel(parent), m_data(nullptr)
 {
 }
 
@@ -48,7 +48,7 @@ void TotalCostModel::setSource(const FileData* data)
 {
     if (m_data) {
         beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
-        m_data = 0;
+        m_data = nullptr;
         endRemoveRows();
     }
     if (data) {
@@ -174,10 +174,10 @@ QModelIndex TotalCostModel::indexForTreeLeaf(const TreeLeafItem* node) const
 ModelItem TotalCostModel::itemForIndex(const QModelIndex& idx) const
 {
     if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
-        return ModelItem(0, 0);
+        return ModelItem(nullptr, nullptr);
     }
     const SnapshotItem* snapshot = m_data->snapshots().at(idx.row());
-    return ModelItem(0, snapshot);
+    return ModelItem(nullptr, snapshot);
 }
 
 QModelIndex TotalCostModel::indexForItem(const ModelItem& item) const

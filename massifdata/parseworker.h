@@ -37,7 +37,7 @@ class ParseWorker : public QObject
     Q_OBJECT
 
 public:
-    explicit ParseWorker(QObject* parent = 0);
+    explicit ParseWorker(QObject* parent = nullptr);
 
     void stop();
 

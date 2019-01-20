@@ -52,7 +52,7 @@ class ModelTest : public QObject
   Q_OBJECT
 
 public:
-  explicit ModelTest( QAbstractItemModel *model, QObject *parent = 0 );
+  explicit ModelTest( QAbstractItemModel *model, QObject *parent = nullptr );
 
 private Q_SLOTS:
   void nonDestructiveBasicTest();

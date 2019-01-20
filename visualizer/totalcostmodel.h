@@ -39,7 +39,7 @@ class SnapshotItem;
 class TotalCostModel : public QAbstractTableModel
 {
 public:
-    explicit TotalCostModel(QObject* parent = 0);
+    explicit TotalCostModel(QObject* parent = nullptr);
     ~TotalCostModel() override;
 
     /**

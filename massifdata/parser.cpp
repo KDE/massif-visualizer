@@ -51,7 +51,7 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
     if (p.error()) {
         m_errorLine = p.errorLine();
         m_errorLineString = p.errorLineString();
-        return 0;
+        return nullptr;
     } else {
         m_errorLine = -1;
         m_errorLineString.clear();

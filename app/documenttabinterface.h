@@ -40,7 +40,7 @@ class DocumentTabInterface : public QWidget, public KXMLGUIClient
     Q_OBJECT
 public:
     explicit DocumentTabInterface(const Massif::FileData* data,
-                                  KXMLGUIClient* guiParent, QWidget* parent = 0);
+                                  KXMLGUIClient* guiParent, QWidget* parent = nullptr);
     ~DocumentTabInterface() override;
 
     virtual void settingsChanged() = 0;

@@ -25,7 +25,7 @@
 using namespace Massif;
 
 TreeLeafItem::TreeLeafItem()
-    : m_cost(0), m_parent(0)
+    : m_cost(0), m_parent(nullptr)
 {
 }
 

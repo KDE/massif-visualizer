@@ -57,7 +57,7 @@ QVariant colorForColumn(int column, int columnCount, int role)
 }
 
 DetailedCostModel::DetailedCostModel(QObject* parent)
-    : QAbstractTableModel(parent), m_data(0), m_maxDatasetCount(10)
+    : QAbstractTableModel(parent), m_data(nullptr), m_maxDatasetCount(10)
 {
 }
 
@@ -69,7 +69,7 @@ void DetailedCostModel::setSource(const FileData* data)
 {
     if (m_data) {
         beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
-        m_data = 0;
+        m_data = nullptr;
         m_columns.clear();
         m_rows.clear();
         m_nodes.clear();
@@ -224,7 +224,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
     if (index.column() % 2 == 0 && role != Qt::ToolTipRole) {
         return snapshot->time();
     } else {
-        const TreeLeafItem* node = 0;
+        const TreeLeafItem* node = nullptr;
         const QByteArray needle = m_columns.at(index.column() / 2);
         foreach(const TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
@@ -334,21 +334,21 @@ QModelIndex DetailedCostModel::indexForTreeLeaf(const TreeLeafItem* node) const
 ModelItem DetailedCostModel::itemForIndex(const QModelIndex& idx) const
 {
     if (!idx.isValid() || idx.parent().isValid() || idx.row() > rowCount() || idx.column() > columnCount()) {
-        return ModelItem(0, 0);
+        return ModelItem(nullptr, nullptr);
     }
     if (idx.row() == 0) {
-        return ModelItem(0, 0);
+        return ModelItem(nullptr, nullptr);
     }
     const QByteArray needle = m_columns.at(idx.column() / 2);
     for (int i = 1; i < 3 && idx.row() - i >= 0; ++i) {
         const SnapshotItem* snapshot = m_rows.at(idx.row() - i);
         foreach(const TreeLeafItem* n, m_nodes[snapshot]) {
             if (n->label() == needle) {
-                return ModelItem(n, 0);
+                return ModelItem(n, nullptr);
             }
         }
     }
-    return ModelItem(0, 0);
+    return ModelItem(nullptr, nullptr);
 }
 
 QModelIndex DetailedCostModel::indexForItem(const ModelItem& item) const

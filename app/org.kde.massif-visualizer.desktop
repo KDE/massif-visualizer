@@ -7,6 +7,7 @@ MimeType=application/x-valgrind-massif;
 Icon=massif-visualizer
 # FIXME: write docs!
 # X-DocPath=kcachegrind/index.html
+StartupWMClass=massif-visualizer
 Terminal=false
 Name=Massif-Visualizer
 Name[bs]=Massif-Visualizer

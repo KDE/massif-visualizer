@@ -193,7 +193,7 @@
   <url type="help">https://mail.kde.org/mailman/listinfo/massif-visualizer</url>
   <screenshots>
     <screenshot type="default">
-      <image>https://cdn.kde.org/screenshots/massif-visualizer/massif-visualizer.png<image>
+      <image>https://cdn.kde.org/screenshots/massif-visualizer/massif-visualizer.png</image>
       <caption>Interactive chart of memory consumption over time.</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
       <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</caption>

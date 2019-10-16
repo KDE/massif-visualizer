@@ -49,6 +49,7 @@
   <summary xml:lang="pl">Obrazowanie dla plików Valgrind Massif</summary>
   <summary xml:lang="pt">Um visualizador dos ficheiros dos dados do Massif para o Valgrind</summary>
   <summary xml:lang="pt-BR">Um visualizador para arquivos de dados Massif do Valgrind</summary>
+  <summary xml:lang="ru">Программа для наглядного представления файлов данных Valgrind Massif</summary>
   <summary xml:lang="sk">Vizualizátor pre dátové súbory Valgrind Massif</summary>
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="tr">Valgrind Massif veri dosyaları için bir görselleyici</summary>

@@ -283,7 +283,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
         TreeLeafItem* belowThreshold = nullptr;
         uint places = 0;
         QString oldPlaces;
-        ///TODO: is massif translateable?
+        ///TODO: is massif translatable?
         QRegExp matchBT(QStringLiteral("in ([0-9]+) places, all below massif's threshold"),
                                             Qt::CaseSensitive, QRegExp::RegExp2);
         QVector<TreeLeafItem*>::iterator it = newChildren.begin();

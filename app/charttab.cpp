@@ -407,7 +407,7 @@ void ChartTab::updateLegendPosition()
             break;
         default:
             align = Qt::AlignHCenter | Qt::AlignVCenter;
-            qDebug() << "invalid legend alignmemnt";
+            qDebug() << "invalid legend alignment";
     }
 
     // do something reasonable since top,bottom have no effect

@@ -4,12 +4,12 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
   <group name="Settings">
-    <entry name="PrettyCostPrecision" key="prettyCostPrecision" type="int">
+    <entry name="PrettyCostPrecision" key="prettyCostPrecision" type="Int">
         <default>1</default>
         <label>Cost Precision</label>
         <tooltip>Defines the number of places after the comma for memory costs shown in the application.</tooltip>
     </entry>
-    <entry name="ShortenTemplates" key="shortenTemplates" type="bool">
+    <entry name="ShortenTemplates" key="shortenTemplates" type="Bool">
         <default>0</default>
         <label>Shorten Templates</label>
         <tooltip>Defines whether identifiers of C++ template instantiations should be shortened by removing their template arguments.</tooltip>
@@ -18,7 +18,7 @@
         <default>EnumLegendPosition::Floating</default>
         <label>Legend Position</label>
         <tooltip>Defines the position of the legend relative to the plot.</tooltip>
-        <choices label="PositionValue">
+        <choices name="EnumLegendPosition">
             <choice name="North"/>
             <choice name="East"/>
             <choice name="South"/>
@@ -30,7 +30,7 @@
         <default>EnumLegendAlignment::Center</default>
         <label>Legend Alignment</label>
         <tooltip>Defines the alignment of the legend.</tooltip>
-        <choices label="AlignmentValue">
+        <choices name="EnumLegendAlignment">
             <choice name="Left"/>
             <choice name="Center"/>
             <choice name="Right"/>
@@ -38,7 +38,7 @@
             <choice name="Bottom"/>
         </choices>
     </entry>
-    <entry name="LegendFontSize" key="legendFontSize" type="int">
+    <entry name="LegendFontSize" key="legendFontSize" type="Int">
         <default>12</default>
         <min>6</min>
         <max>14</max>

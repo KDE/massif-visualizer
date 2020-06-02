@@ -40,7 +40,7 @@
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files</summary>
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
   <summary xml:lang="et">Valgrindi Massif-andmefailide visualiseerimine</summary>
-  <summary xml:lang="fr">Un visualiseur de fichiers de données Valgrind Massif</summary>
+  <summary xml:lang="fr">Un afficheur de fichiers de données Valgrind Massif</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind</summary>
   <summary xml:lang="id">Sebuah visualizer untuk file data Valgrind Massif</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
@@ -73,6 +73,7 @@
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visor el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
     <p xml:lang="et">Massif-Visualizer on, nagu niimigi ütleb, massif-andmete visualiseerimiseks mõeldud tööriist. Kui käivitada oma rakendus Valgrindis võtmega --tool=massif, saab hiljem loodud faili massif.out.%pid ava visualiseerijas. Läbipaistvalt saab avada ka gzip- või bzip2-tihendusega massif-faile.</p>
     <p xml:lang="fi">Massif-visualisointi on työkalu, joka – arvatenkin – visualisoi massif-dataa. Suorita ensin ohjelmasi Valgrindilla käyttäen valitsinta --tool=massif ja avaa sitten luotu massif.out.%pid Massif-visualisoinnissa. Myös Gzip- tai Bzip2-pakatut massif-tiedostot voi avata suoraan.</p>
+    <p xml:lang="fr">L'outil « Massif Visualizer » a pour ambition d'afficher de vastes volumes de données. Vous exécutez votre application dans Valgrind avec l'option « --tool=massif » et vous ouvrez le fichier « generated massif.out.%pid  » dans l'afficheur. Les fichiers compressés par les logiciels « Gzip » ou « Bzip2 » peuvent aussi ouverts de façon transparente.</p>
     <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute a súa aplicación en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
     <p xml:lang="id">Massif Visualizer adalah alat yang - akan menebaknya - memvisualisasikan data massif. Kamu menjalankan aplikasimu di Valgrind dengan --tool=massif dan kemudian buka massif.out.%pid yang dihasilkan di visualizer. File massif terkompresi Gzip atau Bzip2 juga dapat dibuka secara transparan.</p>
     <p xml:lang="it">Massif Visualizer è uno strumento che - chi l'avrebbe immaginato - mostra i dati di Massif. Esegui la tua applicazione in Valgrind con --tool=massif e quindi apri nel visualizzatore il file generato massif.out.%pid. Anche file Massif compressi con gzip o bzip2 possono essere aperti in modo trasparente.</p>
@@ -151,6 +152,7 @@
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</li>
       <li xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</li>
+      <li xml:lang="fr">Analyse immédiate détaillée avec l'affichage des graphes d'appels (nécessite KGraphViewer).</li>
       <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
       <li xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</li>
       <li xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</li>
@@ -175,6 +177,7 @@
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
       <li xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</li>
       <li xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</li>
+      <li xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</li>
       <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
       <li xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</li>
       <li xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</li>
@@ -235,6 +238,7 @@
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
       <caption xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
+      <caption xml:lang="fr">Analyse immédiate détaillée avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
       <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
       <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</caption>
@@ -262,6 +266,7 @@
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
       <caption xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>
+      <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
       <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
       <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</caption>

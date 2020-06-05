@@ -37,6 +37,7 @@
   <summary xml:lang="ca-valencia">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
   <summary xml:lang="da">En visualisering til Valgrind Massif-datafiler</summary>
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien</summary>
+  <summary xml:lang="el">Ένας οπτικός αναπαραγωγέας για αρχεία δεδομένων Valgrind Massif</summary>
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files</summary>
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
   <summary xml:lang="fr">Un afficheur de fichiers de données Valgrind Massif</summary>

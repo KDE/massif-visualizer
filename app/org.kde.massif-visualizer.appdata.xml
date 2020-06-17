@@ -29,7 +29,6 @@
   <name xml:lang="sv">Massif visualisering</name>
   <name xml:lang="tr">Massif-Görselleyici</name>
   <name xml:lang="uk">Візуалізатор Massif</name>
-  <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
   <summary>A visualizer for Valgrind Massif data files</summary>
   <summary xml:lang="ca">Un visualitzador pels fitxers de dades Massif del Valgrind</summary>
@@ -55,7 +54,6 @@
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="tr">Valgrind Massif veri dosyaları için bir görselleyici</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
-  <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>
   <summary xml:lang="zh-CN">用于 Valgrind Massif 数据文件的可视化工具</summary>
   <description>
     <p>
@@ -87,7 +85,6 @@
     <p xml:lang="sv">Massif visualisering är ett verktyg som åskådliggöra data från Massif, som inte är svårt att gissa. Man kör sitt program i Valgrind med --tool=massif och öppnar den skapade massif.out.%pid i verktyget. Massif-filer komprimerade med gzip eller bzip2 kan också öppnas direkt.</p>
     <p xml:lang="tr">Massif Görselleyici, massif verilerini görselleştiren bir araçtır. Uygulamanızı --tool=massif ile Valgrind'de çalıştırdıktan sonra üretilen massif.out.%pid dosyasını görüntüleyicide açın. Gzip veya Bzip2 sıkıştırılmış massif dosyaları da şeffaf olarak açılabilir.</p>
     <p xml:lang="uk">Візуалізатор Massif, яким би дивним це не здавалося, — засіб для візуалізації даних massif. Ви запускаєте вашу програму у Valgrind із параметром --tool=massif, а потім відкриваєте створений файл massif.out.%pid у засобі візуалізації. Передбачено прозоре відкриття файлів massif, запакованих за допомогою Gzip або Bzip2.</p>
-    <p xml:lang="x-test">xxMassif Visualizer is a tool that - who'd guess that - visualizes massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualizer. Gzip or Bzip2 compressed massif files can also be opened transparently.xx</p>
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
@@ -114,7 +111,6 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
-    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
@@ -141,7 +137,6 @@
       <li xml:lang="sv">Interaktivt diagram av minnesanvändning över tid.</li>
       <li xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu.</li>
       <li xml:lang="uk">Інтерактивна діаграма споживання пам’яті.</li>
-      <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
       <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
       <li xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
@@ -166,7 +161,6 @@
       <li xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</li>
       <li xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz.</li>
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
-      <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
       <li xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
@@ -191,7 +185,6 @@
       <li xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</li>
       <li xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti.</li>
       <li xml:lang="uk">Резюме щодо пікового споживання пам’яті для всіх функцій отримання об’ємів пам’яті.</li>
-      <li xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</li>
     </ul>
   </description>
   <url type="homepage">https://phabricator.kde.org/source/massif-visualizer/</url>
@@ -224,7 +217,6 @@
       <caption xml:lang="sv">Interaktivt diagram av minnesanvändning över tid.</caption>
       <caption xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu.</caption>
       <caption xml:lang="uk">Інтерактивна діаграма споживання пам’яті.</caption>
-      <caption xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</caption>
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
@@ -252,7 +244,6 @@
       <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</caption>
       <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz.</caption>
       <caption xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</caption>
-      <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</caption>
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
@@ -280,7 +271,6 @@
       <caption xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</caption>
       <caption xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti.</caption>
       <caption xml:lang="uk">Резюме щодо пікового споживання пам’яті для всіх функцій отримання об’ємів пам’яті.</caption>
-      <caption xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</caption>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>

@@ -201,7 +201,7 @@
   <screenshots>
     <screenshot type="default">
       <image>https://cdn.kde.org/screenshots/massif-visualizer/massif-visualizer.png</image>
-      <caption>Interactive chart of memory consumption over time.</caption>
+      <caption>Interactive chart of memory consumption over time</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
       <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
       <caption xml:lang="da">Interaktivt skema af hukommelsesforbrug over tid.</caption>
@@ -229,7 +229,7 @@
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
-      <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
+      <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer)</caption>
       <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
       <caption xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</caption>
@@ -257,7 +257,7 @@
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
-      <caption>Summary of peak memory consumption of all allocating functions.</caption>
+      <caption>Summary of peak memory consumption of all allocating functions</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
       <caption xml:lang="da">Sammendrag af spidspunktshukommelsesforbrug for alle allokeringsfunktioner.</caption>
@@ -288,4 +288,10 @@
   <provides>
     <binary>massif-visualizer</binary>
   </provides>
+  <releases>
+    <release version="0.7.0" date="2017-09-07"/>
+    <release version="0.4.0" date="2014-11-16"/>
+    <release version="0.3" date="2011-11-07"/>
+  </releases>
+  <content_rating type="oars-1.1" />
 </component>

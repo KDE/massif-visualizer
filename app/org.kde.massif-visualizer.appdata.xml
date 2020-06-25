@@ -53,6 +53,7 @@
   <summary xml:lang="pt-BR">Um visualizador para arquivos de dados Massif do Valgrind</summary>
   <summary xml:lang="ru">Программа для наглядного представления файлов данных Valgrind Massif</summary>
   <summary xml:lang="sk">Vizualizátor pre dátové súbory Valgrind Massif</summary>
+  <summary xml:lang="sl">Vizualizator datotek podatkov Valgrind Massif</summary>
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="tr">Valgrind Massif veri dosyaları için bir görselleyici</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
@@ -85,6 +86,7 @@
     <p xml:lang="pt">O Visualizador do Massif é uma ferramenta que, como é óbvio, apresenta dados do Massif. Você poderá executar a sua aplicação no Valgrind com a opção --tool=massif e depois abrir o ficheiro massif.out.%pid gerado no visualizador. Poderá abrir de forma transparente os ficheiros do Massif comprimidos com Gzip ou Bzip2.</p>
     <p xml:lang="pt-BR">O Visualizador de Massif é uma ferramenta que, como o nome sugere, visualiza dados Massif. Você pode executar seu aplicativo no Valgrind com a opção --tool=massif e depois abrir o arquivo massif.out.%pid gerado no visualizador. Os arquivos Massif compactados com Gzip ou Bzip2 podem ser abertos de forma transparente.</p>
     <p xml:lang="sk">Massif Visualizer je nástroj, ktorý, kto by to povedal, vizualizuje údaje massif. Môžete spustiť aplikáciu vo Valgrinde s --tool=massif a potom otvoriť vygenerovaný massif.out.%pid vo vizualizátori. Gzip alebo Bzip2 komprimované massif súbory sa dajú otvoriť transaprentne.</p>
+    <p xml:lang="sl">Massif Visualizer je orodje, ki - kdo bi to uganil - vizualizira podatke orodja massif. Aplikacijo v Valgrindu zaženete z --tool=massif in nato odpreteustvarjeno datoteko  masivni massif.out.%pid v vizualizatorju. Prav tako se stisnjene datoteke Gzip ali Bzip2 tudi lahko pregledno odpirajo.</p>
     <p xml:lang="sv">Massif visualisering är ett verktyg som åskådliggöra data från Massif, som inte är svårt att gissa. Man kör sitt program i Valgrind med --tool=massif och öppnar den skapade massif.out.%pid i verktyget. Massif-filer komprimerade med gzip eller bzip2 kan också öppnas direkt.</p>
     <p xml:lang="tr">Massif Görselleyici, massif verilerini görselleştiren bir araçtır. Uygulamanızı --tool=massif ile Valgrind'de çalıştırdıktan sonra üretilen massif.out.%pid dosyasını görüntüleyicide açın. Gzip veya Bzip2 sıkıştırılmış massif dosyaları da şeffaf olarak açılabilir.</p>
     <p xml:lang="uk">Візуалізатор Massif, яким би дивним це не здавалося, — засіб для візуалізації даних massif. Ви запускаєте вашу програму у Valgrind із параметром --tool=massif, а потім відкриваєте створений файл massif.out.%pid у засобі візуалізації. Передбачено прозоре відкриття файлів massif, запакованих за допомогою Gzip або Bzip2.</p>
@@ -112,6 +114,7 @@
     <p xml:lang="pt-BR">Funcionalidades:</p>
     <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
+    <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
@@ -139,6 +142,7 @@
       <li xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</li>
       <li xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo.</li>
       <li xml:lang="sk">Interaktívny graf použitia pamäte v čase.</li>
+      <li xml:lang="sl">Interaktivni grafikon porabe pomnilnika skozi čas.</li>
       <li xml:lang="sv">Interaktivt diagram av minnesanvändning över tid.</li>
       <li xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu.</li>
       <li xml:lang="uk">Інтерактивна діаграма споживання пам’яті.</li>
@@ -164,6 +168,7 @@
       <li xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</li>
       <li xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer).</li>
       <li xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer).</li>
+      <li xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer).</li>
       <li xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</li>
       <li xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz.</li>
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
@@ -189,6 +194,7 @@
       <li xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
       <li xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
       <li xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií.</li>
+      <li xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij.</li>
       <li xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</li>
       <li xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti.</li>
       <li xml:lang="uk">Резюме щодо пікового споживання пам’яті для всіх функцій отримання об’ємів пам’яті.</li>
@@ -202,86 +208,14 @@
     <screenshot type="default">
       <image>https://cdn.kde.org/screenshots/massif-visualizer/massif-visualizer.png</image>
       <caption>Interactive chart of memory consumption over time</caption>
-      <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
-      <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
-      <caption xml:lang="da">Interaktivt skema af hukommelsesforbrug over tid.</caption>
-      <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</caption>
-      <caption xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης.</caption>
-      <caption xml:lang="en-GB">Interactive chart of memory consumption over time.</caption>
-      <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</caption>
-      <caption xml:lang="et">Interaktiivne mälutarvet ajas näitav diagramm</caption>
-      <caption xml:lang="fi">Vuorovaikuttainen kaavio muistinkulutukselta ajan funktiona.</caption>
-      <caption xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</caption>
-      <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
-      <caption xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu.</caption>
-      <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</caption>
-      <caption xml:lang="ko">시간별 메모리 사용량 차트 표시.</caption>
-      <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</caption>
-      <caption xml:lang="nn">Interaktivt diagram som viser minnebruken over tid.</caption>
-      <caption xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</caption>
-      <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</caption>
-      <caption xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo.</caption>
-      <caption xml:lang="sk">Interaktívny graf použitia pamäte v čase.</caption>
-      <caption xml:lang="sv">Interaktivt diagram av minnesanvändning över tid.</caption>
-      <caption xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu.</caption>
-      <caption xml:lang="uk">Інтерактивна діаграма споживання пам’яті.</caption>
-      <caption xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</caption>
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer)</caption>
-      <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
-      <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
-      <caption xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</caption>
-      <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</caption>
-      <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</caption>
-      <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</caption>
-      <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</caption>
-      <caption xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</caption>
-      <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin).</caption>
-      <caption xml:lang="fr">Analyse immédiate détaillée avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
-      <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
-      <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</caption>
-      <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</caption>
-      <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요).</caption>
-      <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer).</caption>
-      <caption xml:lang="nn">Detaljert analyse av minnebilete med kallgraf-visualisering (krev KGraphViewer).</caption>
-      <caption xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</caption>
-      <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</caption>
-      <caption xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer).</caption>
-      <caption xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer).</caption>
-      <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</caption>
-      <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz.</caption>
-      <caption xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</caption>
-      <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</caption>
     </screenshot>
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
       <caption>Summary of peak memory consumption of all allocating functions</caption>
-      <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
-      <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
-      <caption xml:lang="da">Sammendrag af spidspunktshukommelsesforbrug for alle allokeringsfunktioner.</caption>
-      <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</caption>
-      <caption xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες.</caption>
-      <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</caption>
-      <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</caption>
-      <caption xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</caption>
-      <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta.</caption>
-      <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
-      <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
-      <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</caption>
-      <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</caption>
-      <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약.</caption>
-      <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen.</caption>
-      <caption xml:lang="nn">Samandrag av høgste minnebruk for alle allokerande funksjonar.</caption>
-      <caption xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</caption>
-      <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>
-      <caption xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação.</caption>
-      <caption xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií.</caption>
-      <caption xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</caption>
-      <caption xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti.</caption>
-      <caption xml:lang="uk">Резюме щодо пікового споживання пам’яті для всіх функцій отримання об’ємів пам’яті.</caption>
-      <caption xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</caption>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
@@ -293,5 +227,5 @@
     <release version="0.4.0" date="2014-11-16"/>
     <release version="0.3" date="2011-11-07"/>
   </releases>
-  <content_rating type="oars-1.1" />
+  <content_rating type="oars-1.1"/>
 </component>

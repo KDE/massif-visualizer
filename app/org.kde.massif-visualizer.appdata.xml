@@ -215,6 +215,7 @@
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo</caption>
       <caption xml:lang="fr">Graphique interactif de consommation de la mémoire dans le temps.</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo</caption>
+      <caption xml:lang="ko">시간별 메모리 사용량 차트 표시</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd</caption>
       <caption xml:lang="nn">Interaktivt diagram som viser minnebruken over tid</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo</caption>
@@ -234,6 +235,7 @@
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer)</caption>
       <caption xml:lang="fr">Analyse détaillée temps réel avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer)</caption>
+      <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요)</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer)</caption>
       <caption xml:lang="nn">Detaljert analyse av minnebilete med kallgraf-visualisering (krev KGraphViewer)</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer)</caption>
@@ -253,6 +255,7 @@
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación</caption>
       <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione</caption>
+      <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen</caption>
       <caption xml:lang="nn">Samandrag av høgste minnebruk for alle allokerande funksjonar</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação</caption>

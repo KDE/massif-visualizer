@@ -210,6 +210,7 @@
       <caption>Interactive chart of memory consumption over time</caption>
       <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps</caption>
       <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps</caption>
+      <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume</caption>
       <caption xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης</caption>
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo</caption>
@@ -230,6 +231,7 @@
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer)</caption>
       <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
+      <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer)</caption>
       <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer)</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer)</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer)</caption>
@@ -250,6 +252,7 @@
       <caption>Summary of peak memory consumption of all allocating functions</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
+      <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen</caption>
       <caption xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες</caption>
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación</caption>

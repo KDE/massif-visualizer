@@ -120,7 +120,7 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Interactive chart of memory consumption over time.</li>
-      <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</li>
+      <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps</li>
       <li xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</li>
       <li xml:lang="da">Interaktivt skema af hukommelsesforbrug over tid.</li>
       <li xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</li>
@@ -145,7 +145,7 @@
       <li xml:lang="uk">Інтерактивна діаграма споживання пам'яті.</li>
       <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
-      <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
+      <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</li>
       <li xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</li>
       <li xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</li>
       <li xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</li>
@@ -170,7 +170,7 @@
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
       <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
-      <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
+      <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</li>
       <li xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</li>
       <li xml:lang="da">Sammendrag af spidspunktshukommelsesforbrug for alle allokeringsfunktioner.</li>
       <li xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</li>
@@ -203,7 +203,7 @@
     <screenshot type="default">
       <image>http://milianw.de/files/massif-visualizer/memory-chart.png</image>
       <caption>Interactive chart of memory consumption over time.</caption>
-      <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
+      <caption xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps</caption>
       <caption xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps.</caption>
       <caption xml:lang="da">Interaktivt skema af hukommelsesforbrug over tid.</caption>
       <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</caption>
@@ -231,7 +231,7 @@
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
-      <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
+      <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer).</caption>
       <caption xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</caption>
       <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</caption>
@@ -259,7 +259,7 @@
     <screenshot>
       <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
       <caption>Summary of peak memory consumption of all allocating functions.</caption>
-      <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
+      <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació.</caption>
       <caption xml:lang="da">Sammendrag af spidspunktshukommelsesforbrug for alle allokeringsfunktioner.</caption>
       <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</caption>

@@ -52,9 +52,8 @@ install(FILES org.kde.massif-visualizer.appdata.xml DESTINATION ${KDE_INSTALL_ME
 
 # XML mime type
 set( SHARED_MIME_INFO_MINIMUM_VERSION "0.30" )
-set( XDG_MIME_INSTALL_DIR "share/mime/packages" )
-find_package( SharedMimeInfo )
+find_package( SharedMimeInfo ${SHARED_MIME_INFO_MINIMUM_VERSION})
 if(SHAREDMIMEINFO_FOUND)
-    install( FILES massif.xml DESTINATION ${XDG_MIME_INSTALL_DIR} )
-    update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
+    install( FILES massif.xml DESTINATION ${KDE_INSTALL_MIMEDIR} )
+    update_xdg_mimetypes( ${KDE_INSTALL_MIMEDIR} )
 endif()

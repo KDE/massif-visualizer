@@ -215,6 +215,7 @@
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo</caption>
       <caption xml:lang="fr">Graphique interactif de consommation de la mémoire dans le temps.</caption>
+      <caption xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo</caption>
       <caption xml:lang="ko">시간별 메모리 사용량 차트 표시</caption>
       <caption xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd</caption>
@@ -236,6 +237,7 @@
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer)</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer)</caption>
       <caption xml:lang="fr">Analyse détaillée temps réel avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
+      <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi callgraph (membutuhkan KGraphViewer)</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer)</caption>
       <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요)</caption>
       <caption xml:lang="nl">Gedetailleerde analyses van momentopnamen met callgraph-visualisatie (vereist KGraphViewer)</caption>
@@ -257,6 +259,7 @@
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación</caption>
       <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
+      <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi pengalokasian</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione</caption>
       <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약</caption>
       <caption xml:lang="nl">Overzicht van pieken in geheugengebruik van alle functies voor toekennen</caption>

@@ -1,6 +1,6 @@
 ecm_add_test(datamodeltest datamodeltest.cpp modeltest.cpp
     TEST_NAME "datamodeltest"
-    LINK_LIBRARIES mv-massifdata mv-visualizer Qt5::Core Qt5::Test KF5::KIOCore
+    LINK_LIBRARIES mv-massifdata mv-visualizer Qt5::Core Qt5::Test KF5::KIOCore KF5::ConfigCore
 )
 
 add_executable(massifparser massifparser.cpp)

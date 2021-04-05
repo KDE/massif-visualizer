@@ -21,4 +21,5 @@ LINK_PRIVATE
     KF5::Archive
     KF5::KIOCore
     KF5::I18n
+    KF5::ConfigCore
 )

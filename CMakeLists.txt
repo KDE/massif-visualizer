@@ -23,7 +23,6 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Core
     Widgets
     Svg
-    XmlPatterns
     Test
     PrintSupport
 )

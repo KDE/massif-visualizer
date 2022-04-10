@@ -224,6 +224,7 @@
       <caption xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo</caption>
       <caption xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo</caption>
+      <caption xml:lang="sk">Interaktívny graf použitia pamäte v čase</caption>
       <caption xml:lang="sl">Interaktivni grafikon porabe pomnilnika skozi čas</caption>
       <caption xml:lang="sv">Interaktivt diagram av minnesanvändning över tid</caption>
       <caption xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu</caption>
@@ -248,6 +249,7 @@
       <caption xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer)</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer)</caption>
       <caption xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer)</caption>
+      <caption xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer)</caption>
       <caption xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer)</caption>
       <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer)</caption>
       <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz</caption>
@@ -272,6 +274,7 @@
       <caption xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação</caption>
       <caption xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação</caption>
+      <caption xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií</caption>
       <caption xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij</caption>
       <caption xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner</caption>
       <caption xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti</caption>

@@ -88,7 +88,7 @@
     <p xml:lang="sk">Massif Visualizer je nástroj, ktorý, kto by to povedal, vizualizuje údaje massif. Môžete spustiť aplikáciu vo Valgrinde s --tool=massif a potom otvoriť vygenerovaný massif.out.%pid vo vizualizátori. Gzip alebo Bzip2 komprimované massif súbory sa dajú otvoriť transaprentne.</p>
     <p xml:lang="sl">Massif Visualizer je orodje, ki - kdo bi to uganil - vizualizira podatke orodja massif. Aplikacijo v Valgrindu zaženete z --tool=massif in nato odpreteustvarjeno datoteko  masivni massif.out.%pid v vizualizatorju. Prav tako se stisnjene datoteke Gzip ali Bzip2 tudi lahko pregledno odpirajo.</p>
     <p xml:lang="sv">Massif visualisering är ett verktyg som åskådliggöra data från Massif, som inte är svårt att gissa. Man kör sitt program i Valgrind med --tool=massif och öppnar den skapade massif.out.%pid i verktyget. Massif-filer komprimerade med gzip eller bzip2 kan också öppnas direkt.</p>
-    <p xml:lang="tr">Massif Görselleyici, massif verilerini görselleştiren bir araçtır. Uygulamanızı --tool=massif ile Valgrind'de çalıştırdıktan sonra üretilen massif.out.%pid dosyasını görüntüleyicide açın. Gzip veya Bzip2 sıkıştırılmış massif dosyaları da şeffaf olarak açılabilir.</p>
+    <p xml:lang="tr">Massif Görselleyici, massif verilerini görselleştiren bir araçtır. Uygulamanızı --tool=massif ile Valgrind'de çalıştırdıktan sonra üretilen massif.out.%pid dosyasını görüntüleyicide açın. Gzip veya Bzip2 sıkıştırılmış massif dosyaları da saydam olarak açılabilir.</p>
     <p xml:lang="uk">Візуалізатор Massif, яким би дивним це не здавалося, — засіб для візуалізації даних massif. Ви запускаєте вашу програму у Valgrind із параметром --tool=massif, а потім відкриваєте створений файл massif.out.%pid у засобі візуалізації. Передбачено прозоре відкриття файлів massif, запакованих за допомогою Gzip або Bzip2.</p>
     <p xml:lang="x-test">xxMassif Visualizer is a tool that - who'd guess that - visualizes massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualizer. Gzip or Bzip2 compressed massif files can also be opened transparently.xx</p>
     <p>Features:</p>
@@ -170,7 +170,7 @@
       <li xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer).</li>
       <li xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer).</li>
       <li xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</li>
-      <li xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz.</li>
+      <li xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık çözümleme.</li>
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
       <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
@@ -196,7 +196,7 @@
       <li xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií.</li>
       <li xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij.</li>
       <li xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</li>
-      <li xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti.</li>
+      <li xml:lang="tr">Tahsis edilen tüm işlevlerin tepe bellek tüketiminin özeti.</li>
       <li xml:lang="uk">Резюме щодо пікового споживання пам'яті для всіх функцій отримання об'ємів пам'яті.</li>
       <li xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</li>
     </ul>
@@ -252,7 +252,7 @@
       <caption xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer)</caption>
       <caption xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer)</caption>
       <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer)</caption>
-      <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık analiz</caption>
+      <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık çözümleme</caption>
       <caption xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer)</caption>
       <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer)xx</caption>
     </screenshot>
@@ -277,7 +277,7 @@
       <caption xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií</caption>
       <caption xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij</caption>
       <caption xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner</caption>
-      <caption xml:lang="tr">Tahsis edilen tüm fonksiyonların tepe bellek tüketiminin özeti</caption>
+      <caption xml:lang="tr">Tahsis edilen tüm işlevlerin tepe bellek tüketiminin özeti</caption>
       <caption xml:lang="uk">Резюме щодо пікового споживання пам'яті для всіх функцій отримання об'ємів пам'яті</caption>
       <caption xml:lang="x-test">xxSummary of peak memory consumption of all allocating functionsxx</caption>
     </screenshot>

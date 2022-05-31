@@ -151,7 +151,7 @@
       <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
       <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</li>
-      <li xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix KGraphViewer)</li>
+      <li xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualisació de «callgraph» (requereix KGraphViewer)</li>
       <li xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</li>
       <li xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</li>
       <li xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</li>
@@ -240,7 +240,7 @@
       <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</caption>
       <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
-      <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix KGraphViewer)</caption>
+      <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualisació de «callgraph» (requereix KGraphViewer)</caption>
       <caption xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</caption>
       <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</caption>
       <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</caption>

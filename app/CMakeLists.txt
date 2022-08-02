@@ -14,12 +14,6 @@ set(massif-visualizer_SRCS
 )
 
 if(KGraphViewerPart_FOUND)
-    include_directories(
-        ${KGraphViewerPart_INCLUDE_DIRS}
-    )
-
-    message("dir" ${KGraphViewerPart_INCLUDE_DIRS})
-
     add_definitions(-DHAVE_KGRAPHVIEWER)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
 endif()
@@ -40,6 +34,14 @@ target_link_libraries(massif-visualizer LINK_PRIVATE
     mv-massifdata
     mv-visualizer
 )
+
+if (TARGET KGraphViewerPart)
+    target_link_libraries(massif-visualizer PRIVATE KGraphViewerPart)
+elseif(KGraphViewerPart_FOUND)
+    include_directories(
+        ${KGraphViewerPart_INCLUDE_DIRS}
+    )
+endif()
 
 install( TARGETS massif-visualizer  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 

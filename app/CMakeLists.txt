@@ -17,6 +17,9 @@ if(KGraphViewerPart_FOUND)
     include_directories(
         ${KGraphViewerPart_INCLUDE_DIRS}
     )
+
+    message("dir" ${KGraphViewerPart_INCLUDE_DIRS})
+
     add_definitions(-DHAVE_KGRAPHVIEWER)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
 endif()

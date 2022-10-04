@@ -47,12 +47,12 @@ install( TARGETS massif-visualizer  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install(
     FILES massif-visualizerui.rc documentwidgetui.rc charttabui.rc callgraphtabui.rc
-    DESTINATION ${KXMLGUI_INSTALL_DIR}/massif-visualizer
+    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/massif-visualizer
 )
 
-install(FILES massif-visualizer-settings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES massif-visualizer-settings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
-install(PROGRAMS org.kde.massif-visualizer.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(PROGRAMS org.kde.massif-visualizer.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.massif-visualizer.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 # XML mime type

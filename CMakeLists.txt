@@ -3,7 +3,7 @@ project(massif-visualizer)
 
 set(QT_MIN_VERSION "5.2.0")
 
-find_package(ECM 0.0.9 REQUIRED NO_MODULE)
+find_package(ECM 1.6.0 REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/

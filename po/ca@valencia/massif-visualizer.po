@@ -447,13 +447,13 @@ msgstr "Establix la mida del tipus de lletra utilitzat en la llegenda."
 #: app/massif-visualizerui.rc:5
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #. i18n: ectx: Menu (view)
 #: app/massif-visualizerui.rc:19
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (settings)
 #: app/massif-visualizerui.rc:23

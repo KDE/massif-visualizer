@@ -18,6 +18,7 @@
   <name xml:lang="gl">Visualizador de Massif</name>
   <name xml:lang="id">Massif-Visualizer</name>
   <name xml:lang="it">Massif-Visualizer</name>
+  <name xml:lang="ka">Massif-Visualizer</name>
   <name xml:lang="ko">Massif 시각화 도구</name>
   <name xml:lang="nl">Massif-Visualizer</name>
   <name xml:lang="nn">Massif-visualisering</name>
@@ -106,6 +107,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
+    <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="nn">Funksjonar:</p>

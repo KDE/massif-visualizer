@@ -1,0 +1,696 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2011.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-08-30 07:40+0200\n"
+"PO-Revision-Date: 2016-08-05 13:10+0000\n"
+"Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
+"Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Andrew Coles, Steve Allewell"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "andrew_coles@yahoo.co.uk, steve.allewell@gmail.com"
+
+#: app/callgraphtab.cpp:89
+#, kde-format
+msgid "Focus most expensive node"
+msgstr "Focus most expensive node"
+
+#. i18n: ectx: ToolBar (callgraphToolBar)
+#: app/callgraphtabui.rc:13
+#, kde-format
+msgid "CallGraph Toolbar"
+msgstr "CallGraph Toolbar"
+
+#: app/charttab.cpp:186
+#, kde-format
+msgid "Toggle total cost graph"
+msgstr "Toggle total cost graph"
+
+#: app/charttab.cpp:192
+#, kde-format
+msgid "Toggle detailed cost graph"
+msgstr "Toggle detailed cost graph"
+
+#: app/charttab.cpp:200
+#, kde-format
+msgid "Stacked diagrams"
+msgstr "Stacked diagrams"
+
+#: app/charttab.cpp:203
+#, kde-format
+msgid "Stacked diagrams:"
+msgstr "Stacked diagrams:"
+
+#: app/charttab.cpp:212
+#, kde-format
+msgid "hide function"
+msgstr "hide function"
+
+#: app/charttab.cpp:215
+#, kde-format
+msgid "hide other functions"
+msgstr "hide other functions"
+
+#: app/charttab.cpp:280
+#, kde-format
+msgid "time in %1"
+msgstr "time in %1"
+
+#: app/charttab.cpp:287
+#, kde-format
+msgid "memory heap size"
+msgstr "memory heap size"
+
+#: app/charttab.cpp:457
+#, kde-format
+msgid "Memory consumption of %1"
+msgstr "Memory consumption of %1"
+
+#: app/charttab.cpp:458
+#, kde-format
+msgid "Peak of %1 at snapshot #%2"
+msgstr "Peak of %1 at snapshot #%2"
+
+#: app/charttab.cpp:460
+#, kde-format
+msgid ""
+"Command: %1\n"
+"Valgrind Options: %2"
+msgstr ""
+"Command: %1\n"
+"Valgrind Options: %2"
+
+#: app/charttab.cpp:465
+#, kde-format
+msgid "Save Current Visualization"
+msgstr "Save Current Visualisation"
+
+#: app/charttab.cpp:466
+#, kde-format
+msgid "Images (*.png *.jpg *.tiff *.svg)"
+msgstr "Images (*.png *.jpg *.tiff *.svg)"
+
+#: app/charttab.cpp:491
+#, kde-format
+msgid "Error, failed to save the image to %1."
+msgstr "Error, failed to save the image to %1."
+
+#: app/charttab.cpp:503
+#, kde-format
+msgid "Massif Chart Print Preview"
+msgstr "Massif Chart Print Preview"
+
+#. i18n: ectx: ToolBar (chartToolBar)
+#: app/charttabui.rc:17
+#, kde-format
+msgid "Chart Toolbar"
+msgstr "Chart Toolbar"
+
+#. i18n: ectx: property (text), widget (QLabel, costLabel)
+#: app/config.ui:17
+#, kde-format
+msgid "Cost Precision:"
+msgstr "Cost Precision:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:27
+#, kde-format
+msgid "Legend"
+msgstr "Legend"
+
+#. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
+#: app/config.ui:36
+#, kde-format
+msgid "Position:"
+msgstr "Position:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:44
+#, kde-format
+msgid "North"
+msgstr "North"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:49
+#, kde-format
+msgid "East"
+msgstr "East"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:54
+#, kde-format
+msgid "South"
+msgstr "South"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:59
+#, kde-format
+msgid "West"
+msgstr "West"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:64
+#, kde-format
+msgid "Floating"
+msgstr "Floating"
+
+#. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
+#: app/config.ui:72
+#, kde-format
+msgid "Alignment:"
+msgstr "Alignment:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:80
+#, kde-format
+msgid "Left"
+msgstr "Left"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:85
+#, kde-format
+msgid "Center"
+msgstr "Centre"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:90
+#, kde-format
+msgid "Right"
+msgstr "Right"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:95
+#, kde-format
+msgid "Top"
+msgstr "Top"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:100
+#, kde-format
+msgid "Bottom"
+msgstr "Bottom"
+
+#. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
+#: app/config.ui:108
+#, kde-format
+msgid "Font Size:"
+msgstr "Font Size:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/config.ui:121 app/mainwindow.cpp:189
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Shorten Templates"
+
+#: app/configdialog.cpp:41
+#, kde-format
+msgid "Settings"
+msgstr "Settings"
+
+#: app/documentwidget.cpp:113
+#, kde-format
+msgid "loading file <i>%1</i>..."
+msgstr "loading file <i>%1</i>..."
+
+#: app/documentwidget.cpp:193
+#, kde-format
+msgid "Memory Chart"
+msgstr "Memory Chart"
+
+#: app/documentwidget.cpp:201
+#, kde-format
+msgid "Callgraph"
+msgstr "Callgraph"
+
+#: app/documentwidget.cpp:207
+#, kde-format
+msgid "Allocators"
+msgstr "Allocators"
+
+#: app/main.cpp:40
+#, kde-format
+msgid "Massif Visualizer"
+msgstr "Massif Visualiser"
+
+#: app/main.cpp:41
+#, kde-format
+msgid "A visualizer for output generated by Valgrind's massif tool."
+msgstr "A visualiser for output generated by Valgrind's massif tool."
+
+#: app/main.cpp:42
+#, kde-format
+msgid "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
+msgstr "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
+
+#: app/main.cpp:44
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: app/main.cpp:44
+#, kde-format
+msgid "Original author, maintainer"
+msgstr "Original author, maintainer"
+
+#: app/main.cpp:47
+#, kde-format
+msgid "Arnold Dumas"
+msgstr "Arnold Dumas"
+
+#: app/main.cpp:47
+#, kde-format
+msgid "Multiple document interface, bug fixes"
+msgstr "Multiple document interface, bug fixes"
+
+#: app/main.cpp:60
+#, kde-format
+msgid "Files to load"
+msgstr "Files to load"
+
+#: app/main.cpp:60
+#, kde-format
+msgid "[FILE...]"
+msgstr "[FILE...]"
+
+#: app/mainwindow.cpp:195
+#, kde-format
+msgid "Select peak snapshot"
+msgstr "Select peak snapshot"
+
+#: app/mainwindow.cpp:201
+#, kde-format
+msgid "add"
+msgstr "add"
+
+#: app/mainwindow.cpp:202
+#, kde-format
+msgid "add custom allocator"
+msgstr "add custom allocator"
+
+#: app/mainwindow.cpp:205
+#, kde-format
+msgid "remove"
+msgstr "remove"
+
+#: app/mainwindow.cpp:207
+#, kde-format
+msgid "remove selected allocator"
+msgstr "remove selected allocator"
+
+#: app/mainwindow.cpp:214
+#, kde-format
+msgid "mark as custom allocator"
+msgstr "mark as custom allocator"
+
+#: app/mainwindow.cpp:225
+#, kde-format
+msgid "Open Massif Data File"
+msgstr "Open Massif Data File"
+
+#: app/mainwindow.cpp:257
+#, kde-format
+msgid "Open Massif Output File"
+msgstr "Open Massif Output File"
+
+#: app/mainwindow.cpp:258
+#, kde-format
+msgid "Massif data files (massif.out.*)"
+msgstr "Massif data files (massif.out.*)"
+
+#: app/mainwindow.cpp:395
+#, kde-format
+msgid "Add Custom Allocator"
+msgstr "Add Custom Allocator"
+
+#: app/mainwindow.cpp:395
+#, kde-format
+msgid "allocator:"
+msgstr "allocator:"
+
+#: app/mainwindow.cpp:479
+#, kde-format
+msgid "Evaluation of %1 (%2)"
+msgstr "Evaluation of %1 (%2)"
+
+#. i18n: ectx: property (text), widget (QToolButton, openFile)
+#: app/mainwindow.ui:67
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
+#: app/mainwindow.ui:109
+#, kde-format
+msgid "Massif Data"
+msgstr "Massif Data"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
+#: app/mainwindow.ui:122
+#, kde-format
+msgid "filter"
+msgstr "filter"
+
+#. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
+#: app/mainwindow.ui:137
+#, kde-format
+msgid "Custom Allocators"
+msgstr "Custom Allocators"
+
+#. i18n: ectx: label, entry (PrettyCostPrecision), group (Settings)
+#: app/massif-visualizer-settings.kcfg:9
+#, kde-format
+msgid "Cost Precision"
+msgstr "Cost Precision"
+
+#. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
+#: app/massif-visualizer-settings.kcfg:10
+#, kde-format
+msgid ""
+"Defines the number of places after the comma for memory costs shown in the "
+"application."
+msgstr ""
+"Defines the number of places after the comma for memory costs shown in the "
+"application."
+
+#. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:15
+#, kde-format
+msgid ""
+"Defines whether identifiers of C++ template instantiations should be "
+"shortened by removing their template arguments."
+msgstr ""
+"Defines whether identifiers of C++ template instantiations should be "
+"shortened by removing their template arguments."
+
+#. i18n: ectx: label, entry (LegendPosition), group (Settings)
+#: app/massif-visualizer-settings.kcfg:19
+#, kde-format
+msgid "Legend Position"
+msgstr "Legend Position"
+
+#. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
+#: app/massif-visualizer-settings.kcfg:20
+#, kde-format
+msgid "Defines the position of the legend relative to the plot."
+msgstr "Defines the position of the legend relative to the plot."
+
+#. i18n: ectx: label, entry (LegendAlignment), group (Settings)
+#: app/massif-visualizer-settings.kcfg:31
+#, kde-format
+msgid "Legend Alignment"
+msgstr "Legend Alignment"
+
+#. i18n: ectx: tooltip, entry (LegendAlignment), group (Settings)
+#: app/massif-visualizer-settings.kcfg:32
+#, kde-format
+msgid "Defines the alignment of the legend."
+msgstr "Defines the alignment of the legend."
+
+#. i18n: ectx: label, entry (LegendFontSize), group (Settings)
+#: app/massif-visualizer-settings.kcfg:45
+#, kde-format
+msgid "Legend Font Size"
+msgstr "Legend Font Size"
+
+#. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
+#: app/massif-visualizer-settings.kcfg:46
+#, kde-format
+msgid "Defines the font size used in the legend."
+msgstr "Defines the font size used in the legend."
+
+#. i18n: ectx: Menu (file)
+#: app/massif-visualizerui.rc:5
+#, kde-format
+msgid "&File"
+msgstr "&File"
+
+#. i18n: ectx: Menu (view)
+#: app/massif-visualizerui.rc:19
+#, kde-format
+msgid "&View"
+msgstr "&View"
+
+#. i18n: ectx: Menu (settings)
+#: app/massif-visualizerui.rc:23
+#, kde-format
+msgid "&Settings"
+msgstr "&Settings"
+
+#. i18n: ectx: Menu (dockWidgets)
+#: app/massif-visualizerui.rc:25
+#, kde-format
+msgid "&Dock Widgets"
+msgstr "&Dock Widgets"
+
+#. i18n: ectx: Menu (help)
+#: app/massif-visualizerui.rc:34
+#, kde-format
+msgid "&Help"
+msgstr "&Help"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: app/massif-visualizerui.rc:45
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Main Toolbar"
+
+#: massifdata/parseworker.cpp:55
+#, kde-format
+msgid "Download Failed"
+msgstr "Download Failed"
+
+#: massifdata/parseworker.cpp:56
+#, kde-format
+msgid "Failed to download remote massif data file <i>%1</i>."
+msgstr "Failed to download remote massif data file <i>%1</i>."
+
+#: massifdata/parseworker.cpp:66
+#, kde-format
+msgid "Read Failed"
+msgstr "Read Failed"
+
+#: massifdata/parseworker.cpp:67
+#, kde-format
+msgid "Could not open file <i>%1</i> for reading."
+msgstr "Could not open file <i>%1</i> for reading."
+
+#: massifdata/parseworker.cpp:78
+#, kde-format
+msgid "Parser Failed"
+msgstr "Parser Failed"
+
+#: massifdata/parseworker.cpp:79
+#, kde-format
+msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
+msgstr "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
+
+#: massifdata/parseworker.cpp:86
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Empty data file <i>%1</i>."
+
+#: massifdata/parseworker.cpp:87
+#, kde-format
+msgid "Empty Data File"
+msgstr "Empty Data File"
+
+#: massifdata/util.cpp:136
+#, kde-format
+msgid "<dt>function:</dt><dd>%1</dd>\n"
+msgstr "<dt>function:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:139
+#, kde-format
+msgid "<dt>location:</dt><dd>%1</dd>\n"
+msgstr "<dt>location:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:142
+#, kde-format
+msgid "<dt>address:</dt><dd>%1</dd>\n"
+msgstr "<dt>address:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:155
+#, kde-format
+msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
+msgstr "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
+
+#: visualizer/allocatorsmodel.cpp:127
+#, kde-format
+msgid "<dt>peak cost:</dt><dd>%1</dd>"
+msgstr "<dt>peak cost:</dt><dd>%1</dd>"
+
+#: visualizer/allocatorsmodel.cpp:137
+#, kde-format
+msgid "below threshold"
+msgstr "below threshold"
+
+#: visualizer/allocatorsmodel.cpp:160
+#, kde-format
+msgid "Function"
+msgstr "Function"
+
+#: visualizer/allocatorsmodel.cpp:162
+#, kde-format
+msgid "Location"
+msgstr "Location"
+
+#: visualizer/allocatorsmodel.cpp:164
+#, kde-format
+msgid "Peak"
+msgstr "Peak"
+
+#: visualizer/datatreemodel.cpp:84
+#, kde-format
+msgid "Snapshots"
+msgstr "Snapshots"
+
+#: visualizer/datatreemodel.cpp:148
+#, kde-format
+msgid "Peak snapshot: heap cost of %1"
+msgstr "Peak snapshot: heap cost of %1"
+
+#: visualizer/datatreemodel.cpp:150
+#, kde-format
+msgid "Snapshot #%1: heap cost of %2"
+msgstr "Snapshot #%1: heap cost of %2"
+
+#: visualizer/datatreemodel.cpp:153
+#, kde-format
+msgctxt "%1: snapshot number"
+msgid "Snapshot #%1"
+msgstr "Snapshot #%1"
+
+#: visualizer/datatreemodel.cpp:160
+#, kde-format
+msgctxt "%1: cost, %2: snapshot number"
+msgid "%1: Snapshot #%2 (peak)"
+msgstr "%1: Snapshot #%2 (peak)"
+
+#: visualizer/datatreemodel.cpp:163
+#, kde-format
+msgctxt "%1: cost, %2: snapshot number"
+msgid "%1: Snapshot #%2"
+msgstr "%1: Snapshot #%2"
+
+#: visualizer/datatreemodel.cpp:175
+#, kde-format
+msgctxt "%1: cost, %2: snapshot label (i.e. func name etc.)"
+msgid "%1: %2"
+msgstr "%1: %2"
+
+#: visualizer/dotgraphgenerator.cpp:198
+#, kde-format
+msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
+msgstr "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
+
+#: visualizer/dotgraphgenerator.cpp:303
+#, kde-format
+msgid "in one place below threshold"
+msgid_plural "in %1 places, all below threshold"
+msgstr[0] "in one place below threshold"
+msgstr[1] "in %1 places, all below threshold"
+
+#: visualizer/totalcostmodel.cpp:79
+#, kde-format
+msgid "Total Memory Heap Consumption"
+msgstr "Total Memory Heap Consumption"
+
+#: visualizer/totalcostmodel.cpp:123
+#, kde-format
+msgid ""
+"Snapshot #%1:\n"
+"Heap cost of %2\n"
+"Extra heap cost of %3\n"
+"Stack cost of %4"
+msgstr ""
+"Snapshot #%1:\n"
+"Heap cost of %2\n"
+"Extra heap cost of %3\n"
+"Stack cost of %4"
+
+#~ msgid "Opens given output file(s) and visualize it."
+#~ msgstr "Opens given output file(s) and visualise it."
+
+#~ msgid "Data Selector"
+#~ msgstr "Data Selector"
+
+#~ msgid "Only display a subset of the model in the chart:"
+#~ msgstr "Only display a subset of the model in the chart:"
+
+#~ msgid "in reverse order."
+#~ msgstr "in reverse order."
+
+#~ msgid "columns starting at column"
+#~ msgstr "columns starting at column"
+
+#~ msgid "Display"
+#~ msgstr "Display"
+
+#~ msgid "rows starting at row"
+#~ msgstr "rows starting at row"
+
+#~ msgid ""
+#~ "Warning, the file(%1) exists.\n"
+#~ " Is it OK to overwrite it?"
+#~ msgstr ""
+#~ "Warning, the file(%1) exists.\n"
+#~ " Is it OK to overwrite it?"
+
+#~ msgid "&Evolution of Memory Consumption"
+#~ msgstr "&Evolution of Memory Consumption"
+
+#~ msgid "&Detailed Snapshot Analysis"
+#~ msgstr "&Detailed Snapshot Analysis"
+
+#~ msgid "loading..."
+#~ msgstr "loading..."
+
+#~ msgid "memory consumption"
+#~ msgstr "memory consumption"
+
+#~ msgid "Stop Parser"
+#~ msgstr "Stop Parser"
+
+#, fuzzy
+#~| msgid "Massif Data"
+#~ msgid "Print Massif Chart"
+#~ msgstr "Massif Data"
+
+#~ msgid "Peak of %1"
+#~ msgstr "Peak of %1"
+
+#~ msgid "%1\\ncost: %2"
+#~ msgstr "%1\\ncost: %2"
+
+#~ msgid "Cost"
+#~ msgstr "Cost"
+
+#~ msgid "mark `%1` as custom allocator"
+#~ msgstr "mark `%1` as custom allocator"
+
+#~ msgid ""
+#~ "Memory consumption of %1 bytes\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Memory consumption of %1 bytes\n"
+#~ "%2"

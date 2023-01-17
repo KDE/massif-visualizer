@@ -1,0 +1,632 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the massif-visualizer package.
+#
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: massif-visualizer\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-08-30 07:40+0200\n"
+"PO-Revision-Date: 2021-03-19 15:42+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"Language-Team: Slovenian <lugos-slo@lugos.si>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Matjaž Jeran"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "matjaz.jeran@amis.net"
+
+#: app/callgraphtab.cpp:89
+#, kde-format
+msgid "Focus most expensive node"
+msgstr "Osredotoči se na najdražje vozlišče"
+
+#. i18n: ectx: ToolBar (callgraphToolBar)
+#: app/callgraphtabui.rc:13
+#, kde-format
+msgid "CallGraph Toolbar"
+msgstr "Orodna vrstica grafa klicev"
+
+#: app/charttab.cpp:186
+#, kde-format
+msgid "Toggle total cost graph"
+msgstr "Preklopi graf skupnih stroškov"
+
+#: app/charttab.cpp:192
+#, kde-format
+msgid "Toggle detailed cost graph"
+msgstr "Preklopi podroben graf stroškov"
+
+#: app/charttab.cpp:200
+#, kde-format
+msgid "Stacked diagrams"
+msgstr "Naloženi diagrami"
+
+#: app/charttab.cpp:203
+#, kde-format
+msgid "Stacked diagrams:"
+msgstr "Naloženi diagrami:"
+
+#: app/charttab.cpp:212
+#, kde-format
+msgid "hide function"
+msgstr "skrij funkcijo"
+
+#: app/charttab.cpp:215
+#, kde-format
+msgid "hide other functions"
+msgstr "skrij ostale funkcije"
+
+#: app/charttab.cpp:280
+#, kde-format
+msgid "time in %1"
+msgstr "čas v %1"
+
+#: app/charttab.cpp:287
+#, kde-format
+msgid "memory heap size"
+msgstr "velikost kopice pomnilnika"
+
+#: app/charttab.cpp:457
+#, kde-format
+msgid "Memory consumption of %1"
+msgstr "Poraba pomnilnika %1"
+
+#: app/charttab.cpp:458
+#, kde-format
+msgid "Peak of %1 at snapshot #%2"
+msgstr "Najvišja vrednost %1 na posnetku #%2"
+
+#: app/charttab.cpp:460
+#, kde-format
+msgid ""
+"Command: %1\n"
+"Valgrind Options: %2"
+msgstr ""
+"Ukaz: %1\n"
+"Možnosti Valgrinda: %2"
+
+#: app/charttab.cpp:465
+#, kde-format
+msgid "Save Current Visualization"
+msgstr "Shrani trenutno vizualizacijo"
+
+#: app/charttab.cpp:466
+#, kde-format
+msgid "Images (*.png *.jpg *.tiff *.svg)"
+msgstr "Slike (*.png *.jpg *.tiff *.svg)"
+
+#: app/charttab.cpp:491
+#, kde-format
+msgid "Error, failed to save the image to %1."
+msgstr "Napaka, ni bilo mogoče shraniti slike v %1."
+
+#: app/charttab.cpp:503
+#, kde-format
+msgid "Massif Chart Print Preview"
+msgstr "Predogled tiskanja Massif grafikona"
+
+#. i18n: ectx: ToolBar (chartToolBar)
+#: app/charttabui.rc:17
+#, kde-format
+msgid "Chart Toolbar"
+msgstr "Orodna vrstica grafa"
+
+#. i18n: ectx: property (text), widget (QLabel, costLabel)
+#: app/config.ui:17
+#, kde-format
+msgid "Cost Precision:"
+msgstr "Natančnost stroška:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:27
+#, kde-format
+msgid "Legend"
+msgstr "Legenda"
+
+#. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
+#: app/config.ui:36
+#, kde-format
+msgid "Position:"
+msgstr "Pozicija:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:44
+#, kde-format
+msgid "North"
+msgstr "Sever"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:49
+#, kde-format
+msgid "East"
+msgstr "Vzhod"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:54
+#, kde-format
+msgid "South"
+msgstr "Jug"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:59
+#, kde-format
+msgid "West"
+msgstr "Zahod"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
+#: app/config.ui:64
+#, kde-format
+msgid "Floating"
+msgstr "Plavajoče"
+
+#. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
+#: app/config.ui:72
+#, kde-format
+msgid "Alignment:"
+msgstr "Poravnava:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:80
+#, kde-format
+msgid "Left"
+msgstr "Levo"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:85
+#, kde-format
+msgid "Center"
+msgstr "Središčno"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:90
+#, kde-format
+msgid "Right"
+msgstr "Desno"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:95
+#, kde-format
+msgid "Top"
+msgstr "Vrh"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
+#: app/config.ui:100
+#, kde-format
+msgid "Bottom"
+msgstr "Dno"
+
+#. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
+#: app/config.ui:108
+#, kde-format
+msgid "Font Size:"
+msgstr "Velikost pisave:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/config.ui:121 app/mainwindow.cpp:189
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Skrajšaj predloge"
+
+#: app/configdialog.cpp:41
+#, kde-format
+msgid "Settings"
+msgstr "Nastavitve"
+
+#: app/documentwidget.cpp:113
+#, kde-format
+msgid "loading file <i>%1</i>..."
+msgstr "nalaganje datoteke <i>%1</i>..."
+
+#: app/documentwidget.cpp:193
+#, kde-format
+msgid "Memory Chart"
+msgstr "Diagram pomnilnika"
+
+#: app/documentwidget.cpp:201
+#, kde-format
+msgid "Callgraph"
+msgstr "Graf klicev"
+
+#: app/documentwidget.cpp:207
+#, kde-format
+msgid "Allocators"
+msgstr "Alokatorji"
+
+#: app/main.cpp:40
+#, kde-format
+msgid "Massif Visualizer"
+msgstr "Massif Visualizer"
+
+#: app/main.cpp:41
+#, kde-format
+msgid "A visualizer for output generated by Valgrind's massif tool."
+msgstr "Vizualizator za izhod, ki ga ustvari orodje Valgrind's massif."
+
+#: app/main.cpp:42
+#, kde-format
+msgid "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
+msgstr "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
+
+#: app/main.cpp:44
+#, kde-format
+msgid "Milian Wolff"
+msgstr "Milian Wolff"
+
+#: app/main.cpp:44
+#, kde-format
+msgid "Original author, maintainer"
+msgstr "Izvirni avtor, vzdrževalec"
+
+#: app/main.cpp:47
+#, kde-format
+msgid "Arnold Dumas"
+msgstr "Arnold Dumas"
+
+#: app/main.cpp:47
+#, kde-format
+msgid "Multiple document interface, bug fixes"
+msgstr "Več vmesnikov za dokumente, popravki napak"
+
+#: app/main.cpp:60
+#, kde-format
+msgid "Files to load"
+msgstr "Datoteke za nalaganje"
+
+#: app/main.cpp:60
+#, kde-format
+msgid "[FILE...]"
+msgstr "[DATOTEKA...]"
+
+#: app/mainwindow.cpp:195
+#, kde-format
+msgid "Select peak snapshot"
+msgstr "Izberite posnetek vrha"
+
+#: app/mainwindow.cpp:201
+#, kde-format
+msgid "add"
+msgstr "dodaj"
+
+#: app/mainwindow.cpp:202
+#, kde-format
+msgid "add custom allocator"
+msgstr "dodaj alokator po meri"
+
+#: app/mainwindow.cpp:205
+#, kde-format
+msgid "remove"
+msgstr "odstrani"
+
+#: app/mainwindow.cpp:207
+#, kde-format
+msgid "remove selected allocator"
+msgstr "odstrani izbranega alokatorja"
+
+#: app/mainwindow.cpp:214
+#, kde-format
+msgid "mark as custom allocator"
+msgstr "označi kot alokatorja po meri"
+
+#: app/mainwindow.cpp:225
+#, kde-format
+msgid "Open Massif Data File"
+msgstr "Odpri podatkovno datoteko Massif"
+
+#: app/mainwindow.cpp:257
+#, kde-format
+msgid "Open Massif Output File"
+msgstr "Odpri izhodno datoteko Massif"
+
+#: app/mainwindow.cpp:258
+#, kde-format
+msgid "Massif data files (massif.out.*)"
+msgstr "Podatkovne datoteke Massif (massif.out.*)"
+
+#: app/mainwindow.cpp:395
+#, kde-format
+msgid "Add Custom Allocator"
+msgstr "Dodaj alokator po meri"
+
+#: app/mainwindow.cpp:395
+#, kde-format
+msgid "allocator:"
+msgstr "alokator:"
+
+#: app/mainwindow.cpp:479
+#, kde-format
+msgid "Evaluation of %1 (%2)"
+msgstr "Ovrednotenje %1 (%2)"
+
+#. i18n: ectx: property (text), widget (QToolButton, openFile)
+#: app/mainwindow.ui:67
+#, kde-format
+msgid "..."
+msgstr "..."
+
+#. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
+#: app/mainwindow.ui:109
+#, kde-format
+msgid "Massif Data"
+msgstr "Podatki Massif"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
+#: app/mainwindow.ui:122
+#, kde-format
+msgid "filter"
+msgstr "filter"
+
+#. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
+#: app/mainwindow.ui:137
+#, kde-format
+msgid "Custom Allocators"
+msgstr "Alokatorji po meri"
+
+#. i18n: ectx: label, entry (PrettyCostPrecision), group (Settings)
+#: app/massif-visualizer-settings.kcfg:9
+#, kde-format
+msgid "Cost Precision"
+msgstr "Natančnost stroška"
+
+#. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
+#: app/massif-visualizer-settings.kcfg:10
+#, kde-format
+msgid ""
+"Defines the number of places after the comma for memory costs shown in the "
+"application."
+msgstr ""
+"Določa število mest za vejico za stroške pomnilnika prikazane v aplikaciji."
+
+#. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:15
+#, kde-format
+msgid ""
+"Defines whether identifiers of C++ template instantiations should be "
+"shortened by removing their template arguments."
+msgstr ""
+"Določa, ali naj bodo identifikatorji instanciranja predloge C++ skrajšane z "
+"odstranitvijo njihovih argumentov predloge."
+
+#. i18n: ectx: label, entry (LegendPosition), group (Settings)
+#: app/massif-visualizer-settings.kcfg:19
+#, kde-format
+msgid "Legend Position"
+msgstr "Pozicija legende"
+
+#. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
+#: app/massif-visualizer-settings.kcfg:20
+#, kde-format
+msgid "Defines the position of the legend relative to the plot."
+msgstr "Določa položaj legende glede na risbo."
+
+#. i18n: ectx: label, entry (LegendAlignment), group (Settings)
+#: app/massif-visualizer-settings.kcfg:31
+#, kde-format
+msgid "Legend Alignment"
+msgstr "Poravnava legende"
+
+#. i18n: ectx: tooltip, entry (LegendAlignment), group (Settings)
+#: app/massif-visualizer-settings.kcfg:32
+#, kde-format
+msgid "Defines the alignment of the legend."
+msgstr "Določa poravnavo legende."
+
+#. i18n: ectx: label, entry (LegendFontSize), group (Settings)
+#: app/massif-visualizer-settings.kcfg:45
+#, kde-format
+msgid "Legend Font Size"
+msgstr "Velikost pisave legende"
+
+#. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
+#: app/massif-visualizer-settings.kcfg:46
+#, kde-format
+msgid "Defines the font size used in the legend."
+msgstr "Določa velikost pisave uporabljene v legendi."
+
+#. i18n: ectx: Menu (file)
+#: app/massif-visualizerui.rc:5
+#, kde-format
+msgid "&File"
+msgstr "Datoteka"
+
+#. i18n: ectx: Menu (view)
+#: app/massif-visualizerui.rc:19
+#, kde-format
+msgid "&View"
+msgstr "Pogled"
+
+#. i18n: ectx: Menu (settings)
+#: app/massif-visualizerui.rc:23
+#, kde-format
+msgid "&Settings"
+msgstr "Nastavitve"
+
+#. i18n: ectx: Menu (dockWidgets)
+#: app/massif-visualizerui.rc:25
+#, kde-format
+msgid "&Dock Widgets"
+msgstr "Gradniki doka"
+
+#. i18n: ectx: Menu (help)
+#: app/massif-visualizerui.rc:34
+#, kde-format
+msgid "&Help"
+msgstr "Pomoč"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: app/massif-visualizerui.rc:45
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Glavna orodna vrstica"
+
+#: massifdata/parseworker.cpp:55
+#, kde-format
+msgid "Download Failed"
+msgstr "Prenos ni uspel"
+
+#: massifdata/parseworker.cpp:56
+#, kde-format
+msgid "Failed to download remote massif data file <i>%1</i>."
+msgstr "Prenos oddaljenih podatkovnih datotek Massif <i>%1</i> ni uspel."
+
+#: massifdata/parseworker.cpp:66
+#, kde-format
+msgid "Read Failed"
+msgstr "Branje ni uspelo"
+
+#: massifdata/parseworker.cpp:67
+#, kde-format
+msgid "Could not open file <i>%1</i> for reading."
+msgstr "Ni bilo mogoče odpreti datoteke <i>%1</i> za branje."
+
+#: massifdata/parseworker.cpp:78
+#, kde-format
+msgid "Parser Failed"
+msgstr "Razčlenjevalnik ni uspel"
+
+#: massifdata/parseworker.cpp:79
+#, kde-format
+msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
+msgstr ""
+"Datoteke <i>%1</i> ni bilo mogoče razčleniti.<br>Napaka razčlenitve v "
+"vrstici %2:<br>%3"
+
+#: massifdata/parseworker.cpp:86
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Prazna podatkovna datoteka <i>%1</i>."
+
+#: massifdata/parseworker.cpp:87
+#, kde-format
+msgid "Empty Data File"
+msgstr "Prazna podatkovna datoteka"
+
+#: massifdata/util.cpp:136
+#, kde-format
+msgid "<dt>function:</dt><dd>%1</dd>\n"
+msgstr "<dt>funkcija:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:139
+#, kde-format
+msgid "<dt>location:</dt><dd>%1</dd>\n"
+msgstr "<dt>lokacija:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:142
+#, kde-format
+msgid "<dt>address:</dt><dd>%1</dd>\n"
+msgstr "<dt>naslov:</dt><dd>%1</dd>\n"
+
+#: massifdata/util.cpp:155
+#, kde-format
+msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
+msgstr "<dt>strošek:</dt><dd>%1, npr. %2% posnetka #%3</dd>"
+
+#: visualizer/allocatorsmodel.cpp:127
+#, kde-format
+msgid "<dt>peak cost:</dt><dd>%1</dd>"
+msgstr "<dt>najvišji strošek:</dt><dd>%1</dd>"
+
+#: visualizer/allocatorsmodel.cpp:137
+#, kde-format
+msgid "below threshold"
+msgstr "pod pragom"
+
+#: visualizer/allocatorsmodel.cpp:160
+#, kde-format
+msgid "Function"
+msgstr "Funkcija"
+
+#: visualizer/allocatorsmodel.cpp:162
+#, kde-format
+msgid "Location"
+msgstr "Lokacija"
+
+#: visualizer/allocatorsmodel.cpp:164
+#, kde-format
+msgid "Peak"
+msgstr "Vrh"
+
+#: visualizer/datatreemodel.cpp:84
+#, kde-format
+msgid "Snapshots"
+msgstr "Posnetki"
+
+#: visualizer/datatreemodel.cpp:148
+#, kde-format
+msgid "Peak snapshot: heap cost of %1"
+msgstr "Posnetek vrha: strošek kopice %1"
+
+#: visualizer/datatreemodel.cpp:150
+#, kde-format
+msgid "Snapshot #%1: heap cost of %2"
+msgstr "Posnetek #%1: strošek kopice %2"
+
+#: visualizer/datatreemodel.cpp:153
+#, kde-format
+msgctxt "%1: snapshot number"
+msgid "Snapshot #%1"
+msgstr "Posnetek #%1"
+
+#: visualizer/datatreemodel.cpp:160
+#, kde-format
+msgctxt "%1: cost, %2: snapshot number"
+msgid "%1: Snapshot #%2 (peak)"
+msgstr "%1: Posnetek #%2 (vrh)"
+
+#: visualizer/datatreemodel.cpp:163
+#, kde-format
+msgctxt "%1: cost, %2: snapshot number"
+msgid "%1: Snapshot #%2"
+msgstr "%1: Posnetek #%2"
+
+#: visualizer/datatreemodel.cpp:175
+#, kde-format
+msgctxt "%1: cost, %2: snapshot label (i.e. func name etc.)"
+msgid "%1: %2"
+msgstr "%1: %2"
+
+#: visualizer/dotgraphgenerator.cpp:198
+#, kde-format
+msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
+msgstr "posnetek #%1 (posnet pri %2%4)\\nstroški kopice: %3"
+
+#: visualizer/dotgraphgenerator.cpp:303
+#, kde-format
+msgid "in one place below threshold"
+msgid_plural "in %1 places, all below threshold"
+msgstr[0] "%1 mesto pod pragom"
+msgstr[1] "obe %1 mesti pod pragom"
+msgstr[2] "vsa %1 mesta pod pragom"
+msgstr[3] "Vseh %1 mest pod pragom"
+
+#: visualizer/totalcostmodel.cpp:79
+#, kde-format
+msgid "Total Memory Heap Consumption"
+msgstr "Skupna poraba kopice pomnilnika"
+
+#: visualizer/totalcostmodel.cpp:123
+#, kde-format
+msgid ""
+"Snapshot #%1:\n"
+"Heap cost of %2\n"
+"Extra heap cost of %3\n"
+"Stack cost of %4"
+msgstr ""
+"Posnetek #%1:\n"
+"Strošek kopice %2\n"
+"Dodatni strošek kopice %3\n"
+"Strošek sklada %4"

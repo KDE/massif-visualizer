@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-08-30 07:40+0200\n"
-"PO-Revision-Date: 2022-10-17 14:14+0200\n"
+"PO-Revision-Date: 2023-02-03 10:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,58 +31,58 @@ msgstr "Temuri.doghonadze@gmail.com"
 #: app/callgraphtab.cpp:89
 #, kde-format
 msgid "Focus most expensive node"
-msgstr ""
+msgstr "ყველაზე ძვირფასი კვანძის ჩვენება"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
 #, kde-format
 msgid "CallGraph Toolbar"
-msgstr ""
+msgstr "გამოძახებების გრაფის პანელი"
 
 #: app/charttab.cpp:186
 #, kde-format
 msgid "Toggle total cost graph"
-msgstr ""
+msgstr "ჯამური ღირებულების გრაფიკი"
 
 #: app/charttab.cpp:192
 #, kde-format
 msgid "Toggle detailed cost graph"
-msgstr ""
+msgstr "დეტალური ღირებულების გრაფის გადართვა"
 
 #: app/charttab.cpp:200
 #, kde-format
 msgid "Stacked diagrams"
-msgstr ""
+msgstr "მიწყობილი დიაგრამები"
 
 #: app/charttab.cpp:203
 #, kde-format
 msgid "Stacked diagrams:"
-msgstr ""
+msgstr "მიწყობილი დიაგრამები:"
 
 #: app/charttab.cpp:212
 #, kde-format
 msgid "hide function"
-msgstr ""
+msgstr "ფუნქციის დამალვა"
 
 #: app/charttab.cpp:215
 #, kde-format
 msgid "hide other functions"
-msgstr ""
+msgstr "სხვა ფუნქციების დამალვა"
 
 #: app/charttab.cpp:280
 #, kde-format
 msgid "time in %1"
-msgstr ""
+msgstr "დრო %1-ში"
 
 #: app/charttab.cpp:287
 #, kde-format
 msgid "memory heap size"
-msgstr ""
+msgstr "დროებითი მეხსიერების ზომა"
 
 #: app/charttab.cpp:457
 #, kde-format
 msgid "Memory consumption of %1"
-msgstr ""
+msgstr "%1-ის მიერ დაკავებული მეხსიერება"
 
 #: app/charttab.cpp:458
 #, kde-format
@@ -95,21 +95,23 @@ msgid ""
 "Command: %1\n"
 "Valgrind Options: %2"
 msgstr ""
+"ბრძანება: %1\n"
+"Valgrind-ის პარამეტრები: %2"
 
 #: app/charttab.cpp:465
 #, kde-format
 msgid "Save Current Visualization"
-msgstr ""
+msgstr "მიმდინარე ვიზუალიზაციის შენახვა"
 
 #: app/charttab.cpp:466
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
-msgstr ""
+msgstr "გამოსახულებები (*.png *.jpg *.tiff *.svg)"
 
 #: app/charttab.cpp:491
 #, kde-format
 msgid "Error, failed to save the image to %1."
-msgstr ""
+msgstr "შეცდომა. %1-ში გამოსახულების შენახვა შეუძლებელია."
 
 #: app/charttab.cpp:503
 #, kde-format
@@ -120,13 +122,13 @@ msgstr ""
 #: app/charttabui.rc:17
 #, kde-format
 msgid "Chart Toolbar"
-msgstr ""
+msgstr "დიაგრამის ხელსაწყოების პანელი"
 
 #. i18n: ectx: property (text), widget (QLabel, costLabel)
 #: app/config.ui:17
 #, kde-format
 msgid "Cost Precision:"
-msgstr ""
+msgstr "ფასის სიზუსტე:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:27
@@ -218,7 +220,7 @@ msgstr "ფონტის ზომა:"
 #: app/massif-visualizer-settings.kcfg:14
 #, kde-format
 msgid "Shorten Templates"
-msgstr ""
+msgstr "ნიმუშების დამოკლება"
 
 #: app/configdialog.cpp:41
 #, kde-format
@@ -238,12 +240,12 @@ msgstr ""
 #: app/documentwidget.cpp:201
 #, kde-format
 msgid "Callgraph"
-msgstr ""
+msgstr "გამოძახებების გრაფის პანელი"
 
 #: app/documentwidget.cpp:207
 #, kde-format
 msgid "Allocators"
-msgstr ""
+msgstr "გამომყენებელი"
 
 #: app/main.cpp:40
 #, kde-format
@@ -288,7 +290,7 @@ msgstr "ჩასატვირთი ფაილები"
 #: app/main.cpp:60
 #, kde-format
 msgid "[FILE...]"
-msgstr ""
+msgstr "[ფაილი...]"
 
 #: app/mainwindow.cpp:195
 #, kde-format
@@ -343,7 +345,7 @@ msgstr ""
 #: app/mainwindow.cpp:395
 #, kde-format
 msgid "allocator:"
-msgstr ""
+msgstr "გამომყენებელი:"
 
 #: app/mainwindow.cpp:479
 #, kde-format
@@ -360,7 +362,7 @@ msgstr "..."
 #: app/mainwindow.ui:109
 #, kde-format
 msgid "Massif Data"
-msgstr ""
+msgstr "Massif-ის მონაცემები"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
 #: app/mainwindow.ui:122
@@ -378,7 +380,7 @@ msgstr ""
 #: app/massif-visualizer-settings.kcfg:9
 #, kde-format
 msgid "Cost Precision"
-msgstr ""
+msgstr "ფასის სიზუსტე"
 
 #. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:10
@@ -486,7 +488,7 @@ msgstr "წაკითხვის შეცდომა"
 #: massifdata/parseworker.cpp:67
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
-msgstr ""
+msgstr "ფაილის <i>%1</i> წასაკითხად გახსნა შეუძლებელია."
 
 #: massifdata/parseworker.cpp:78
 #, kde-format
@@ -501,12 +503,12 @@ msgstr ""
 #: massifdata/parseworker.cpp:86
 #, kde-format
 msgid "Empty data file <i>%1</i>."
-msgstr ""
+msgstr "მონაცემების ცარიელი ფაილი <i>%1</i>."
 
 #: massifdata/parseworker.cpp:87
 #, kde-format
 msgid "Empty Data File"
-msgstr ""
+msgstr "მონაცემების ფაილი ცარიელია"
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -531,7 +533,7 @@ msgstr ""
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format
 msgid "<dt>peak cost:</dt><dd>%1</dd>"
-msgstr ""
+msgstr "<dt>პიკური ფასი:</dt><dd>%1</dd>"
 
 #: visualizer/allocatorsmodel.cpp:137
 #, kde-format
@@ -572,19 +574,19 @@ msgstr ""
 #, kde-format
 msgctxt "%1: snapshot number"
 msgid "Snapshot #%1"
-msgstr ""
+msgstr "სწრაფი ასლი #%1"
 
 #: visualizer/datatreemodel.cpp:160
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2 (peak)"
-msgstr ""
+msgstr "%1: სწრაფი ასლი #%2 (პიკი)"
 
 #: visualizer/datatreemodel.cpp:163
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2"
-msgstr ""
+msgstr "%1: სწრაფი ასლი #%2"
 
 #: visualizer/datatreemodel.cpp:175
 #, kde-format

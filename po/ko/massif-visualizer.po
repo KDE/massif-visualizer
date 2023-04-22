@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020, 2021, 2022.
+# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-08-30 07:40+0200\n"
-"PO-Revision-Date: 2022-05-07 02:17+0200\n"
+"PO-Revision-Date: 2023-04-21 23:41+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -41,12 +41,12 @@ msgstr "호출 그래프 도구 모음"
 #: app/charttab.cpp:186
 #, kde-format
 msgid "Toggle total cost graph"
-msgstr "전체 값 그래프 전환"
+msgstr "전체 비용 그래프 전환"
 
 #: app/charttab.cpp:192
 #, kde-format
 msgid "Toggle detailed cost graph"
-msgstr "자세한 값 그래프 전환"
+msgstr "자세한 비용 그래프 전환"
 
 #: app/charttab.cpp:200
 #, kde-format

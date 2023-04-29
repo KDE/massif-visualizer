@@ -3,14 +3,14 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2013.
 # Miguel Branco <mgl.branco@gmail.com>, 2013.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2019, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-06 00:47+0000\n"
-"PO-Revision-Date: 2019-10-19 22:35+0200\n"
+"PO-Revision-Date: 2023-04-28 18:23+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.11.70\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -113,10 +113,9 @@ msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Imaxes (*.png *.jpg *.tiff *.svg)"
 
 #: app/charttab.cpp:490
-#, fuzzy, kde-format
-#| msgid "Error, failed to save the image to %1."
+#, kde-format
 msgid "Failed to save the image to %1."
-msgstr "Produciuse un erro: non foi posíbel gardar a imaxe en «%1»."
+msgstr "Non se puido gardar a imaxe en «%1»."
 
 #: app/charttab.cpp:501
 #, kde-format
@@ -466,7 +465,7 @@ msgstr "&Configuración"
 #: app/massif-visualizerui.rc:25
 #, kde-format
 msgid "&Dock Widgets"
-msgstr "Trebellos &acoplábeis"
+msgstr "Trebellos de &doca"
 
 #. i18n: ectx: Menu (help)
 #: app/massif-visualizerui.rc:34

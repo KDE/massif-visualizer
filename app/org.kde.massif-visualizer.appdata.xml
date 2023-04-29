@@ -228,6 +228,7 @@
       <caption xml:lang="eu">Denboran zehar, memoria erabileraren diagrama elkarreragilea</caption>
       <caption xml:lang="fi">Vuorovaikutteinen kaavio muistinkulutukselta ajan funktiona</caption>
       <caption xml:lang="fr">Graphique interactif de consommation de la mémoire dans le temps.</caption>
+      <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo</caption>
       <caption xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo</caption>
       <caption xml:lang="ko">시간별 메모리 사용량 차트 표시</caption>
@@ -255,6 +256,7 @@
       <caption xml:lang="eu">Uneko argazkien analisi xehatua deien grafikoen irudikapenekin (KGraphViewer beharrezkoa da)</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin)</caption>
       <caption xml:lang="fr">Analyse détaillée temps réel avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
+      <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer)</caption>
       <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi callgraph (membutuhkan KGraphViewer)</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer)</caption>
       <caption xml:lang="ko">호출 그래프 시각화 및 자세한 스냅샷 분석(KGraphViewer 필요)</caption>
@@ -282,6 +284,7 @@
       <caption xml:lang="eu">Esleipen-funtzio guztien memoria-erabilera gailurren laburpena</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta</caption>
       <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
+      <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria</caption>
       <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi pengalokasian</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione</caption>
       <caption xml:lang="ko">모든 할당된 함수의 메모리 소모 요약</caption>

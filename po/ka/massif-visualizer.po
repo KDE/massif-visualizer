@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-06 00:47+0000\n"
-"PO-Revision-Date: 2023-04-23 07:23+0200\n"
+"PO-Revision-Date: 2023-05-05 05:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -389,6 +389,8 @@ msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
 msgstr ""
+"განსაზღვრავს აპლიკაციაში ნაჩვენები მეხსიერების ზომაში მძიმის შემდეგ "
+"გამოტოვებული ადგილების რაოდენობას."
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -565,12 +567,12 @@ msgstr "სწრაფი ასლები"
 #: visualizer/datatreemodel.cpp:148
 #, kde-format
 msgid "Peak snapshot: heap cost of %1"
-msgstr ""
+msgstr "პიკური სწრაფი ასლი: %1-ის მეხსიერების რაოდენობა"
 
 #: visualizer/datatreemodel.cpp:150
 #, kde-format
 msgid "Snapshot #%1: heap cost of %2"
-msgstr ""
+msgstr "სწრაფი ასლი #%1: %2-ის მეხსიერების ზომა"
 
 #: visualizer/datatreemodel.cpp:153
 #, kde-format
@@ -599,7 +601,7 @@ msgstr "%1: %2"
 #: visualizer/dotgraphgenerator.cpp:198
 #, kde-format
 msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
-msgstr ""
+msgstr "სწრაფი ასლი #%1 (აღებულია %2%4)\\nმეხსიერების ზომა: %3"
 
 #: visualizer/dotgraphgenerator.cpp:303
 #, kde-format
@@ -611,7 +613,7 @@ msgstr[1] "%1 ადგილში, ზღვარს ქვემოთ"
 #: visualizer/totalcostmodel.cpp:79
 #, kde-format
 msgid "Total Memory Heap Consumption"
-msgstr ""
+msgstr "დროებითი მეხსიერების ჯამური მოხმარება"
 
 #: visualizer/totalcostmodel.cpp:123
 #, kde-format

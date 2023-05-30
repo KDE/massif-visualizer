@@ -6,8 +6,8 @@
 # Arnold Dumas <contac@arnolddumas.fr>, 2014.
 # Sebastien Renard <renard@kde.org>, 2014.
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2022.
+# Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
 #
-# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"

@@ -49,6 +49,7 @@
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind</summary>
   <summary xml:lang="id">Sebuah visualizer untuk file data Valgrind Massif</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
+  <summary xml:lang="ka">Valgring Massif მონაცემების ფაილების ვიზუალიზაცია</summary>
   <summary xml:lang="ko">Valgrind의 massif 도구의 출력을 시각화합니다</summary>
   <summary xml:lang="nl">Een programma voor het zichtbaar maken van gegevensbestanden van Valgrind Massif</summary>
   <summary xml:lang="nn">Visualiseringsprogram for data frå «massif»-verktøyet til Valgrind</summary>
@@ -143,6 +144,7 @@
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu.</li>
       <li xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</li>
+      <li xml:lang="ka">მეხსიერების მოხმარების ინტერაქტიული სქემა დროთა განმავლობაში.</li>
       <li xml:lang="ko">시간별 메모리 사용량 차트 표시.</li>
       <li xml:lang="nl">Interactieve grafiek van geheugengebruik in de tijd.</li>
       <li xml:lang="nn">Interaktivt diagram som viser minnebruken over tid.</li>

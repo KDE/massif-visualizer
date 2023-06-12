@@ -181,7 +181,7 @@
       <li xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer).</li>
       <li xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer).</li>
       <li xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</li>
-      <li xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık çözümleme.</li>
+      <li xml:lang="tr">Callgraph görselleştirme (K Grafik Görüntüleyicisi gerektirir) ile ayrıntılı anlık çözümleme.</li>
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
       <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
@@ -270,7 +270,7 @@
       <caption xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer)</caption>
       <caption xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer)</caption>
       <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer)</caption>
-      <caption xml:lang="tr">Callgraph görselleştirme (KGraphViewer gerektirir) ile ayrıntılı anlık çözümleme</caption>
+      <caption xml:lang="tr">Callgraph görselleştirme (K Grafik Görüntüleyicisi gerektirir) ile ayrıntılı anlık çözümleme</caption>
       <caption xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer)</caption>
       <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer)xx</caption>
     </screenshot>

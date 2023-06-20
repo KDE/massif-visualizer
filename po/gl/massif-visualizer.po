@@ -394,7 +394,7 @@ msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
 msgstr ""
-"Define o número de lugares despois da coma para o custo de memoria mostrado "
+"Define o número de lugares despois da coma para o custo de memoria amosado "
 "na aplicación."
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)

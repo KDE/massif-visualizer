@@ -11,6 +11,7 @@
   <name xml:lang="de">Massif-Visualizer</name>
   <name xml:lang="el">Massif-Visualizer</name>
   <name xml:lang="en-GB">Massif-Visualizer</name>
+  <name xml:lang="eo">Massif-Visualizer</name>
   <name xml:lang="es">Massif-Visualizer</name>
   <name xml:lang="et">Massif-Visualizer</name>
   <name xml:lang="eu">Massif-Visualizer</name>
@@ -41,6 +42,7 @@
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien</summary>
   <summary xml:lang="el">Ένας οπτικός αναπαραγωγέας για αρχεία δεδομένων Valgrind Massif</summary>
   <summary xml:lang="en-GB">A visualiser for Valgrind Massif data files</summary>
+  <summary xml:lang="eo">Bildigilo por Valgrind Massif-datumdosieroj</summary>
   <summary xml:lang="es">Un visor para archivos de datos Massif de Valgrind</summary>
   <summary xml:lang="et">Valgrindi Massif-andmefailide visualiseerimine</summary>
   <summary xml:lang="eu">«Valgrind»en «Massif» datu-fitxategi irudikatzaile bat</summary>
@@ -77,6 +79,7 @@
     <p xml:lang="de">Massif Visualizer ist ein Programm, das die Daten von Massif anzeigt. Starten Sie Ihre Anwendung in Valgrind mit --tool=massif und öffnen Sie dann im Betrachter die Datei massif. Out. %pid. Komprimierte Massivdateien mit gzip oder bzip2 können auch transparent geöffnet werden.</p>
     <p xml:lang="el">Το Massif Visualizer είναι ένα εργαλείο το οποίο - ποιος το περίμενε - οπτικοποιεί δεδομένα massif. Εκτελείτε την εφαρμογή σας στο Valgrind με --tool=massif και ανοίγετε το παραγόμενο massif.out.%pid στον οπτικό αναπαραγωγέα. Ανοίγει και συμπιεσμένα Gzip ή Bzip αρχεία masif.</p>
     <p xml:lang="en-GB">Massif Visualizer is a tool that - who'd guess that - visualises massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualiser. Gzip or Bzip2 compressed massif files can also be opened transparently.</p>
+    <p xml:lang="eo">Massif Visualizer estas ilo kiu - kia surprizo - bildigas massif-datumojn. Vi rulas vian aplikaĵon en Valgrind per --tool=massif kaj poste malfermas la generitan massif.out.%pid en la vidigilo. Gzip- aŭ Bzip2-kunpremitaj massif-dosieroj ankaŭ povas esti malfermitaj travideble.</p>
     <p xml:lang="es">Massif Visualizer es una herramienta que sirve para visualizar datos de Massif. Puede ejecutar una aplicación en Valgrind con «--tool=massif» y abrir a continuación en el visor el archivo «massif.out.%pid» generado. También se pueden abrir de forma transparente los archivos de Massif comprimidos con Gzip o Bzip2.</p>
     <p xml:lang="et">Massif-Visualizer on, nagu niimigi ütleb, massif-andmete visualiseerimiseks mõeldud tööriist. Kui käivitada oma rakendus Valgrindis võtmega --tool=massif, saab hiljem loodud faili massif.out.%pid ava visualiseerijas. Läbipaistvalt saab avada ka gzip- või bzip2-tihendusega massif-faile.</p>
     <p xml:lang="eu">«Massif Visualizer» - nork esango zuen - «massif» datuak irudikatzen dituen tresna bat da. Zure aplikazioa «Valgind»en «--tool=massif» aukerarekin exekutatu eta ondoren ireki sortuta «massif.out.%pid» irudikatzailean. Gzip edo Bzip2 konprimatutako «massif» fitxategiak ere era gardenean ireki daitezke.</p>
@@ -106,6 +109,7 @@
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
+    <p xml:lang="eo">Trajtoj:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="et">Omadused:</p>
     <p xml:lang="eu">Ezaugarriak:</p>
@@ -137,6 +141,7 @@
       <li xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</li>
       <li xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης.</li>
       <li xml:lang="en-GB">Interactive chart of memory consumption over time.</li>
+      <li xml:lang="eo">Interaga diagramo de memorkonsumo laŭlonge de la tempo</li>
       <li xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo.</li>
       <li xml:lang="et">Interaktiivne mälutarvet ajas näitav diagramm</li>
       <li xml:lang="eu">Denboran zehar, memoria erabileraren diagrama elkarreragilea.</li>
@@ -165,6 +170,7 @@
       <li xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</li>
       <li xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</li>
       <li xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer).</li>
+      <li xml:lang="eo">Detala momentanalizo kun vokgrafea bildigo (postulas KGraphViewer).</li>
       <li xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer).</li>
       <li xml:lang="et">Üksikasjalik hetktõmmise analüüs callgraphi visualiseerimisega (vajab KGraphViewerit)</li>
       <li xml:lang="eu">Uneko argazkien analisi xehatua deien grafikoen irudikapenekin (KGraphViewer beharrezkoa da).</li>
@@ -193,6 +199,7 @@
       <li xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</li>
       <li xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες.</li>
       <li xml:lang="en-GB">Summary of peak memory consumption of all allocating functions.</li>
+      <li xml:lang="eo">Resumo de pinta memorkonsumo de ĉiuj memorlokigaj funkcioj</li>
       <li xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación.</li>
       <li xml:lang="et">Kokkuvõte kõigi omistatud funktsioonide tipp-mälutarbest</li>
       <li xml:lang="eu">Esleipen-funtzio guztien memoria-erabilera gailurren laburpena.</li>
@@ -229,6 +236,7 @@
       <caption xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume</caption>
       <caption xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης</caption>
       <caption xml:lang="en-GB">Interactive chart of memory consumption over time</caption>
+      <caption xml:lang="eo">Interaga diagramo de memorkonsumo laŭ la tempo</caption>
       <caption xml:lang="es">Mapa interactivo del consumo de memoria a lo largo del tiempo</caption>
       <caption xml:lang="eu">Denboran zehar, memoria erabileraren diagrama elkarreragilea</caption>
       <caption xml:lang="fi">Vuorovaikutteinen kaavio muistinkulutukselta ajan funktiona</caption>
@@ -258,6 +266,7 @@
       <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer)</caption>
       <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer)</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer)</caption>
+      <caption xml:lang="eo">Detala momentanalizo kun vokgrafea bildigo (postulas KGraphViewer).</caption>
       <caption xml:lang="es">Análisis detallado de instantáneas con visualización de «callgraph» (necesita KGraphViewer)</caption>
       <caption xml:lang="eu">Uneko argazkien analisi xehatua deien grafikoen irudikapenekin (KGraphViewer beharrezkoa da)</caption>
       <caption xml:lang="fi">Yksityiskohtainen tilannevedosanalyysi kutsukaavion visualisoinnilla (tarvitsee KGraphViewerin)</caption>
@@ -287,6 +296,7 @@
       <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen</caption>
       <caption xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες</caption>
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions</caption>
+      <caption xml:lang="eo">Resumo de pinta memorkonsumo de ĉiuj memorlokigaj funkcioj</caption>
       <caption xml:lang="es">Sumario de picos de consumo de memoria de todas las funciones de asignación</caption>
       <caption xml:lang="eu">Esleipen-funtzio guztien memoria-erabilera gailurren laburpena</caption>
       <caption xml:lang="fi">Yhteenveto kaikkien muistia varaavien funktioiden muistinkulutushuipusta</caption>

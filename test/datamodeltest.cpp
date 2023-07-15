@@ -178,3 +178,5 @@ void DataModelTest::bigMem()
     QCOMPARE(data->peak()->memHeapExtra(), quint64(5021305211));
     QCOMPARE(data->peak()->memStacks(), quint64(5021305212));
 }
+
+#include "moc_datamodeltest.cpp"

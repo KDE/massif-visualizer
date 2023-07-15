@@ -193,3 +193,5 @@ void AllocatorsModel::settingsChanged()
     dataChanged(createIndex(0, Function),
                 createIndex(m_data.size() - 1, Function));
 }
+
+#include "moc_allocatorsmodel.cpp"

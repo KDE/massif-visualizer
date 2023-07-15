@@ -304,3 +304,5 @@ void DocumentWidget::stopParser()
     thread->quit();
     thread->wait();
 }
+
+#include "moc_documentwidget.cpp"

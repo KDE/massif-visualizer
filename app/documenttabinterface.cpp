@@ -37,3 +37,5 @@ DocumentTabInterface::~DocumentTabInterface()
 {
 
 }
+
+#include "moc_documenttabinterface.cpp"

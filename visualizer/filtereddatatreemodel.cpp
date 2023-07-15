@@ -76,3 +76,5 @@ void FilteredDataTreeModel::setSourceModel(QAbstractItemModel* sourceModel)
 {
     QSortFilterProxyModel::setSourceModel(sourceModel);
 }
+
+#include "moc_filtereddatatreemodel.cpp"

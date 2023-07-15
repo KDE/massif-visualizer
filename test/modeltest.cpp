@@ -562,4 +562,4 @@ void ModelTest::rowsRemoved ( const QModelIndex & parent, int start, int end )
     Q_ASSERT ( c.next == model->data ( model->index ( start, 0, c.parent ) ) );
 }
 
-
+#include "moc_modeltest.cpp"

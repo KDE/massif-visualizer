@@ -521,3 +521,5 @@ void MainWindow::documentChanged()
 
     setUpdatesEnabled(true);
 }
+
+#include "moc_mainwindow.cpp"

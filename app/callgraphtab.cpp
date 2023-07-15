@@ -191,3 +191,5 @@ void CallGraphTab::selectModelItem(const ModelItem& item)
 {
     showDotGraph(item);
 }
+
+#include "moc_callgraphtab.cpp"

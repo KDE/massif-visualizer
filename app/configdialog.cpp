@@ -50,3 +50,5 @@ bool ConfigDialog::isShown()
 {
     return KConfigDialog::showDialog(QStringLiteral("settings"));
 }
+
+#include "moc_configdialog.cpp"

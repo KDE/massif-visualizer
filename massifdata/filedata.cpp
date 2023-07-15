@@ -84,3 +84,5 @@ SnapshotItem* FileData::peak() const
 {
     return m_peak;
 }
+
+#include "moc_filedata.cpp"

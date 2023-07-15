@@ -317,3 +317,5 @@ QString DotGraphGenerator::mostCostIntensiveGraphvizId() const
 {
     return m_costlyGraphvizId;
 }
+
+#include "moc_dotgraphgenerator.cpp"

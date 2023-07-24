@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-06 00:47+0000\n"
-"PO-Revision-Date: 2023-04-21 23:41+0200\n"
+"PO-Revision-Date: 2023-07-23 21:39+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -30,7 +30,7 @@ msgstr "kde@peremen.name"
 #: app/callgraphtab.cpp:89
 #, kde-format
 msgid "Focus most expensive node"
-msgstr "가장 비싼 노드에 초점 맞추기"
+msgstr "가장 비싼 노드에 포커스 맞추기"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
@@ -387,8 +387,7 @@ msgstr "값 정밀도"
 msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
-msgstr ""
-"프로그램에 표시된 메모리 비용에서 쉼표 이후 나타낼 자릿수를 설정합니다."
+msgstr "앱에 표시된 메모리 비용에서 쉼표 이후 나타낼 자릿수를 설정합니다."
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15

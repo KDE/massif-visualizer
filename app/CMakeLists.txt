@@ -13,9 +13,12 @@ set(massif-visualizer_SRCS
     allocatorstab.cpp
 )
 
+qt5_add_resources(massif-visualizer_SRCS massif-visualizer.qrc)
+
 if(KGraphViewerPart_FOUND)
     add_definitions(-DHAVE_KGRAPHVIEWER)
     list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
+    qt5_add_resources(massif-visualizer_SRCS callgraphtab.qrc)
 endif()
 
 kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
@@ -44,11 +47,6 @@ elseif(KGraphViewerPart_FOUND)
 endif()
 
 install( TARGETS massif-visualizer  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
-
-install(
-    FILES massif-visualizerui.rc documentwidgetui.rc charttabui.rc callgraphtabui.rc
-    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/massif-visualizer
-)
 
 install(FILES massif-visualizer-settings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 

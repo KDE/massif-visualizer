@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(massif-visualizer)
 
 set(QT_MIN_VERSION "5.2.0")
+set(KF_MIN_VERSION "5.4.0")
 
 find_package(ECM 1.6.0 REQUIRED NO_MODULE)
 
@@ -27,7 +28,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     PrintSupport
 )
 
-find_package(KF5 REQUIRED COMPONENTS
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Archive
     Config
     CoreAddons

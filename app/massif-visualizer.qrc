@@ -1,0 +1,8 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/kxmlgui5/massif-visualizer">
+        <file>massif-visualizerui.rc</file>
+        <file>documentwidgetui.rc</file>
+        <file>charttabui.rc</file>
+    </qresource>
+</RCC>

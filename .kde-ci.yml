@@ -9,4 +9,6 @@ Dependencies:
     'frameworks/kio': '@stable'
     'frameworks/ki18n': '@stable'
     'graphics/kdiagram': '@latest'
+- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'macOS/Qt5']
+  'require':
     'graphics/kgraphviewer': '@latest'

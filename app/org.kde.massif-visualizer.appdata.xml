@@ -3,6 +3,7 @@
   <id>org.kde.massif-visualizer.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
+  <developer_name translate="no">KDE</developer_name>
   <name>Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>

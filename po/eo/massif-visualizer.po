@@ -1,93 +1,93 @@
+# translation of massif-visualizer.pot to Esperanto
+# Copyright (C) 2024 Free Software Foundation, Inc.
+# This file is distributed under the same license as the massif-visualizer package.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2024.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: kdeorg\n"
+"Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-08-30 07:40+0200\n"
-"PO-Revision-Date: 2024-03-28 19:25\n"
-"Last-Translator: \n"
-"Language-Team: Chinese Simplified\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2024-03-24 10:34+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"Language-Team: Esperanto <kde-i18n-eo.org>\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-stable/messages/massif-visualizer/massif-visualizer."
-"pot\n"
-"X-Crowdin-File-ID: 4633\n"
+"X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "KDE 中国"
+msgstr ""
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kde-china@kde.org"
+msgstr ""
 
 #: app/callgraphtab.cpp:89
 #, kde-format
 msgid "Focus most expensive node"
-msgstr "聚焦最昂贵的节点"
+msgstr "Fokuso plej multekosta nodo"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
 #, kde-format
 msgid "CallGraph Toolbar"
-msgstr ""
+msgstr "Ilobreto CallGraph"
 
 #: app/charttab.cpp:186
 #, kde-format
 msgid "Toggle total cost graph"
-msgstr ""
+msgstr "Baskuligi grafikon de suma kosto"
 
 #: app/charttab.cpp:192
 #, kde-format
 msgid "Toggle detailed cost graph"
-msgstr ""
+msgstr "Baskuligi detalan kostgrafikon"
 
 #: app/charttab.cpp:200
 #, kde-format
 msgid "Stacked diagrams"
-msgstr ""
+msgstr "Stakitaj diagramoj"
 
 #: app/charttab.cpp:203
 #, kde-format
 msgid "Stacked diagrams:"
-msgstr ""
+msgstr "Stakitaj diagramoj:"
 
 #: app/charttab.cpp:212
 #, kde-format
 msgid "hide function"
-msgstr "隐藏函数"
+msgstr "kaŝi funkcion"
 
 #: app/charttab.cpp:215
 #, kde-format
 msgid "hide other functions"
-msgstr "隐藏其他函数"
+msgstr "kaŝi aliajn funkciojn"
 
 #: app/charttab.cpp:280
 #, kde-format
 msgid "time in %1"
-msgstr "%1 中的时间"
+msgstr "tempo en %1"
 
 #: app/charttab.cpp:287
 #, kde-format
 msgid "memory heap size"
-msgstr "堆内存大小"
+msgstr "grandeco de memoramaso"
 
 #: app/charttab.cpp:457
 #, kde-format
 msgid "Memory consumption of %1"
-msgstr "%1 的内存使用"
+msgstr "Memorkonsumo de %1"
 
 #: app/charttab.cpp:458
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
-msgstr ""
+msgstr "Pinto de %1 ĉe momentfoto #%2"
 
 #: app/charttab.cpp:460
 #, kde-format
@@ -99,12 +99,12 @@ msgstr ""
 #: app/charttab.cpp:465
 #, kde-format
 msgid "Save Current Visualization"
-msgstr ""
+msgstr "Konservi Nunan Bildigon"
 
 #: app/charttab.cpp:466
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
-msgstr ""
+msgstr "Bildoj (*.png *.jpg *.tiff *.svg)"
 
 #: app/charttab.cpp:491
 #, kde-format
@@ -114,103 +114,103 @@ msgstr ""
 #: app/charttab.cpp:503
 #, kde-format
 msgid "Massif Chart Print Preview"
-msgstr ""
+msgstr "Masivo Chart Presa Antaŭrigardo"
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
 #, kde-format
 msgid "Chart Toolbar"
-msgstr ""
+msgstr "Grafika Ilobreto"
 
 #. i18n: ectx: property (text), widget (QLabel, costLabel)
 #: app/config.ui:17
 #, kde-format
 msgid "Cost Precision:"
-msgstr ""
+msgstr "Kosta Precizeco:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:27
 #, kde-format
 msgid "Legend"
-msgstr "图例"
+msgstr "Klarigeto"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
 #: app/config.ui:36
 #, kde-format
 msgid "Position:"
-msgstr "位置："
+msgstr "Pozicio:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:44
 #, kde-format
 msgid "North"
-msgstr "北"
+msgstr "Nordo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:49
 #, kde-format
 msgid "East"
-msgstr "东"
+msgstr "Oriento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:54
 #, kde-format
 msgid "South"
-msgstr "南"
+msgstr "Sudo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:59
 #, kde-format
 msgid "West"
-msgstr "西"
+msgstr "Okcidenta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:64
 #, kde-format
 msgid "Floating"
-msgstr "浮动"
+msgstr "Flosanta"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
 #: app/config.ui:72
 #, kde-format
 msgid "Alignment:"
-msgstr "对齐："
+msgstr "Alĝustigo:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:80
 #, kde-format
 msgid "Left"
-msgstr "左对齐"
+msgstr "Maldekstra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:85
 #, kde-format
 msgid "Center"
-msgstr "居中"
+msgstr "Centro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:90
 #, kde-format
 msgid "Right"
-msgstr "右对齐"
+msgstr "Dekstra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:95
 #, kde-format
 msgid "Top"
-msgstr "顶部"
+msgstr "Supro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:100
 #, kde-format
 msgid "Bottom"
-msgstr "底部"
+msgstr "Malsupro"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
 #: app/config.ui:108
 #, kde-format
 msgid "Font Size:"
-msgstr "字体大小："
+msgstr "Tiparo Grandeco:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
 #. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
@@ -218,47 +218,47 @@ msgstr "字体大小："
 #: app/massif-visualizer-settings.kcfg:14
 #, kde-format
 msgid "Shorten Templates"
-msgstr "缩短模板"
+msgstr "Mallongigi Ŝablonojn"
 
 #: app/configdialog.cpp:41
 #, kde-format
 msgid "Settings"
-msgstr "设置"
+msgstr "Agordoj"
 
 #: app/documentwidget.cpp:113
 #, kde-format
 msgid "loading file <i>%1</i>..."
-msgstr "正在加载文件 <i>%1</i>..."
+msgstr "ŝargante dosieron <i>%1</i>..."
 
 #: app/documentwidget.cpp:193
 #, kde-format
 msgid "Memory Chart"
-msgstr "内存图表"
+msgstr "Memora Diagramo"
 
 #: app/documentwidget.cpp:201
 #, kde-format
 msgid "Callgraph"
-msgstr "调用图"
+msgstr "Callgraph"
 
 #: app/documentwidget.cpp:207
 #, kde-format
 msgid "Allocators"
-msgstr ""
+msgstr "Asigniloj"
 
 #: app/main.cpp:40
 #, kde-format
 msgid "Massif Visualizer"
-msgstr "Massif 可视化工具"
+msgstr "Massif Visualizer"
 
 #: app/main.cpp:41
 #, kde-format
 msgid "A visualizer for output generated by Valgrind's massif tool."
-msgstr ""
+msgstr "Vidilo por eligo generita de la masiva ilo de Valgrind."
 
 #: app/main.cpp:42
 #, kde-format
 msgid "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
-msgstr "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
+msgstr "Kopirajto 2010-2015, Milian Wolff <mail@milianw.de>"
 
 #: app/main.cpp:44
 #, kde-format
@@ -268,7 +268,7 @@ msgstr "Milian Wolff"
 #: app/main.cpp:44
 #, kde-format
 msgid "Original author, maintainer"
-msgstr "原作者，维护者"
+msgstr "Origina aŭtoro, prizorganto"
 
 #: app/main.cpp:47
 #, kde-format
@@ -278,107 +278,107 @@ msgstr "Arnold Dumas"
 #: app/main.cpp:47
 #, kde-format
 msgid "Multiple document interface, bug fixes"
-msgstr ""
+msgstr "Multoblaj dokumentinterfaco, korektoj de cimoj"
 
 #: app/main.cpp:60
 #, kde-format
 msgid "Files to load"
-msgstr "要加载的文件"
+msgstr "Dosieroj por ŝargi"
 
 #: app/main.cpp:60
 #, kde-format
 msgid "[FILE...]"
-msgstr "[文件...]"
+msgstr "[DOSIERO...]"
 
 #: app/mainwindow.cpp:195
 #, kde-format
 msgid "Select peak snapshot"
-msgstr "选择峰值快照"
+msgstr "Elekti pintan momentfoton"
 
 #: app/mainwindow.cpp:201
 #, kde-format
 msgid "add"
-msgstr "添加"
+msgstr "aldoni"
 
 #: app/mainwindow.cpp:202
 #, kde-format
 msgid "add custom allocator"
-msgstr "添加自定义分配器"
+msgstr "aldoni propran atribuilon"
 
 #: app/mainwindow.cpp:205
 #, kde-format
 msgid "remove"
-msgstr "删除"
+msgstr "forigi"
 
 #: app/mainwindow.cpp:207
 #, kde-format
 msgid "remove selected allocator"
-msgstr "删除所选分配器"
+msgstr "forigi elektitan asignilon"
 
 #: app/mainwindow.cpp:214
 #, kde-format
 msgid "mark as custom allocator"
-msgstr "将标记为自定义分配器"
+msgstr "marki kiel propra alsignilo"
 
 #: app/mainwindow.cpp:225
 #, kde-format
 msgid "Open Massif Data File"
-msgstr ""
+msgstr "Malfermi Massif-Datumdosieron"
 
 #: app/mainwindow.cpp:257
 #, kde-format
 msgid "Open Massif Output File"
-msgstr ""
+msgstr "Malfermi Massif-Eligdosiero"
 
 #: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
-msgstr ""
+msgstr "Masivaj datumdosieroj (massif.out.*)"
 
 #: app/mainwindow.cpp:395
 #, kde-format
 msgid "Add Custom Allocator"
-msgstr ""
+msgstr "Aldoni Propran Atribuilon"
 
 #: app/mainwindow.cpp:395
 #, kde-format
 msgid "allocator:"
-msgstr ""
+msgstr "asignanto:"
 
 #: app/mainwindow.cpp:479
 #, kde-format
 msgid "Evaluation of %1 (%2)"
-msgstr ""
+msgstr "Taksado de %1 (%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:67
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
 #: app/mainwindow.ui:109
 #, kde-format
 msgid "Massif Data"
-msgstr ""
+msgstr "Masivaj Datumoj"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
 #: app/mainwindow.ui:122
 #, kde-format
 msgid "filter"
-msgstr "过滤器"
+msgstr "filtrilo"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
 #: app/mainwindow.ui:137
 #, kde-format
 msgid "Custom Allocators"
-msgstr ""
+msgstr "Propraj Asigniloj"
 
 #. i18n: ectx: label, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:9
 #, kde-format
 msgid "Cost Precision"
-msgstr ""
+msgstr "Kosta Precizeco"
 
 #. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:10
@@ -400,213 +400,215 @@ msgstr ""
 #: app/massif-visualizer-settings.kcfg:19
 #, kde-format
 msgid "Legend Position"
-msgstr "图例位置"
+msgstr "Legenda Pozicio"
 
 #. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:20
 #, kde-format
 msgid "Defines the position of the legend relative to the plot."
-msgstr ""
+msgstr "Difinas la pozicion de la legendo rilate al la grafiko."
 
 #. i18n: ectx: label, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:31
 #, kde-format
 msgid "Legend Alignment"
-msgstr "图例对齐"
+msgstr "Legenda Vicigo"
 
 #. i18n: ectx: tooltip, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:32
 #, kde-format
 msgid "Defines the alignment of the legend."
-msgstr ""
+msgstr "Difinas la vicigon de la legendo."
 
 #. i18n: ectx: label, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:45
 #, kde-format
 msgid "Legend Font Size"
-msgstr "图例字体大小"
+msgstr "Legenda Tiparo Grandeco"
 
 #. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr ""
+msgstr "Difinas la tiparon uzatan en la legendo."
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5
 #, kde-format
 msgid "&File"
-msgstr "文件(&F)"
+msgstr "&Dosiero"
 
 #. i18n: ectx: Menu (view)
 #: app/massif-visualizerui.rc:19
 #, kde-format
 msgid "&View"
-msgstr "视图(&V)"
+msgstr "&Vido"
 
 #. i18n: ectx: Menu (settings)
 #: app/massif-visualizerui.rc:23
 #, kde-format
 msgid "&Settings"
-msgstr "设置(&S)"
+msgstr "&Agordoj"
 
 #. i18n: ectx: Menu (dockWidgets)
 #: app/massif-visualizerui.rc:25
 #, kde-format
 msgid "&Dock Widgets"
-msgstr "停靠部件(&D)"
+msgstr "&Doki Fenestraĵojn"
 
 #. i18n: ectx: Menu (help)
 #: app/massif-visualizerui.rc:34
 #, kde-format
 msgid "&Help"
-msgstr "帮助(&H)"
+msgstr "&Helpo"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: app/massif-visualizerui.rc:45
 #, kde-format
 msgid "Main Toolbar"
-msgstr "主工具栏"
+msgstr "Ĉefa ilobreto"
 
 #: massifdata/parseworker.cpp:55
 #, kde-format
 msgid "Download Failed"
-msgstr "下载失败"
+msgstr "Elŝuto malsukcesis"
 
 #: massifdata/parseworker.cpp:56
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
-msgstr ""
+msgstr "Malsukcesis elŝuti foran masivan datumdosieron <i>%1</i>."
 
 #: massifdata/parseworker.cpp:66
 #, kde-format
 msgid "Read Failed"
-msgstr "读取失败"
+msgstr "Lego Malsukcesis"
 
 #: massifdata/parseworker.cpp:67
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
-msgstr ""
+msgstr "Ne eblis malfermi dosieron <i>%1</i> por legado."
 
 #: massifdata/parseworker.cpp:78
 #, kde-format
 msgid "Parser Failed"
-msgstr "解析器失败"
+msgstr "Analizilo Malsukcesis"
 
 #: massifdata/parseworker.cpp:79
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
+"Ne eblis analizi dosieron <i>%1</i>.<br>Analiza eraro en linio %2:<br>%3"
 
 #: massifdata/parseworker.cpp:86
 #, kde-format
 msgid "Empty data file <i>%1</i>."
-msgstr ""
+msgstr "Malplena datumdosiero <i>%1</i>."
 
 #: massifdata/parseworker.cpp:87
 #, kde-format
 msgid "Empty Data File"
-msgstr "空数据文件"
+msgstr "Malplena Datuma Dosiero"
 
 #: massifdata/util.cpp:136
 #, kde-format
 msgid "<dt>function:</dt><dd>%1</dd>\n"
-msgstr "<dt>函数：</dt><dd>%1</dd>\n"
+msgstr "<dt>funkcio:</dt><dd>%1</dd>\n"
 
 #: massifdata/util.cpp:139
 #, kde-format
 msgid "<dt>location:</dt><dd>%1</dd>\n"
-msgstr "<dt>位置：</dt><dd>%1</dd>\n"
+msgstr "<dt>loko:</dt><dd>%1</dd>\n"
 
 #: massifdata/util.cpp:142
 #, kde-format
 msgid "<dt>address:</dt><dd>%1</dd>\n"
-msgstr "<dt>地址：</dt><dd>%1</dd>\n"
+msgstr "<dt>adreso:</dt><dd>%1</dd>\n"
 
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr ""
+msgstr "<dt>kosto:</dt><dd>%1, t.e. %2% de momentfoto #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format
 msgid "<dt>peak cost:</dt><dd>%1</dd>"
-msgstr "<dt>峰值消耗：</dt><dd>%1</dd>"
+msgstr "<dt>pinta kosto:</dt><dd>%1</dd>"
 
 #: visualizer/allocatorsmodel.cpp:137
 #, kde-format
 msgid "below threshold"
-msgstr "低于阈值"
+msgstr "sub sojlo"
 
 #: visualizer/allocatorsmodel.cpp:160
 #, kde-format
 msgid "Function"
-msgstr "函数"
+msgstr "Funkcio"
 
 #: visualizer/allocatorsmodel.cpp:162
 #, kde-format
 msgid "Location"
-msgstr "位置"
+msgstr "Loko"
 
 #: visualizer/allocatorsmodel.cpp:164
 #, kde-format
 msgid "Peak"
-msgstr "峰值"
+msgstr "Pinto"
 
 #: visualizer/datatreemodel.cpp:84
 #, kde-format
 msgid "Snapshots"
-msgstr "快照"
+msgstr "Momentfotoj"
 
 #: visualizer/datatreemodel.cpp:148
 #, kde-format
 msgid "Peak snapshot: heap cost of %1"
-msgstr "峰值快照：%1 的堆消耗"
+msgstr "Pinta momentfoto: amaskosto de %1"
 
 #: visualizer/datatreemodel.cpp:150
 #, kde-format
 msgid "Snapshot #%1: heap cost of %2"
-msgstr "快照 #%1：%2 的堆消耗"
+msgstr "Momentfoto #%1: amaskosto de %2"
 
 #: visualizer/datatreemodel.cpp:153
 #, kde-format
 msgctxt "%1: snapshot number"
 msgid "Snapshot #%1"
-msgstr "快照 #%1"
+msgstr "Momentfoto #%1"
 
 #: visualizer/datatreemodel.cpp:160
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2 (peak)"
-msgstr "%1：快照 #%2 (峰值)"
+msgstr "%1: Momentfoto #%2 (pinto)"
 
 #: visualizer/datatreemodel.cpp:163
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2"
-msgstr "%1：快照 #%2"
+msgstr "%1: Momentfoto #%2"
 
 #: visualizer/datatreemodel.cpp:175
 #, kde-format
 msgctxt "%1: cost, %2: snapshot label (i.e. func name etc.)"
 msgid "%1: %2"
-msgstr "%1：%2"
+msgstr "%1: %2"
 
 #: visualizer/dotgraphgenerator.cpp:198
 #, kde-format
 msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
-msgstr ""
+msgstr "momentfoto #%1 (prenita je %2%4)\\nheap kosto: %3"
 
 #: visualizer/dotgraphgenerator.cpp:303
 #, kde-format
 msgid "in one place below threshold"
 msgid_plural "in %1 places, all below threshold"
 msgstr[0] ""
+msgstr[1] ""
 
 #: visualizer/totalcostmodel.cpp:79
 #, kde-format
 msgid "Total Memory Heap Consumption"
-msgstr ""
+msgstr "Totala Memora Heap Konsumo"
 
 #: visualizer/totalcostmodel.cpp:123
 #, kde-format

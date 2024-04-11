@@ -1,4 +1,4 @@
-ecm_add_test(datamodeltest datamodeltest.cpp modeltest.cpp
+ecm_add_test(datamodeltest datamodeltest.cpp
     TEST_NAME "datamodeltest"
     LINK_LIBRARIES mv-massifdata mv-visualizer Qt5::Core Qt5::Test KF5::KIOCore KF5::ConfigCore
 )

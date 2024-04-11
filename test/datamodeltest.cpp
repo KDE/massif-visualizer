@@ -22,8 +22,6 @@
 
 #include "datamodeltest.h"
 
-#include "modeltest.h"
-
 #include "massifdata/parser.h"
 #include "massifdata/filedata.h"
 #include "massifdata/snapshotitem.h"
@@ -34,6 +32,7 @@
 #include "visualizer/detailedcostmodel.h"
 #include "visualizer/datatreemodel.h"
 
+#include <QAbstractItemModelTester>
 #include <QFile>
 #include <QTest>
 #include <QDebug>
@@ -58,7 +57,7 @@ void DataModelTest::parseFile()
 
     {
         TotalCostModel* model = new TotalCostModel(this);
-        new ModelTest(model, this);
+        new QAbstractItemModelTester(model, this);
         model->setSource(data);
         QVERIFY(model->rowCount() == data->snapshots().size());
         for ( int r = 0; r < model->rowCount(); ++r ) {
@@ -72,7 +71,7 @@ void DataModelTest::parseFile()
 
     {
         DetailedCostModel* model = new DetailedCostModel(this);
-        new ModelTest(model, this);
+        new QAbstractItemModelTester(model, this);
         model->setSource(data);
         for ( int r = 0; r < model->rowCount(); ++r ) {
             for ( int c = 0; c < model->columnCount(); ++c ) {
@@ -89,7 +88,7 @@ void DataModelTest::parseFile()
 
     {
         DataTreeModel* model = new DataTreeModel(this);
-        new ModelTest(model, this);
+        new QAbstractItemModelTester(model, this);
         model->setSource(data);
         QVERIFY(model->rowCount() == data->snapshots().size());
         // remove data

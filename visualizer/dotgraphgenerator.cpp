@@ -28,6 +28,7 @@
 #include "massifdata/util.h"
 
 #include <QTextStream>
+#include <QRegExp>
 #include <QFile>
 #include <QColor>
 #include <QDebug>

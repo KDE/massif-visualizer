@@ -25,6 +25,7 @@
 
 #include <QByteArray>
 #include <QStringList>
+#include <QRegExp>
 #include <QSet>
 #include <QVector>
 

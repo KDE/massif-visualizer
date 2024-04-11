@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 #ifdef HAVE_KGRAPHVIEWER
     KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kgraphviewerpart"))).plugin;
     if (factory) {
-        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>(QString(), this);
+        KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>(this);
         if (readOnlyPart) {
             readOnlyPart->widget()->hide();
             haveGraphViewer = true;

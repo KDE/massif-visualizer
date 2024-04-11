@@ -194,7 +194,7 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
 #ifdef HAVE_KGRAPHVIEWER
     static KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kgraphviewerpart"))).plugin;
     if (factory) {
-        KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>(QString(), this);
+        KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>(this);
         if (part) {
             m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme(QStringLiteral("kgraphviewer")),
                            i18n("Callgraph"));

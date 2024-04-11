@@ -485,7 +485,7 @@ void ChartTab::saveCurrentDocument()
         }
 
         // Other format
-        else if (!QPixmap::grabWidget(m_chart).save(saveFilename)) {
+        else if (!m_chart->grab().save(saveFilename)) {
 
             KMessageBox::error(this, i18n("Failed to save the image to %1.", saveFilename));
         }

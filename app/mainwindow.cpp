@@ -66,7 +66,7 @@ using namespace Massif;
 // Helper function
 static KConfigGroup allocatorConfig()
 {
-    return KSharedConfig::openConfig()->group("Allocators");
+    return KSharedConfig::openConfig()->group(QStringLiteral("Allocators"));
 }
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)

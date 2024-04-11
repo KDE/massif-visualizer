@@ -44,7 +44,7 @@ AllocatorsTab::AllocatorsTab(const FileData* data,
     m_view->setRootIsDecorated(false);
     m_view->setModel(m_proxy);
     m_view->setSortingEnabled(true);
-    m_view->sortByColumn(AllocatorsModel::Peak);
+    m_view->sortByColumn(AllocatorsModel::Peak, Qt::DescendingOrder);
     m_view->resizeColumnToContents(AllocatorsModel::Function);
     m_view->resizeColumnToContents(AllocatorsModel::Peak);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);

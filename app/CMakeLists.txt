@@ -11,14 +11,13 @@ set(massif-visualizer_SRCS
     documenttabinterface.cpp
     charttab.cpp
     allocatorstab.cpp
+    massif-visualizer.qrc
 )
 
-qt5_add_resources(massif-visualizer_SRCS massif-visualizer.qrc)
 
 if(KGraphViewerPart_FOUND)
     add_definitions(-DHAVE_KGRAPHVIEWER)
-    list(APPEND massif-visualizer_SRCS callgraphtab.cpp)
-    qt5_add_resources(massif-visualizer_SRCS callgraphtab.qrc)
+    list(APPEND massif-visualizer_SRCS callgraphtab.cpp callgraphtab.qrc)
 endif()
 
 kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)

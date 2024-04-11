@@ -27,7 +27,7 @@
 #include <QUrl>
 #include <QTemporaryFile>
 
-#include <KFilterDev>
+#include <KCompressionDevice>
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
 
@@ -61,7 +61,7 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
         filePath = url.toLocalFile();
     }
 
-    KFilterDev device(filePath);
+    KCompressionDevice device(filePath);
     if (!device.open(QIODevice::ReadOnly)) {
         emit error(i18n("Read Failed"),
                    i18n("Could not open file <i>%1</i> for reading.", filePath));

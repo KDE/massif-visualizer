@@ -21,7 +21,7 @@
 */
 
 
-#include <KFilterDev>
+#include <KCompressionDevice>
 
 #include <QCoreApplication>
 #include <QElapsedTimer>
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     }
 
     const QString file = app.arguments().at(1);
-    KFilterDev device(file);
+    KCompressionDevice device(file);
     if (!device.open(QIODevice::ReadOnly)) {
         qWarning() << "could not open file:" << file;
         return 2;

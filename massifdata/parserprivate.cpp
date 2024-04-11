@@ -32,6 +32,8 @@
 
 #include <QDebug>
 
+#include <algorithm>
+
 using namespace Massif;
 
 #define VALIDATE(l, x) if (!(x)) { m_errorLineString = l; m_error = Invalid; return; }
@@ -310,7 +312,7 @@ void ParserPrivate::parseHeapTreeLeaf(const QByteArray& line)
             label.replace(oldPlaces.toUtf8(), QByteArray::number(places));
             belowThreshold->setLabel(label);
         }
-        qSort(newChildren.begin(), newChildren.end(), sortLeafsByCost);
+        std::sort(newChildren.begin(), newChildren.end(), sortLeafsByCost);
         m_snapshot->heapTree()->setChildren(newChildren);
     }
     m_parentItem = nullptr;

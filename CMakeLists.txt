@@ -20,6 +20,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMOptionalAddSubdirectory)
 include(ECMInstallIcons)
 include(ECMAddTests)
+include(ECMDeprecationSettings)
 include(FeatureSummary)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
@@ -58,6 +59,11 @@ add_definitions(-Wall
     -DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII
     -DQT_NO_CAST_FROM_BYTEARRAY
     -DQT_USE_QSTRINGBUILDER
+)
+
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+    KF 5.100
 )
 
 add_subdirectory(massifdata)

@@ -451,7 +451,7 @@ void ChartTab::updateDetailedPeaks()
 
 void ChartTab::updateHeader()
 {
-    const QString app = m_data->cmd().split(QLatin1Char(' '), QString::SkipEmptyParts).first();
+    const QString app = m_data->cmd().split(QLatin1Char(' '), Qt::SkipEmptyParts).first();
 
     m_header->setText(QString::fromLatin1("<b>%1</b><br /><i>%2</i>")
                         .arg(i18n("Memory consumption of %1", app))

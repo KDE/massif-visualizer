@@ -36,7 +36,7 @@
 #include <QBrush>
 
 #include <QMultiMap>
-#include <qalgorithms.h>
+#include <algorithm>
 
 #include <KLocalizedString>
 
@@ -118,7 +118,7 @@ void DetailedCostModel::setSource(const FileData* data)
         }
         // ugh, yet another bad usage of QList in Qt's API
         m_columns = sortColumnMap.values().toVector();
-        QAlgorithmsPrivate::qReverse(m_columns.begin(), m_columns.end());
+        std::reverse(m_columns.begin(), m_columns.end());
 
         if (m_rows.isEmpty()) {
             return;

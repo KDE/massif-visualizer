@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component type="desktop">
+<component type="desktop-application">
   <id>org.kde.massif-visualizer.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <developer_name translate="no">KDE</developer_name>
+  <developer id="org.kde">
+    <name translate="no">KDE</name>
+  </developer>
   <name>Massif-Visualizer</name>
   <name xml:lang="ca">Massif-Visualizer</name>
   <name xml:lang="ca-valencia">Massif-Visualizer</name>
@@ -324,6 +326,7 @@
   <provides>
     <binary>massif-visualizer</binary>
   </provides>
+  <launchable type="desktop-id">org.kde.massif-visualizer.desktop</launchable>
   <releases>
     <release version="0.7.0" date="2017-09-07"/>
     <release version="0.4.0" date="2014-11-16"/>

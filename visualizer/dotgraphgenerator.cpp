@@ -161,7 +161,7 @@ GraphNode* buildGraph(const TreeLeafItem* item, QMultiHash<QByteArray, GraphNode
             // was below-threshold item
             continue;
         }
-        QMultiHash< GraphNode*, quint64 >::iterator it = node->children.find(childNode);
+        auto it = node->children.find(childNode);
         if (it != node->children.end()) {
             it.value() += child->cost();
         } else {
@@ -290,7 +290,7 @@ void DotGraphGenerator::nodeToDot(GraphNode* node, QTextStream& out, const QStri
         return;
     }
 
-    QMultiHash< GraphNode*, quint64 >::const_iterator it = node->children.constBegin();
+    auto it = node->children.constBegin();
     while(it != node->children.constEnd()) {
         if (m_canceled) {
             return;

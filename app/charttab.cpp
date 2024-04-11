@@ -507,7 +507,7 @@ void ChartTab::printFile(QPrinter *printer)
 {
     QPainter painter;
     painter.begin(printer);
-    m_chart->paint(&painter, printer->pageRect());
+    m_chart->paint(&painter, printer->pageLayout().paintRectPixels(printer->resolution()));
     painter.end();
 }
 

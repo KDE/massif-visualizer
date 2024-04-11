@@ -17,9 +17,13 @@ add_library(mv-visualizer STATIC ${visualizer_SRCS})
 target_link_libraries(mv-visualizer
 LINK_PRIVATE
     mv-massifdata
-    KChart
-    Qt5::Core
-    Qt5::Gui
-    KF5::KIOCore
-    KF5::I18n
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Gui
+    KF${KF_MAJOR_VERSION}::KIOCore
+    KF${KF_MAJOR_VERSION}::I18n
 )
+if (QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(mv-visualizer LINK_PRIVATE KChart6 Qt6::Core5Compat)
+else()
+    target_link_libraries(mv-visualizer LINK_PRIVATE KChart)
+endif()

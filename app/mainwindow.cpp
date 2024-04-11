@@ -91,7 +91,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     // NOTE: just check if kgraphviewer is available at runtime.
     // The former logic has been moved to DocumentWidget constructor.
 #ifdef HAVE_KGRAPHVIEWER
+#if QT_VERSION_MAJOR == 6
+    KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kf6/parts/kgraphviewerpart"))).plugin;
+#else
     KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kgraphviewerpart"))).plugin;
+#endif
     if (factory) {
         KParts::ReadOnlyPart* readOnlyPart = factory->create<KParts::ReadOnlyPart>(this);
         if (readOnlyPart) {

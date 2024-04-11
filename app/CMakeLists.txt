@@ -27,15 +27,20 @@ ki18n_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
 add_executable(massif-visualizer ${massif-visualizer_SRCS})
 
 target_link_libraries(massif-visualizer LINK_PRIVATE
-    Qt5::PrintSupport
-    Qt5::Svg
-    KF5::KIOCore
-    KF5::Parts
-    KF5::I18n
-    KChart
+    Qt${QT_MAJOR_VERSION}::PrintSupport
+    Qt${QT_MAJOR_VERSION}::Svg
+    KF${KF_MAJOR_VERSION}::Completion
+    KF${KF_MAJOR_VERSION}::KIOCore
+    KF${KF_MAJOR_VERSION}::Parts
+    KF${KF_MAJOR_VERSION}::I18n
     mv-massifdata
     mv-visualizer
 )
+if (QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(massif-visualizer LINK_PRIVATE KChart6)
+else()
+    target_link_libraries(massif-visualizer LINK_PRIVATE KChart)
+endif()
 
 if (TARGET KGraphViewerPart)
     target_link_libraries(massif-visualizer PRIVATE KGraphViewerPart)

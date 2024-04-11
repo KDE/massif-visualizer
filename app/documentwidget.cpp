@@ -192,7 +192,11 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
                    i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
+#if QT_VERSION_MAJOR == 6
+    static KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kf6/parts/kgraphviewerpart"))).plugin;
+#else
     static KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kgraphviewerpart"))).plugin;
+#endif
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>(this);
         if (part) {

@@ -55,7 +55,6 @@
 #ifdef HAVE_KGRAPHVIEWER
 #include "callgraphtab.h"
 
-#include <KPluginLoader>
 #include <KPluginFactory>
 #include <KParts/ReadOnlyPart>
 #endif
@@ -193,7 +192,7 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
                    i18n("Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
-    static KPluginFactory *factory = KPluginLoader(QStringLiteral("kgraphviewerpart")).factory();
+    static KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kgraphviewerpart"))).plugin;
     if (factory) {
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>(QString(), this);
         if (part) {

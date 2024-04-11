@@ -51,7 +51,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSvgGenerator>
 #include <QWidgetAction>
 #include <QFileDialog>
@@ -224,7 +224,7 @@ void ChartTab::setupGui()
 
     // HACK: otherwise the legend becomes _really_ large and might even crash X...
     // to visualize the issue, try: m_chart->setMaximumSize(QSize(10000, 10000));
-    m_chart->setMaximumSize(qApp->desktop()->size());
+    m_chart->setMaximumSize(qApp->primaryScreen()->geometry().size());
 
     // for axis labels to fit
     m_chart->setGlobalLeadingRight(10);

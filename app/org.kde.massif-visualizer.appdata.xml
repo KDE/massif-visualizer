@@ -262,7 +262,7 @@
       <caption xml:lang="x-test">xxInteractive chart of memory consumption over timexx</caption>
     </screenshot>
     <screenshot>
-      <image>http://milianw.de/files/massif-visualizer/callgraph.png</image>
+      <image>https://milianw.de/files/massif-visualizer/callgraph.png</image>
       <caption>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer)</caption>
       <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requerix KGraphViewer)</caption>
@@ -292,7 +292,7 @@
       <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer)xx</caption>
     </screenshot>
     <screenshot>
-      <image>http://milianw.de/files/massif-visualizer/allocators.png</image>
+      <image>https://milianw.de/files/massif-visualizer/allocators.png</image>
       <caption>Summary of peak memory consumption of all allocating functions</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>

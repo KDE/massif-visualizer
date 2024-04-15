@@ -226,7 +226,7 @@
       <li xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</li>
     </ul>
   </description>
-  <url type="homepage">https://phabricator.kde.org/source/massif-visualizer/</url>
+  <url type="homepage">https://apps.kde.org/massif-visualizer</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=massif-visualizer</url>
   <url type="help">https://mail.kde.org/mailman/listinfo/massif-visualizer</url>
   <screenshots>

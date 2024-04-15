@@ -14,6 +14,9 @@ set(massif-visualizer_SRCS
     massif-visualizer.qrc
 )
 
+set_source_files_properties(main.cpp PROPERTIES
+    COMPILE_DEFINITIONS -DPROJECT_VERSION="${PROJECT_VERSION}"
+)
 
 if(KGraphViewerPart_FOUND)
     add_definitions(-DHAVE_KGRAPHVIEWER)

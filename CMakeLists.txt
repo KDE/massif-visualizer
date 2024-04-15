@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(massif-visualizer VERSION "0.7")
+project(massif-visualizer VERSION "0.8.0")
 
 set(QT_MIN_VERSION "6.5.0")
 set(KF_MIN_VERSION "6.0.0")

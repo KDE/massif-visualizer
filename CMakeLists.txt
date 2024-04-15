@@ -48,7 +48,7 @@ find_package(KGraphViewerPart 2.5.0)
 set_package_properties(KGraphViewerPart PROPERTIES
     DESCRIPTION "KPart to view callgraph dot files"
     PURPOSE "Required for detailed snapshot analysis"
-    URL "https://www.kde.org/applications/graphics/kgraphviewer/"
+    URL "https://commits.kde.org/kgraphviewer"
     TYPE RECOMMENDED)
 
 include_directories(

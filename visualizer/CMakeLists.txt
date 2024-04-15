@@ -10,7 +10,7 @@ target_sources(mv-visualizer PRIVATE
 )
 
 target_link_libraries(mv-visualizer
-LINK_PRIVATE
+PRIVATE
     mv-massifdata
     Qt6::Core
     Qt6::Core5Compat

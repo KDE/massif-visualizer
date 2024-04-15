@@ -27,7 +27,7 @@ ki18n_wrap_ui(massif-visualizer
     config.ui
 )
 
-target_link_libraries(massif-visualizer LINK_PRIVATE
+target_link_libraries(massif-visualizer PRIVATE
     Qt6::PrintSupport
     Qt6::Svg
     KF6::Completion

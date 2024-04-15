@@ -5,7 +5,8 @@ ecm_add_test(datamodeltest datamodeltest.cpp
 
 add_executable(massifparser massifparser.cpp)
 
-target_link_libraries(massifparser LINK_PRIVATE
+target_link_libraries(massifparser
+PRIVATE
     Qt6::Core
     KF6::Archive
     KF6::CoreAddons

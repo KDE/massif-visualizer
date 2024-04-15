@@ -11,7 +11,7 @@ target_sources(mv-massifdata PRIVATE
 )
 
 target_link_libraries(mv-massifdata
-LINK_PRIVATE
+PRIVATE
     Qt6::Core
     Qt6::Core5Compat
     KF6::Archive

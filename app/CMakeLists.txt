@@ -1,4 +1,6 @@
-set(massif-visualizer_SRCS
+add_executable(massif-visualizer)
+
+target_sources(massif-visualizer PRIVATE
     main.cpp
     mainwindow.cpp
     configdialog.cpp
@@ -14,15 +16,16 @@ set_source_files_properties(main.cpp PROPERTIES
 )
 
 if(KGraphViewerPart_FOUND)
-    add_definitions(-DHAVE_KGRAPHVIEWER)
-    list(APPEND massif-visualizer_SRCS callgraphtab.cpp callgraphtab.qrc)
+    target_compile_definitions(massif-visualizer PRIVATE HAVE_KGRAPHVIEWER)
+    target_sources(massif-visualizer PRIVATE callgraphtab.cpp callgraphtab.qrc)
 endif()
 
-kconfig_add_kcfg_files(massif-visualizer_SRCS massif-visualizer-settings.kcfgc)
+kconfig_add_kcfg_files(massif-visualizer massif-visualizer-settings.kcfgc)
 
-ki18n_wrap_ui(massif-visualizer_SRCS mainwindow.ui config.ui)
-
-add_executable(massif-visualizer ${massif-visualizer_SRCS})
+ki18n_wrap_ui(massif-visualizer
+    mainwindow.ui
+    config.ui
+)
 
 target_link_libraries(massif-visualizer LINK_PRIVATE
     Qt6::PrintSupport

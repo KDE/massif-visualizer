@@ -1,4 +1,6 @@
-set(massifdata_SRCS
+add_library(mv-massifdata STATIC)
+
+target_sources(mv-massifdata PRIVATE
     filedata.cpp
     snapshotitem.cpp
     treeleafitem.cpp
@@ -7,8 +9,6 @@ set(massifdata_SRCS
     parseworker.cpp
     util.cpp
 )
-
-add_library(mv-massifdata STATIC ${massifdata_SRCS})
 
 target_link_libraries(mv-massifdata
 LINK_PRIVATE

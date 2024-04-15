@@ -1,4 +1,6 @@
-set(visualizer_SRCS
+add_library(mv-visualizer STATIC)
+
+target_sources(mv-visualizer PRIVATE
     totalcostmodel.cpp
     detailedcostmodel.cpp
     datatreemodel.cpp
@@ -6,8 +8,6 @@ set(visualizer_SRCS
     dotgraphgenerator.cpp
     allocatorsmodel.cpp
 )
-
-add_library(mv-visualizer STATIC ${visualizer_SRCS})
 
 target_link_libraries(mv-visualizer
 LINK_PRIVATE

@@ -17,13 +17,10 @@ add_library(mv-massifdata STATIC ${massifdata_SRCS})
 
 target_link_libraries(mv-massifdata
 LINK_PRIVATE
-    Qt${QT_MAJOR_VERSION}::Core
-    KF${KF_MAJOR_VERSION}::Archive
-    KF${KF_MAJOR_VERSION}::KIOCore
-    KF${KF_MAJOR_VERSION}::I18n
-    KF${KF_MAJOR_VERSION}::ConfigCore
+    Qt6::Core
+    Qt6::Core5Compat
+    KF6::Archive
+    KF6::KIOCore
+    KF6::I18n
+    KF6::ConfigCore
 )
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-    target_link_libraries(mv-massifdata LINK_PRIVATE Qt6::Core5Compat)
-endif()

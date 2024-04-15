@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(massif-visualizer)
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF_MIN_VERSION "5.100.0")
+set(QT_MIN_VERSION "6.5.0")
+set(KF_MIN_VERSION "6.0.0")
 
 set(KDE_COMPILERSETTINGS_LEVEL 5.84)
 
@@ -23,26 +23,16 @@ include(ECMAddTests)
 include(ECMDeprecationSettings)
 include(FeatureSummary)
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(QT_MIN_VERSION "6.5.0")
-    set(KF_MIN_VERSION "6.0.0")
-    set(KF_MAJOR_VERSION "6")
-else()
-    set(KF_MAJOR_VERSION "5")
-endif()
-
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Core
+    Core5Compat
     Widgets
     Svg
     Test
     PrintSupport
 )
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(Qt6Core5Compat REQUIRED)
-endif()
 
-find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Archive
     Config
     CoreAddons
@@ -51,13 +41,9 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     I18n
 )
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(KChart6 "3.0.0" REQUIRED)
-else()
-    find_package(KChart "2.6.0" REQUIRED)
-endif()
+find_package(KChart6 "3.0.0" REQUIRED)
 
-find_package(KGraphViewerPart 2.3.90)
+find_package(KGraphViewerPart 2.5.0)
 set_package_properties(KGraphViewerPart PROPERTIES
     DESCRIPTION "KPart to view callgraph dot files"
     PURPOSE "Required for detailed snapshot analysis"
@@ -76,17 +62,10 @@ add_definitions(-Wall
     -DQT_USE_QSTRINGBUILDER
 )
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    ecm_set_disabled_deprecation_versions(
-        QT 5.15.2
-        KF 6.0
-    )
-else()
-    ecm_set_disabled_deprecation_versions(
-        QT 5.15.2
-        KF 5.100
-    )
-endif()
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+    KF 6.0
+)
 
 add_subdirectory(massifdata)
 add_subdirectory(visualizer)

@@ -12,16 +12,3 @@ Dependencies:
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'graphics/kgraphviewer': '@latest-kf6'
-- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'Windows/Qt5']
-  'require':
-    'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/karchive': '@stable'
-    'frameworks/kconfig': '@stable'
-    'frameworks/kcoreaddons': '@stable'
-    'frameworks/kparts': '@stable'
-    'frameworks/kio': '@stable'
-    'frameworks/ki18n': '@stable'
-    'graphics/kdiagram': '@latest'
-- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'macOS/Qt5']
-  'require':
-    'graphics/kgraphviewer': '@latest'

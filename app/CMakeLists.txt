@@ -1,8 +1,3 @@
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 set(massif-visualizer_SRCS
     main.cpp
     mainwindow.cpp

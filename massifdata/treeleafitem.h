@@ -24,7 +24,7 @@
 #define TREELEAFITEM_H
 
 #include <QString>
-#include <QVector>
+#include <QList>
 #include <QMetaType>
 
 namespace Massif {
@@ -64,12 +64,12 @@ public:
      * No existing children will be deleted and might get leaked
      * if you do not do this yourself.
      */
-    void setChildren(const QVector<TreeLeafItem*>& leafs);
+    void setChildren(const QList<TreeLeafItem*>& leafs);
 
     /**
      * @return The children of this leaf.
      */
-    QVector<TreeLeafItem*> children() const;
+    QList<TreeLeafItem*> children() const;
 
     /**
      * @return The parent tree leaf item or zero, if this is the root node.
@@ -79,7 +79,7 @@ public:
 private:
     QByteArray m_label;
     quint64 m_cost;
-    QVector<TreeLeafItem*> m_children;
+    QList<TreeLeafItem*> m_children;
 
     TreeLeafItem* m_parent;
 };

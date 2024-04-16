@@ -43,7 +43,7 @@ struct GraphNode {
     // incoming calls + cost
     QHash<GraphNode*, quint64> children;
     // outgoing calls
-    QVector<GraphNode*> parents;
+    QList<GraphNode*> parents;
     quint64 accumulatedCost;
     bool visited;
     quint32 belowThresholdCount;

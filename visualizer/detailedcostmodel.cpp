@@ -82,7 +82,7 @@ void DetailedCostModel::setSource(const FileData* data)
         QMultiMap<int, QByteArray> sortColumnMap;
         foreach (const SnapshotItem* snapshot, data->snapshots()) {
             if (snapshot->heapTree()) {
-                QVector<const TreeLeafItem*> nodes;
+                QList<const TreeLeafItem*> nodes;
                 foreach (const TreeLeafItem* node, snapshot->heapTree()->children()) {
                     if (isBelowThreshold(node->label())) {
                         continue;
@@ -197,7 +197,7 @@ QVariant DetailedCostModel::data(const QModelIndex& index, int role) const
         } else {
             if (index.column() % 2 == 0) {
                 // get x-coordinate of the last snapshot with cost below 0.1% of peak cost
-                QVector< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
+                QList< SnapshotItem* >::const_iterator it = m_data->snapshots().constBegin();
                 double time = 0;
                 while (it != m_data->snapshots().constEnd() && (*it)->cost() < m_data->peak()->cost() * 0.001) {
                     time = (*it)->time();
@@ -374,7 +374,7 @@ void DetailedCostModel::hideFunction(const TreeLeafItem* node)
     beginResetModel();
     Nodes::iterator it = m_nodes.begin();
     while (it != m_nodes.end()) {
-        QVector< const TreeLeafItem* >::iterator it2 = it.value().begin();
+        QList< const TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() == node->label()) {
                 it2 = it.value().erase(it2);
@@ -400,7 +400,7 @@ void DetailedCostModel::hideOtherFunctions(const TreeLeafItem* node)
     Nodes::iterator it = m_nodes.begin();
     const Nodes::iterator end = m_nodes.end();
     while (it != end) {
-        QVector< const TreeLeafItem* >::iterator it2 = it.value().begin();
+        QList< const TreeLeafItem* >::iterator it2 = it.value().begin();
         while (it2 != it.value().end()) {
             if ((*it2)->label() != node->label()) {
                 it2 = it.value().erase(it2);

@@ -24,7 +24,7 @@
 #define ALLOCATORSMODEL_H
 
 #include <QAbstractItemModel>
-#include <QVector>
+#include <QList>
 
 #include <massifdata/util.h>
 
@@ -73,7 +73,7 @@ private:
         ParsedLabel label;
         const TreeLeafItem* peak;
     };
-    QVector<Data> m_data;
+    QList<Data> m_data;
 };
 
 }

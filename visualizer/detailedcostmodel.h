@@ -24,7 +24,7 @@
 #define MASSIF_DETAILEDCOSTMODEL_H
 
 #include <QAbstractTableModel>
-#include <QVector>
+#include <QList>
 
 #include "modelitem.h"
 
@@ -104,10 +104,10 @@ public:
 private:
     const FileData* m_data;
     // columns => label
-    QVector<QByteArray> m_columns;
+    QList<QByteArray> m_columns;
     // only to sort snapshots by number
-    QVector<const SnapshotItem*> m_rows;
-    typedef QHash<const SnapshotItem*, QVector<const TreeLeafItem*> > Nodes;
+    QList<const SnapshotItem*> m_rows;
+    typedef QHash<const SnapshotItem*, QList<const TreeLeafItem*> > Nodes;
     // snapshot item => cost intensive nodes
     Nodes m_nodes;
     // peaks: Label => TreeLeafItem,Snapshot

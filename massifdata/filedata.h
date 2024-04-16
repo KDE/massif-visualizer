@@ -24,7 +24,7 @@
 #define MASSIF_FILEDATA_H
 
 #include <QObject>
-#include <QVector>
+#include <QList>
 
 namespace Massif {
 
@@ -74,7 +74,7 @@ public:
     /**
      * @return List of all snapshots that make up this dataset.
      */
-    QVector<SnapshotItem*> snapshots() const;
+    QList<SnapshotItem*> snapshots() const;
 
     /**
      * Marks @p snapshot as peak of this dataset.
@@ -90,7 +90,7 @@ private:
     QString m_cmd;
     QString m_description;
     QString m_timeUnit;
-    QVector<SnapshotItem*> m_snapshots;
+    QList<SnapshotItem*> m_snapshots;
     SnapshotItem* m_peak;
 };
 

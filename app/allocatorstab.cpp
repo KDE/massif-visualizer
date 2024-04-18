@@ -53,8 +53,9 @@ AllocatorsTab::AllocatorsTab(const FileData* data,
     connect(m_view, &QTreeView::customContextMenuRequested,
             this, &AllocatorsTab::customContextMenuRequested);
 
-    setLayout(new QVBoxLayout(this));
-    layout()->addWidget(m_view);
+    auto *layout = new QVBoxLayout(this);
+    layout->setContentsMargins({});
+    layout->addWidget(m_view);
 }
 
 AllocatorsTab::~AllocatorsTab()

@@ -96,9 +96,11 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     setXMLFile(QStringLiteral("documentwidgetui.rc"), true);
 
     // Set m_stackedWidget as the main widget.
-    setLayout(new QVBoxLayout(this));
-    layout()->addWidget(m_stackedWidget);
+    auto *layout = new QVBoxLayout(this);
+    layout->setContentsMargins({});
+    layout->addWidget(m_stackedWidget);
 
+    m_tabs->setDocumentMode(true);
     m_tabs->setTabPosition(QTabWidget::South);
     m_stackedWidget->addWidget(m_tabs);
 

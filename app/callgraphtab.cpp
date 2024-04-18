@@ -52,8 +52,9 @@ CallGraphTab::CallGraphTab(const FileData* data, KParts::ReadOnlyPart* graphView
     setupActions();
 
     Q_ASSERT(m_graphViewer);
-    setLayout(new QVBoxLayout);
-    layout()->addWidget(m_graphViewerPart->widget());
+    auto *layout = new QVBoxLayout(this);
+    layout->setContentsMargins({});
+    layout->addWidget(m_graphViewerPart->widget());
 
     connect(m_graphViewerPart, SIGNAL(graphLoaded()),
             this, SLOT(slotGraphLoaded()));

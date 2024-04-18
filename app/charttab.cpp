@@ -166,7 +166,8 @@ ChartTab::ChartTab(const FileData* data,
     setXMLFile(QStringLiteral("charttabui.rc"), true);
     setupActions();
 
-    setLayout(new QVBoxLayout(this));
+    auto *layout =  new QVBoxLayout(this);
+    layout->setContentsMargins({});
 
     setupGui();
 }

@@ -5,8 +5,6 @@ project(massif-visualizer VERSION "0.8.0")
 set(QT_MIN_VERSION "6.5.0")
 set(KF_MIN_VERSION "6.0.0")
 
-set(KDE_COMPILERSETTINGS_LEVEL 5.84)
-
 find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH
@@ -56,11 +54,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_definitions(-Wall
-    -DQT_NO_URL_CAST_FROM_STRING
-    -DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII
-    -DQT_NO_CAST_FROM_BYTEARRAY
-    -DQT_USE_QSTRINGBUILDER
+# added by KDE_COMPILERSETTINGS_LEVEL >= 5.85.0
+remove_definitions(
+    -DQT_NO_KEYWORDS
+    -DQT_NO_FOREACH
 )
 
 ecm_set_disabled_deprecation_versions(

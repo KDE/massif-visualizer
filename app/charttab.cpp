@@ -178,10 +178,10 @@ ChartTab::~ChartTab()
 
 void ChartTab::setupActions()
 {
-    m_print = KStandardAction::print(this, SLOT(showPrintPreviewDialog()), actionCollection());
+    m_print = KStandardAction::print(this, &ChartTab::showPrintPreviewDialog, actionCollection());
     actionCollection()->addAction(QStringLiteral("file_print"), m_print);
 
-    m_saveAs = KStandardAction::saveAs(this, SLOT(saveCurrentDocument()), actionCollection());
+    m_saveAs = KStandardAction::saveAs(this, &ChartTab::saveCurrentDocument, actionCollection());
     actionCollection()->addAction(QStringLiteral("file_save_as"), m_saveAs);
 
     m_toggleTotal = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area")), i18n("Toggle total cost graph"), actionCollection());

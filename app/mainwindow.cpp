@@ -170,20 +170,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-    QAction* openFile = KStandardAction::open(this, SLOT(openFile()), actionCollection());
-    m_recentFiles = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), actionCollection());
+    QAction* openFile = KStandardAction::open(this, qOverload<>(&MainWindow::openFile), actionCollection());
+    m_recentFiles = KStandardAction::openRecent(this, qOverload<const QUrl &>(&MainWindow::openFile), actionCollection());
     m_recentFiles->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
-    QAction* reload = KStandardAction::redisplay(this, SLOT(reloadCurrentFile()), actionCollection());
+    QAction* reload = KStandardAction::redisplay(this, &MainWindow::reloadCurrentFile, actionCollection());
     actionCollection()->addAction(QStringLiteral("file_reload"), reload);
     reload->setEnabled(false);
 
-    m_close = KStandardAction::close(this, SLOT(closeCurrentFile()), actionCollection());
+    m_close = KStandardAction::close(this, &MainWindow::closeCurrentFile, actionCollection());
     m_close->setEnabled(false);
 
-    KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection());
+    KStandardAction::quit(qApp, QApplication::closeAllWindows, actionCollection());
 
-    KStandardAction::preferences(this, SLOT(preferences()), actionCollection());
+    KStandardAction::preferences(this, &MainWindow::preferences, actionCollection());
 
     m_shortenTemplates = new QAction(QIcon::fromTheme(QStringLiteral("shortentemplates")), i18n("Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);

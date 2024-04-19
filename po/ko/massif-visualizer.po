@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-19 00:40+0000\n"
 "PO-Revision-Date: 2023-07-23 21:39+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -27,7 +27,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@peremen.name"
 
-#: app/callgraphtab.cpp:89
+#: app/callgraphtab.cpp:90
 #, kde-format
 msgid "Focus most expensive node"
 msgstr "가장 비싼 노드에 포커스 맞추기"
@@ -38,57 +38,57 @@ msgstr "가장 비싼 노드에 포커스 맞추기"
 msgid "CallGraph Toolbar"
 msgstr "호출 그래프 도구 모음"
 
-#: app/charttab.cpp:186
+#: app/charttab.cpp:187
 #, kde-format
 msgid "Toggle total cost graph"
 msgstr "전체 비용 그래프 전환"
 
-#: app/charttab.cpp:192
+#: app/charttab.cpp:193
 #, kde-format
 msgid "Toggle detailed cost graph"
 msgstr "자세한 비용 그래프 전환"
 
-#: app/charttab.cpp:200
+#: app/charttab.cpp:201
 #, kde-format
 msgid "Stacked diagrams"
 msgstr "겹친 다이어그램"
 
-#: app/charttab.cpp:203
+#: app/charttab.cpp:204
 #, kde-format
 msgid "Stacked diagrams:"
 msgstr "겹쳐진 다이어그램:"
 
-#: app/charttab.cpp:212
+#: app/charttab.cpp:213
 #, kde-format
 msgid "hide function"
 msgstr "함수 숨기기"
 
-#: app/charttab.cpp:215
+#: app/charttab.cpp:216
 #, kde-format
 msgid "hide other functions"
 msgstr "다른 함수 숨기기"
 
-#: app/charttab.cpp:280
+#: app/charttab.cpp:281
 #, kde-format
 msgid "time in %1"
 msgstr "%1의 시간"
 
-#: app/charttab.cpp:287
+#: app/charttab.cpp:288
 #, kde-format
 msgid "memory heap size"
 msgstr "메모리 힙 크기"
 
-#: app/charttab.cpp:457
+#: app/charttab.cpp:458
 #, kde-format
 msgid "Memory consumption of %1"
 msgstr "%1의 메모리 사용량"
 
-#: app/charttab.cpp:458
+#: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
 msgstr "스냅샷 #%2에서 극댓값 %1"
 
-#: app/charttab.cpp:460
+#: app/charttab.cpp:461
 #, kde-format
 msgid ""
 "Command: %1\n"
@@ -97,22 +97,22 @@ msgstr ""
 "명령: %1\n"
 "Valgrind 옵션: %2"
 
-#: app/charttab.cpp:465
+#: app/charttab.cpp:466
 #, kde-format
 msgid "Save Current Visualization"
 msgstr "현재 시각화 저장"
 
-#: app/charttab.cpp:466
+#: app/charttab.cpp:467
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "그림 (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:490
+#: app/charttab.cpp:491
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "그림을 %1(으)로 저장할 수 없습니다."
 
-#: app/charttab.cpp:501
+#: app/charttab.cpp:502
 #, kde-format
 msgid "Massif Chart Print Preview"
 msgstr "Massif 차트 인쇄 미리 보기"
@@ -226,22 +226,22 @@ msgstr "템플릿 단축"
 msgid "Settings"
 msgstr "설정"
 
-#: app/documentwidget.cpp:112
+#: app/documentwidget.cpp:114
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "<i>%1</i> 파일 불러오는 중..."
 
-#: app/documentwidget.cpp:192
+#: app/documentwidget.cpp:194
 #, kde-format
 msgid "Memory Chart"
 msgstr "메모리 차트"
 
-#: app/documentwidget.cpp:200
+#: app/documentwidget.cpp:202
 #, kde-format
 msgid "Callgraph"
 msgstr "호출 그래프"
 
-#: app/documentwidget.cpp:206
+#: app/documentwidget.cpp:208
 #, kde-format
 msgid "Allocators"
 msgstr "할당자"
@@ -352,25 +352,25 @@ msgid "Evaluation of %1 (%2)"
 msgstr "%1 평가(%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
-#: app/mainwindow.ui:67
+#: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
 msgstr "..."
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
-#: app/mainwindow.ui:109
+#: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
 msgstr "Massif 데이터"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
-#: app/mainwindow.ui:122
+#: app/mainwindow.ui:146
 #, kde-format
 msgid "filter"
 msgstr "필터"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
-#: app/mainwindow.ui:137
+#: app/mainwindow.ui:161
 #, kde-format
 msgid "Custom Allocators"
 msgstr "사용자 정의 할당자"

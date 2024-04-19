@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-19 00:40+0000\n"
 "PO-Revision-Date: 2022-08-20 20:45+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -27,7 +27,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kde@opensource.sf-tec.de"
 
-#: app/callgraphtab.cpp:89
+#: app/callgraphtab.cpp:90
 #, kde-format
 msgid "Focus most expensive node"
 msgstr "Auf teuersten Knoten zentrieren"
@@ -38,57 +38,57 @@ msgstr "Auf teuersten Knoten zentrieren"
 msgid "CallGraph Toolbar"
 msgstr "CallGraph-Werkzeugleiste"
 
-#: app/charttab.cpp:186
+#: app/charttab.cpp:187
 #, kde-format
 msgid "Toggle total cost graph"
 msgstr "Graph des Gesamtverbrauchs zeigen"
 
-#: app/charttab.cpp:192
+#: app/charttab.cpp:193
 #, kde-format
 msgid "Toggle detailed cost graph"
 msgstr "Aufgeschlüsselte Graphen zeigen"
 
-#: app/charttab.cpp:200
+#: app/charttab.cpp:201
 #, kde-format
 msgid "Stacked diagrams"
 msgstr "Aufgeschlüsselte Graphen"
 
-#: app/charttab.cpp:203
+#: app/charttab.cpp:204
 #, kde-format
 msgid "Stacked diagrams:"
 msgstr "Aufgeschlüsselte Graphen:"
 
-#: app/charttab.cpp:212
+#: app/charttab.cpp:213
 #, kde-format
 msgid "hide function"
 msgstr "Funktion ausblenden"
 
-#: app/charttab.cpp:215
+#: app/charttab.cpp:216
 #, kde-format
 msgid "hide other functions"
 msgstr "Andere Funktionen ausblenden"
 
-#: app/charttab.cpp:280
+#: app/charttab.cpp:281
 #, kde-format
 msgid "time in %1"
 msgstr "Zeit in %1"
 
-#: app/charttab.cpp:287
+#: app/charttab.cpp:288
 #, kde-format
 msgid "memory heap size"
 msgstr "Heap-Speichergröße"
 
-#: app/charttab.cpp:457
+#: app/charttab.cpp:458
 #, kde-format
 msgid "Memory consumption of %1"
 msgstr "Speicherverbrauch von %1"
 
-#: app/charttab.cpp:458
+#: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
 msgstr "Maximalwert von %1 bei Messung #%2"
 
-#: app/charttab.cpp:460
+#: app/charttab.cpp:461
 #, kde-format
 msgid ""
 "Command: %1\n"
@@ -97,22 +97,22 @@ msgstr ""
 "Befehl: %1\n"
 "Valgrind-Optionen: %2"
 
-#: app/charttab.cpp:465
+#: app/charttab.cpp:466
 #, kde-format
 msgid "Save Current Visualization"
 msgstr "Aktuelle Visualisierung speichern"
 
-#: app/charttab.cpp:466
+#: app/charttab.cpp:467
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Bilder (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:490
+#: app/charttab.cpp:491
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "Fehler beim Speichern des Bilds in %1."
 
-#: app/charttab.cpp:501
+#: app/charttab.cpp:502
 #, kde-format
 msgid "Massif Chart Print Preview"
 msgstr "Massif Diagramm-Druckvorschau"
@@ -226,22 +226,22 @@ msgstr "Templates kürzen"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: app/documentwidget.cpp:112
+#: app/documentwidget.cpp:114
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "Datei <i>%1</i> wird geladen ..."
 
-#: app/documentwidget.cpp:192
+#: app/documentwidget.cpp:194
 #, kde-format
 msgid "Memory Chart"
 msgstr "Speicher-Diagramm"
 
-#: app/documentwidget.cpp:200
+#: app/documentwidget.cpp:202
 #, kde-format
 msgid "Callgraph"
 msgstr "CallGraph"
 
-#: app/documentwidget.cpp:206
+#: app/documentwidget.cpp:208
 #, kde-format
 msgid "Allocators"
 msgstr "Anforderungsfunktionen"
@@ -353,25 +353,25 @@ msgid "Evaluation of %1 (%2)"
 msgstr "Analyse von %1 (%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
-#: app/mainwindow.ui:67
+#: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
 msgstr "..."
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
-#: app/mainwindow.ui:109
+#: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
 msgstr "Massif-Daten"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
-#: app/mainwindow.ui:122
+#: app/mainwindow.ui:146
 #, kde-format
 msgid "filter"
 msgstr "Filter"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
-#: app/mainwindow.ui:137
+#: app/mainwindow.ui:161
 #, kde-format
 msgid "Custom Allocators"
 msgstr "Eigene Anforderungsfunktionen"

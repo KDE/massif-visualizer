@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-19 00:40+0000\n"
 "PO-Revision-Date: 2013-03-09 14:09+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -27,7 +27,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "chetan@kompkin.com"
 
-#: app/callgraphtab.cpp:89
+#: app/callgraphtab.cpp:90
 #, kde-format
 msgid "Focus most expensive node"
 msgstr ""
@@ -38,79 +38,79 @@ msgstr ""
 msgid "CallGraph Toolbar"
 msgstr ""
 
-#: app/charttab.cpp:186
+#: app/charttab.cpp:187
 #, kde-format
 msgid "Toggle total cost graph"
 msgstr ""
 
-#: app/charttab.cpp:192
+#: app/charttab.cpp:193
 #, kde-format
 msgid "Toggle detailed cost graph"
 msgstr ""
 
-#: app/charttab.cpp:200
+#: app/charttab.cpp:201
 #, kde-format
 msgid "Stacked diagrams"
 msgstr ""
 
-#: app/charttab.cpp:203
+#: app/charttab.cpp:204
 #, kde-format
 msgid "Stacked diagrams:"
 msgstr ""
 
-#: app/charttab.cpp:212
+#: app/charttab.cpp:213
 #, kde-format
 msgid "hide function"
 msgstr ""
 
-#: app/charttab.cpp:215
+#: app/charttab.cpp:216
 #, kde-format
 msgid "hide other functions"
 msgstr ""
 
-#: app/charttab.cpp:280
+#: app/charttab.cpp:281
 #, kde-format
 msgid "time in %1"
 msgstr ""
 
-#: app/charttab.cpp:287
+#: app/charttab.cpp:288
 #, kde-format
 msgid "memory heap size"
 msgstr ""
 
-#: app/charttab.cpp:457
+#: app/charttab.cpp:458
 #, kde-format
 msgid "Memory consumption of %1"
 msgstr ""
 
-#: app/charttab.cpp:458
+#: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
 msgstr ""
 
-#: app/charttab.cpp:460
+#: app/charttab.cpp:461
 #, kde-format
 msgid ""
 "Command: %1\n"
 "Valgrind Options: %2"
 msgstr ""
 
-#: app/charttab.cpp:465
+#: app/charttab.cpp:466
 #, kde-format
 msgid "Save Current Visualization"
 msgstr ""
 
-#: app/charttab.cpp:466
+#: app/charttab.cpp:467
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr ""
 
-#: app/charttab.cpp:490
+#: app/charttab.cpp:491
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr ""
 
-#: app/charttab.cpp:501
+#: app/charttab.cpp:502
 #, kde-format
 msgid "Massif Chart Print Preview"
 msgstr ""
@@ -224,22 +224,22 @@ msgstr ""
 msgid "Settings"
 msgstr "संयोजना"
 
-#: app/documentwidget.cpp:112
+#: app/documentwidget.cpp:114
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr ""
 
-#: app/documentwidget.cpp:192
+#: app/documentwidget.cpp:194
 #, kde-format
 msgid "Memory Chart"
 msgstr ""
 
-#: app/documentwidget.cpp:200
+#: app/documentwidget.cpp:202
 #, kde-format
 msgid "Callgraph"
 msgstr ""
 
-#: app/documentwidget.cpp:206
+#: app/documentwidget.cpp:208
 #, kde-format
 msgid "Allocators"
 msgstr ""
@@ -350,25 +350,25 @@ msgid "Evaluation of %1 (%2)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
-#: app/mainwindow.ui:67
+#: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
-#: app/mainwindow.ui:109
+#: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
 msgstr ""
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
-#: app/mainwindow.ui:122
+#: app/mainwindow.ui:146
 #, kde-format
 msgid "filter"
 msgstr "गाळणी"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
-#: app/mainwindow.ui:137
+#: app/mainwindow.ui:161
 #, kde-format
 msgid "Custom Allocators"
 msgstr ""

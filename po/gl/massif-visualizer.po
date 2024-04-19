@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-19 00:40+0000\n"
 "PO-Revision-Date: 2023-09-30 14:14+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "mvillarino@users.sourceforge.net,\n"
 "mgl.branco@gmail.com"
 
-#: app/callgraphtab.cpp:89
+#: app/callgraphtab.cpp:90
 #, kde-format
 msgid "Focus most expensive node"
 msgstr "Enfocar o nó con máis consumo"
@@ -43,57 +43,57 @@ msgstr "Enfocar o nó con máis consumo"
 msgid "CallGraph Toolbar"
 msgstr "Barra de ferramentas CallGraph"
 
-#: app/charttab.cpp:186
+#: app/charttab.cpp:187
 #, kde-format
 msgid "Toggle total cost graph"
 msgstr "Conmutar os gráficos de custe total"
 
-#: app/charttab.cpp:192
+#: app/charttab.cpp:193
 #, kde-format
 msgid "Toggle detailed cost graph"
 msgstr "Conmutar os gráficos de custe total"
 
-#: app/charttab.cpp:200
+#: app/charttab.cpp:201
 #, kde-format
 msgid "Stacked diagrams"
 msgstr "Diagramas acumulativos"
 
-#: app/charttab.cpp:203
+#: app/charttab.cpp:204
 #, kde-format
 msgid "Stacked diagrams:"
 msgstr "Diagramas acumulativos"
 
-#: app/charttab.cpp:212
+#: app/charttab.cpp:213
 #, kde-format
 msgid "hide function"
 msgstr "agochar a función"
 
-#: app/charttab.cpp:215
+#: app/charttab.cpp:216
 #, kde-format
 msgid "hide other functions"
 msgstr "agochar outras funcións"
 
-#: app/charttab.cpp:280
+#: app/charttab.cpp:281
 #, kde-format
 msgid "time in %1"
 msgstr "tempo en %1"
 
-#: app/charttab.cpp:287
+#: app/charttab.cpp:288
 #, kde-format
 msgid "memory heap size"
 msgstr "tamaño do montón de memoria"
 
-#: app/charttab.cpp:457
+#: app/charttab.cpp:458
 #, kde-format
 msgid "Memory consumption of %1"
 msgstr "Memoria de consumo de %1"
 
-#: app/charttab.cpp:458
+#: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
 msgstr "Pico de %1 na captura #%2"
 
-#: app/charttab.cpp:460
+#: app/charttab.cpp:461
 #, kde-format
 msgid ""
 "Command: %1\n"
@@ -102,22 +102,22 @@ msgstr ""
 "Orde: %1\n"
 "Opcións de Valgrind: %2"
 
-#: app/charttab.cpp:465
+#: app/charttab.cpp:466
 #, kde-format
 msgid "Save Current Visualization"
 msgstr "Gardar a visualización actual"
 
-#: app/charttab.cpp:466
+#: app/charttab.cpp:467
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Imaxes (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:490
+#: app/charttab.cpp:491
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "Non foi posíbel gardar a imaxe en «%1»."
 
-#: app/charttab.cpp:501
+#: app/charttab.cpp:502
 #, kde-format
 msgid "Massif Chart Print Preview"
 msgstr "Vista previa da gráfica de Massif"
@@ -231,22 +231,22 @@ msgstr "Modelos abreviados."
 msgid "Settings"
 msgstr "Configuración"
 
-#: app/documentwidget.cpp:112
+#: app/documentwidget.cpp:114
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "Cargando o ficheiro <i>%1</i>…"
 
-#: app/documentwidget.cpp:192
+#: app/documentwidget.cpp:194
 #, kde-format
 msgid "Memory Chart"
 msgstr "Gráfica da memoria"
 
-#: app/documentwidget.cpp:200
+#: app/documentwidget.cpp:202
 #, kde-format
 msgid "Callgraph"
 msgstr "Gráfica de chamadas"
 
-#: app/documentwidget.cpp:206
+#: app/documentwidget.cpp:208
 #, kde-format
 msgid "Allocators"
 msgstr "Designadores"
@@ -358,25 +358,25 @@ msgid "Evaluation of %1 (%2)"
 msgstr "Avaliación de %1 (%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
-#: app/mainwindow.ui:67
+#: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
 msgstr "…"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
-#: app/mainwindow.ui:109
+#: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
 msgstr "Datos de Massif"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
-#: app/mainwindow.ui:122
+#: app/mainwindow.ui:146
 #, kde-format
 msgid "filter"
 msgstr "filtro"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
-#: app/mainwindow.ui:137
+#: app/mainwindow.ui:161
 #, kde-format
 msgid "Custom Allocators"
 msgstr "Designadores personalizados"

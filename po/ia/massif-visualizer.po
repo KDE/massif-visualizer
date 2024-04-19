@@ -1,95 +1,92 @@
-# Translation for massif-visualizer.po to Euskara/Basque (eu).
-# Copyright (C) 2023 This file is copyright:
+# Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the massif-visualizer package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
-# Translators:
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2023.
+# giovanni <g.sora@tiscali.it>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-19 00:40+0000\n"
-"PO-Revision-Date: 2023-02-04 18:23+0100\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
-"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
-"Language: eu\n"
+"PO-Revision-Date: 2024-04-18 11:15+0200\n"
+"Last-Translator: giovanni <g.sora@tiscali.it>\n"
+"Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
+"Language: ia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Iñigo Salvador Azurmendi"
+msgstr "Giovanni Sora"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "xalba@ni.eus"
+msgstr "g.sora@tiscali.it"
 
 #: app/callgraphtab.cpp:90
 #, kde-format
 msgid "Focus most expensive node"
-msgstr "Fokua korapilune garestienera"
+msgstr ""
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
 #, kde-format
 msgid "CallGraph Toolbar"
-msgstr "«CallGraph» Tresna-barra"
+msgstr ""
 
 #: app/charttab.cpp:187
 #, kde-format
 msgid "Toggle total cost graph"
-msgstr "Txandakatu kostu guztien grafikoa"
+msgstr ""
 
 #: app/charttab.cpp:193
 #, kde-format
 msgid "Toggle detailed cost graph"
-msgstr "Txandakatu kostu xehatuaren grafikoa"
+msgstr ""
 
 #: app/charttab.cpp:201
 #, kde-format
 msgid "Stacked diagrams"
-msgstr "Pilatutako diagramak"
+msgstr ""
 
 #: app/charttab.cpp:204
 #, kde-format
 msgid "Stacked diagrams:"
-msgstr "Pilatutako diagramak:"
+msgstr ""
 
 #: app/charttab.cpp:213
 #, kde-format
 msgid "hide function"
-msgstr "ezkutatu funtzioa"
+msgstr ""
 
 #: app/charttab.cpp:216
 #, kde-format
 msgid "hide other functions"
-msgstr "ezkutatu beste funtzio batzuk"
+msgstr ""
 
 #: app/charttab.cpp:281
 #, kde-format
 msgid "time in %1"
-msgstr "denbora %1(e)tan"
+msgstr "tempore in %1"
 
 #: app/charttab.cpp:288
 #, kde-format
 msgid "memory heap size"
-msgstr "memoria dinamikorako neurria"
+msgstr ""
 
 #: app/charttab.cpp:458
 #, kde-format
 msgid "Memory consumption of %1"
-msgstr "%1(e)ren memoria erabilera"
+msgstr ""
 
 #: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
-msgstr "%1(e)ko gailurra #%2 uneko argazkian"
+msgstr ""
 
 #: app/charttab.cpp:461
 #, kde-format
@@ -97,40 +94,38 @@ msgid ""
 "Command: %1\n"
 "Valgrind Options: %2"
 msgstr ""
-"Komandoa: %1\n"
-"«Valgind»en aukerak: %2"
 
 #: app/charttab.cpp:466
 #, kde-format
 msgid "Save Current Visualization"
-msgstr "Gorde uneko irudikapena"
+msgstr "Salveguarda visualisation currente"
 
 #: app/charttab.cpp:467
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
-msgstr "Irudiak (*.png *.jpg *.tiff *.svg)"
+msgstr "Images (*.png *.jpg *.tiff *.svg)"
 
 #: app/charttab.cpp:491
 #, kde-format
 msgid "Failed to save the image to %1."
-msgstr "Irudia %1(e)an gordetzea huts egin du."
+msgstr "Falleva a salveguardar le image a %1."
 
 #: app/charttab.cpp:502
 #, kde-format
 msgid "Massif Chart Print Preview"
-msgstr "«Massif» diagrama inprimatzeko aurreikuspegia"
+msgstr ""
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
 #, kde-format
 msgid "Chart Toolbar"
-msgstr "Diagrama Tresna-barra"
+msgstr "Barra de instrumento de graphico"
 
 #. i18n: ectx: property (text), widget (QLabel, costLabel)
 #: app/config.ui:17
 #, kde-format
 msgid "Cost Precision:"
-msgstr "Kostuen zehaztasuna:"
+msgstr "Precision de costo:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:27
@@ -142,79 +137,79 @@ msgstr "Legenda"
 #: app/config.ui:36
 #, kde-format
 msgid "Position:"
-msgstr "Kokapena:"
+msgstr "Position:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:44
 #, kde-format
 msgid "North"
-msgstr "Iparraldea"
+msgstr "Nord"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:49
 #, kde-format
 msgid "East"
-msgstr "Ekialdea"
+msgstr "Est"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:54
 #, kde-format
 msgid "South"
-msgstr "Hegoaldea"
+msgstr "Sud"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:59
 #, kde-format
 msgid "West"
-msgstr "Mendebaldea"
+msgstr "West"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:64
 #, kde-format
 msgid "Floating"
-msgstr "Higikorra"
+msgstr "Fluctuante"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
 #: app/config.ui:72
 #, kde-format
 msgid "Alignment:"
-msgstr "Lerrokatzea:"
+msgstr "Alineamento:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:80
 #, kde-format
 msgid "Left"
-msgstr "Ezkerrean"
+msgstr "Sinistra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:85
 #, kde-format
 msgid "Center"
-msgstr "Erdian"
+msgstr "Centro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:90
 #, kde-format
 msgid "Right"
-msgstr "Eskuinean"
+msgstr "Dextera"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:95
 #, kde-format
 msgid "Top"
-msgstr "Goian"
+msgstr "Culmine"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:100
 #, kde-format
 msgid "Bottom"
-msgstr "Behean"
+msgstr "Basso"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
 #: app/config.ui:108
 #, kde-format
 msgid "Font Size:"
-msgstr "Letra-neurria:"
+msgstr "Dimension de Font:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
 #. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
@@ -222,42 +217,42 @@ msgstr "Letra-neurria:"
 #: app/massif-visualizer-settings.kcfg:14
 #, kde-format
 msgid "Shorten Templates"
-msgstr "Laburtu txantiloiak"
+msgstr "Abbrevia Patronos"
 
 #: app/configdialog.cpp:41
 #, kde-format
 msgid "Settings"
-msgstr "Ezarpenak"
+msgstr "Preferentias"
 
 #: app/documentwidget.cpp:114
 #, kde-format
 msgid "loading file <i>%1</i>..."
-msgstr "<i>%1</i> fitxategia zamatzen..."
+msgstr "Cargante file  <i>%1</i>..."
 
 #: app/documentwidget.cpp:194
 #, kde-format
 msgid "Memory Chart"
-msgstr "Memoriaren grafikoa"
+msgstr "Graphico de Memoria"
 
 #: app/documentwidget.cpp:202
 #, kde-format
 msgid "Callgraph"
-msgstr "Deien grafikoa"
+msgstr ""
 
 #: app/documentwidget.cpp:208
 #, kde-format
 msgid "Allocators"
-msgstr "Esleitzaileak"
+msgstr ""
 
 #: app/main.cpp:40
 #, kde-format
 msgid "Massif Visualizer"
-msgstr "Massif-Visualizer"
+msgstr "Massif-Visualizer (Visualisator massive)"
 
 #: app/main.cpp:42
 #, kde-format
 msgid "A visualizer for output generated by Valgrind's massif tool."
-msgstr "«Valgrind»en «massif» tresnak sortutako irteerakoaren irudikapen bat."
+msgstr ""
 
 #: app/main.cpp:43
 #, kde-format
@@ -272,117 +267,117 @@ msgstr "Milian Wolff"
 #: app/main.cpp:45
 #, kde-format
 msgid "Original author, maintainer"
-msgstr "Jatorrizko egilea eta mantentzailea"
+msgstr "Autor original, mantenitor"
 
 #: app/main.cpp:48
 #, kde-format
 msgid "Arnold Dumas"
-msgstr "Arnold Dumas"
+msgstr ""
 
 #: app/main.cpp:48
 #, kde-format
 msgid "Multiple document interface, bug fixes"
-msgstr "Dokumentu anizkoitzeko interfazea, akats zuzenketak"
+msgstr ""
 
 #: app/main.cpp:59
 #, kde-format
 msgid "Files to load"
-msgstr "Zamatu beharreko fitxategiak"
+msgstr "Files de cargar"
 
 #: app/main.cpp:59
 #, kde-format
 msgid "[FILE...]"
-msgstr "[FITXATEGIA...]"
+msgstr "[FILE...]"
 
 #: app/mainwindow.cpp:194
 #, kde-format
 msgid "Select peak snapshot"
-msgstr "Hautatu gailurraren uneko argazkia"
+msgstr ""
 
 #: app/mainwindow.cpp:200
 #, kde-format
 msgid "add"
-msgstr "gehitu"
+msgstr "adde"
 
 #: app/mainwindow.cpp:201
 #, kde-format
 msgid "add custom allocator"
-msgstr "gehitu neurrira ipinitako esleitzailea"
+msgstr ""
 
 #: app/mainwindow.cpp:204
 #, kde-format
 msgid "remove"
-msgstr "kendu"
+msgstr "remove"
 
 #: app/mainwindow.cpp:206
 #, kde-format
 msgid "remove selected allocator"
-msgstr "kendu hautatutako esleitzailea"
+msgstr ""
 
 #: app/mainwindow.cpp:213
 #, kde-format
 msgid "mark as custom allocator"
-msgstr "markatu neurrira ipinitako esleitzaile gisa"
+msgstr ""
 
 #: app/mainwindow.cpp:224
 #, kde-format
 msgid "Open Massif Data File"
-msgstr "Ireki «Massif» data fitxategia"
+msgstr ""
 
 #: app/mainwindow.cpp:256
 #, kde-format
 msgid "Open Massif Output File"
-msgstr "Ireki «Massif» irteerako fitxategia"
+msgstr ""
 
 #: app/mainwindow.cpp:257
 #, kde-format
 msgid "Massif data files (massif.out.*)"
-msgstr "«Massif» datu fitxategiak (massif.out.*)"
+msgstr ""
 
 #: app/mainwindow.cpp:394
 #, kde-format
 msgid "Add Custom Allocator"
-msgstr "Gehitu neurrira ipinitako esleitzailea"
+msgstr ""
 
 #: app/mainwindow.cpp:394
 #, kde-format
 msgid "allocator:"
-msgstr "esleitzailea:"
+msgstr ""
 
 #: app/mainwindow.cpp:478
 #, kde-format
 msgid "Evaluation of %1 (%2)"
-msgstr "%1(e)ren ebaluazioa (%2)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
 #: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
-msgstr "«Massif» datuak"
+msgstr ""
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
 #: app/mainwindow.ui:146
 #, kde-format
 msgid "filter"
-msgstr "iragazkia"
+msgstr "Filtro"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, allocatorDock)
 #: app/mainwindow.ui:161
 #, kde-format
 msgid "Custom Allocators"
-msgstr "Neurrira ipinitako esleitzaileak"
+msgstr ""
 
 #. i18n: ectx: label, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:9
 #, kde-format
 msgid "Cost Precision"
-msgstr "Kostuen zehaztasuna"
+msgstr ""
 
 #. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:10
@@ -391,8 +386,6 @@ msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
 msgstr ""
-"Aplikazioan erakutsitako memoria-kostuetan, koma ondoko leku-kopurua "
-"definitzen du."
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -401,201 +394,198 @@ msgid ""
 "Defines whether identifiers of C++ template instantiations should be "
 "shortened by removing their template arguments."
 msgstr ""
-"C++ txantiloi instantzien identifikatzaileak, haien txantiloi argumentuak "
-"kenduz laburtu behar diren edo ez definitzen du."
 
 #. i18n: ectx: label, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:19
 #, kde-format
 msgid "Legend Position"
-msgstr "Legendaren kokapena"
+msgstr "Position de legenda"
 
 #. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:20
 #, kde-format
 msgid "Defines the position of the legend relative to the plot."
-msgstr "Legendaren kokapena trazuarekiko erlatibo definitzen du."
+msgstr ""
 
 #. i18n: ectx: label, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:31
 #, kde-format
 msgid "Legend Alignment"
-msgstr "Legendaren lerrokadura"
+msgstr ""
 
 #. i18n: ectx: tooltip, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:32
 #, kde-format
 msgid "Defines the alignment of the legend."
-msgstr "Legendaren lerrokadura definitzen du."
+msgstr ""
 
 #. i18n: ectx: label, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:45
 #, kde-format
 msgid "Legend Font Size"
-msgstr "Legendaren letraren neurria"
+msgstr ""
 
 #. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr "Legendan erabilitako letraren neurria definitzen du."
+msgstr ""
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5
 #, kde-format
 msgid "&File"
-msgstr "&Fitxategia"
+msgstr "&File"
 
 #. i18n: ectx: Menu (view)
 #: app/massif-visualizerui.rc:19
 #, kde-format
 msgid "&View"
-msgstr "&Ikuspegia"
+msgstr "&Vista"
 
 #. i18n: ectx: Menu (settings)
 #: app/massif-visualizerui.rc:23
 #, kde-format
 msgid "&Settings"
-msgstr "E&zarpenak"
+msgstr "Preferentia&s"
 
 #. i18n: ectx: Menu (dockWidgets)
 #: app/massif-visualizerui.rc:25
 #, kde-format
 msgid "&Dock Widgets"
-msgstr "Trepetak atra&katu"
+msgstr ""
 
 #. i18n: ectx: Menu (help)
 #: app/massif-visualizerui.rc:34
 #, kde-format
 msgid "&Help"
-msgstr "&Laguntza"
+msgstr "Ad&juta"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: app/massif-visualizerui.rc:45
 #, kde-format
 msgid "Main Toolbar"
-msgstr "Tresna-barra nagusia"
+msgstr "Barra de instrumento principal"
 
 #: massifdata/parseworker.cpp:55
 #, kde-format
 msgid "Download Failed"
-msgstr "Zama-jaistea huts egin du"
+msgstr "Il falleva discargar"
 
 #: massifdata/parseworker.cpp:56
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr ""
-"Urrutiko <i>%1</i>  «massif» datu fitxategia zama-jaistea huts egin du."
 
 #: massifdata/parseworker.cpp:66
 #, kde-format
 msgid "Read Failed"
-msgstr "Irakurtzea huts egin du"
+msgstr "Falleva a leger"
 
 #: massifdata/parseworker.cpp:67
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
-msgstr "Ezin izan du <i>%1</i> fitxategia irakurtzeko ireki."
+msgstr "Non pote aperir file <i>%1</i> in lectura."
 
 #: massifdata/parseworker.cpp:78
 #, kde-format
 msgid "Parser Failed"
-msgstr "Analizatzaile sintaktikoak huts egin du"
+msgstr "Falleva a Analysar le syntaxe"
 
 #: massifdata/parseworker.cpp:79
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
-"Ezin izan du <i>%1</i> fitxategiaren azterketa sintaktikoa egin.<br>Errore "
-"sintaktikoa %2 lerroan:<br>%3"
+"Non poteva analysar le syntaxe de file <i>%1</i>,<br>Error de analysis in "
+"rango %2:<b>%3"
 
 #: massifdata/parseworker.cpp:86
 #, kde-format
 msgid "Empty data file <i>%1</i>."
-msgstr "Datu fitxategia hutsik <i>%1</i>"
+msgstr "Vacue file de datos <i>%1</i>"
 
 #: massifdata/parseworker.cpp:87
 #, kde-format
 msgid "Empty Data File"
-msgstr "Datu fitxategia hutsik"
+msgstr "Vacue file de datos"
 
 #: massifdata/util.cpp:136
 #, kde-format
 msgid "<dt>function:</dt><dd>%1</dd>\n"
-msgstr "<dt>funtzioa:</dt><dd>%1</dd>\n"
+msgstr ""
 
 #: massifdata/util.cpp:139
 #, kde-format
 msgid "<dt>location:</dt><dd>%1</dd>\n"
-msgstr "<dt>kokalekua:</dt><dd>%1</dd>\n"
+msgstr "<dt>Location: </dt><dd>%1</dd>\n"
 
 #: massifdata/util.cpp:142
 #, kde-format
 msgid "<dt>address:</dt><dd>%1</dd>\n"
-msgstr "<dt>helbidea:</dt><dd>%1</dd>\n"
+msgstr "<dt>Adresse:</dt><dd>%1</dd>\n"
 
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>kostua:</dt><dd>%1, adib. #%3 uneko argazkiaren %%2</dd>"
+msgstr ""
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format
 msgid "<dt>peak cost:</dt><dd>%1</dd>"
-msgstr "<dt>kostu gailurra:</dt><dd>%1</dd>"
+msgstr ""
 
 #: visualizer/allocatorsmodel.cpp:137
 #, kde-format
 msgid "below threshold"
-msgstr "atalasearen azpitik"
+msgstr ""
 
 #: visualizer/allocatorsmodel.cpp:160
 #, kde-format
 msgid "Function"
-msgstr "Funtzioa"
+msgstr "Function"
 
 #: visualizer/allocatorsmodel.cpp:162
 #, kde-format
 msgid "Location"
-msgstr "Kokalekua"
+msgstr "Location"
 
 #: visualizer/allocatorsmodel.cpp:164
 #, kde-format
 msgid "Peak"
-msgstr "Gailurra"
+msgstr "Picco"
 
 #: visualizer/datatreemodel.cpp:84
 #, kde-format
 msgid "Snapshots"
-msgstr "Uneko argazkia"
+msgstr "Instantaneos"
 
 #: visualizer/datatreemodel.cpp:148
 #, kde-format
 msgid "Peak snapshot: heap cost of %1"
-msgstr "Gailurraren uneko argazkia: kostua memoria dinamikoan %1"
+msgstr ""
 
 #: visualizer/datatreemodel.cpp:150
 #, kde-format
 msgid "Snapshot #%1: heap cost of %2"
-msgstr "#%1 uneko argazkia: kostua memoria dinamikoan %2"
+msgstr ""
 
 #: visualizer/datatreemodel.cpp:153
 #, kde-format
 msgctxt "%1: snapshot number"
 msgid "Snapshot #%1"
-msgstr "#%1 uneko argazkia"
+msgstr "Instantaneo #%1"
 
 #: visualizer/datatreemodel.cpp:160
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2 (peak)"
-msgstr "%1: Uneko argazkia #%2 (gailurra)"
+msgstr ""
 
 #: visualizer/datatreemodel.cpp:163
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2"
-msgstr "%1: #%2 uneko argazkia"
+msgstr "%1: Instantaneo #%2"
 
 #: visualizer/datatreemodel.cpp:175
 #, kde-format
@@ -607,20 +597,18 @@ msgstr "%1: %2"
 #, kde-format
 msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
 msgstr ""
-"#%1 uneko argazkia (%2%4(e)an ateratakoa)\n"
-"kostua memoria dinamikoan: %3"
 
 #: visualizer/dotgraphgenerator.cpp:304
 #, kde-format
 msgid "in one place below threshold"
 msgid_plural "in %1 places, all below threshold"
-msgstr[0] "leku batean atalasearen azpitik"
-msgstr[1] "%1 lekutan, guztiak atalasearen azpitik"
+msgstr[0] ""
+msgstr[1] ""
 
 #: visualizer/totalcostmodel.cpp:79
 #, kde-format
 msgid "Total Memory Heap Consumption"
-msgstr "Memoria dinamikoaren guztizko erabilera"
+msgstr ""
 
 #: visualizer/totalcostmodel.cpp:123
 #, kde-format
@@ -630,7 +618,3 @@ msgid ""
 "Extra heap cost of %3\n"
 "Stack cost of %4"
 msgstr ""
-"#%1 uneko argazkia:\n"
-"Kostua memoria dinamikoan %2\n"
-"Kostua gehigarria memoria dinamikoan %3\n"
-"Kostua pilan %4"

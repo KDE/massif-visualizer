@@ -32,9 +32,6 @@
 #include "massifdata/treeleafitem.h"
 #include "massifdata/util.h"
 
-#include <KStandardAction>
-#include <KColorScheme>
-
 #include <KLocalizedString>
 // forward include not available until later KDE versions...
 #include <kmessagewidget.h>

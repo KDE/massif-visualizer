@@ -67,8 +67,8 @@ CallGraphTab::~CallGraphTab()
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
             disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
-            connect(m_dotGenerator.data(), SIGNAL(finished()),
-                    m_dotGenerator.data(), SLOT(deleteLater()));
+            connect(m_dotGenerator.data(), &DotGraphGenerator::finished,
+                    m_dotGenerator.data(), &DotGraphGenerator::deleteLater);
             m_dotGenerator->cancel();
             m_dotGenerator.take();
         }
@@ -88,7 +88,7 @@ void CallGraphTab::setupActions()
     m_zoomOut = KStandardAction::zoomOut(this, &CallGraphTab::zoomOut, actionCollection());
     actionCollection()->addAction(QStringLiteral("zoomOut"), m_zoomOut);
     m_focusExpensive = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Focus most expensive node"), actionCollection());
-    connect(m_focusExpensive, SIGNAL(triggered()), this, SLOT(focusExpensiveGraphNode()));
+    connect(m_focusExpensive, &QAction::triggered, this, &CallGraphTab::focusExpensiveGraphNode);
     actionCollection()->addAction(QStringLiteral("focusExpensive"), m_focusExpensive);
 }
 
@@ -125,8 +125,8 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
         qDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
             disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
-            connect(m_dotGenerator.data(), SIGNAL(finished()),
-                    m_dotGenerator.data(), SLOT(deleteLater()));
+            connect(m_dotGenerator.data(), &DotGraphGenerator::finished,
+                    m_dotGenerator.data(), &DotGraphGenerator::deleteLater);
             m_dotGenerator->cancel();
             m_dotGenerator.take();
         }
@@ -141,7 +141,7 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
         m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
     }
     m_dotGenerator->start();
-    connect(m_dotGenerator.data(), SIGNAL(finished()), this, SLOT(showDotGraph()));
+    connect(m_dotGenerator.data(), &DotGraphGenerator::finished, this, qOverload<>(&CallGraphTab::showDotGraph));
 }
 
 void CallGraphTab::setVisible(bool visible)

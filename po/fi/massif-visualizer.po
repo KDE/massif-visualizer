@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
 "PO-Revision-Date: 2022-10-28 22:34+0300\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -231,22 +231,22 @@ msgstr "Lyhennä mallit"
 msgid "Settings"
 msgstr "Asetukset"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "ladataan tiedostoa <i>%1</i>…"
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr "Muistikaavio"
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, kde-format
 msgid "Callgraph"
 msgstr "Kutsukaavio"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, kde-format
 msgid "Allocators"
 msgstr "Varaimet"

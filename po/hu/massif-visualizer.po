@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
 "PO-Revision-Date: 2014-05-04 16:24+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -227,23 +227,23 @@ msgstr "Sablonok rövidítése"
 msgid "Settings"
 msgstr "Beállítások"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "<i>%1</i> fájl betöltése…"
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr ""
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, fuzzy, kde-format
 #| msgid "CallGraph Toolbar"
 msgid "Callgraph"
 msgstr "CallGraph eszköztár"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, fuzzy, kde-format
 #| msgid "allocator:"
 msgid "Allocators"

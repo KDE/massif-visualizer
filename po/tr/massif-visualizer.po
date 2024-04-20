@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-sdk-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
 "PO-Revision-Date: 2024-02-09 19:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -229,22 +229,22 @@ msgstr "Şablonları Kısalt"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "<i>%1</i> dosyası yükleniyor..."
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr "Bellek Grafiği"
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, kde-format
 msgid "Callgraph"
 msgstr "Callgraph"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, kde-format
 msgid "Allocators"
 msgstr "Ayırıcılar"

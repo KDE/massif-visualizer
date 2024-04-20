@@ -1,24 +1,24 @@
 # Translation of massif-visualizer.po to Catalan (Valencian)
-# Copyright (C) 2011-2022 This_file_is_part_of_KDE
+# Copyright (C) 2011-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2011, 2014, 2015, 2017, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2011, 2014, 2015, 2017, 2020, 2021, 2022, 2024.
 # Manuel Tortosa <manutortosa@chakra-project.org>, 2012.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
-"PO-Revision-Date: 2022-08-06 12:05+0200\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
+"PO-Revision-Date: 2024-04-16 11:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -216,7 +216,7 @@ msgstr "Baix"
 #: app/config.ui:108
 #, kde-format
 msgid "Font Size:"
-msgstr "Mida del tipus de lletra:"
+msgstr "Mida de la lletra:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
 #. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
@@ -231,22 +231,22 @@ msgstr "Plantilles escurçades"
 msgid "Settings"
 msgstr "Configuració"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "s'està carregant el fitxer <i>%1</i>..."
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr "Diagrama de la memòria"
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, kde-format
 msgid "Callgraph"
 msgstr "Gràfica de crides"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, kde-format
 msgid "Allocators"
 msgstr "Assignadors"
@@ -284,7 +284,7 @@ msgstr "Arnold Dumas"
 #: app/main.cpp:48
 #, kde-format
 msgid "Multiple document interface, bug fixes"
-msgstr "Interfície de múltiples documents, correccions d'errors"
+msgstr "Interfície de múltiples documents, esmenes d'errors"
 
 #: app/main.cpp:59
 #, kde-format
@@ -435,13 +435,13 @@ msgstr "Definix l'alineació de la llegenda."
 #: app/massif-visualizer-settings.kcfg:45
 #, kde-format
 msgid "Legend Font Size"
-msgstr "Mida del tipus de lletra de la llegenda"
+msgstr "Mida de la lletra de la llegenda"
 
 #. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr "Establix la mida del tipus de lletra utilitzat en la llegenda."
+msgstr "Establix la mida de la lletra utilitzada en la llegenda."
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5

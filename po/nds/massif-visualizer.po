@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
 "PO-Revision-Date: 2012-05-20 19:31+0200\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -228,23 +228,23 @@ msgstr "Vörlagen afkörten"
 msgid "Settings"
 msgstr "Instellen"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "Datei <i>%1</i> warrt laadt…"
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr ""
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, fuzzy, kde-format
 #| msgid "CallGraph Toolbar"
 msgid "Callgraph"
 msgstr "CallGraph-Warktüüchbalken"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, fuzzy, kde-format
 #| msgid "allocator:"
 msgid "Allocators"

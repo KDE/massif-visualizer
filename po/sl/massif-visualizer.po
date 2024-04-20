@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-19 00:40+0000\n"
+"POT-Creation-Date: 2024-04-20 00:39+0000\n"
 "PO-Revision-Date: 2022-08-07 07:19+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -227,22 +227,22 @@ msgstr "Skrajšaj predloge"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: app/documentwidget.cpp:114
+#: app/documentwidget.cpp:111
 #, kde-format
 msgid "loading file <i>%1</i>..."
 msgstr "nalaganje datoteke <i>%1</i>..."
 
-#: app/documentwidget.cpp:194
+#: app/documentwidget.cpp:191
 #, kde-format
 msgid "Memory Chart"
 msgstr "Diagram pomnilnika"
 
-#: app/documentwidget.cpp:202
+#: app/documentwidget.cpp:199
 #, kde-format
 msgid "Callgraph"
 msgstr "Graf klicev"
 
-#: app/documentwidget.cpp:208
+#: app/documentwidget.cpp:205
 #, kde-format
 msgid "Allocators"
 msgstr "Alokatorji"

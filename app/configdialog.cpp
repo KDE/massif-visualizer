@@ -38,7 +38,7 @@ ConfigDialog::ConfigDialog(QWidget* parent)
     QWidget* settingsPage = new QWidget(this);
     m_ui->setupUi(settingsPage);
 
-    addPage(settingsPage, Settings::self(), i18n("Settings"));
+    addPage(settingsPage, Settings::self(), i18nc("@title:tab", "Settings"));
     setFaceType(KPageDialog::Plain);
 }
 

@@ -87,7 +87,7 @@ void CallGraphTab::setupActions()
     actionCollection()->addAction(QStringLiteral("zoomIn"), m_zoomIn);
     m_zoomOut = KStandardAction::zoomOut(this, &CallGraphTab::zoomOut, actionCollection());
     actionCollection()->addAction(QStringLiteral("zoomOut"), m_zoomOut);
-    m_focusExpensive = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Focus most expensive node"), actionCollection());
+    m_focusExpensive = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18nc("@action", "Focus Most Expensive Node"), actionCollection());
     connect(m_focusExpensive, &QAction::triggered, this, &CallGraphTab::focusExpensiveGraphNode);
     actionCollection()->addAction(QStringLiteral("focusExpensive"), m_focusExpensive);
 }

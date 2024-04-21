@@ -185,32 +185,32 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, &MainWindow::preferences, actionCollection());
 
-    m_shortenTemplates = new QAction(QIcon::fromTheme(QStringLiteral("shortentemplates")), i18n("Shorten Templates"), actionCollection());
+    m_shortenTemplates = new QAction(QIcon::fromTheme(QStringLiteral("shortentemplates")), i18nc("@action", "Shorten Templates"), actionCollection());
     m_shortenTemplates->setCheckable(true);
     m_shortenTemplates->setChecked(Settings::shortenTemplates());
     connect(m_shortenTemplates, &QAction::toggled, this, &MainWindow::slotShortenTemplates);
     actionCollection()->addAction(QStringLiteral("shorten_templates"), m_shortenTemplates);
 
-    m_selectPeak = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18n("Select peak snapshot"), actionCollection());
+    m_selectPeak = new QAction(QIcon::fromTheme(QStringLiteral("flag-red")), i18nc("@action", "Select Peak Snapshot"), actionCollection());
     connect(m_selectPeak, &QAction::triggered, this, &MainWindow::selectPeakSnapshot);
     actionCollection()->addAction(QStringLiteral("selectPeak"), m_selectPeak);
     m_selectPeak->setEnabled(false);
 
     //BEGIN custom allocators
-    m_newAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("add"), ui.allocatorDock);
-    m_newAllocator->setToolTip(i18n("add custom allocator"));
+    m_newAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18nc("@action", "Add"), ui.allocatorDock);
+    m_newAllocator->setToolTip(i18nc("@info:tooltip", "Add custom allocator"));
     connect(m_newAllocator, &QAction::triggered, this, &MainWindow::slotNewAllocator);
     ui.dockMenuBar->addAction(m_newAllocator);
-    m_removeAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-remove")), i18n("remove"),
+    m_removeAllocator = new QAction(QIcon::fromTheme(QStringLiteral("list-remove")), i18nc("@action", "Remove"),
                                     ui.allocatorDock);
-    m_newAllocator->setToolTip(i18n("remove selected allocator"));
+    m_newAllocator->setToolTip(i18nc("@info:tooltip", "Remove selected allocator"));
     connect(m_removeAllocator, &QAction::triggered, this, &MainWindow::slotRemoveAllocator);
     connect(ui.allocatorView->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &MainWindow::allocatorSelectionChanged);
     m_removeAllocator->setEnabled(false);
     ui.dockMenuBar->addAction(m_removeAllocator);
 
-    m_markCustomAllocator = new QAction(i18n("mark as custom allocator"), ui.allocatorDock);
+    m_markCustomAllocator = new QAction(i18nc("@action", "Mark as Custom Allocator"), ui.allocatorDock);
     connect(m_markCustomAllocator, &QAction::triggered,
             this, &MainWindow::slotMarkCustomAllocator, Qt::QueuedConnection);
     //END custom allocators
@@ -221,7 +221,7 @@ void MainWindow::setupActions()
 
     //open page actions
     ui.openFile->setDefaultAction(openFile);
-    ui.openFile->setText(i18n("Open Massif Data File"));
+    ui.openFile->setText(i18nc("@action:button", "Open Massif Data File"));
     ui.openFile->setIconSize(QSize(48, 48));
 }
 
@@ -253,7 +253,8 @@ void MainWindow::settingsChanged()
 
 void MainWindow::openFile()
 {
-    const QList<QUrl> files = QFileDialog::getOpenFileUrls(this, i18n("Open Massif Output File"), QUrl(),
+    const QList<QUrl> files = QFileDialog::getOpenFileUrls(this, i18nc("@title:window", "Open Massif Output File"),
+                                                           QUrl(),
                                                            i18n("Massif data files (massif.out.*)"));
     foreach (const QUrl& file, files) {
         openFile(file);
@@ -391,7 +392,7 @@ void MainWindow::allocatorSelectionChanged()
 
 void MainWindow::slotNewAllocator()
 {
-    QString allocator = QInputDialog::getText(this, i18n("Add Custom Allocator"), i18n("allocator:"));
+    QString allocator = QInputDialog::getText(this, i18nc("@title:window", "Add Custom Allocator"), i18nc("@label:textbox", "Allocator:"));
     if (allocator.isEmpty()) {
         return;
     }
@@ -475,7 +476,7 @@ void MainWindow::slotShortenTemplates(bool shorten)
 void MainWindow::updateWindowTitle()
 {
     if (m_currentDocument && m_currentDocument->isLoaded()) {
-        setWindowTitle(i18n("Evaluation of %1 (%2)", m_currentDocument->data()->cmd(), m_currentDocument->file().fileName()));
+        setWindowTitle(i18nc("@title:window", "Evaluation of %1 (%2)", m_currentDocument->data()->cmd(), m_currentDocument->file().fileName()));
     } else {
         setWindowTitle(QString());
     }

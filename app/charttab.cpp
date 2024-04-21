@@ -184,13 +184,13 @@ void ChartTab::setupActions()
     m_saveAs = KStandardAction::saveAs(this, &ChartTab::saveCurrentDocument, actionCollection());
     actionCollection()->addAction(QStringLiteral("file_save_as"), m_saveAs);
 
-    m_toggleTotal = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area")), i18n("Toggle total cost graph"), actionCollection());
+    m_toggleTotal = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area")), i18nc("@action", "Toggle Total Cost Graph"), actionCollection());
     m_toggleTotal->setCheckable(true);
     m_toggleTotal->setChecked(true);
     connect(m_toggleTotal, &QAction::toggled, this, &ChartTab::showTotalGraph);
     actionCollection()->addAction(QStringLiteral("toggle_total"), m_toggleTotal);
 
-    m_toggleDetailed = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")), i18n("Toggle detailed cost graph"), actionCollection());
+    m_toggleDetailed = new QAction(QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")), i18nc("@action", "Toggle Detailed Cost Graph"), actionCollection());
     m_toggleDetailed->setCheckable(true);
     m_toggleDetailed->setChecked(true);
     connect(m_toggleDetailed, &QAction::toggled, this, &ChartTab::showDetailedGraph);
@@ -201,7 +201,7 @@ void ChartTab::setupActions()
     stackNumAction->setText(i18n("Stacked diagrams"));
     QWidget *stackNumWidget = new QWidget;
     QHBoxLayout* stackNumLayout = new QHBoxLayout;
-    stackNumLayout->addWidget(new QLabel(i18n("Stacked diagrams:")));
+    stackNumLayout->addWidget(new QLabel(i18nc("@label:spinbox", "Stacked diagrams:")));
     m_box->setMinimum(0);
     m_box->setMaximum(50);
     m_box->setValue(10);
@@ -210,10 +210,10 @@ void ChartTab::setupActions()
     stackNumWidget->setLayout(stackNumLayout);
     stackNumAction->setDefaultWidget(stackNumWidget);
 
-    m_hideFunction = new QAction(i18n("hide function"), this);
+    m_hideFunction = new QAction(i18nc("@action", "Hide Function"), this);
     connect(m_hideFunction, &QAction::triggered,
             this, &ChartTab::slotHideFunction);
-    m_hideOtherFunctions = new QAction(i18n("hide other functions"), this);
+    m_hideOtherFunctions = new QAction(i18nc("@action", "Hide Other Functions"), this);
     connect(m_hideOtherFunctions, &QAction::triggered,
             this, &ChartTab::slotHideOtherFunctions);
 }
@@ -463,7 +463,8 @@ void ChartTab::updateHeader()
 
 void ChartTab::saveCurrentDocument()
 {
-    const auto saveFilename = QFileDialog::getSaveFileName(this, i18n("Save Current Visualization"), QString(),
+    const auto saveFilename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Current Visualization"),
+                                                           QString(),
                                                            i18n("Images (*.png *.jpg *.tiff *.svg)"));
 
     if (!saveFilename.isEmpty()) {
@@ -499,7 +500,7 @@ void ChartTab::showPrintPreviewDialog()
     QPrintPreviewDialog *ppd = new QPrintPreviewDialog(&printer, this);
     ppd->setAttribute(Qt::WA_DeleteOnClose);
     connect(ppd, &QPrintPreviewDialog::paintRequested, this, &ChartTab::printFile);
-    ppd->setWindowTitle(i18n("Massif Chart Print Preview"));
+    ppd->setWindowTitle(i18nc("@title:window", "Massif Chart Print Preview"));
     ppd->resize(800, 600);
     ppd->exec();
 }

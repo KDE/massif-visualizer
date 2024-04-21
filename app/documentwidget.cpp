@@ -108,7 +108,7 @@ DocumentWidget::DocumentWidget(const QUrl& file, const QStringList& customAlloca
     verticalLayout->addItem(upperSpacerItem);
 
     m_loadingMessage = new QLabel(loadingPage);
-    m_loadingMessage->setText(i18n("loading file <i>%1</i>...", file.toString()));
+    m_loadingMessage->setText(xi18nc("@info:status", "Loading file <filename>%1</filename>…", file.toString()));
     m_loadingMessage->setAlignment(Qt::AlignCenter);
     verticalLayout->addWidget(m_loadingMessage);
 
@@ -188,7 +188,7 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
     m_file = file;
 
     m_tabs->addTab(new ChartTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("office-chart-area-stacked")),
-                   i18n("Memory Chart"));
+                   i18nc("@title:tab", "Memory Chart"));
 
 #ifdef HAVE_KGRAPHVIEWER
     static KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kf6/parts/kgraphviewerpart"))).plugin;
@@ -196,13 +196,13 @@ void DocumentWidget::parserFinished(const QUrl& file, FileData* data)
         KParts::ReadOnlyPart* part = factory->create<KParts::ReadOnlyPart>(this);
         if (part) {
             m_tabs->addTab(new CallGraphTab(m_data, part, this, this), QIcon::fromTheme(QStringLiteral("kgraphviewer")),
-                           i18n("Callgraph"));
+                           i18nc("@title:tab", "Callgraph"));
         }
     }
 #endif
 
     m_tabs->addTab(new AllocatorsTab(m_data, this, this), QIcon::fromTheme(QStringLiteral("view-list-text")),
-                   i18n("Allocators"));
+                   i18nc("@title:tab", "Allocators"));
 
     for (int i = 0; i < m_tabs->count(); ++i) {
         DocumentTabInterface* tab = static_cast<DocumentTabInterface*>(m_tabs->widget(i));

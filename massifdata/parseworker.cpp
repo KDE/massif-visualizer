@@ -83,8 +83,8 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
         }
         return;
     } else if (data->snapshots().isEmpty()) {
-        emit error(i18n("Empty data file <i>%1</i>.", url.toString()),
-                   i18n("Empty Data File"));
+        emit error(i18n("Empty Data File"),
+                   i18n("Empty data file <i>%1</i>.", url.toString()));
         return;
     }
 

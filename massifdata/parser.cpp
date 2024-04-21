@@ -28,6 +28,8 @@
 
 #include <QIODevice>
 
+#include <memory>
+
 using namespace Massif;
 
 Parser::Parser()
@@ -44,9 +46,9 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
     Q_ASSERT(file->isOpen());
     Q_ASSERT(file->isReadable());
 
-    QScopedPointer<FileData> data(new FileData);
+    std::unique_ptr<FileData> data(new FileData);
 
-    ParserPrivate p(this, file, data.data(), customAllocators, shouldStop);
+    ParserPrivate p(this, file, data.get(), customAllocators, shouldStop);
 
     if (p.error()) {
         m_errorLine = p.errorLine();
@@ -80,7 +82,7 @@ FileData* Parser::parse(QIODevice* file, const QStringList& customAllocators, QA
     }
     // peak might still be zero if we have no snapshots, should be handled in the UI then
 
-    return data.take();
+    return data.release();
 }
 
 int Parser::errorLine() const

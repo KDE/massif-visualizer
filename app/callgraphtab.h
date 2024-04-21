@@ -27,6 +27,8 @@
 
 #include <visualizer/modelitem.h>
 
+#include <memory>
+
 class QAction;
 
 namespace KGraphViewer {
@@ -72,7 +74,7 @@ private:
 private:
     KParts::ReadOnlyPart* m_graphViewerPart;
     KGraphViewer::KGraphViewerInterface* m_graphViewer;
-    QScopedPointer<Massif::DotGraphGenerator> m_dotGenerator;
+    std::unique_ptr<Massif::DotGraphGenerator> m_dotGenerator;
     Massif::ModelItem m_lastDotItem;
     Massif::ModelItem m_nextDotItem;
 

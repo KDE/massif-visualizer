@@ -30,6 +30,8 @@
 #include "massifdata/parser.h"
 #include "massifdata/filedata.h"
 
+#include <memory>
+
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
 
@@ -51,7 +53,7 @@ int main(int argc, char** argv) {
     t.start();
 
     Massif::Parser parser;
-    QScopedPointer<Massif::FileData> data(parser.parse(&device));
+    std::unique_ptr<Massif::FileData> data(parser.parse(&device));
     if (!data) {
         qWarning() << "failed to parse file:" << file;
         qWarning() << parser.errorLineString() << "in line" << parser.errorLine();

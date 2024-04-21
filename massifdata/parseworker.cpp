@@ -31,6 +31,8 @@
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
 
+#include <memory>
+
 namespace Massif {
 
 ParseWorker::ParseWorker(QObject* parent)
@@ -71,7 +73,7 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
     Parser p;
     emit progressRange(0, 100);
     connect(&p, &Parser::progress, this, &ParseWorker::progress);
-    QScopedPointer<FileData> data(p.parse(&device, allocators, &m_shouldStop));
+    std::unique_ptr<FileData> data(p.parse(&device, allocators, &m_shouldStop));
 
     if (!data) {
         if (!m_shouldStop) {
@@ -91,7 +93,7 @@ void ParseWorker::parse(const QUrl& url, const QStringList& allocators)
     emit progress(100);
 
     // success!
-    emit finished(url, data.take());
+    emit finished(url, data.release());
 }
 
 void ParseWorker::stop()

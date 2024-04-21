@@ -66,11 +66,11 @@ CallGraphTab::~CallGraphTab()
 {
     if (m_dotGenerator) {
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
-            connect(m_dotGenerator.data(), &DotGraphGenerator::finished,
-                    m_dotGenerator.data(), &DotGraphGenerator::deleteLater);
+            disconnect(m_dotGenerator.get(), nullptr, this, nullptr);
+            connect(m_dotGenerator.get(), &DotGraphGenerator::finished,
+                    m_dotGenerator.get(), &DotGraphGenerator::deleteLater);
             m_dotGenerator->cancel();
-            m_dotGenerator.take();
+            m_dotGenerator.release();
         }
         m_dotGenerator.reset();
     }
@@ -124,11 +124,11 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
     if (m_dotGenerator) {
         qDebug() << "existing generator is running:" << m_dotGenerator->isRunning();
         if (m_dotGenerator->isRunning()) {
-            disconnect(m_dotGenerator.data(), nullptr, this, nullptr);
-            connect(m_dotGenerator.data(), &DotGraphGenerator::finished,
-                    m_dotGenerator.data(), &DotGraphGenerator::deleteLater);
+            disconnect(m_dotGenerator.get(), nullptr, this, nullptr);
+            connect(m_dotGenerator.get(), &DotGraphGenerator::finished,
+                    m_dotGenerator.get(), &DotGraphGenerator::deleteLater);
             m_dotGenerator->cancel();
-            m_dotGenerator.take();
+            m_dotGenerator.release();
         }
         m_dotGenerator.reset();
     }
@@ -141,7 +141,7 @@ void CallGraphTab::showDotGraph(const ModelItem& item)
         m_dotGenerator.reset(new DotGraphGenerator(item.first, m_data->timeUnit(), this));
     }
     m_dotGenerator->start();
-    connect(m_dotGenerator.data(), &DotGraphGenerator::finished, this, qOverload<>(&CallGraphTab::showDotGraph));
+    connect(m_dotGenerator.get(), &DotGraphGenerator::finished, this, qOverload<>(&CallGraphTab::showDotGraph));
 }
 
 void CallGraphTab::setVisible(bool visible)

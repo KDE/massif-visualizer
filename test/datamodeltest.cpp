@@ -40,6 +40,8 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
+#include <memory>
+
 QTEST_MAIN(DataModelTest)
 
 using namespace Massif;
@@ -51,8 +53,8 @@ void DataModelTest::parseFile()
     QVERIFY(file.open(QIODevice::ReadOnly));
 
     Parser parser;
-    QScopedPointer<FileData> scopedData(parser.parse(&file));
-    FileData* data = scopedData.data();
+    std::unique_ptr<FileData> scopedData(parser.parse(&file));
+    FileData* data = scopedData.get();
     QVERIFY(data);
 
     {
@@ -168,8 +170,8 @@ void DataModelTest::bigMem()
     QVERIFY(file.open(QIODevice::ReadOnly));
 
     Parser parser;
-    QScopedPointer<FileData> scopedData(parser.parse(&file));
-    FileData* data = scopedData.data();
+    std::unique_ptr<FileData> scopedData(parser.parse(&file));
+    FileData* data = scopedData.get();
     QVERIFY(data);
 
     QCOMPARE(data->snapshots().count(), 1);

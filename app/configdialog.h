@@ -25,6 +25,8 @@
 
 #include <KConfigDialog>
 
+#include <memory>
+
 namespace Ui {
 class Config;
 }
@@ -45,7 +47,7 @@ public:
     static bool isShown();
 
 private:
-    QScopedPointer<Ui::Config> m_ui;
+    std::unique_ptr<Ui::Config> m_ui;
 };
 
 }

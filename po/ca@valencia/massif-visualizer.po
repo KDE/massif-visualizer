@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:39+0000\n"
+"POT-Creation-Date: 2024-04-22 00:40+0000\n"
 "PO-Revision-Date: 2024-04-16 11:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -33,8 +33,10 @@ msgid "Your emails"
 msgstr "txemaq@gmail.com,manutortosa@chakra-project.org"
 
 #: app/callgraphtab.cpp:90
-#, kde-format
-msgid "Focus most expensive node"
+#, fuzzy, kde-format
+#| msgid "Focus most expensive node"
+msgctxt "@action"
+msgid "Focus Most Expensive Node"
 msgstr "Enfoca el node amb més consum"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
@@ -44,13 +46,17 @@ msgid "CallGraph Toolbar"
 msgstr "Barra d'eines de la gràfica de crides"
 
 #: app/charttab.cpp:187
-#, kde-format
-msgid "Toggle total cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle total cost graph"
+msgctxt "@action"
+msgid "Toggle Total Cost Graph"
 msgstr "Canvia la gràfica del cost total"
 
 #: app/charttab.cpp:193
-#, kde-format
-msgid "Toggle detailed cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle detailed cost graph"
+msgctxt "@action"
+msgid "Toggle Detailed Cost Graph"
 msgstr "Canvia la gràfica del cost detallat"
 
 #: app/charttab.cpp:201
@@ -59,18 +65,24 @@ msgid "Stacked diagrams"
 msgstr "Diagrames apilats"
 
 #: app/charttab.cpp:204
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacked diagrams:"
+msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Diagrames apilats:"
 
 #: app/charttab.cpp:213
-#, kde-format
-msgid "hide function"
+#, fuzzy, kde-format
+#| msgid "hide function"
+msgctxt "@action"
+msgid "Hide Function"
 msgstr "oculta una funció"
 
 #: app/charttab.cpp:216
-#, kde-format
-msgid "hide other functions"
+#, fuzzy, kde-format
+#| msgid "hide other functions"
+msgctxt "@action"
+msgid "Hide Other Functions"
 msgstr "oculta altres funcions"
 
 #: app/charttab.cpp:281
@@ -103,22 +115,26 @@ msgstr ""
 "Opcions de Valgrind: %2"
 
 #: app/charttab.cpp:466
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Current Visualization"
+msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Guarda la visualització actual"
 
-#: app/charttab.cpp:467
+#: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Imatges (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:491
+#: app/charttab.cpp:492
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "No s'ha pogut guardar la imatge a %1."
 
-#: app/charttab.cpp:502
-#, kde-format
+#: app/charttab.cpp:503
+#, fuzzy, kde-format
+#| msgid "Massif Chart Print Preview"
+msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Vista prèvia d'impressió dels diagrames de Massif"
 
@@ -134,120 +150,129 @@ msgstr "Barra d'eines de diagrames"
 msgid "Cost Precision:"
 msgstr "Precisió del cost:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgid "Shorten Templates:"
+msgstr "Plantilles escurçades"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:37
 #, kde-format
 msgid "Legend"
 msgstr "Llegenda"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: app/config.ui:36
+#: app/config.ui:43
 #, kde-format
 msgid "Position:"
 msgstr "Posició:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:44
+#: app/config.ui:51
 #, kde-format
 msgid "North"
 msgstr "Nord"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:49
+#: app/config.ui:56
 #, kde-format
 msgid "East"
 msgstr "Est"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:54
+#: app/config.ui:61
 #, kde-format
 msgid "South"
 msgstr "Sud"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:59
+#: app/config.ui:66
 #, kde-format
 msgid "West"
 msgstr "Oest"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:64
+#: app/config.ui:71
 #, kde-format
 msgid "Floating"
 msgstr "Flotant"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
-#: app/config.ui:72
+#: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
 msgstr "Alineació:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:80
+#: app/config.ui:87
 #, kde-format
 msgid "Left"
 msgstr "Esquerra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:85
+#: app/config.ui:92
 #, kde-format
 msgid "Center"
 msgstr "Centre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:90
+#: app/config.ui:97
 #, kde-format
 msgid "Right"
 msgstr "Dreta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:95
+#: app/config.ui:102
 #, kde-format
 msgid "Top"
 msgstr "Dalt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:100
+#: app/config.ui:107
 #, kde-format
 msgid "Bottom"
 msgstr "Baix"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
-#: app/config.ui:108
+#: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
 msgstr "Mida de la lletra:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
-#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
-#: app/config.ui:121 app/mainwindow.cpp:188
-#: app/massif-visualizer-settings.kcfg:14
-#, kde-format
-msgid "Shorten Templates"
-msgstr "Plantilles escurçades"
-
 #: app/configdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Settings"
+msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Configuració"
 
 #: app/documentwidget.cpp:111
-#, kde-format
-msgid "loading file <i>%1</i>..."
+#, fuzzy, kde-kuit-format
+#| msgid "loading file <i>%1</i>..."
+msgctxt "@info:status"
+msgid "Loading file <filename>%1</filename>…"
 msgstr "s'està carregant el fitxer <i>%1</i>..."
 
 #: app/documentwidget.cpp:191
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Memory Chart"
+msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Diagrama de la memòria"
 
 #: app/documentwidget.cpp:199
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Callgraph"
+msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Gràfica de crides"
 
 #: app/documentwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Assignadors"
 
@@ -296,64 +321,93 @@ msgstr "Fitxers que s'han de carregar"
 msgid "[FILE...]"
 msgstr "[FITXER...]"
 
+#: app/mainwindow.cpp:188
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgctxt "@action"
+msgid "Shorten Templates"
+msgstr "Plantilles escurçades"
+
 #: app/mainwindow.cpp:194
-#, kde-format
-msgid "Select peak snapshot"
+#, fuzzy, kde-format
+#| msgid "Select peak snapshot"
+msgctxt "@action"
+msgid "Select Peak Snapshot"
 msgstr "Selecciona una captura de pics"
 
 #: app/mainwindow.cpp:200
-#, kde-format
-msgid "add"
+#, fuzzy, kde-format
+#| msgid "add"
+msgctxt "@action"
+msgid "Add"
 msgstr "afig"
 
 #: app/mainwindow.cpp:201
-#, kde-format
-msgid "add custom allocator"
+#, fuzzy, kde-format
+#| msgid "add custom allocator"
+msgctxt "@info:tooltip"
+msgid "Add custom allocator"
 msgstr "afig un assignador personalitzat"
 
 #: app/mainwindow.cpp:204
-#, kde-format
-msgid "remove"
+#, fuzzy, kde-format
+#| msgid "remove"
+msgctxt "@action"
+msgid "Remove"
 msgstr "elimina"
 
 #: app/mainwindow.cpp:206
-#, kde-format
-msgid "remove selected allocator"
+#, fuzzy, kde-format
+#| msgid "remove selected allocator"
+msgctxt "@info:tooltip"
+msgid "Remove selected allocator"
 msgstr "elimina l'assignador seleccionat"
 
 #: app/mainwindow.cpp:213
-#, kde-format
-msgid "mark as custom allocator"
+#, fuzzy, kde-format
+#| msgid "mark as custom allocator"
+msgctxt "@action"
+msgid "Mark as Custom Allocator"
 msgstr "marca com un assignador personalitzat"
 
 #: app/mainwindow.cpp:224
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Data File"
+msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Obri un fitxer de dades Massif"
 
 #: app/mainwindow.cpp:256
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Output File"
+msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Obri un fitxer d'eixida Massif"
 
 # skip-rule: t-pu_sp
-#: app/mainwindow.cpp:257
+#: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
 msgstr "Fitxers de dades de Massif (massif.out.*)"
 
-#: app/mainwindow.cpp:394
-#, kde-format
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Add Custom Allocator"
+msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Afegir un assignador personalitzat"
 
-#: app/mainwindow.cpp:394
-#, kde-format
-msgid "allocator:"
-msgstr "assignador:"
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@label:textbox"
+msgid "Allocator:"
+msgstr "Assignadors"
 
-#: app/mainwindow.cpp:478
-#, kde-format
+#: app/mainwindow.cpp:479
+#, fuzzy, kde-format
+#| msgid "Evaluation of %1 (%2)"
+msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Avaluació de %1 (%2)"
 
@@ -396,6 +450,12 @@ msgid ""
 msgstr ""
 "Establix el nombre de posicions després de la coma per al cost de memòria "
 "quan es mostra en l'aplicació."
+
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Plantilles escurçades"
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -479,47 +539,47 @@ msgstr "A&juda"
 msgid "Main Toolbar"
 msgstr "Barra d'eines principal"
 
-#: massifdata/parseworker.cpp:55
+#: massifdata/parseworker.cpp:57
 #, kde-format
 msgid "Download Failed"
 msgstr "La baixada ha fallat"
 
-#: massifdata/parseworker.cpp:56
+#: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr "No s'ha pogut baixar el fitxer remot de dades del massif <i>%1</i>."
 
-#: massifdata/parseworker.cpp:66
+#: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
 msgstr "No s'ha pogut llegir"
 
-#: massifdata/parseworker.cpp:67
+#: massifdata/parseworker.cpp:69
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
 msgstr "No s'ha pogut obrir el fitxer <i>%1</i> per a lectura."
 
-#: massifdata/parseworker.cpp:78
+#: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
 msgstr "No s'ha pogut analitzar"
 
-#: massifdata/parseworker.cpp:79
+#: massifdata/parseworker.cpp:81
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
 "No s'ha pogut analitzar el fitxer <i>%1</i>.<br>S'ha produït un error "
 "d'anàlisi en la línia %2:<br>%3"
 
-#: massifdata/parseworker.cpp:86
-#, kde-format
-msgid "Empty data file <i>%1</i>."
-msgstr "Fitxer de dades buit <i>%1</i>."
-
-#: massifdata/parseworker.cpp:87
+#: massifdata/parseworker.cpp:88
 #, kde-format
 msgid "Empty Data File"
 msgstr "Fitxer de dades buit"
+
+#: massifdata/parseworker.cpp:89
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Fitxer de dades buit <i>%1</i>."
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -634,3 +694,6 @@ msgstr ""
 "Cost de la memòria en monticles de %2\n"
 "Cost de la memòria en monticles extra de %3\n"
 "Cost de la pila de %4"
+
+#~ msgid "allocator:"
+#~ msgstr "assignador:"

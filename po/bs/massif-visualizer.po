@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:39+0000\n"
+"POT-Creation-Date: 2024-04-22 00:40+0000\n"
 "PO-Revision-Date: 2015-01-10 11:40+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bs <bs@kde.org>\n"
@@ -33,8 +33,10 @@ msgstr ""
 "ncongo1@etf.unsa.ba"
 
 #: app/callgraphtab.cpp:90
-#, kde-format
-msgid "Focus most expensive node"
+#, fuzzy, kde-format
+#| msgid "Focus most expensive node"
+msgctxt "@action"
+msgid "Focus Most Expensive Node"
 msgstr "Fokusiraj najskuplji čvor"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
@@ -44,13 +46,17 @@ msgid "CallGraph Toolbar"
 msgstr "ZoviTabelu Traka"
 
 #: app/charttab.cpp:187
-#, kde-format
-msgid "Toggle total cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle total cost graph"
+msgctxt "@action"
+msgid "Toggle Total Cost Graph"
 msgstr "Prikazi graf totalnog troška"
 
 #: app/charttab.cpp:193
-#, kde-format
-msgid "Toggle detailed cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle detailed cost graph"
+msgctxt "@action"
+msgid "Toggle Detailed Cost Graph"
 msgstr "Prikazi graf detaljnog troška"
 
 #: app/charttab.cpp:201
@@ -59,18 +65,24 @@ msgid "Stacked diagrams"
 msgstr "Složeni dijagrami"
 
 #: app/charttab.cpp:204
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacked diagrams:"
+msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Složeni dijagrami:"
 
 #: app/charttab.cpp:213
-#, kde-format
-msgid "hide function"
+#, fuzzy, kde-format
+#| msgid "hide function"
+msgctxt "@action"
+msgid "Hide Function"
 msgstr "sakrij funkciju"
 
 #: app/charttab.cpp:216
-#, kde-format
-msgid "hide other functions"
+#, fuzzy, kde-format
+#| msgid "hide other functions"
+msgctxt "@action"
+msgid "Hide Other Functions"
 msgstr "sakrij ostale funkcije"
 
 #: app/charttab.cpp:281
@@ -103,23 +115,27 @@ msgstr ""
 "Valgrind opcije: %2"
 
 #: app/charttab.cpp:466
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Current Visualization"
+msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Sačuvati trenutnu vizualizaciju"
 
-#: app/charttab.cpp:467
+#: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr ""
 
-#: app/charttab.cpp:491
+#: app/charttab.cpp:492
 #, fuzzy, kde-format
 #| msgid "Error, failed to save the image to %1."
 msgid "Failed to save the image to %1."
 msgstr "Greška, sačuvanje slike na %1 nije uspjelo."
 
-#: app/charttab.cpp:502
-#, kde-format
+#: app/charttab.cpp:503
+#, fuzzy, kde-format
+#| msgid "Massif Chart Print Preview"
+msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Massif prikaz tabele za štampanje"
 
@@ -135,120 +151,129 @@ msgstr "Traka Tabela"
 msgid "Cost Precision:"
 msgstr "Preciznost troška:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgid "Shorten Templates:"
+msgstr "Skraćeni predlošci"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:37
 #, kde-format
 msgid "Legend"
 msgstr "Legenda"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: app/config.ui:36
+#: app/config.ui:43
 #, kde-format
 msgid "Position:"
 msgstr "Pozicija:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:44
+#: app/config.ui:51
 #, kde-format
 msgid "North"
 msgstr "Sjever"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:49
+#: app/config.ui:56
 #, kde-format
 msgid "East"
 msgstr "Istok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:54
+#: app/config.ui:61
 #, kde-format
 msgid "South"
 msgstr "Jug"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:59
+#: app/config.ui:66
 #, kde-format
 msgid "West"
 msgstr "Zapad"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:64
+#: app/config.ui:71
 #, kde-format
 msgid "Floating"
 msgstr "Plutajuće"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
-#: app/config.ui:72
+#: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
 msgstr "Poravnanje:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:80
+#: app/config.ui:87
 #, kde-format
 msgid "Left"
 msgstr "Lijevo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:85
+#: app/config.ui:92
 #, kde-format
 msgid "Center"
 msgstr "Sredina"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:90
+#: app/config.ui:97
 #, kde-format
 msgid "Right"
 msgstr "Desno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:95
+#: app/config.ui:102
 #, kde-format
 msgid "Top"
 msgstr "Vrh"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:100
+#: app/config.ui:107
 #, kde-format
 msgid "Bottom"
 msgstr "Dno"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
-#: app/config.ui:108
+#: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
 msgstr "Veličina fonta:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
-#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
-#: app/config.ui:121 app/mainwindow.cpp:188
-#: app/massif-visualizer-settings.kcfg:14
-#, kde-format
-msgid "Shorten Templates"
-msgstr "Skraćeni predlošci"
-
 #: app/configdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Settings"
+msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Postavke akcije"
 
 #: app/documentwidget.cpp:111
-#, kde-format
-msgid "loading file <i>%1</i>..."
+#, fuzzy, kde-kuit-format
+#| msgid "loading file <i>%1</i>..."
+msgctxt "@info:status"
+msgid "Loading file <filename>%1</filename>…"
 msgstr "učitavanje datoteke <i>%1</i>..."
 
 #: app/documentwidget.cpp:191
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Memory Chart"
+msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Tabela memorije"
 
 #: app/documentwidget.cpp:199
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Callgraph"
+msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Callgraph"
 
 #: app/documentwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Alokatori"
 
@@ -298,64 +323,92 @@ msgstr ""
 msgid "[FILE...]"
 msgstr ""
 
+#: app/mainwindow.cpp:188
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgctxt "@action"
+msgid "Shorten Templates"
+msgstr "Skraćeni predlošci"
+
 #: app/mainwindow.cpp:194
-#, kde-format
-msgid "Select peak snapshot"
+#, fuzzy, kde-format
+#| msgid "Select peak snapshot"
+msgctxt "@action"
+msgid "Select Peak Snapshot"
 msgstr "Odaberi snimak vrhunca"
 
 #: app/mainwindow.cpp:200
-#, kde-format
-msgid "add"
+#, fuzzy, kde-format
+#| msgid "add"
+msgctxt "@action"
+msgid "Add"
 msgstr "dodaj"
 
 #: app/mainwindow.cpp:201
-#, kde-format
-msgid "add custom allocator"
+#, fuzzy, kde-format
+#| msgid "add custom allocator"
+msgctxt "@info:tooltip"
+msgid "Add custom allocator"
 msgstr "dodaj poručeni alokator"
 
 #: app/mainwindow.cpp:204
-#, kde-format
-msgid "remove"
+#, fuzzy, kde-format
+#| msgid "remove"
+msgctxt "@action"
+msgid "Remove"
 msgstr "ukloni"
 
 #: app/mainwindow.cpp:206
-#, kde-format
-msgid "remove selected allocator"
+#, fuzzy, kde-format
+#| msgid "remove selected allocator"
+msgctxt "@info:tooltip"
+msgid "Remove selected allocator"
 msgstr "ukloni izabrani alokator"
 
 #: app/mainwindow.cpp:213
-#, kde-format
-msgid "mark as custom allocator"
+#, fuzzy, kde-format
+#| msgid "mark as custom allocator"
+msgctxt "@action"
+msgid "Mark as Custom Allocator"
 msgstr "markiraj kao poručeni alokator"
 
 #: app/mainwindow.cpp:224
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Data File"
+msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Otvori Massif datoteku"
 
 #: app/mainwindow.cpp:256
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Output File"
+msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Otvori Massif Output datoteku"
 
-#: app/mainwindow.cpp:257
+#: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
 msgstr ""
 
-#: app/mainwindow.cpp:394
-#, kde-format
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Add Custom Allocator"
+msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Dodaj poručeni alokator"
 
-#: app/mainwindow.cpp:394
-#, kde-format
-msgid "allocator:"
-msgstr "alokator:"
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@label:textbox"
+msgid "Allocator:"
+msgstr "Alokatori"
 
-#: app/mainwindow.cpp:478
+#: app/mainwindow.cpp:479
 #, fuzzy, kde-format
 #| msgid "Massif Visualizer - evaluation of %1 (%2)"
+msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Massif Visualizer - procjena od %1 (%2 )"
 
@@ -398,6 +451,12 @@ msgid ""
 msgstr ""
 "Definira broj mjesta nakon zareza za memorijske troškove prikazane u "
 "aplikaciji."
+
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Skraćeni predlošci"
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -481,47 +540,47 @@ msgstr "&Pomoć"
 msgid "Main Toolbar"
 msgstr "Glavna alatna traka"
 
-#: massifdata/parseworker.cpp:55
+#: massifdata/parseworker.cpp:57
 #, kde-format
 msgid "Download Failed"
 msgstr "Preuzimanje nije uspjelo"
 
-#: massifdata/parseworker.cpp:56
+#: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr "Nije uspjelo preuzimanje daljinske massif datoteke <i>%1</i>."
 
-#: massifdata/parseworker.cpp:66
+#: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
 msgstr "Čitanje nije uspjelo"
 
-#: massifdata/parseworker.cpp:67
+#: massifdata/parseworker.cpp:69
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
 msgstr "Nije moguce otvori datoteku  <i>%1</i> za čitanje."
 
-#: massifdata/parseworker.cpp:78
+#: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
 msgstr "Raščlanjivanje nije uspjelo"
 
-#: massifdata/parseworker.cpp:79
+#: massifdata/parseworker.cpp:81
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
 "Nije moguce raščlaniti datoteku <i>%1</i>.<br>Greška raščlanjivanja u liniji "
 "%2:<br>%3"
 
-#: massifdata/parseworker.cpp:86
-#, kde-format
-msgid "Empty data file <i>%1</i>."
-msgstr "Prazna datoteka  <i>%1</i>."
-
-#: massifdata/parseworker.cpp:87
+#: massifdata/parseworker.cpp:88
 #, kde-format
 msgid "Empty Data File"
 msgstr "Prazna datoteka"
+
+#: massifdata/parseworker.cpp:89
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Prazna datoteka  <i>%1</i>."
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -637,6 +696,9 @@ msgstr ""
 "Heap cijena od %2\n"
 "Dodatna heap cijena od %3\n"
 "Stog cijena od %4"
+
+#~ msgid "allocator:"
+#~ msgstr "alokator:"
 
 #~ msgid "Opens given output file(s) and visualize it."
 #~ msgstr "Otvara dobivene izlazne datoteke i vizualizira ih."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:39+0000\n"
+"POT-Creation-Date: 2024-04-22 00:40+0000\n"
 "PO-Revision-Date: 2022-08-06 08:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -31,8 +31,10 @@ msgid "Your emails"
 msgstr "yurchor@ukr.net"
 
 #: app/callgraphtab.cpp:90
-#, kde-format
-msgid "Focus most expensive node"
+#, fuzzy, kde-format
+#| msgid "Focus most expensive node"
+msgctxt "@action"
+msgid "Focus Most Expensive Node"
 msgstr "Фокусувати найвитратніший вузол"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
@@ -42,13 +44,17 @@ msgid "CallGraph Toolbar"
 msgstr "Панель графіка викликів"
 
 #: app/charttab.cpp:187
-#, kde-format
-msgid "Toggle total cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle total cost graph"
+msgctxt "@action"
+msgid "Toggle Total Cost Graph"
 msgstr "Увімкнути або вимкнути графік загальної вартості"
 
 #: app/charttab.cpp:193
-#, kde-format
-msgid "Toggle detailed cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle detailed cost graph"
+msgctxt "@action"
+msgid "Toggle Detailed Cost Graph"
 msgstr "Увімкнути або вимкнути графік розподілу вартостей"
 
 #: app/charttab.cpp:201
@@ -57,18 +63,24 @@ msgid "Stacked diagrams"
 msgstr "Діаграми-стоси"
 
 #: app/charttab.cpp:204
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacked diagrams:"
+msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Діаграми-стоси:"
 
 #: app/charttab.cpp:213
-#, kde-format
-msgid "hide function"
+#, fuzzy, kde-format
+#| msgid "hide function"
+msgctxt "@action"
+msgid "Hide Function"
 msgstr "приховати функцію"
 
 #: app/charttab.cpp:216
-#, kde-format
-msgid "hide other functions"
+#, fuzzy, kde-format
+#| msgid "hide other functions"
+msgctxt "@action"
+msgid "Hide Other Functions"
 msgstr "приховати інші функції"
 
 #: app/charttab.cpp:281
@@ -101,22 +113,26 @@ msgstr ""
 "Параметри Valgrind: %2"
 
 #: app/charttab.cpp:466
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Current Visualization"
+msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Збереження поточної візуалізації"
 
-#: app/charttab.cpp:467
+#: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "зображення (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:491
+#: app/charttab.cpp:492
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "Не вдалося зберегти зображення до %1."
 
-#: app/charttab.cpp:502
-#, kde-format
+#: app/charttab.cpp:503
+#, fuzzy, kde-format
+#| msgid "Massif Chart Print Preview"
+msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Попередній перегляд друку діаграми Massif"
 
@@ -132,120 +148,129 @@ msgstr "Панель діаграм"
 msgid "Cost Precision:"
 msgstr "Точність оцінки:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgid "Shorten Templates:"
+msgstr "Скорочені шаблони"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:37
 #, kde-format
 msgid "Legend"
 msgstr "Умовні позначення"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: app/config.ui:36
+#: app/config.ui:43
 #, kde-format
 msgid "Position:"
 msgstr "Розташування:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:44
+#: app/config.ui:51
 #, kde-format
 msgid "North"
 msgstr "північ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:49
+#: app/config.ui:56
 #, kde-format
 msgid "East"
 msgstr "схід"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:54
+#: app/config.ui:61
 #, kde-format
 msgid "South"
 msgstr "південь"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:59
+#: app/config.ui:66
 #, kde-format
 msgid "West"
 msgstr "захід"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:64
+#: app/config.ui:71
 #, kde-format
 msgid "Floating"
 msgstr "Рухоме"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
-#: app/config.ui:72
+#: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
 msgstr "Вирівнювання:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:80
+#: app/config.ui:87
 #, kde-format
 msgid "Left"
 msgstr "ліворуч"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:85
+#: app/config.ui:92
 #, kde-format
 msgid "Center"
 msgstr "за центром"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:90
+#: app/config.ui:97
 #, kde-format
 msgid "Right"
 msgstr "праворуч"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:95
+#: app/config.ui:102
 #, kde-format
 msgid "Top"
 msgstr "вгору"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:100
+#: app/config.ui:107
 #, kde-format
 msgid "Bottom"
 msgstr "вниз"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
-#: app/config.ui:108
+#: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
 msgstr "Розмір шрифту:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
-#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
-#: app/config.ui:121 app/mainwindow.cpp:188
-#: app/massif-visualizer-settings.kcfg:14
-#, kde-format
-msgid "Shorten Templates"
-msgstr "Скорочені шаблони"
-
 #: app/configdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Settings"
+msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Параметри"
 
 #: app/documentwidget.cpp:111
-#, kde-format
-msgid "loading file <i>%1</i>..."
+#, fuzzy, kde-kuit-format
+#| msgid "loading file <i>%1</i>..."
+msgctxt "@info:status"
+msgid "Loading file <filename>%1</filename>…"
 msgstr "завантаження файла <i>%1</i>…"
 
 #: app/documentwidget.cpp:191
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Memory Chart"
+msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Діаграма для пам’яті"
 
 #: app/documentwidget.cpp:199
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Callgraph"
+msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Граф викликів"
 
 #: app/documentwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Розподільники"
 
@@ -295,63 +320,92 @@ msgstr "Файли для завантаження"
 msgid "[FILE...]"
 msgstr "[ФАЙЛ...]"
 
+#: app/mainwindow.cpp:188
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgctxt "@action"
+msgid "Shorten Templates"
+msgstr "Скорочені шаблони"
+
 #: app/mainwindow.cpp:194
-#, kde-format
-msgid "Select peak snapshot"
+#, fuzzy, kde-format
+#| msgid "Select peak snapshot"
+msgctxt "@action"
+msgid "Select Peak Snapshot"
 msgstr "Знімок для вибраного піку"
 
 #: app/mainwindow.cpp:200
-#, kde-format
-msgid "add"
+#, fuzzy, kde-format
+#| msgid "add"
+msgctxt "@action"
+msgid "Add"
 msgstr "додати"
 
 #: app/mainwindow.cpp:201
-#, kde-format
-msgid "add custom allocator"
+#, fuzzy, kde-format
+#| msgid "add custom allocator"
+msgctxt "@info:tooltip"
+msgid "Add custom allocator"
 msgstr "додати нетиповий розподільник"
 
 #: app/mainwindow.cpp:204
-#, kde-format
-msgid "remove"
+#, fuzzy, kde-format
+#| msgid "remove"
+msgctxt "@action"
+msgid "Remove"
 msgstr "вилучити"
 
 #: app/mainwindow.cpp:206
-#, kde-format
-msgid "remove selected allocator"
+#, fuzzy, kde-format
+#| msgid "remove selected allocator"
+msgctxt "@info:tooltip"
+msgid "Remove selected allocator"
 msgstr "вилучити позначений розподільник"
 
 #: app/mainwindow.cpp:213
-#, kde-format
-msgid "mark as custom allocator"
+#, fuzzy, kde-format
+#| msgid "mark as custom allocator"
+msgctxt "@action"
+msgid "Mark as Custom Allocator"
 msgstr "позначити як типовий розподільник"
 
 #: app/mainwindow.cpp:224
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Data File"
+msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Відкриття файла даних Massif"
 
 #: app/mainwindow.cpp:256
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Output File"
+msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Відкрити файл даних Massif"
 
-#: app/mainwindow.cpp:257
+#: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
 msgstr "файли даних Massif (massif.out.*)"
 
-#: app/mainwindow.cpp:394
-#, kde-format
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Add Custom Allocator"
+msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Додавання нетипового розподільника"
 
-#: app/mainwindow.cpp:394
-#, kde-format
-msgid "allocator:"
-msgstr "розподільник:"
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@label:textbox"
+msgid "Allocator:"
+msgstr "Розподільники"
 
-#: app/mainwindow.cpp:478
-#, kde-format
+#: app/mainwindow.cpp:479
+#, fuzzy, kde-format
+#| msgid "Evaluation of %1 (%2)"
+msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Оцінка %1 (%2)"
 
@@ -394,6 +448,12 @@ msgid ""
 msgstr ""
 "Визначає кількість цифр після коми для даних щодо споживання пам’яті, "
 "показаних у програмі."
+
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Скорочені шаблони"
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -477,46 +537,46 @@ msgstr "&Довідка"
 msgid "Main Toolbar"
 msgstr "Головна панель"
 
-#: massifdata/parseworker.cpp:55
+#: massifdata/parseworker.cpp:57
 #, kde-format
 msgid "Download Failed"
 msgstr "Отримання зазнало невдачі"
 
-#: massifdata/parseworker.cpp:56
+#: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr "Не вдалося отримати віддалений файл даних massif <i>%1</i>."
 
-#: massifdata/parseworker.cpp:66
+#: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
 msgstr "Помилка читання"
 
-#: massifdata/parseworker.cpp:67
+#: massifdata/parseworker.cpp:69
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
 msgstr "Не вдалося відкрити файл <i>%1</i> для читання"
 
-#: massifdata/parseworker.cpp:78
+#: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
 msgstr "Помилка обробки"
 
-#: massifdata/parseworker.cpp:79
+#: massifdata/parseworker.cpp:81
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
 "Не вдалося обробити файл <i>%1</i>.<br>Помилка обробки у рядку %2:<br>%3"
 
-#: massifdata/parseworker.cpp:86
-#, kde-format
-msgid "Empty data file <i>%1</i>."
-msgstr "Файл даних <i>%1</i> є порожнім."
-
-#: massifdata/parseworker.cpp:87
+#: massifdata/parseworker.cpp:88
 #, kde-format
 msgid "Empty Data File"
 msgstr "Порожній файл даних"
+
+#: massifdata/parseworker.cpp:89
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Файл даних <i>%1</i> є порожнім."
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -633,6 +693,9 @@ msgstr ""
 "Споживання пам’яті %2\n"
 "Додаткове споживання пам’яті %3\n"
 "Споживання стеку %4"
+
+#~ msgid "allocator:"
+#~ msgstr "розподільник:"
 
 #~ msgid "Opens given output file(s) and visualize it."
 #~ msgstr "Відкриває файли виведених даних і візуалізує дані з нього."

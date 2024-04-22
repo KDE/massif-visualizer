@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:39+0000\n"
+"POT-Creation-Date: 2024-04-22 00:40+0000\n"
 "PO-Revision-Date: 2016-07-26 21:19+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@linux.ee>\n"
@@ -28,8 +28,10 @@ msgid "Your emails"
 msgstr "qiilaq69@gmail.com"
 
 #: app/callgraphtab.cpp:90
-#, kde-format
-msgid "Focus most expensive node"
+#, fuzzy, kde-format
+#| msgid "Focus most expensive node"
+msgctxt "@action"
+msgid "Focus Most Expensive Node"
 msgstr "Fookus kõige suurema kuluga sõlmele"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
@@ -39,13 +41,17 @@ msgid "CallGraph Toolbar"
 msgstr "Väljakutsete graafiku riba"
 
 #: app/charttab.cpp:187
-#, kde-format
-msgid "Toggle total cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle total cost graph"
+msgctxt "@action"
+msgid "Toggle Total Cost Graph"
 msgstr "Kogukulu graafik"
 
 #: app/charttab.cpp:193
-#, kde-format
-msgid "Toggle detailed cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle detailed cost graph"
+msgctxt "@action"
+msgid "Toggle Detailed Cost Graph"
 msgstr "Üksikasjade kulu graafik"
 
 #: app/charttab.cpp:201
@@ -54,18 +60,24 @@ msgid "Stacked diagrams"
 msgstr "Diagrammid pinus"
 
 #: app/charttab.cpp:204
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacked diagrams:"
+msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Diagramme pinus:"
 
 #: app/charttab.cpp:213
-#, kde-format
-msgid "hide function"
+#, fuzzy, kde-format
+#| msgid "hide function"
+msgctxt "@action"
+msgid "Hide Function"
 msgstr "peida funktsioon"
 
 #: app/charttab.cpp:216
-#, kde-format
-msgid "hide other functions"
+#, fuzzy, kde-format
+#| msgid "hide other functions"
+msgctxt "@action"
+msgid "Hide Other Functions"
 msgstr "peida teised funktsioonid"
 
 #: app/charttab.cpp:281
@@ -98,23 +110,27 @@ msgstr ""
 "Valgrindi võtmed: %2"
 
 #: app/charttab.cpp:466
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Current Visualization"
+msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Aktiivse visualiseeringu salvestamine"
 
-#: app/charttab.cpp:467
+#: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Pildid (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:491
+#: app/charttab.cpp:492
 #, fuzzy, kde-format
 #| msgid "Error, failed to save the image to %1."
 msgid "Failed to save the image to %1."
 msgstr "Tõrge: pildi salvestamine asukohta %1 nurjus."
 
-#: app/charttab.cpp:502
-#, kde-format
+#: app/charttab.cpp:503
+#, fuzzy, kde-format
+#| msgid "Massif Chart Print Preview"
+msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Massifi diagrammi trükkimise eelvaatlus"
 
@@ -130,120 +146,129 @@ msgstr "Diagrammiriba"
 msgid "Cost Precision:"
 msgstr "Kulu täpsus:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgid "Shorten Templates:"
+msgstr "Mallide lühendamine"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:37
 #, kde-format
 msgid "Legend"
 msgstr "Legend"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: app/config.ui:36
+#: app/config.ui:43
 #, kde-format
 msgid "Position:"
 msgstr "Asukoht:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:44
+#: app/config.ui:51
 #, kde-format
 msgid "North"
 msgstr "Põhi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:49
+#: app/config.ui:56
 #, kde-format
 msgid "East"
 msgstr "Ida"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:54
+#: app/config.ui:61
 #, kde-format
 msgid "South"
 msgstr "Lõuna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:59
+#: app/config.ui:66
 #, kde-format
 msgid "West"
 msgstr "Lääs"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:64
+#: app/config.ui:71
 #, kde-format
 msgid "Floating"
 msgstr "Hõljuv"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
-#: app/config.ui:72
+#: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
 msgstr "Joondus:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:80
+#: app/config.ui:87
 #, kde-format
 msgid "Left"
 msgstr "Vasakule"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:85
+#: app/config.ui:92
 #, kde-format
 msgid "Center"
 msgstr "Keskele"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:90
+#: app/config.ui:97
 #, kde-format
 msgid "Right"
 msgstr "Paremale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:95
+#: app/config.ui:102
 #, kde-format
 msgid "Top"
 msgstr "Üles"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:100
+#: app/config.ui:107
 #, kde-format
 msgid "Bottom"
 msgstr "Alla"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
-#: app/config.ui:108
+#: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
 msgstr "Fondi suurus:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
-#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
-#: app/config.ui:121 app/mainwindow.cpp:188
-#: app/massif-visualizer-settings.kcfg:14
-#, kde-format
-msgid "Shorten Templates"
-msgstr "Mallide lühendamine"
-
 #: app/configdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Settings"
+msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Seadistused"
 
 #: app/documentwidget.cpp:111
-#, kde-format
-msgid "loading file <i>%1</i>..."
+#, fuzzy, kde-kuit-format
+#| msgid "loading file <i>%1</i>..."
+msgctxt "@info:status"
+msgid "Loading file <filename>%1</filename>…"
 msgstr "faili <i>%1</i> laadimine..."
 
 #: app/documentwidget.cpp:191
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Memory Chart"
+msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Mäludiagramm"
 
 #: app/documentwidget.cpp:199
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Callgraph"
+msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Callgraph"
 
 #: app/documentwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Allokaatorid"
 
@@ -292,63 +317,92 @@ msgstr "Laaditavad failid"
 msgid "[FILE...]"
 msgstr "[FAIL...]"
 
+#: app/mainwindow.cpp:188
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgctxt "@action"
+msgid "Shorten Templates"
+msgstr "Mallide lühendamine"
+
 #: app/mainwindow.cpp:194
-#, kde-format
-msgid "Select peak snapshot"
+#, fuzzy, kde-format
+#| msgid "Select peak snapshot"
+msgctxt "@action"
+msgid "Select Peak Snapshot"
 msgstr "Tipptõmmis"
 
 #: app/mainwindow.cpp:200
-#, kde-format
-msgid "add"
+#, fuzzy, kde-format
+#| msgid "add"
+msgctxt "@action"
+msgid "Add"
 msgstr "lisa"
 
 #: app/mainwindow.cpp:201
-#, kde-format
-msgid "add custom allocator"
+#, fuzzy, kde-format
+#| msgid "add custom allocator"
+msgctxt "@info:tooltip"
+msgid "Add custom allocator"
 msgstr "kohandatud allokaatori lisamine"
 
 #: app/mainwindow.cpp:204
-#, kde-format
-msgid "remove"
+#, fuzzy, kde-format
+#| msgid "remove"
+msgctxt "@action"
+msgid "Remove"
 msgstr "eemalda"
 
 #: app/mainwindow.cpp:206
-#, kde-format
-msgid "remove selected allocator"
+#, fuzzy, kde-format
+#| msgid "remove selected allocator"
+msgctxt "@info:tooltip"
+msgid "Remove selected allocator"
 msgstr "valitud allokaatori eemaldamine"
 
 #: app/mainwindow.cpp:213
-#, kde-format
-msgid "mark as custom allocator"
+#, fuzzy, kde-format
+#| msgid "mark as custom allocator"
+msgctxt "@action"
+msgid "Mark as Custom Allocator"
 msgstr "märgi kohandatud allokaatorina"
 
 #: app/mainwindow.cpp:224
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Data File"
+msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Massifi andmefaili avamine"
 
 #: app/mainwindow.cpp:256
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Output File"
+msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Massifi väljundfaili avamine"
 
-#: app/mainwindow.cpp:257
+#: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
 msgstr "Massif-andmefailid (massif.out.*)"
 
-#: app/mainwindow.cpp:394
-#, kde-format
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Add Custom Allocator"
+msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Kohandatud allokaatori lisamine"
 
-#: app/mainwindow.cpp:394
-#, kde-format
-msgid "allocator:"
-msgstr "allokaator:"
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@label:textbox"
+msgid "Allocator:"
+msgstr "Allokaatorid"
 
-#: app/mainwindow.cpp:478
-#, kde-format
+#: app/mainwindow.cpp:479
+#, fuzzy, kde-format
+#| msgid "Evaluation of %1 (%2)"
+msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "%1 hindamine (%2)"
 
@@ -389,6 +443,12 @@ msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
 msgstr "Komakohtade arv, millega rakenduses näidatakse mälu kulu."
+
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Mallide lühendamine"
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -472,45 +532,45 @@ msgstr "&Abi"
 msgid "Main Toolbar"
 msgstr "Peamine tööriistariba"
 
-#: massifdata/parseworker.cpp:55
+#: massifdata/parseworker.cpp:57
 #, kde-format
 msgid "Download Failed"
 msgstr "Allalaadimine nurjus"
 
-#: massifdata/parseworker.cpp:56
+#: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr "Mujalt pärit massif-faili <i>%1</i> allalaadimine nurjus."
 
-#: massifdata/parseworker.cpp:66
+#: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
 msgstr "Lugemine nurjus"
 
-#: massifdata/parseworker.cpp:67
+#: massifdata/parseworker.cpp:69
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
 msgstr "Faili <i>%1</i> avamine lugemiseks nurjus."
 
-#: massifdata/parseworker.cpp:78
+#: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
 msgstr "Parsimine nurjus"
 
-#: massifdata/parseworker.cpp:79
+#: massifdata/parseworker.cpp:81
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr "Faili <i>%1</i> parsimine nurjus.<br>Parsimisviga real %2:<br>%3"
 
-#: massifdata/parseworker.cpp:86
-#, kde-format
-msgid "Empty data file <i>%1</i>."
-msgstr "Tühi andmefail <i>%1</i>."
-
-#: massifdata/parseworker.cpp:87
+#: massifdata/parseworker.cpp:88
 #, kde-format
 msgid "Empty Data File"
 msgstr "Tühi andmefail"
+
+#: massifdata/parseworker.cpp:89
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Tühi andmefail <i>%1</i>."
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -625,6 +685,9 @@ msgstr ""
 "Kuhja kulu %2\n"
 "Täiendav kuhja kulu %3\n"
 "Pinu kulu %4"
+
+#~ msgid "allocator:"
+#~ msgstr "allokaator:"
 
 #, fuzzy
 #~| msgid "Opens given output file and visualize it."

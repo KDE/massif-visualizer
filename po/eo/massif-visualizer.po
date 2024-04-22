@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:39+0000\n"
-"PO-Revision-Date: 2024-03-24 10:34+0100\n"
+"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"PO-Revision-Date: 2024-04-21 17:45+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo.org>\n"
 "Language: eo\n"
@@ -21,16 +21,18 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Oliver Kellogg"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "okellogg@users.sourceforge.net"
 
 #: app/callgraphtab.cpp:90
-#, kde-format
-msgid "Focus most expensive node"
+#, fuzzy, kde-format
+#| msgid "Focus most expensive node"
+msgctxt "@action"
+msgid "Focus Most Expensive Node"
 msgstr "Fokuso plej multekosta nodo"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
@@ -40,13 +42,17 @@ msgid "CallGraph Toolbar"
 msgstr "Ilobreto CallGraph"
 
 #: app/charttab.cpp:187
-#, kde-format
-msgid "Toggle total cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle total cost graph"
+msgctxt "@action"
+msgid "Toggle Total Cost Graph"
 msgstr "Baskuligi grafikon de suma kosto"
 
 #: app/charttab.cpp:193
-#, kde-format
-msgid "Toggle detailed cost graph"
+#, fuzzy, kde-format
+#| msgid "Toggle detailed cost graph"
+msgctxt "@action"
+msgid "Toggle Detailed Cost Graph"
 msgstr "Baskuligi detalan kostgrafikon"
 
 #: app/charttab.cpp:201
@@ -55,18 +61,24 @@ msgid "Stacked diagrams"
 msgstr "Stakitaj diagramoj"
 
 #: app/charttab.cpp:204
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacked diagrams:"
+msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Stakitaj diagramoj:"
 
 #: app/charttab.cpp:213
-#, kde-format
-msgid "hide function"
+#, fuzzy, kde-format
+#| msgid "hide function"
+msgctxt "@action"
+msgid "Hide Function"
 msgstr "kaŝi funkcion"
 
 #: app/charttab.cpp:216
-#, kde-format
-msgid "hide other functions"
+#, fuzzy, kde-format
+#| msgid "hide other functions"
+msgctxt "@action"
+msgid "Hide Other Functions"
 msgstr "kaŝi aliajn funkciojn"
 
 #: app/charttab.cpp:281
@@ -87,7 +99,7 @@ msgstr "Memorkonsumo de %1"
 #: app/charttab.cpp:459
 #, kde-format
 msgid "Peak of %1 at snapshot #%2"
-msgstr "Pinto de %1 ĉe momentfoto #%2"
+msgstr "Pinto de %1 ĉe momentkopio #%2"
 
 #: app/charttab.cpp:461
 #, kde-format
@@ -95,24 +107,30 @@ msgid ""
 "Command: %1\n"
 "Valgrind Options: %2"
 msgstr ""
+"Komando: %1\n"
+"Valgrind-Elektebloj: %2"
 
 #: app/charttab.cpp:466
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save Current Visualization"
+msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Konservi Nunan Bildigon"
 
-#: app/charttab.cpp:467
+#: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
 msgstr "Bildoj (*.png *.jpg *.tiff *.svg)"
 
-#: app/charttab.cpp:491
+#: app/charttab.cpp:492
 #, kde-format
 msgid "Failed to save the image to %1."
 msgstr "Malsukcesis konservi la bildon al %1."
 
-#: app/charttab.cpp:502
-#, kde-format
+#: app/charttab.cpp:503
+#, fuzzy, kde-format
+#| msgid "Massif Chart Print Preview"
+msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Masivo Chart Presa Antaŭrigardo"
 
@@ -128,120 +146,129 @@ msgstr "Grafika Ilobreto"
 msgid "Cost Precision:"
 msgstr "Kosta Precizeco:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgid "Shorten Templates:"
+msgstr "Mallongigi Ŝablonojn"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: app/config.ui:37
 #, kde-format
 msgid "Legend"
 msgstr "Klarigeto"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: app/config.ui:36
+#: app/config.ui:43
 #, kde-format
 msgid "Position:"
 msgstr "Pozicio:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:44
+#: app/config.ui:51
 #, kde-format
 msgid "North"
 msgstr "Nordo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:49
+#: app/config.ui:56
 #, kde-format
 msgid "East"
 msgstr "Oriento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:54
+#: app/config.ui:61
 #, kde-format
 msgid "South"
 msgstr "Sudo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:59
+#: app/config.ui:66
 #, kde-format
 msgid "West"
 msgstr "Okcidenta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
-#: app/config.ui:64
+#: app/config.ui:71
 #, kde-format
 msgid "Floating"
 msgstr "Flosanta"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
-#: app/config.ui:72
+#: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
 msgstr "Alĝustigo:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:80
+#: app/config.ui:87
 #, kde-format
 msgid "Left"
 msgstr "Maldekstra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:85
+#: app/config.ui:92
 #, kde-format
 msgid "Center"
 msgstr "Centro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:90
+#: app/config.ui:97
 #, kde-format
 msgid "Right"
 msgstr "Dekstra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:95
+#: app/config.ui:102
 #, kde-format
 msgid "Top"
 msgstr "Supro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
-#: app/config.ui:100
+#: app/config.ui:107
 #, kde-format
 msgid "Bottom"
 msgstr "Malsupro"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
-#: app/config.ui:108
+#: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
 msgstr "Tiparo Grandeco:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShortenTemplates)
-#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
-#: app/config.ui:121 app/mainwindow.cpp:188
-#: app/massif-visualizer-settings.kcfg:14
-#, kde-format
-msgid "Shorten Templates"
-msgstr "Mallongigi Ŝablonojn"
-
 #: app/configdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Settings"
+msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Agordoj"
 
 #: app/documentwidget.cpp:111
-#, kde-format
-msgid "loading file <i>%1</i>..."
+#, fuzzy, kde-kuit-format
+#| msgid "loading file <i>%1</i>..."
+msgctxt "@info:status"
+msgid "Loading file <filename>%1</filename>…"
 msgstr "ŝargante dosieron <i>%1</i>..."
 
 #: app/documentwidget.cpp:191
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Memory Chart"
+msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Memora Diagramo"
 
 #: app/documentwidget.cpp:199
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Callgraph"
+msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Callgraph"
 
 #: app/documentwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Asigniloj"
 
@@ -290,63 +317,92 @@ msgstr "Dosieroj por ŝargi"
 msgid "[FILE...]"
 msgstr "[DOSIERO...]"
 
+#: app/mainwindow.cpp:188
+#, fuzzy, kde-format
+#| msgid "Shorten Templates"
+msgctxt "@action"
+msgid "Shorten Templates"
+msgstr "Mallongigi Ŝablonojn"
+
 #: app/mainwindow.cpp:194
-#, kde-format
-msgid "Select peak snapshot"
-msgstr "Elekti pintan momentfoton"
+#, fuzzy, kde-format
+#| msgid "Select peak snapshot"
+msgctxt "@action"
+msgid "Select Peak Snapshot"
+msgstr "Elekti pintan momentkopion"
 
 #: app/mainwindow.cpp:200
-#, kde-format
-msgid "add"
+#, fuzzy, kde-format
+#| msgid "add"
+msgctxt "@action"
+msgid "Add"
 msgstr "aldoni"
 
 #: app/mainwindow.cpp:201
-#, kde-format
-msgid "add custom allocator"
+#, fuzzy, kde-format
+#| msgid "add custom allocator"
+msgctxt "@info:tooltip"
+msgid "Add custom allocator"
 msgstr "aldoni propran atribuilon"
 
 #: app/mainwindow.cpp:204
-#, kde-format
-msgid "remove"
+#, fuzzy, kde-format
+#| msgid "remove"
+msgctxt "@action"
+msgid "Remove"
 msgstr "forigi"
 
 #: app/mainwindow.cpp:206
-#, kde-format
-msgid "remove selected allocator"
+#, fuzzy, kde-format
+#| msgid "remove selected allocator"
+msgctxt "@info:tooltip"
+msgid "Remove selected allocator"
 msgstr "forigi elektitan asignilon"
 
 #: app/mainwindow.cpp:213
-#, kde-format
-msgid "mark as custom allocator"
+#, fuzzy, kde-format
+#| msgid "mark as custom allocator"
+msgctxt "@action"
+msgid "Mark as Custom Allocator"
 msgstr "marki kiel propra alsignilo"
 
 #: app/mainwindow.cpp:224
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Data File"
+msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Malfermi Massif-Datumdosieron"
 
 #: app/mainwindow.cpp:256
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Open Massif Output File"
+msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Malfermi Massif-Eligdosiero"
 
-#: app/mainwindow.cpp:257
+#: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
 msgstr "Masivaj datumdosieroj (massif.out.*)"
 
-#: app/mainwindow.cpp:394
-#, kde-format
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Add Custom Allocator"
+msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Aldoni Propran Atribuilon"
 
-#: app/mainwindow.cpp:394
-#, kde-format
-msgid "allocator:"
-msgstr "asignanto:"
+#: app/mainwindow.cpp:395
+#, fuzzy, kde-format
+#| msgid "Allocators"
+msgctxt "@label:textbox"
+msgid "Allocator:"
+msgstr "Asigniloj"
 
-#: app/mainwindow.cpp:478
-#, kde-format
+#: app/mainwindow.cpp:479
+#, fuzzy, kde-format
+#| msgid "Evaluation of %1 (%2)"
+msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Taksado de %1 (%2)"
 
@@ -387,6 +443,14 @@ msgid ""
 "Defines the number of places after the comma for memory costs shown in the "
 "application."
 msgstr ""
+"Difinas la nombron da lokoj post komo por memorkostoj montrataj en la "
+"aplikaĵo."
+
+#. i18n: ectx: label, entry (ShortenTemplates), group (Settings)
+#: app/massif-visualizer-settings.kcfg:14
+#, kde-format
+msgid "Shorten Templates"
+msgstr "Mallongigi Ŝablonojn"
 
 #. i18n: ectx: tooltip, entry (ShortenTemplates), group (Settings)
 #: app/massif-visualizer-settings.kcfg:15
@@ -395,12 +459,14 @@ msgid ""
 "Defines whether identifiers of C++ template instantiations should be "
 "shortened by removing their template arguments."
 msgstr ""
+"Difinas ĉu identigiloj de C++-ŝabloninstancigoj estu mallongigitaj per "
+"forigo de iliaj ŝablon-argumentoj."
 
 #. i18n: ectx: label, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:19
 #, kde-format
 msgid "Legend Position"
-msgstr "Legenda Pozicio"
+msgstr "Pozicio de Klarigetlinio"
 
 #. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:20
@@ -468,46 +534,46 @@ msgstr "&Helpo"
 msgid "Main Toolbar"
 msgstr "Ĉefa ilobreto"
 
-#: massifdata/parseworker.cpp:55
+#: massifdata/parseworker.cpp:57
 #, kde-format
 msgid "Download Failed"
 msgstr "Elŝuto malsukcesis"
 
-#: massifdata/parseworker.cpp:56
+#: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
 msgstr "Malsukcesis elŝuti foran masivan datumdosieron <i>%1</i>."
 
-#: massifdata/parseworker.cpp:66
+#: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
 msgstr "Lego Malsukcesis"
 
-#: massifdata/parseworker.cpp:67
+#: massifdata/parseworker.cpp:69
 #, kde-format
 msgid "Could not open file <i>%1</i> for reading."
 msgstr "Ne eblis malfermi dosieron <i>%1</i> por legado."
 
-#: massifdata/parseworker.cpp:78
+#: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
 msgstr "Analizilo Malsukcesis"
 
-#: massifdata/parseworker.cpp:79
+#: massifdata/parseworker.cpp:81
 #, kde-format
 msgid "Could not parse file <i>%1</i>.<br>Parse error in line %2:<br>%3"
 msgstr ""
 "Ne eblis analizi dosieron <i>%1</i>.<br>Analiza eraro en linio %2:<br>%3"
 
-#: massifdata/parseworker.cpp:86
-#, kde-format
-msgid "Empty data file <i>%1</i>."
-msgstr "Malplena datumdosiero <i>%1</i>."
-
-#: massifdata/parseworker.cpp:87
+#: massifdata/parseworker.cpp:88
 #, kde-format
 msgid "Empty Data File"
 msgstr "Malplena Datuma Dosiero"
+
+#: massifdata/parseworker.cpp:89
+#, kde-format
+msgid "Empty data file <i>%1</i>."
+msgstr "Malplena datumdosiero <i>%1</i>."
 
 #: massifdata/util.cpp:136
 #, kde-format
@@ -527,7 +593,7 @@ msgstr "<dt>adreso:</dt><dd>%1</dd>\n"
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>kosto:</dt><dd>%1, t.e. %2% de momentfoto #%3</dd>"
+msgstr "<dt>kosto:</dt><dd>%1, t.e. %2% de momentkopio #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format
@@ -557,35 +623,35 @@ msgstr "Pinto"
 #: visualizer/datatreemodel.cpp:84
 #, kde-format
 msgid "Snapshots"
-msgstr "Momentfotoj"
+msgstr "Momentkopioj"
 
 #: visualizer/datatreemodel.cpp:148
 #, kde-format
 msgid "Peak snapshot: heap cost of %1"
-msgstr "Pinta momentfoto: amaskosto de %1"
+msgstr "Pinta momentkopio: amaskosto de %1"
 
 #: visualizer/datatreemodel.cpp:150
 #, kde-format
 msgid "Snapshot #%1: heap cost of %2"
-msgstr "Momentfoto #%1: amaskosto de %2"
+msgstr "Momentkopio #%1: amaskosto de %2"
 
 #: visualizer/datatreemodel.cpp:153
 #, kde-format
 msgctxt "%1: snapshot number"
 msgid "Snapshot #%1"
-msgstr "Momentfoto #%1"
+msgstr "Momentkopio #%1"
 
 #: visualizer/datatreemodel.cpp:160
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2 (peak)"
-msgstr "%1: Momentfoto #%2 (pinto)"
+msgstr "%1: Momentkopio #%2 (pinto)"
 
 #: visualizer/datatreemodel.cpp:163
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2"
-msgstr "%1: Momentfoto #%2"
+msgstr "%1: Momentkopio #%2"
 
 #: visualizer/datatreemodel.cpp:175
 #, kde-format
@@ -596,19 +662,19 @@ msgstr "%1: %2"
 #: visualizer/dotgraphgenerator.cpp:199
 #, kde-format
 msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
-msgstr "momentfoto #%1 (prenita je %2%4)\\nheap kosto: %3"
+msgstr "momentkopio #%1 (prenita je %2%4)\\nheap kosto: %3"
 
 #: visualizer/dotgraphgenerator.cpp:304
 #, kde-format
 msgid "in one place below threshold"
 msgid_plural "in %1 places, all below threshold"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "En unu loko sub sojlo"
+msgstr[1] "En %1 lokoj, ĉiuj sub sojlo"
 
 #: visualizer/totalcostmodel.cpp:79
 #, kde-format
 msgid "Total Memory Heap Consumption"
-msgstr "Totala Memora Heap Konsumo"
+msgstr "Suma Heap-Memora Konsumo"
 
 #: visualizer/totalcostmodel.cpp:123
 #, kde-format
@@ -618,3 +684,10 @@ msgid ""
 "Extra heap cost of %3\n"
 "Stack cost of %4"
 msgstr ""
+"Momentkopio #%1:\n"
+"Dinamikmemora kosto de %2\n"
+"Ekstra dinamikmemora kosto de %3\n"
+"Staka kosto de %4"
+
+#~ msgid "allocator:"
+#~ msgstr "asignanto:"

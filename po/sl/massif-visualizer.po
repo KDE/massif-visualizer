@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:40+0000\n"
-"PO-Revision-Date: 2022-08-07 07:19+0200\n"
+"PO-Revision-Date: 2024-04-22 06:38+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -29,8 +29,7 @@ msgid "Your emails"
 msgstr "matjaz.jeran@amis.net"
 
 #: app/callgraphtab.cpp:90
-#, fuzzy, kde-format
-#| msgid "Focus most expensive node"
+#, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
 msgstr "Osredotoči se na najdražje vozlišče"
@@ -42,18 +41,16 @@ msgid "CallGraph Toolbar"
 msgstr "Orodna vrstica grafa klicev"
 
 #: app/charttab.cpp:187
-#, fuzzy, kde-format
-#| msgid "Toggle total cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
-msgstr "Preklopi graf skupnih stroškov"
+msgstr "Preklopi na graf skupnih stroškov"
 
 #: app/charttab.cpp:193
-#, fuzzy, kde-format
-#| msgid "Toggle detailed cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
-msgstr "Preklopi podroben graf stroškov"
+msgstr "Preklopi na podrobni graf stroškov"
 
 #: app/charttab.cpp:201
 #, kde-format
@@ -61,25 +58,22 @@ msgid "Stacked diagrams"
 msgstr "Naloženi diagrami"
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
-#| msgid "Stacked diagrams:"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Naloženi diagrami:"
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "skrij funkcijo"
+msgstr "Skrij funkcijo"
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
-#| msgid "hide other functions"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "skrij ostale funkcije"
+msgstr "Skrij ostale funkcije"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -111,8 +105,7 @@ msgstr ""
 "Možnosti Valgrinda: %2"
 
 #: app/charttab.cpp:466
-#, fuzzy, kde-format
-#| msgid "Save Current Visualization"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Shrani trenutno vizualizacijo"
@@ -128,8 +121,7 @@ msgid "Failed to save the image to %1."
 msgstr "Ni bilo mogoče shraniti slike v %1."
 
 #: app/charttab.cpp:503
-#, fuzzy, kde-format
-#| msgid "Massif Chart Print Preview"
+#, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Predogled tiskanja Massif grafikona"
@@ -148,10 +140,9 @@ msgstr "Natančnost stroška:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Skrajšaj predloge"
+msgstr "Skrajšaj predloge:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -238,36 +229,31 @@ msgid "Font Size:"
 msgstr "Velikost pisave:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Nastavitve"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
-#| msgid "loading file <i>%1</i>..."
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "nalaganje datoteke <i>%1</i>..."
+msgstr "Nalaganje datoteke <filename>%1</filename>…"
 
 #: app/documentwidget.cpp:191
-#, fuzzy, kde-format
-#| msgid "Memory Chart"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Diagram pomnilnika"
 
 #: app/documentwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Callgraph"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Graf klicev"
 
 #: app/documentwidget.cpp:205
-#, fuzzy, kde-format
-#| msgid "Allocators"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Alokatorji"
@@ -318,64 +304,55 @@ msgid "[FILE...]"
 msgstr "[DATOTEKA...]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "Skrajšaj predloge"
 
 #: app/mainwindow.cpp:194
-#, fuzzy, kde-format
-#| msgid "Select peak snapshot"
+#, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
-msgstr "Izberite posnetek vrha"
+msgstr "Izberi posnetek vrha"
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "dodaj"
+msgstr "Dodaj"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "add custom allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr "dodaj alokator po meri"
+msgstr "Dodaj alokator po meri"
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "odstrani"
+msgstr "Odstrani"
 
 #: app/mainwindow.cpp:206
-#, fuzzy, kde-format
-#| msgid "remove selected allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr "odstrani izbranega alokatorja"
+msgstr "Odstrani izbranega alokatorja"
 
 #: app/mainwindow.cpp:213
-#, fuzzy, kde-format
-#| msgid "mark as custom allocator"
+#, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr "označi kot alokatorja po meri"
+msgstr "Označi kot alokatorja po meri"
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Open Massif Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Odpri podatkovno datoteko Massif"
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open Massif Output File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Odpri izhodno datoteko Massif"
@@ -386,22 +363,19 @@ msgid "Massif data files (massif.out.*)"
 msgstr "Podatkovne datoteke Massif (massif.out.*)"
 
 #: app/mainwindow.cpp:395
-#, fuzzy, kde-format
-#| msgid "Add Custom Allocator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Dodaj alokator po meri"
 
 #: app/mainwindow.cpp:395
-#, fuzzy, kde-format
-#| msgid "Allocators"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr "Alokatorji"
+msgstr "Alokator:"
 
 #: app/mainwindow.cpp:479
-#, fuzzy, kde-format
-#| msgid "Evaluation of %1 (%2)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Ovrednotenje %1 (%2)"

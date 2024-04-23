@@ -12,3 +12,6 @@ Dependencies:
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'graphics/kgraphviewer': '@same'
+
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD' ]

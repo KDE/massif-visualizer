@@ -11,7 +11,7 @@ Dependencies:
     'graphics/kdiagram': '@latest-kf6'
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
-    'graphics/kgraphviewer': '@same'
+    'graphics/kgraphviewer': '@stable-kf6'
 
 Options:
   require-passing-tests-on: [ 'Linux', 'FreeBSD' ]

@@ -687,6 +687,3 @@ msgstr ""
 "«Heap»-kostnad til %2\n"
 "Ekstra «heap»-kostnad til %3\n"
 "Stakk-kostnad til %4"
-
-#~ msgid "allocator:"
-#~ msgstr "allokator:"

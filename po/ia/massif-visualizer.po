@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:40+0000\n"
-"PO-Revision-Date: 2024-04-18 11:15+0200\n"
+"PO-Revision-Date: 2024-04-30 11:58+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -63,11 +63,10 @@ msgid "Stacked diagrams:"
 msgstr ""
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "Function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "Function"
+msgstr "Cela Function"
 
 #: app/charttab.cpp:216
 #, kde-format
@@ -103,8 +102,7 @@ msgid ""
 msgstr ""
 
 #: app/charttab.cpp:466
-#, fuzzy, kde-format
-#| msgid "Save Current Visualization"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Salveguarda visualisation currente"
@@ -139,10 +137,9 @@ msgstr "Precision de costo:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Abbrevia Patronos"
+msgstr "Abbrevia Patronos:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -229,22 +226,19 @@ msgid "Font Size:"
 msgstr "Dimension de Font:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Preferentias"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
-#| msgid "loading file <i>%1</i>..."
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "Cargante file  <i>%1</i>..."
+msgstr "Cargante file  <filename>%1</filename>..."
 
 #: app/documentwidget.cpp:191
-#, fuzzy, kde-format
-#| msgid "Memory Chart"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Graphico de Memoria"
@@ -307,8 +301,7 @@ msgid "[FILE...]"
 msgstr "[FILE...]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "Abbrevia Patronos"
@@ -320,11 +313,10 @@ msgid "Select Peak Snapshot"
 msgstr ""
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "adde"
+msgstr "Adde"
 
 #: app/mainwindow.cpp:201
 #, kde-format
@@ -333,11 +325,10 @@ msgid "Add custom allocator"
 msgstr ""
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "remove"
+msgstr "Remove"
 
 #: app/mainwindow.cpp:206
 #, kde-format
@@ -352,11 +343,10 @@ msgid "Mark as Custom Allocator"
 msgstr ""
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Empty Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
-msgstr "Vacue file de datos"
+msgstr "Aperi file de datos Massive"
 
 #: app/mainwindow.cpp:256
 #, kde-format
@@ -385,7 +375,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
-msgstr ""
+msgstr "Evaluation de %1 (%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79
@@ -397,7 +387,7 @@ msgstr ""
 #: app/mainwindow.ui:121
 #, kde-format
 msgid "Massif Data"
-msgstr ""
+msgstr "Datos Massive"
 
 #. i18n: ectx: property (clickMessage), widget (KLineEdit, filterDataTree)
 #: app/mainwindow.ui:146
@@ -415,7 +405,7 @@ msgstr ""
 #: app/massif-visualizer-settings.kcfg:9
 #, kde-format
 msgid "Cost Precision"
-msgstr ""
+msgstr "Precision de costo"
 
 #. i18n: ectx: tooltip, entry (PrettyCostPrecision), group (Settings)
 #: app/massif-visualizer-settings.kcfg:10

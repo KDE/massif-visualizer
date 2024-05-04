@@ -57,6 +57,7 @@
   <summary xml:lang="fi">Valgrind Massif -datatiedostojen visualisointi</summary>
   <summary xml:lang="fr">Un afficheur de fichiers de données Valgrind Massif</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind.</summary>
+  <summary xml:lang="he">ממחיש קובצי נתונים מסוג Valgrind Massif</summary>
   <summary xml:lang="id">Sebuah visualizer untuk file data Valgrind Massif</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="ka">Valgring Massif მონაცემების ფაილების ვიზუალიზაცია</summary>
@@ -126,6 +127,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="he">יכולות:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>

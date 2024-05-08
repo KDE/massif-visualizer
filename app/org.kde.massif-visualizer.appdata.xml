@@ -353,6 +353,7 @@
   </provides>
   <launchable type="desktop-id">org.kde.massif-visualizer.desktop</launchable>
   <releases>
+    <release version="0.8.0" date="2024-05-08"/>
     <release version="0.7.0" date="2017-09-07"/>
     <release version="0.4.0" date="2014-11-16"/>
     <release version="0.3" date="2011-11-07"/>

@@ -305,7 +305,7 @@ msgstr "Fitxers que s'han de carregar"
 #: app/main.cpp:59
 #, kde-format
 msgid "[FILE...]"
-msgstr "[FITXER...]"
+msgstr "[FITXER…]"
 
 #: app/mainwindow.cpp:188
 #, kde-format
@@ -389,7 +389,7 @@ msgstr "Avaluació de %1 (%2)"
 #: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
 #: app/mainwindow.ui:121

@@ -58,25 +58,22 @@ msgid "Stacked diagrams"
 msgstr ""
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
-#| msgid "Stacked diagrams:"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
-msgstr "Skládané grafy:"
+msgstr ""
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "skrýt funkci"
+msgstr ""
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
-#| msgid "hide other functions"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "skrýt ostatní funkce"
+msgstr ""
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -230,18 +227,16 @@ msgid "Font Size:"
 msgstr "Velikost písma:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Nastavení"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
-#| msgid "loading file <i>%1</i>..."
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "načítám soubor <i>%1</i>..."
+msgstr ""
 
 #: app/documentwidget.cpp:191
 #, kde-format
@@ -319,11 +314,10 @@ msgid "Select Peak Snapshot"
 msgstr ""
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "přidat"
+msgstr "Přidat"
 
 #: app/mainwindow.cpp:201
 #, kde-format
@@ -332,11 +326,10 @@ msgid "Add custom allocator"
 msgstr ""
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "odstranit"
+msgstr "Odstranit"
 
 #: app/mainwindow.cpp:206
 #, kde-format
@@ -351,18 +344,16 @@ msgid "Mark as Custom Allocator"
 msgstr ""
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Open Massif Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
-msgstr "Otevřít datový soubor Massif"
+msgstr ""
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open Massif Output File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
-msgstr "Otevřít výstupní soubor Massif."
+msgstr ""
 
 #: app/mainwindow.cpp:258
 #, kde-format
@@ -382,11 +373,10 @@ msgid "Allocator:"
 msgstr ""
 
 #: app/mainwindow.cpp:479
-#, fuzzy, kde-format
-#| msgid "Evaluation of %1 (%2)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
-msgstr "Analýza %1 (%2)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79

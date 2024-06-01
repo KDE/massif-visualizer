@@ -2,34 +2,34 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
+# SPDX-FileCopyrightText: 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:40+0000\n"
-"PO-Revision-Date: 2014-05-04 16:24+0200\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"PO-Revision-Date: 2024-05-31 23:04+0200\n"
+"Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Úr Balázs"
+msgstr "Kiszel Kristóf,Úr Balázs"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "urbalazs@gmail.com"
+msgstr "ulysses@fsf.hu,ur.balazs@fsf.hu"
 
 #: app/callgraphtab.cpp:90
-#, fuzzy, kde-format
-#| msgid "Focus most expensive node"
+#, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
 msgstr "Összpontosítás a legdrágább csomópontra"
@@ -41,15 +41,13 @@ msgid "CallGraph Toolbar"
 msgstr "CallGraph eszköztár"
 
 #: app/charttab.cpp:187
-#, fuzzy, kde-format
-#| msgid "Toggle total cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
 msgstr "Teljes költség grafikon váltás"
 
 #: app/charttab.cpp:193
-#, fuzzy, kde-format
-#| msgid "Toggle detailed cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
 msgstr "Részletes költség grafikon váltás"
@@ -60,25 +58,22 @@ msgid "Stacked diagrams"
 msgstr "Halmozott diagramok"
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
-#| msgid "Stacked diagrams:"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Halmozott diagramok:"
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "függvény elrejtése"
+msgstr "Függvény elrejtése"
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
-#| msgid "hide other functions"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "egyéb függvények elrejtése"
+msgstr "Egyéb függvények elrejtése"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -86,10 +81,9 @@ msgid "time in %1"
 msgstr "idő itt: %1"
 
 #: app/charttab.cpp:288
-#, fuzzy, kde-format
-#| msgid "memory heap size in kilobytes"
+#, kde-format
 msgid "memory heap size"
-msgstr "memóriakupac mérete kilobyte-ban"
+msgstr "memóriakupac mérete"
 
 #: app/charttab.cpp:458
 #, kde-format
@@ -114,21 +108,20 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
-msgstr ""
+msgstr "Jelenlegi megjelenítés mentése"
 
 #: app/charttab.cpp:468
 #, kde-format
 msgid "Images (*.png *.jpg *.tiff *.svg)"
-msgstr ""
+msgstr "Képek (*.png *.jpg *.tiff *.svg)"
 
 #: app/charttab.cpp:492
 #, kde-format
 msgid "Failed to save the image to %1."
-msgstr ""
+msgstr "Nem sikerült menteni a képet ide: %1."
 
 #: app/charttab.cpp:503
-#, fuzzy, kde-format
-#| msgid "Massif Chart Print Preview"
+#, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Massif diagram nyomtatási előnézet"
@@ -147,128 +140,123 @@ msgstr "Költségpontosság:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Sablonok rövidítése"
+msgstr "Sablonok rövidítése:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
 #, kde-format
 msgid "Legend"
-msgstr ""
+msgstr "Felirat"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
 #: app/config.ui:43
 #, kde-format
 msgid "Position:"
-msgstr ""
+msgstr "Pozíció:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:51
 #, kde-format
 msgid "North"
-msgstr ""
+msgstr "Észak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:56
 #, kde-format
 msgid "East"
-msgstr ""
+msgstr "Kelet"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:61
 #, kde-format
 msgid "South"
-msgstr ""
+msgstr "Dél"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:66
 #, kde-format
 msgid "West"
-msgstr ""
+msgstr "Nyugat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:71
 #, kde-format
 msgid "Floating"
-msgstr ""
+msgstr "Lebegő"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
 #: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
-msgstr ""
+msgstr "Igazítás:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:87
 #, kde-format
 msgid "Left"
-msgstr ""
+msgstr "Balra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:92
 #, kde-format
 msgid "Center"
-msgstr ""
+msgstr "Középre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:97
 #, kde-format
 msgid "Right"
-msgstr ""
+msgstr "Jobbra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:102
 #, kde-format
 msgid "Top"
-msgstr ""
+msgstr "Fentre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:107
 #, kde-format
 msgid "Bottom"
-msgstr ""
+msgstr "Lentre"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
 #: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
-msgstr ""
+msgstr "Betűméret:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Beállítások"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
-#| msgid "loading file <i>%1</i>..."
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "<i>%1</i> fájl betöltése…"
+msgstr "A(z) <filename>%1</filename> fájl betöltése…"
 
 #: app/documentwidget.cpp:191
 #, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
-msgstr ""
+msgstr "Memóriadiagram"
 
 #: app/documentwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "CallGraph Toolbar"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
-msgstr "CallGraph eszköztár"
+msgstr "Hívási gráf"
 
 #: app/documentwidget.cpp:205
-#, fuzzy, kde-format
-#| msgid "allocator:"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
-msgstr "lefoglaló:"
+msgstr "Lefoglalók"
 
 #: app/main.cpp:40
 #, kde-format
@@ -281,10 +269,9 @@ msgid "A visualizer for output generated by Valgrind's massif tool."
 msgstr "Valgrind massif eszköze által létrehozott megjelenítése a kimenetnek."
 
 #: app/main.cpp:43
-#, fuzzy, kde-format
-#| msgid "Copyright 2010-2014, Milian Wolff <mail@milianw.de>"
+#, kde-format
 msgid "Copyright 2010-2015, Milian Wolff <mail@milianw.de>"
-msgstr "Copyright Milian Wolff <mail@milianw.de>, 2010-2014."
+msgstr "Copyright Milian Wolff <mail@milianw.de>, 2010-2015."
 
 #: app/main.cpp:45
 #, kde-format
@@ -309,72 +296,63 @@ msgstr "Több dokumentumfelület, hibajavítások"
 #: app/main.cpp:59
 #, kde-format
 msgid "Files to load"
-msgstr ""
+msgstr "Betöltendő fájlok"
 
 #: app/main.cpp:59
 #, kde-format
 msgid "[FILE...]"
-msgstr ""
+msgstr "[FÁJL…]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "Sablonok rövidítése"
 
 #: app/mainwindow.cpp:194
-#, fuzzy, kde-format
-#| msgid "Select peak snapshot"
+#, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
 msgstr "Pillanatkép kiválasztása"
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "hozzáadás"
+msgstr "Hozzáadás"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "add custom allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr "egyéni lefoglaló hozzáadása"
+msgstr "Egyéni lefoglaló hozzáadása"
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "eltávolítás"
+msgstr "Eltávolítás"
 
 #: app/mainwindow.cpp:206
-#, fuzzy, kde-format
-#| msgid "remove selected allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr "a kiválasztott lefoglaló eltávolítása"
+msgstr "A kiválasztott lefoglaló eltávolítása"
 
 #: app/mainwindow.cpp:213
-#, fuzzy, kde-format
-#| msgid "mark as custom allocator"
+#, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr "megjelölés egyéni lefoglalóként"
+msgstr "Megjelölés egyéni lefoglalóként"
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Open Massif Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Massif adatfájl megnyitása"
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open Massif Output File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Massif kimeneti fájl megnyitása"
@@ -382,28 +360,25 @@ msgstr "Massif kimeneti fájl megnyitása"
 #: app/mainwindow.cpp:258
 #, kde-format
 msgid "Massif data files (massif.out.*)"
-msgstr ""
+msgstr "Massif adatfájlok (massif.out.*)"
 
 #: app/mainwindow.cpp:395
-#, fuzzy, kde-format
-#| msgid "Add Custom Allocator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Egyéni lefoglaló hozzáadása"
 
 #: app/mainwindow.cpp:395
-#, fuzzy, kde-format
-#| msgid "allocator:"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr "lefoglaló:"
+msgstr "Lefoglaló:"
 
 #: app/mainwindow.cpp:479
-#, fuzzy, kde-format
-#| msgid "Massif Visualizer - evaluation of %1 (%2)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
-msgstr "Massif megjelenítő - %1 kiértékelése (összesen %2)"
+msgstr "%1 kiértékelése (összesen %2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79
@@ -465,37 +440,37 @@ msgstr ""
 #: app/massif-visualizer-settings.kcfg:19
 #, kde-format
 msgid "Legend Position"
-msgstr ""
+msgstr "Felirat pozíciója"
 
 #. i18n: ectx: tooltip, entry (LegendPosition), group (Settings)
 #: app/massif-visualizer-settings.kcfg:20
 #, kde-format
 msgid "Defines the position of the legend relative to the plot."
-msgstr ""
+msgstr "Meghatározza a felirat pozícióját a rajzhoz viszonyítva."
 
 #. i18n: ectx: label, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:31
 #, kde-format
 msgid "Legend Alignment"
-msgstr ""
+msgstr "Felirat igazítása"
 
 #. i18n: ectx: tooltip, entry (LegendAlignment), group (Settings)
 #: app/massif-visualizer-settings.kcfg:32
 #, kde-format
 msgid "Defines the alignment of the legend."
-msgstr ""
+msgstr "Meghatározza a felirat igazítását."
 
 #. i18n: ectx: label, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:45
 #, kde-format
 msgid "Legend Font Size"
-msgstr ""
+msgstr "Felirat betűmérete"
 
 #. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr ""
+msgstr "Meghatározza a felirathoz használt betűméretet."
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5
@@ -596,33 +571,29 @@ msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
 msgstr "<dt>költség:</dt><dd>%1, azaz #%3 pillanatkép %2%-a</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
-#, fuzzy, kde-format
-#| msgid "<dt>address:</dt><dd>%1</dd>\n"
+#, kde-format
 msgid "<dt>peak cost:</dt><dd>%1</dd>"
-msgstr "<dt>cím:</dt><dd>%1</dd>\n"
+msgstr "<dt>pillanatnyi költség:</dt><dd>%1</dd>"
 
 #: visualizer/allocatorsmodel.cpp:137
-#, fuzzy, kde-format
-#| msgid "in one place below threshold"
-#| msgid_plural "in %1 places, all below threshold"
+#, kde-format
 msgid "below threshold"
-msgstr "egy helyen a küszöbérték alatt"
+msgstr "küszöbérték alatt"
 
 #: visualizer/allocatorsmodel.cpp:160
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgid "Function"
-msgstr "függvény elrejtése"
+msgstr "Függvény"
 
 #: visualizer/allocatorsmodel.cpp:162
 #, kde-format
 msgid "Location"
-msgstr ""
+msgstr "Hely"
 
 #: visualizer/allocatorsmodel.cpp:164
 #, kde-format
 msgid "Peak"
-msgstr ""
+msgstr "Maximum"
 
 #: visualizer/datatreemodel.cpp:84
 #, kde-format

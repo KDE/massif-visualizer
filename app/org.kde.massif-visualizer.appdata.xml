@@ -25,6 +25,7 @@
   <name xml:lang="fr">Massif-Visualizer</name>
   <name xml:lang="gl">Visualizador de Massif</name>
   <name xml:lang="he">Massif-Visualizer</name>
+  <name xml:lang="hu">Massif-megjelenítő</name>
   <name xml:lang="ia">Massif-Visualizer (Visualisator massive)</name>
   <name xml:lang="id">Massif-Visualizer</name>
   <name xml:lang="it">Massif-Visualizer</name>
@@ -59,6 +60,7 @@
   <summary xml:lang="fr">Un afficheur de fichiers de données Valgrind Massif</summary>
   <summary xml:lang="gl">Un visualizador para ficheiros de datos Massif de Valgrind.</summary>
   <summary xml:lang="he">ממחיש קובצי נתונים מסוג Valgrind Massif</summary>
+  <summary xml:lang="hu">Megjelenítő a Valgrind Massif adatfájljaihoz</summary>
   <summary xml:lang="id">Sebuah visualizer untuk file data Valgrind Massif</summary>
   <summary xml:lang="it">Un visualizzatore di file di dati dello strumento Massif di Valgrind</summary>
   <summary xml:lang="ka">Valgring Massif მონაცემების ფაილების ვიზუალიზაცია</summary>
@@ -98,6 +100,7 @@
     <p xml:lang="fr">L'outil « Massif Visualizer » a pour ambition d'afficher de vastes volumes de données. Vous exécutez votre application dans Valgrind avec l'option « --tool=massif » et vous ouvrez le fichier « generated massif.out.%pid  » dans l'afficheur. Les fichiers compressés par les logiciels « Gzip » ou « Bzip2 » peuvent aussi ouverts de façon transparente.</p>
     <p xml:lang="gl">Visualizador de Massif é unha ferramenta que, como o nome indica, permite visualizar datos Massif. Execute a súa aplicación en Valgrind usando a opción «--tool=massif» e a continuación abra o ficheiro «massif.out.%pid» xerado no visualizador. Tamén pode abrir ficheiros Massif comprimidos con Gzip ou Bzip2 de maneira transparente.</p>
     <p xml:lang="he">Massif Visualizer הוא כלי שמספק - כפי שמרמז השם - המחשה של נתוני massif. צריך רק להריץ את היישום שלך ב־Valgrind עם ‎--tool=massif ואז לפתוח את ה־massif.out.%pid שנוצר בתוכנית ההמחשה. אפשר לפתוח גם קובצי massif שנדחסו  ב־Gzip או ב־Bzip2 באופן שקוף לחלוטין.</p>
+    <p xml:lang="hu">A Massif-megjelenítő egy olyan eszköz, amely - ki gondolná - megjeleníti a massif adatokat. Az alkalmazást a Valgrindban futthatja a --tool=massif kapcsolóval, majd a megjelenítőben megnyithatja az előállított massif.out.%pid fájlt. A Gzip vagy Bzip2 tömörített massif fájlokat is meg lehet nyitni transzparens módon.</p>
     <p xml:lang="id">Massif Visualizer adalah alat yang - akan menebaknya - memvisualisasikan data massif. Kamu menjalankan aplikasimu di Valgrind dengan --tool=massif dan kemudian buka massif.out.%pid yang dihasilkan di visualizer. File massif terkompresi Gzip atau Bzip2 juga dapat dibuka secara transparan.</p>
     <p xml:lang="it">Massif Visualizer è uno strumento che - chi l'avrebbe immaginato - mostra i dati di Massif. Esegui la tua applicazione in Valgrind con --tool=massif e quindi apri nel visualizzatore il file generato massif.out.%pid. Anche file Massif compressi con gzip o bzip2 possono essere aperti in modo trasparente.</p>
     <p xml:lang="ka">Massif Visualizer წარმოადგენს პროგრამას, რომელიც - ალბათ მიხვედრა ძნელია მიხვედრა, რომ - massif-ის მონაცემების ვიზუალიზაციას ახდენს. შეგიძლიათ გაუშვათ აპლიკაცია Valgrind-ში პარამეტრით --tool=massif, შემდეგ კი მიღებული massif.out.%pid ფაილი გახსნათ. ასევე Gzip და Bzip2-ით შეკუმშული massif-ის ფაილების გახსნაც.</p>
@@ -130,6 +133,7 @@
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="he">יכולות:</p>
+    <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
@@ -165,6 +169,7 @@
       <li xml:lang="fr">Graphique interactif de consommation de la mémoire au fil du temps.</li>
       <li xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</li>
       <li xml:lang="he">תרשים אינטראקטיבי של צריכת זיכרון לאורך זמן.</li>
+      <li xml:lang="hu">Interaktív grafikon a memóriafogyasztás időbeli alakulásáról.</li>
       <li xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu.</li>
       <li xml:lang="it">Grafico interattivo del consumo di memoria nel tempo.</li>
       <li xml:lang="ka">მეხსიერების მოხმარების ინტერაქტიული სქემა დროთა განმავლობაში.</li>
@@ -196,6 +201,7 @@
       <li xml:lang="fr">Analyse immédiate détaillée avec l'affichage des graphes d'appels (nécessite KGraphViewer).</li>
       <li xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</li>
       <li xml:lang="he">ניתוח תמונת מצב מפורט עם המחשת תרשים קריאות (דורש את KGraphViewer).</li>
+      <li xml:lang="hu">Részletes pillanatfelvétel-elemzés a hívási gráf megjelenítésével (a KGraphViewer szükséges).</li>
       <li xml:lang="id">Analisis snapshot terperinci dengan visualisasi kaligrafi (membutuhkan KGraphViewer).</li>
       <li xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer).</li>
       <li xml:lang="ka">დეტალური სწრაფი ასლის ანალიზი callgraph-ის ვიზუალიზაციით (იყენებს KGraphViewer-ს).</li>
@@ -227,6 +233,7 @@
       <li xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</li>
       <li xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</li>
       <li xml:lang="he">תקציר פסגות צריכת הזיכרון של כל הפונקציות המקצות.</li>
+      <li xml:lang="hu">Az összes lefoglaló függvény memóriafogyasztási csúcsértékének összefoglalása.</li>
       <li xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi alokasi.</li>
       <li xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione.</li>
       <li xml:lang="ka">გამომყოფი ფუნქციების პიკური მეხსიერების გამოყენების პიკების შეჯამება.</li>
@@ -265,6 +272,7 @@
       <caption xml:lang="fr">Graphique interactif de consommation de la mémoire dans le temps.</caption>
       <caption xml:lang="gl">Gráfica interactiva de consumo de memoria no tempo.</caption>
       <caption xml:lang="he">תרשים אינטראקטיבי של צריכת זיכרון לאורך זמן</caption>
+      <caption xml:lang="hu">Interaktív grafikon a memóriafogyasztás időbeli alakulásáról</caption>
       <caption xml:lang="id">Bagan interaktif konsumsi memori dari waktu ke waktu</caption>
       <caption xml:lang="it">Grafico interattivo del consumo di memoria nel tempo</caption>
       <caption xml:lang="ka">დროთა განმავლობაში მეხსიერების მოხმარების ინტერაქტიული გრაფიკი</caption>
@@ -297,6 +305,7 @@
       <caption xml:lang="fr">Analyse détaillée temps réel avec l'affichage des graphes d'appels (nécessite KGraphViewer).</caption>
       <caption xml:lang="gl">Análise detallada de capturas con visualización da gráfica de chamadas (require KGraphViewer).</caption>
       <caption xml:lang="he">ניתוח תמונת מצב מפורט עם המחשת תרשים קריאות (דורש את KGraphViewer)</caption>
+      <caption xml:lang="hu">Részletes pillanatfelvétel-elemzés a hívási gráf megjelenítésével (a KGraphViewer szükséges)</caption>
       <caption xml:lang="id">Analisis snapshot terperinci dengan visualisasi callgraph (membutuhkan KGraphViewer)</caption>
       <caption xml:lang="it">Analisi dettagliata delle istantanee con visualizzazione del grafico delle chiamata (richiede KGraphViewer)</caption>
       <caption xml:lang="ka">დეტალური სწრაფი ასლის ანალიზი callgraph-ის ვიზუალიზაციით (იყენებს KGraphViewer-ს)</caption>
@@ -329,6 +338,7 @@
       <caption xml:lang="fr">Résumé des pics de consommation de mémoire de toutes les fonctions d'allocation.</caption>
       <caption xml:lang="gl">Resumo dos picos de consumo de memoria de todas as funcións de reserva de memoria.</caption>
       <caption xml:lang="he">תקציר פסגות צריכת הזיכרון של כל הפונקציות המקצות</caption>
+      <caption xml:lang="hu">Az összes lefoglaló függvény memóriafogyasztási csúcsértékének összefoglalása</caption>
       <caption xml:lang="id">Ringkasan pemakaian memori puncak dari semua fungsi pengalokasian</caption>
       <caption xml:lang="it">Riepilogo del picco di consumo delle memoria per tutte le funzioni di allocazione</caption>
       <caption xml:lang="ka">გამომყოფი ფუნქციების პიკური მეხსიერების გამოყენების პიკების შეჯამება</caption>

@@ -13,5 +13,5 @@ Dependencies:
   'require':
     'graphics/kgraphviewer': '@same'
 
-# Options:
-#   require-passing-tests-on: [ 'Linux', 'FreeBSD' ]
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD' ]

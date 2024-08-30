@@ -362,6 +362,9 @@
     <binary>massif-visualizer</binary>
   </provides>
   <launchable type="desktop-id">org.kde.massif-visualizer.desktop</launchable>
+  <categories>
+    <category>Development</category>
+  </categories>
   <releases>
     <release version="0.8.24080" date="2024-08-22"/>
     <release version="0.8.0" date="2024-05-08"/>

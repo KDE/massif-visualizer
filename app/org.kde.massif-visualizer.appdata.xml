@@ -252,7 +252,7 @@
       <li xml:lang="zh-TW">所有會配置記憶體的函式的記憶體用量高峰摘要。</li>
     </ul>
   </description>
-  <url type="homepage">https://apps.kde.org/massif-visualizer</url>
+  <url type="homepage">https://apps.kde.org/massif_visualizer/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=massif-visualizer</url>
   <url type="help">https://mail.kde.org/mailman/listinfo/massif-visualizer</url>
   <screenshots>

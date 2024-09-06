@@ -31,7 +31,7 @@ msgstr "kde-china@kde.org"
 #, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
-msgstr ""
+msgstr "聚焦最昂贵的节点"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
@@ -43,13 +43,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
-msgstr ""
+msgstr "切换总成本图"
 
 #: app/charttab.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
-msgstr ""
+msgstr "切换详细成本图"
 
 #: app/charttab.cpp:201
 #, kde-format
@@ -66,13 +66,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr ""
+msgstr "隐藏函数"
 
 #: app/charttab.cpp:216
 #, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr ""
+msgstr "隐藏其他函数"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -139,7 +139,7 @@ msgstr ""
 #: app/config.ui:27
 #, kde-format
 msgid "Shorten Templates:"
-msgstr ""
+msgstr "缩短模板:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -235,7 +235,7 @@ msgstr "设置"
 #, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr ""
+msgstr "正在加载文件 <filename>%1</filename>"
 
 #: app/documentwidget.cpp:191
 #, kde-format
@@ -310,37 +310,37 @@ msgstr "缩短模板"
 #, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
-msgstr ""
+msgstr "选择峰值快照"
 
 #: app/mainwindow.cpp:200
 #, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: app/mainwindow.cpp:201
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr ""
+msgstr "添加自定义分配器"
 
 #: app/mainwindow.cpp:204
 #, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr ""
+msgstr "删除"
 
 #: app/mainwindow.cpp:206
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr ""
+msgstr "删除所选分配器"
 
 #: app/mainwindow.cpp:213
 #, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr ""
+msgstr "将标记为自定义分配器"
 
 #: app/mainwindow.cpp:224
 #, kde-format
@@ -369,7 +369,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr ""
+msgstr "分配器:"
 
 #: app/mainwindow.cpp:479
 #, kde-format

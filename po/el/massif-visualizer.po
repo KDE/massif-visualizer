@@ -29,8 +29,7 @@ msgid "Your emails"
 msgstr "sstavra@gmail.com"
 
 #: app/callgraphtab.cpp:90
-#, fuzzy, kde-format
-#| msgid "Focus most expensive node"
+#, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
 msgstr "Εστίαση στον ακριβότερο κόμβο"
@@ -42,15 +41,13 @@ msgid "CallGraph Toolbar"
 msgstr "Γραμμή εργαλείων CallGraph"
 
 #: app/charttab.cpp:187
-#, fuzzy, kde-format
-#| msgid "Toggle total cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
 msgstr "Εναλλαγή σε διάγραμμα συνολικού κόστους"
 
 #: app/charttab.cpp:193
-#, fuzzy, kde-format
-#| msgid "Toggle detailed cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
 msgstr "Εναλλαγή σε διάγραμμα λεπτομερειών κόστους"
@@ -61,8 +58,7 @@ msgid "Stacked diagrams"
 msgstr "Σωρευτικά διαγράμματα"
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
-#| msgid "Stacked diagrams:"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Σωρευτικά διαγράμματα:"
@@ -111,8 +107,7 @@ msgstr ""
 "Valgrind επιλογές: %2"
 
 #: app/charttab.cpp:466
-#, fuzzy, kde-format
-#| msgid "Save Current Visualization"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Αποθήκευση τρέχουσας απεικόνισης"
@@ -129,8 +124,7 @@ msgid "Failed to save the image to %1."
 msgstr "Σφάλμα, αποτυχία αποθήκευσης της εικόνας στο %1."
 
 #: app/charttab.cpp:503
-#, fuzzy, kde-format
-#| msgid "Massif Chart Print Preview"
+#, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Προεπισκόπιση εκτύπωσης διαγράμματος Massif"
@@ -149,10 +143,9 @@ msgstr "Πιστότητα κόστους:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Σμίκρυνση των template"
+msgstr "Σμίκρυνση των template:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -239,8 +232,7 @@ msgid "Font Size:"
 msgstr "Μέγεθος γραμματοσειράς:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
@@ -253,22 +245,19 @@ msgid "Loading file <filename>%1</filename>…"
 msgstr "φόρτωση αρχείου <i>%1</i>..."
 
 #: app/documentwidget.cpp:191
-#, fuzzy, kde-format
-#| msgid "Memory Chart"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Διάγραμμα μνήμης"
 
 #: app/documentwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Callgraph"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
-msgstr "CallGraph"
+msgstr "Callgraph"
 
 #: app/documentwidget.cpp:205
-#, fuzzy, kde-format
-#| msgid "Allocators"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Κατανεμητές"
@@ -321,46 +310,40 @@ msgid "[FILE...]"
 msgstr "[FILE...]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "Σμίκρυνση των template"
 
 #: app/mainwindow.cpp:194
-#, fuzzy, kde-format
-#| msgid "Select peak snapshot"
+#, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
 msgstr "Επιλογή στιγμιότυπου κορυφής"
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "προσθήκη"
+msgstr "Προσθήκη"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "add custom allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr "προσθήκη προσαρμοσμένου κατανεμητή"
+msgstr "Προσθήκη προσαρμοσμένου κατανεμητή"
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "αφαίρεση"
+msgstr "Αφαίρεση"
 
 #: app/mainwindow.cpp:206
-#, fuzzy, kde-format
-#| msgid "remove selected allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr "αφαίρεση επιλεγμένου κατανεμητή"
+msgstr "Αφαίρεση επιλεγμένου κατανεμητή"
 
 #: app/mainwindow.cpp:213
 #, fuzzy, kde-format
@@ -370,15 +353,13 @@ msgid "Mark as Custom Allocator"
 msgstr "χαρακτηρισμός ως προσαρμοσμένο κατανεμητή"
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Open Massif Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Άνοιγμα αρχείου δεδομένων Massif"
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open Massif Output File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Άνοιγμα αρχείου εξόδου Massif"
@@ -389,8 +370,7 @@ msgid "Massif data files (massif.out.*)"
 msgstr "Αρχεία δεδομένων Massif (massif.out.*)"
 
 #: app/mainwindow.cpp:395
-#, fuzzy, kde-format
-#| msgid "Add Custom Allocator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Προσθήκη προσαρμοσμένου κατανεμητή"
@@ -403,8 +383,7 @@ msgid "Allocator:"
 msgstr "Κατανεμητές"
 
 #: app/mainwindow.cpp:479
-#, fuzzy, kde-format
-#| msgid "Evaluation of %1 (%2)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Αξιολόγηση του %1 (%2)"

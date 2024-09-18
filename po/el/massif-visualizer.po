@@ -64,18 +64,16 @@ msgid "Stacked diagrams:"
 msgstr "Σωρευτικά διαγράμματα:"
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "απόκρυψη συνάρτησης"
+msgstr "Απόκρυψη συνάρτησης"
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
-#| msgid "hide other functions"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "απόκρυψη άλλων συναρτήσεων"
+msgstr "Απόκρυψη άλλων συναρτήσεων"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -346,11 +344,10 @@ msgid "Remove selected allocator"
 msgstr "Αφαίρεση επιλεγμένου κατανεμητή"
 
 #: app/mainwindow.cpp:213
-#, fuzzy, kde-format
-#| msgid "mark as custom allocator"
+#, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr "χαρακτηρισμός ως προσαρμοσμένο κατανεμητή"
+msgstr "Χαρακτηρισμός ως προσαρμοσμένο κατανεμητή"
 
 #: app/mainwindow.cpp:224
 #, kde-format

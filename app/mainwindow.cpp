@@ -312,8 +312,7 @@ void MainWindow::treeSelectionChanged(const QModelIndex& now, const QModelIndex&
 
     m_settingSelection = true;
 
-    const ModelItem& item = now.data(DataTreeModel::ModelItemRole).value<ModelItem>();
-    m_currentDocument->selectModelItem(item);
+    m_currentDocument->selectModelItem(now.data(DataTreeModel::ModelItemRole).value<ModelItem>());
 
     m_settingSelection = false;
 }

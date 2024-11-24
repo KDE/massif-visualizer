@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"POT-Creation-Date: 2024-11-24 00:43+0000\n"
 "PO-Revision-Date: 2024-04-22 09:53+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -362,19 +362,19 @@ msgstr "Massif-ის გამოტანის ფაილის გახ�
 msgid "Massif data files (massif.out.*)"
 msgstr "Massif-ის მონაცემების ფაილები (massif.out.*)"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "მომხმარებლის გამნაწილებლის დამატება"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
 msgstr "გამნაწილებელი:"
 
-#: app/mainwindow.cpp:479
+#: app/mainwindow.cpp:478
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"

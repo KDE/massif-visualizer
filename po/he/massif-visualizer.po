@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"POT-Creation-Date: 2024-11-24 00:43+0000\n"
 "PO-Revision-Date: 2024-05-04 07:11+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -362,19 +362,19 @@ msgstr "פתיחת קובץ פלט Massif"
 msgid "Massif data files (massif.out.*)"
 msgstr "קובצי נתונים של Massif‏ (massif.out.*‎)"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "הוספת מקצה מותאם אישית"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
 msgstr "מקצה:"
 
-#: app/mainwindow.cpp:479
+#: app/mainwindow.cpp:478
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"

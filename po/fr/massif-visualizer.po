@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"POT-Creation-Date: 2024-11-24 00:43+0000\n"
 "PO-Revision-Date: 2024-08-14 18:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -371,19 +371,19 @@ msgstr "Ouvrir un fichier de sortie de Massif"
 msgid "Massif data files (massif.out.*)"
 msgstr "Fichiers de données de Massif (massif.out.*)"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Ajouter un allocateur personnalisé"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
 msgstr "Allocateur :"
 
-#: app/mainwindow.cpp:479
+#: app/mainwindow.cpp:478
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"

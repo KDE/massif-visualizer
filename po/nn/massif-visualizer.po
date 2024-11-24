@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"POT-Creation-Date: 2024-11-24 00:43+0000\n"
 "PO-Revision-Date: 2022-08-07 11:23+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -364,19 +364,19 @@ msgstr "Opna Massif-utdatafil"
 msgid "Massif data files (massif.out.*)"
 msgstr "Massif-datafiler (massif.out.*)"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Legg til sjølvvald allokator"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, fuzzy, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
 msgstr "Allokatorar"
 
-#: app/mainwindow.cpp:479
+#: app/mainwindow.cpp:478
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"

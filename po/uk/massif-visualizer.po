@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:40+0000\n"
+"POT-Creation-Date: 2024-11-24 00:43+0000\n"
 "PO-Revision-Date: 2024-04-22 14:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -365,19 +365,19 @@ msgstr "Відкрити файл даних Massif"
 msgid "Massif data files (massif.out.*)"
 msgstr "файли даних Massif (massif.out.*)"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Додавання нетипового розподільника"
 
-#: app/mainwindow.cpp:395
+#: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
 msgstr "Розподільник:"
 
-#: app/mainwindow.cpp:479
+#: app/mainwindow.cpp:478
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"

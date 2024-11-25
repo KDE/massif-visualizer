@@ -442,9 +442,16 @@ QByteArray ParserPrivate::readLine()
         // support for really long lines that don't fit into the buffer
         QByteArray line = QByteArray::fromRawData(m_lineBuffer, read) + m_file->readLine();
         line.chop(1); // remove trailing \n
+        if (line.endsWith('\r')) {
+            line.chop(1); // also remove trailing \r
+        }
         return line;
     }
-    return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
+    if (read > 1 && m_lineBuffer[read - 2] == '\r') {
+        return QByteArray::fromRawData(m_lineBuffer, read - 2 /* -2 to remove trailing \r\n */);
+    } else {
+        return QByteArray::fromRawData(m_lineBuffer, read - 1 /* -1 to remove trailing \n */);
+    }
 }
 
 //END Parser Functions

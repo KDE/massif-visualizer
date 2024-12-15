@@ -20,18 +20,18 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "भवतः नामानि"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "भवतः ईमेलपत्राणि"
 
 #: app/callgraphtab.cpp:90
 #, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
-msgstr ""
+msgstr "फोकस सर्वाधिक महत् नोड"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
@@ -43,13 +43,13 @@ msgstr "CallGraph Toolbar इति"
 #, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
-msgstr ""
+msgstr "कुलव्ययग्राफं Toggle कुर्वन्तु"
 
 #: app/charttab.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
-msgstr ""
+msgstr "विस्तृतव्ययग्राफं Toggle कुर्वन्तु"
 
 #: app/charttab.cpp:201
 #, kde-format
@@ -60,19 +60,19 @@ msgstr "स्तम्भित आरेख"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
-msgstr ""
+msgstr "स्तम्भितचित्रम् : १."
 
 #: app/charttab.cpp:213
 #, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr ""
+msgstr "Hide Function इति"
 
 #: app/charttab.cpp:216
 #, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr ""
+msgstr "अन्यकार्यं गोपयतु"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -107,7 +107,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
-msgstr ""
+msgstr "वर्तमान दृश्यीकरणं रक्षतु"
 
 #: app/charttab.cpp:468
 #, kde-format
@@ -123,7 +123,7 @@ msgstr "चित्रं %1 इत्यत्र रक्षितुं अ
 #, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
-msgstr ""
+msgstr "द्रव्यमान चार्ट मुद्रण पूर्वावलोकन"
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
@@ -231,31 +231,31 @@ msgstr "फ़ॉन्टस्य आकारः : १."
 #, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
-msgstr ""
+msgstr "सेटिंग्स्"
 
 #: app/documentwidget.cpp:111
 #, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr ""
+msgstr "<filename>%1</filename> सञ्चिकां लोडयति..."
 
 #: app/documentwidget.cpp:191
 #, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
-msgstr ""
+msgstr "स्मृति चार्ट"
 
 #: app/documentwidget.cpp:199
 #, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
-msgstr ""
+msgstr "कॉलग्राफ्"
 
 #: app/documentwidget.cpp:205
 #, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
-msgstr ""
+msgstr "आवंटकाः"
 
 #: app/main.cpp:40
 #, kde-format
@@ -313,49 +313,49 @@ msgstr "टेम्पलेट्स लघु करें"
 #, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
-msgstr ""
+msgstr "Peak Snapshot इति चिनोतु"
 
 #: app/mainwindow.cpp:200
 #, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr ""
+msgstr "संयोजयति"
 
 #: app/mainwindow.cpp:201
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr ""
+msgstr "कस्टम आवंटकं योजयन्तु"
 
 #: app/mainwindow.cpp:204
 #, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr ""
+msgstr "अपाकरोति"
 
 #: app/mainwindow.cpp:206
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr ""
+msgstr "चयनितं आवंटकं निष्कासयन्तु"
 
 #: app/mainwindow.cpp:213
 #, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr ""
+msgstr "Custom Allocator इति चिह्नं कुर्वन्तु"
 
 #: app/mainwindow.cpp:224
 #, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
-msgstr ""
+msgstr "Massif Data File उद्घाटयन्तु"
 
 #: app/mainwindow.cpp:256
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
-msgstr ""
+msgstr "Massif Output File उद्घाटयन्तु"
 
 #: app/mainwindow.cpp:258
 #, kde-format
@@ -366,19 +366,19 @@ msgstr "द्रव्यमानदत्तांशसञ्चिकाः
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
-msgstr ""
+msgstr "कस्टम आवंटकं योजयतु"
 
 #: app/mainwindow.cpp:394
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr ""
+msgstr "आवंटक : १."
 
 #: app/mainwindow.cpp:478
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
-msgstr ""
+msgstr "%1 (%2) इत्यस्य मूल्याङ्कनम् ."
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79
@@ -611,25 +611,25 @@ msgstr "स्नैपशॉट् #%1: %2 इत्यस्य ढेरव�
 #, kde-format
 msgctxt "%1: snapshot number"
 msgid "Snapshot #%1"
-msgstr ""
+msgstr "स्नैपशॉट #%1"
 
 #: visualizer/datatreemodel.cpp:160
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2 (peak)"
-msgstr ""
+msgstr "%1: स्नैपशॉट् #%2 (शिखरम्)"
 
 #: visualizer/datatreemodel.cpp:163
 #, kde-format
 msgctxt "%1: cost, %2: snapshot number"
 msgid "%1: Snapshot #%2"
-msgstr ""
+msgstr "%1: स्नैपशॉट् #%2"
 
 #: visualizer/datatreemodel.cpp:175
 #, kde-format
 msgctxt "%1: cost, %2: snapshot label (i.e. func name etc.)"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #: visualizer/dotgraphgenerator.cpp:199
 #, kde-format
@@ -640,8 +640,8 @@ msgstr "स्नैपशॉट् #%1 (%2%4 इत्यत्र गृही
 #, kde-format
 msgid "in one place below threshold"
 msgid_plural "in %1 places, all below threshold"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "दहलीजस्य अधः एकस्मिन् स्थाने"
+msgstr[1] "%1 स्थानेषु, सर्वे सीमायाः अधः"
 
 #: visualizer/totalcostmodel.cpp:79
 #, kde-format

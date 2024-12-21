@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the massif-visualizer package.
 # Kali <EMAIL@ADDRESS>, 2024.
 #
+# SPDX-FileCopyrightText: 2024 kali <skkalwar999@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-24 00:43+0000\n"
-"PO-Revision-Date: 2024-12-13 19:10+0530\n"
-"Last-Translator: Kali <EMAIL@ADDRESS>\n"
-"Language-Team: Sanskrit\n"
+"PO-Revision-Date: 2024-12-20 21:53+0530\n"
+"Last-Translator: kali <skkalwar999@gmail.com>\n"
+"Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -60,7 +62,7 @@ msgstr "स्तम्भित आरेख"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
-msgstr "स्तम्भितचित्रम् : १."
+msgstr "स्तम्भितचित्रम् :"
 
 #: app/charttab.cpp:213
 #, kde-format
@@ -135,7 +137,7 @@ msgstr "चार्ट टूलबार"
 #: app/config.ui:17
 #, kde-format
 msgid "Cost Precision:"
-msgstr "व्यय सटीकता : १."
+msgstr "व्यय सटीकता :"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
@@ -189,7 +191,7 @@ msgstr "प्लवमानः"
 #: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
-msgstr "संरेखणम् : १."
+msgstr "संरेखणम् :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:87
@@ -225,7 +227,7 @@ msgstr "अधः"
 #: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
-msgstr "फ़ॉन्टस्य आकारः : १."
+msgstr "फ़ॉन्टस्य आकारः :"
 
 #: app/configdialog.cpp:41
 #, kde-format
@@ -372,7 +374,7 @@ msgstr "कस्टम आवंटकं योजयतु"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr "आवंटक : १."
+msgstr "आवंटक :"
 
 #: app/mainwindow.cpp:478
 #, kde-format

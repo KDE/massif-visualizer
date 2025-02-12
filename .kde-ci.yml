@@ -1,5 +1,5 @@
 Dependencies:
-- 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6']
+- 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'FreeBSD/Qt6', 'Windows/Qt6']
   'require':
     'frameworks/extra-cmake-modules': '@latest-kf6'
     'frameworks/karchive': '@latest-kf6'
@@ -9,7 +9,7 @@ Dependencies:
     'frameworks/ki18n': '@latest-kf6'
     'frameworks/kio': '@latest-kf6'
     'graphics/kdiagram': '@latest-kf6'
-- 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
+- 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'FreeBSD/Qt6']
   'require':
     'graphics/kgraphviewer': '@same'
 

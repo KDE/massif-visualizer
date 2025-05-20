@@ -1,15 +1,16 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translations for massif-visualizer.po package.
+# Copyright (C) 2010-2025 This file is copyright:
+# This file is distributed under the same license as the massif-visualizer package.
 #
-# Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010.
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2022, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Javier Viñal <fjvinal@gmail.com>, 2013.
+# SPDX-FileCopyrightText: 2010 Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2022, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2013 Javier Viñal <fjvinal@gmail.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-24 00:43+0000\n"
-"PO-Revision-Date: 2024-04-22 12:20+0200\n"
+"PO-Revision-Date: 2025-05-20 02:10+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -239,7 +240,7 @@ msgstr "Preferencias"
 #, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "Cargando archivo <filename>%1</filename>..."
+msgstr "Cargando archivo <filename>%1</filename>…"
 
 #: app/documentwidget.cpp:191
 #, kde-format
@@ -303,7 +304,7 @@ msgstr "Archivos a cargar"
 #: app/main.cpp:59
 #, kde-format
 msgid "[FILE...]"
-msgstr "[ARCHIVO...]"
+msgstr "[ARCHIVO…]"
 
 #: app/mainwindow.cpp:188
 #, kde-format
@@ -386,7 +387,7 @@ msgstr "Evaluación de %1 (%2)"
 #: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
 #: app/mainwindow.ui:121
@@ -666,52 +667,3 @@ msgstr ""
 "Coste de memoria dinámica de %2\n"
 "Coste de memoria dinámica extra de %3\n"
 "Coste de memoria de pila de %4"
-
-#~ msgid "allocator:"
-#~ msgstr "asignador:"
-
-#~ msgid "Opens given output file(s) and visualize it."
-#~ msgstr "Abre uno o varios archivos de salida y los visualiza."
-
-#~ msgid "Data Selector"
-#~ msgstr "Selector de datos"
-
-#~ msgid "Only display a subset of the model in the chart:"
-#~ msgstr "Mostrar solo un subconjunto del modelo en la gráfica:"
-
-#~ msgid "in reverse order."
-#~ msgstr "en orden inverso."
-
-#~ msgid "columns starting at column"
-#~ msgstr "las columnas que comienzan en la columna"
-
-#~ msgid "Display"
-#~ msgstr "Mostrar"
-
-#~ msgid "rows starting at row"
-#~ msgstr "las filas que comienzan en la fila"
-
-#~ msgid ""
-#~ "Warning, the file(%1) exists.\n"
-#~ " Is it OK to overwrite it?"
-#~ msgstr ""
-#~ "Advertencia: el archivo (%1) existe.\n"
-#~ " ¿Se debe sobrescribir?"
-
-#~ msgid "&Evolution of Memory Consumption"
-#~ msgstr "&Evolución del consumo de memoria"
-
-#~ msgid "&Detailed Snapshot Analysis"
-#~ msgstr "Análisis &detallado de la instantánea"
-
-#~ msgid "loading..."
-#~ msgstr "cargando..."
-
-#~ msgid "memory consumption"
-#~ msgstr "consumo de memoria"
-
-#~ msgid "Stop Parser"
-#~ msgstr "Detener el analizador"
-
-#~ msgid "Print Massif Chart"
-#~ msgstr "Imprimir diagrama de Massif"

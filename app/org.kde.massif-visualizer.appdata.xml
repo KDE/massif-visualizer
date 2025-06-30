@@ -386,6 +386,7 @@
     <category>Development</category>
   </categories>
   <releases>
+    <release version="0.8.25043" date="2025-07-03"/>
     <release version="0.8.25042" date="2025-06-05"/>
     <release version="0.8.25041" date="2025-05-08"/>
     <release version="0.8.25040" date="2025-04-17"/>

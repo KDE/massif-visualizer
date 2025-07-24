@@ -1,7 +1,7 @@
 # Translation for massif-visualizer.po to Euskara/Basque (eu).
 # Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the massif-visualizer package.
-# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Iñigo Salvador Azurmendi <xalba@ni.eus>, 2023.
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-24 00:43+0000\n"
-"PO-Revision-Date: 2024-04-23 22:32+0200\n"
+"PO-Revision-Date: 2025-07-23 14:10+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -240,7 +240,7 @@ msgstr "Ezarpenak"
 #, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "<filename>%1</filename> fitxategia zamatzen..."
+msgstr "<filename>%1</filename> fitxategia zamatzen…"
 
 #: app/documentwidget.cpp:191
 #, kde-format
@@ -303,7 +303,7 @@ msgstr "Zamatu beharreko fitxategiak"
 #: app/main.cpp:59
 #, kde-format
 msgid "[FILE...]"
-msgstr "[FITXATEGIA...]"
+msgstr "[FITXATEGIA…]"
 
 #: app/mainwindow.cpp:188
 #, kde-format
@@ -386,7 +386,7 @@ msgstr "%1(e)ren ebaluazioa (%2)"
 #: app/mainwindow.ui:79
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (windowTitle), widget (QDockWidget, dataTreeDock)
 #: app/mainwindow.ui:121

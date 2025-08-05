@@ -16,6 +16,14 @@
         "--socket=wayland",
         "--socket=fallback-x11"
     ],
+    "cleanup": [
+        "/include",
+        "/lib/*.la",
+        "/lib/graphviz/*.la",
+        "/lib/cmake",
+        "/lib/pkgconfig",
+        "/mkspecs"
+    ],
     "modules": [
         {
             "name": "boost",

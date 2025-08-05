@@ -65,8 +65,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://invent.kde.org/graphics/kdiagram.git",
-                    "branch": "2.8"
+                    "url": "https://invent.kde.org/graphics/kdiagram.git"
                 }
             ]
         },

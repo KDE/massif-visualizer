@@ -12,7 +12,7 @@
         "--share=ipc",
         "--socket=cups",
         "--socket=wayland",
-        "--socket=x11"
+        "--socket=fallback-x11"
     ],
     "modules": [
         {

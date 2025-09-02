@@ -317,7 +317,7 @@ msgstr "Plantilles escurçades"
 #, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
-msgstr "Selecciona una captura de pics"
+msgstr "Tria una captura de pics"
 
 #: app/mainwindow.cpp:200
 #, kde-format

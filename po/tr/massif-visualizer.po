@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: extragear-sdk-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-24 00:43+0000\n"
-"PO-Revision-Date: 2025-06-29 17:54+0300\n"
+"PO-Revision-Date: 2025-09-04 15:04+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -228,7 +228,7 @@ msgstr "Alt"
 #: app/config.ui:115
 #, kde-format
 msgid "Font Size:"
-msgstr "Yazıtipi boyutu:"
+msgstr "Yazıtipi puntosu:"
 
 #: app/configdialog.cpp:41
 #, kde-format
@@ -466,13 +466,13 @@ msgstr "Lejantın nasıl hizalanacağını belirtir."
 #: app/massif-visualizer-settings.kcfg:45
 #, kde-format
 msgid "Legend Font Size"
-msgstr "Lejant yazıtipi boyutu"
+msgstr "Lejant yazıtipi puntosu"
 
 #. i18n: ectx: tooltip, entry (LegendFontSize), group (Settings)
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr "Lejantta kullanılan yazıtipini tanımlar."
+msgstr "Lejantta kullanılan yazıtipi puntosunu tanımlar."
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5

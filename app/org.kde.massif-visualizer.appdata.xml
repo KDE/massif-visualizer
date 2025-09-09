@@ -44,7 +44,6 @@
   <name xml:lang="sv">Massif visualisering</name>
   <name xml:lang="tr">Massif Görselleyicisi</name>
   <name xml:lang="uk">Візуалізатор Massif</name>
-  <name xml:lang="x-test">xxMassif-Visualizerxx</name>
   <name xml:lang="zh-CN">Massif-Visualizer</name>
   <name xml:lang="zh-TW">Massif 視覺化工具</name>
   <summary>A visualizer for Valgrind Massif data files</summary>
@@ -80,7 +79,6 @@
   <summary xml:lang="sv">Ett visualiseringsverktyg för Valgrind Massif datafiler</summary>
   <summary xml:lang="tr">Valgrind Massif veri dosyaları için bir görselleyici</summary>
   <summary xml:lang="uk">Засіб візуалізації файлів даних Massif Valgrind</summary>
-  <summary xml:lang="x-test">xxA visualizer for Valgrind Massif data filesxx</summary>
   <summary xml:lang="zh-CN">用于 Valgrind Massif 数据文件的可视化工具</summary>
   <summary xml:lang="zh-TW">Valgrind 的 Massif 資料檔用的視覺化工具。</summary>
   <description>
@@ -121,7 +119,6 @@
     <p xml:lang="sv">Massif visualisering är ett verktyg som åskådliggöra data från Massif, som inte är svårt att gissa. Man kör sitt program i Valgrind med --tool=massif och öppnar den skapade massif.out.%pid i verktyget. Massif-filer komprimerade med gzip eller bzip2 kan också öppnas direkt.</p>
     <p xml:lang="tr">Massif Görselleyicisi, Massif verilerini görselleştiren bir araçtır. Uygulamanızı --tool=massif ile Valgrind’de çalıştırdıktan sonra üretilen massif.out.%pid dosyasını görüntüleyicide açın. Gzip veya Bzip2 ile sıkıştırılmış Massif dosyaları da saydam bir biçimde açılabilir.</p>
     <p xml:lang="uk">Візуалізатор Massif, яким би дивним це не здавалося, — засіб для візуалізації даних massif. Ви запускаєте вашу програму у Valgrind із параметром --tool=massif, а потім відкриваєте створений файл massif.out.%pid у засобі візуалізації. Передбачено прозоре відкриття файлів massif, запакованих за допомогою Gzip або Bzip2.</p>
-    <p xml:lang="x-test">xxMassif Visualizer is a tool that - who'd guess that - visualizes massif data. You run your application in Valgrind with --tool=massif and then open the generated massif.out.%pid in the visualizer. Gzip or Bzip2 compressed massif files can also be opened transparently.xx</p>
     <p xml:lang="zh-TW">《Massif 視覺化工具》顧名思義是用來視覺化 Massif 資料的工具。首先透過 Valgrind 利用 --tool=massif 選項執行您的應用程式，然後用這個視覺化工具開啟產生的 massif.out.%pid。也支援直接開啟以 Gzip 或 Bzip2 壓縮的 Massif 檔案。</p>
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -158,7 +155,6 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
-    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
@@ -194,7 +190,6 @@
       <li xml:lang="sv">Interaktivt diagram av minnesanvändning över tid.</li>
       <li xml:lang="tr">Zaman içinde, etkileşimli bellek tüketim tablosu.</li>
       <li xml:lang="uk">Інтерактивна діаграма споживання пам'яті.</li>
-      <li xml:lang="x-test">xxInteractive chart of memory consumption over time.xx</li>
       <li xml:lang="zh-TW">記憶體消耗量變化的互動式圖表。</li>
       <li>Detailed snapshot analysis with callgraph visualization (requires KGraphViewer).</li>
       <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</li>
@@ -228,7 +223,6 @@
       <li xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer).</li>
       <li xml:lang="tr">Çağrı Grafiği görselleştirmesi (K Grafik Görüntüleyicisi gerektirir) ile ayrıntılı anlık çözümleme.</li>
       <li xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer).</li>
-      <li xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer).xx</li>
       <li xml:lang="zh-TW">詳細的快照分析，視覺化顯示呼叫圖（需要 KGraphViewer）。</li>
       <li>Summary of peak memory consumption of all allocating functions.</li>
       <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</li>
@@ -262,7 +256,6 @@
       <li xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner.</li>
       <li xml:lang="tr">Yer ayrılan tüm işlevlerin tepe bellek tüketiminin özeti.</li>
       <li xml:lang="uk">Резюме щодо пікового споживання пам'яті для всіх функцій отримання об'ємів пам'яті.</li>
-      <li xml:lang="x-test">xxSummary of peak memory consumption of all allocating functions.xx</li>
       <li xml:lang="zh-TW">所有會配置記憶體的函式的記憶體用量高峰摘要。</li>
     </ul>
   </description>
@@ -303,7 +296,6 @@
       <caption xml:lang="sv">Interaktivt diagram av minnesanvändning över tid</caption>
       <caption xml:lang="tr">Zaman içindeki etkileşimli bellek tüketim tablosu</caption>
       <caption xml:lang="uk">Інтерактивна діаграма споживання пам'яті</caption>
-      <caption xml:lang="x-test">xxInteractive chart of memory consumption over timexx</caption>
       <caption xml:lang="zh-TW">記憶體消耗量變化的互動式圖表</caption>
     </screenshot>
     <screenshot>
@@ -338,7 +330,6 @@
       <caption xml:lang="sv">Detaljerad ögonblicksanalys med visualisering av anropsgraf (kräver Kgraphviewer)</caption>
       <caption xml:lang="tr">Çağrı Grafiği görselleştirmesi (K Grafik Görüntüleyicisi gerektirir) ile ayrıntılı anlık çözümleme</caption>
       <caption xml:lang="uk">Докладний аналіз знімків із візуалізацією графу викликів (потребує KGraphViewer)</caption>
-      <caption xml:lang="x-test">xxDetailed snapshot analysis with callgraph visualization (requires KGraphViewer)xx</caption>
       <caption xml:lang="zh-TW">詳細的快照分析，視覺化顯示呼叫圖（需要 KGraphViewer）</caption>
     </screenshot>
     <screenshot>
@@ -373,7 +364,6 @@
       <caption xml:lang="sv">Sammanfattning av största minnesanvändning för alla allokerande funktioner</caption>
       <caption xml:lang="tr">Yer ayrılan tüm işlevlerin tepe bellek tüketiminin özeti</caption>
       <caption xml:lang="uk">Резюме щодо пікового споживання пам'яті для всіх функцій отримання об'ємів пам'яті</caption>
-      <caption xml:lang="x-test">xxSummary of peak memory consumption of all allocating functionsxx</caption>
       <caption xml:lang="zh-TW">所有會配置記憶體的函式的記憶體用量高峰摘要</caption>
     </screenshot>
   </screenshots>

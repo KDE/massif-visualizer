@@ -572,7 +572,7 @@ msgstr "<dt>dirección:</dt><dd>%1</dd>\n"
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>coste:</dt><dd>%1, es decir, %2% de la instantánea #%3</dd>"
+msgstr "<dt>coste:</dt><dd>%1, es decir, %2 % de la instantánea #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format

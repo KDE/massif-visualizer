@@ -122,7 +122,7 @@ msgstr "Imatges (*.png *.jpg *.tiff *.svg)"
 #: app/charttab.cpp:492
 #, kde-format
 msgid "Failed to save the image to %1."
-msgstr "No s'ha pogut guardar la imatge a %1."
+msgstr "Ha fallat mentre es guardava la imatge a %1."
 
 #: app/charttab.cpp:503
 #, kde-format
@@ -521,12 +521,13 @@ msgstr "La baixada ha fallat"
 #: massifdata/parseworker.cpp:58
 #, kde-format
 msgid "Failed to download remote massif data file <i>%1</i>."
-msgstr "No s'ha pogut baixar el fitxer remot de dades del massif <i>%1</i>."
+msgstr ""
+"Ha fallat mentre es baixava el fitxer remot de dades de massif <i>%1</i>."
 
 #: massifdata/parseworker.cpp:68
 #, kde-format
 msgid "Read Failed"
-msgstr "No s'ha pogut llegir"
+msgstr "Ha fallat mentre es llegia"
 
 #: massifdata/parseworker.cpp:69
 #, kde-format
@@ -536,7 +537,7 @@ msgstr "No s'ha pogut obrir el fitxer <i>%1</i> per a lectura."
 #: massifdata/parseworker.cpp:80
 #, kde-format
 msgid "Parser Failed"
-msgstr "No s'ha pogut analitzar"
+msgstr "Ha fallat durant l'anàlisi"
 
 #: massifdata/parseworker.cpp:81
 #, kde-format

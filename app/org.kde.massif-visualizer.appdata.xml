@@ -116,6 +116,7 @@
     <p xml:lang="pl">Program do wizualizacji Massif jest narzędziem, które wizualizuje dane massif. Uruchamiasz swoją aplikację w Valgrind przy użyciu --tool=massif a następnie otwierasz utworzony massif.out.%pid w programie do wizualizacji. Można otwierać pliki massif skompresowane przy użyciu Gzip lub Bzip2.</p>
     <p xml:lang="pt">O Visualizador do Massif é uma ferramenta que, como é óbvio, apresenta dados do Massif. Você poderá executar a sua aplicação no Valgrind com a opção --tool=massif e depois abrir o ficheiro massif.out.%pid gerado no visualizador. Poderá abrir de forma transparente os ficheiros do Massif comprimidos com Gzip ou Bzip2.</p>
     <p xml:lang="pt-BR">O Visualizador de Massif é uma ferramenta que, como o nome sugere, visualiza dados Massif. Você pode executar seu aplicativo no Valgrind com a opção --tool=massif e depois abrir o arquivo massif.out.%pid gerado no visualizador. Os arquivos Massif compactados com Gzip ou Bzip2 podem ser abertos de forma transparente.</p>
+    <p xml:lang="ru">Massif Visualizer — приложение для визуализации данных massif. Запустите программу в Valgrind с параметром --tool=massif, а затем откройте сгенерированный файл massif.out.%pid в визуализаторе. Также поддерживается прозрачное открытие сжатых файлов massif в форматах Gzip или Bzip2.</p>
     <p xml:lang="sa">Massif Visualizer इति एकं साधनं यत् - कोऽपि अनुमानं करिष्यति - massif data इत्यस्य दृश्यीकरणं करोति । भवान् Valgrind मध्ये --tool=massif इत्यनेन सह स्वस्य अनुप्रयोगं चालयति ततः उत्पन्नं massif.out.%pid विजुअलाइज़रे उद्घाटयति । Gzip अथवा Bzip2 संपीडिताः massif सञ्चिकाः अपि पारदर्शकरूपेण उद्घाटयितुं शक्यन्ते ।</p>
     <p xml:lang="sk">Massif Visualizer je nástroj, ktorý, kto by to povedal, vizualizuje údaje massif. Môžete spustiť aplikáciu vo Valgrinde s --tool=massif a potom otvoriť vygenerovaný massif.out.%pid vo vizualizátori. Gzip alebo Bzip2 komprimované massif súbory sa dajú otvoriť transaprentne.</p>
     <p xml:lang="sl">Massif Visualizer je orodje, ki - kdo bi to uganil - vizualizira podatke orodja massif. Aplikacijo v Valgrindu zaženete z --tool=massif in nato odprete ustvarjeno datoteko  masivni massif.out.%pid v vizualizatorju. Prav tako se stisnjene datoteke Gzip ali Bzip2 tudi lahko pregledno odpirajo.</p>
@@ -189,6 +190,7 @@
       <li xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie.</li>
       <li xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo.</li>
       <li xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo.</li>
+      <li xml:lang="ru">Интерактивный график потребления памяти за период времени;</li>
       <li xml:lang="sa">कालान्तरे स्मृति-उपभोगस्य अन्तरक्रियाशील-चार्टः ।</li>
       <li xml:lang="sk">Interaktívny graf použitia pamäte v čase.</li>
       <li xml:lang="sl">Interaktivni grafikon porabe pomnilnika skozi čas.</li>
@@ -223,6 +225,7 @@
       <li xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer).</li>
       <li xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer).</li>
       <li xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer).</li>
+      <li xml:lang="ru">Детальный анализ снимков с визуализацией графа вызовов (требуется KGraphViewer);</li>
       <li xml:lang="sa">कॉलग्राफ-दृश्यीकरणेन सह विस्तृतं स्नैपशॉट-विश्लेषणम् (KGraphViewer इत्यस्य आवश्यकता अस्ति) ।</li>
       <li xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer).</li>
       <li xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer).</li>
@@ -257,6 +260,7 @@
       <li xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji.</li>
       <li xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
       <li xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação.</li>
+      <li xml:lang="ru">Сводная информация о пиковом потреблении памяти для всех функций выделения памяти;</li>
       <li xml:lang="sa">सर्वेषां आवंटनकार्यस्य शिखरस्मृतिउपभोगस्य सारांशः।</li>
       <li xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií.</li>
       <li xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij.</li>
@@ -298,6 +302,7 @@
       <caption xml:lang="pl">Interaktywny wykres wykorzystania pamięci w czasie</caption>
       <caption xml:lang="pt">Gráfico interactivo do consumo de memória ao longo do tempo</caption>
       <caption xml:lang="pt-BR">Gráfico interativo do consumo de memória usada pelo aplicativo</caption>
+      <caption xml:lang="ru">Интерактивная диаграмма потребления памяти за время работы;</caption>
       <caption xml:lang="sa">कालान्तरे स्मृति-उपभोगस्य अन्तरक्रियाशील-चार्टः</caption>
       <caption xml:lang="sk">Interaktívny graf použitia pamäte v čase</caption>
       <caption xml:lang="sl">Interaktivni grafikon porabe pomnilnika skozi čas</caption>
@@ -333,6 +338,7 @@
       <caption xml:lang="pl">Szczegółowe analizy zrzutów z wizualizacją wykresu wywołań (wymaga KGraphViewer)</caption>
       <caption xml:lang="pt">Análise detalhada das capturas com a visualização do grafo de chamadas (precisa do KGraphViewer)</caption>
       <caption xml:lang="pt-BR">Análise detalhada das capturas com a visualização do grafo de chamadas (é necessário o KGraphViewer)</caption>
+      <caption xml:lang="ru">Подробный анализ снимков с визуализацией графа вызовов (требуется KGraphViewer);</caption>
       <caption xml:lang="sa">callgraph visualization इत्यनेन सह विस्तृतं स्नैपशॉट् विश्लेषणं (KGraphViewer इत्यस्य आवश्यकता अस्ति)</caption>
       <caption xml:lang="sk">Detailná snímka analýzy s vizualizáciou callgraph (vyžaduje KGraphViewer)</caption>
       <caption xml:lang="sl">Podrobna analiza posnetkov z vizualizacijo grafa klicev (zahtevan je KGraphViewer)</caption>
@@ -368,6 +374,7 @@
       <caption xml:lang="pl">Podsumowanie szczytowego wykorzystania pamięci wszystkich przydzielonych funkcji</caption>
       <caption xml:lang="pt">Resumo do consumo de pico da memória de todas as funções de alocação</caption>
       <caption xml:lang="pt-BR">Resumo do consumo de pico da memória de todas as funções de alocação</caption>
+      <caption xml:lang="ru">Сводка пикового потребления памяти для всех функций выделения;</caption>
       <caption xml:lang="sa">सर्वेषां आवंटनकार्यस्य शिखरस्मृतिउपभोगस्य सारांशः</caption>
       <caption xml:lang="sk">Prehľad vrcholu použitia pamäte všetkých alokačných funkcií</caption>
       <caption xml:lang="sl">Povzetek največje porabe pomnilnika vseh dodeljenih funkcij</caption>

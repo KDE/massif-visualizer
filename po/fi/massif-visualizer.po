@@ -1,6 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2022.
+# SPDX-FileCopyrightText: 2026 Tommi Nieminen <translator@legisign.org>
 #
 # KDE Finnish translation sprint participants:
 # Author: Artnay
@@ -11,28 +12,28 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 14:42+0000\n"
-"PO-Revision-Date: 2022-10-28 22:34+0300\n"
-"Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
+"PO-Revision-Date: 2026-02-04 14:13+0200\n"
+"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Lasse Liehu"
+msgstr "Lasse Liehu, Tommi Nieminen"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "lasse.liehu@gmail.com"
+msgstr "lasse.liehu@gmail.com, translator@legisign.org"
 
 #: app/callgraphtab.cpp:90
-#, fuzzy, kde-format
-#| msgid "Focus most expensive node"
+#, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
 msgstr "Kohdista kalleimpaan solmuun"
@@ -44,18 +45,16 @@ msgid "CallGraph Toolbar"
 msgstr "CallGraph-työkalurivi"
 
 #: app/charttab.cpp:187
-#, fuzzy, kde-format
-#| msgid "Toggle total cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
-msgstr "Näytä kokonaishintakaavio"
+msgstr "Näytä tai piilota kokonaiskustannuskaavio"
 
 #: app/charttab.cpp:193
-#, fuzzy, kde-format
-#| msgid "Toggle detailed cost graph"
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
-msgstr "Näytä yksityiskohtainen hintakaavio"
+msgstr "Näytä tai piilota yksityiskohtainen kustannuskaavio"
 
 #: app/charttab.cpp:201
 #, kde-format
@@ -63,25 +62,22 @@ msgid "Stacked diagrams"
 msgstr "Pinottuja kaavioita"
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
-#| msgid "Stacked diagrams:"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Pinottuja kaavioita:"
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "hide function"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "piilota funktio"
+msgstr "Piilota funktio"
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
-#| msgid "hide other functions"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "piilota muut funktiot"
+msgstr "Piilota muut funktiot"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -113,11 +109,10 @@ msgstr ""
 "Valgrind-valitsimet: %2"
 
 #: app/charttab.cpp:466
-#, fuzzy, kde-format
-#| msgid "Save Current Visualization"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
-msgstr "Tallenna nykyinen visualisaatio"
+msgstr "Tallenna nykyinen visualisointi"
 
 #: app/charttab.cpp:468
 #, kde-format
@@ -130,11 +125,10 @@ msgid "Failed to save the image to %1."
 msgstr "Kuvan tallentaminen tiedostoon %1 epäonnistui."
 
 #: app/charttab.cpp:503
-#, fuzzy, kde-format
-#| msgid "Massif Chart Print Preview"
+#, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
-msgstr "Massif-kaavion tulostuksen esikatselu"
+msgstr "Massif-kaavion tulostusesikatselu"
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
@@ -150,10 +144,9 @@ msgstr "Hinnan tarkkuus:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Lyhennä mallit"
+msgstr "Lyhennä malleja:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -240,36 +233,31 @@ msgid "Font Size:"
 msgstr "Fonttikoko:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Asetukset"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
-#| msgid "loading file <i>%1</i>..."
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "ladataan tiedostoa <i>%1</i>…"
+msgstr "Ladataan tiedostoa <filename>%1</filename>…"
 
 #: app/documentwidget.cpp:191
-#, fuzzy, kde-format
-#| msgid "Memory Chart"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Muistikaavio"
 
 #: app/documentwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Callgraph"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Kutsukaavio"
 
 #: app/documentwidget.cpp:205
-#, fuzzy, kde-format
-#| msgid "Allocators"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Varaimet"
@@ -323,64 +311,55 @@ msgid "[FILE...]"
 msgstr "[TIEDOSTO...]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
-msgstr "Lyhennä mallit"
+msgstr "Lyhennä malleja"
 
 #: app/mainwindow.cpp:194
-#, fuzzy, kde-format
-#| msgid "Select peak snapshot"
+#, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
 msgstr "Valitse huipputilannevedos"
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "lisää"
+msgstr "Lisää"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "add custom allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr "lisää mukautettu varain"
+msgstr "Lisää mukautettu varain"
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "poista"
+msgstr "Poista"
 
 #: app/mainwindow.cpp:206
-#, fuzzy, kde-format
-#| msgid "remove selected allocator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr "poista valittu varain"
+msgstr "Poista valittu varain"
 
 #: app/mainwindow.cpp:213
-#, fuzzy, kde-format
-#| msgid "mark as custom allocator"
+#, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr "merkitse mukautetuksi varaimeksi"
+msgstr "Merkitse mukautetuksi varaimeksi"
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
-#| msgid "Open Massif Data File"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Avaa Massif-datatiedosto"
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open Massif Output File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Avaa Massif-tulostiedosto"
@@ -391,22 +370,19 @@ msgid "Massif data files (massif.out.*)"
 msgstr "Massif-datatiedostot (massif.out.*)"
 
 #: app/mainwindow.cpp:394
-#, fuzzy, kde-format
-#| msgid "Add Custom Allocator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Lisää mukautettu varain"
 
 #: app/mainwindow.cpp:394
-#, fuzzy, kde-format
-#| msgid "Allocators"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr "Varaimet"
+msgstr "Varain:"
 
 #: app/mainwindow.cpp:478
-#, fuzzy, kde-format
-#| msgid "Evaluation of %1 (%2)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Komennon %1 evaluointi (%2)"
@@ -596,12 +572,12 @@ msgstr "<dt>osoite:</dt><dd>%1</dd>\n"
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>hinta:</dt><dd>%1 eli %2 % vedoksesta #%3</dd>"
+msgstr "<dt>kustannus:</dt><dd>%1 eli %2 % vedoksesta #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format
 msgid "<dt>peak cost:</dt><dd>%1</dd>"
-msgstr "<dt>huippuhinta:</dt><dd>%1</dd>"
+msgstr "<dt>huippukustannus:</dt><dd>%1</dd>"
 
 #: visualizer/allocatorsmodel.cpp:137
 #, kde-format
@@ -631,12 +607,12 @@ msgstr "Tilannevedokset"
 #: visualizer/datatreemodel.cpp:148
 #, kde-format
 msgid "Peak snapshot: heap cost of %1"
-msgstr "Huipputilannevedos: keon hinta %1"
+msgstr "Huipputilannevedos: keon kustannus %1"
 
 #: visualizer/datatreemodel.cpp:150
 #, kde-format
 msgid "Snapshot #%1: heap cost of %2"
-msgstr "Tilannevedos #%1: keon hinta %2"
+msgstr "Tilannevedos #%1: keon kustannus %2"
 
 #: visualizer/datatreemodel.cpp:153
 #, kde-format
@@ -665,7 +641,7 @@ msgstr "%1: %2"
 #: visualizer/dotgraphgenerator.cpp:199
 #, kde-format
 msgid "snapshot #%1 (taken at %2%4)\\nheap cost: %3"
-msgstr "tilannevedos #%1 (otettu hetkellä %2%4)\\nkeon hinta: %3"
+msgstr "tilannevedos #%1 (otettu hetkellä %2%4)\\nkeon kustannus: %3"
 
 #: visualizer/dotgraphgenerator.cpp:304
 #, kde-format
@@ -688,9 +664,9 @@ msgid ""
 "Stack cost of %4"
 msgstr ""
 "Tilannevedos #%1:\n"
-"Keon hinta %2\n"
-"Keon lisähinta %3\n"
-"Pinon hinta %4"
+"Keon kustannus %2\n"
+"Keon lisäkustannus %3\n"
+"Pinon kustannus %4"
 
 #~ msgid "allocator:"
 #~ msgstr "varain:"

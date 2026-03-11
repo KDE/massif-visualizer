@@ -669,6 +669,3 @@ msgstr ""
 "Cost de la memòria en monticles de %2\n"
 "Cost de la memòria en monticles extra de %3\n"
 "Cost de la pila de %4"
-
-#~ msgid "allocator:"
-#~ msgstr "assignador:"

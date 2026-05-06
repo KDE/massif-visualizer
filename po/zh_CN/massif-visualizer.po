@@ -61,7 +61,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
-msgstr ""
+msgstr "已堆栈的图表："
 
 #: app/charttab.cpp:213
 #, kde-format
@@ -106,7 +106,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
-msgstr ""
+msgstr "保存当前可视化效果"
 
 #: app/charttab.cpp:468
 #, kde-format
@@ -122,7 +122,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
-msgstr ""
+msgstr "Massif 图表打印预览"
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
@@ -254,7 +254,7 @@ msgstr "调用图"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
-msgstr ""
+msgstr "分配器"
 
 #: app/main.cpp:40
 #, kde-format
@@ -347,13 +347,13 @@ msgstr "将标记为自定义分配器"
 #, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
-msgstr ""
+msgstr "打开 Massif 数据文件"
 
 #: app/mainwindow.cpp:256
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
-msgstr ""
+msgstr "打开 Massif 输出文件"
 
 #: app/mainwindow.cpp:258
 #, kde-format
@@ -364,7 +364,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
-msgstr ""
+msgstr "添加自定义分配器"
 
 #: app/mainwindow.cpp:394
 #, kde-format
@@ -376,7 +376,7 @@ msgstr "分配器:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
-msgstr ""
+msgstr "%1 评估(%2)"
 
 #. i18n: ectx: property (text), widget (QToolButton, openFile)
 #: app/mainwindow.ui:79

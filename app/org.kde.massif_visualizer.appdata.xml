@@ -393,6 +393,7 @@
     <category>Development</category>
   </categories>
   <releases>
+    <release version="0.8.26042" date="2026-06-04"/>
     <release version="0.8.26041" date="2026-05-07"/>
     <release version="0.8.26040" date="2026-04-16"/>
     <release version="0.8.25123" date="2026-03-05"/>

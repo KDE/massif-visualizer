@@ -8,24 +8,25 @@ msgstr ""
 "Project-Id-Version: massif-visualizer\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: 2013-09-08 07:04+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-31 20:26-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "ئابدۇقادىر ئابلىز, غەيرەت كەنجى"
+msgstr "ئابدۇقادىر ئابلىز، غەيرەت كەنجى"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
+msgstr "sahranbay@gmail.com, gheyret@gmail.com"
 
 #: app/callgraphtab.cpp:90
 #, kde-format
@@ -63,11 +64,10 @@ msgid "Stacked diagrams:"
 msgstr ""
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "ئورنى"
+msgstr ""
 
 #: app/charttab.cpp:216
 #, kde-format
@@ -138,88 +138,87 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "قىسقارتىلغان قېلىپلار"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
 #, kde-format
 msgid "Legend"
-msgstr ""
+msgstr "چۈشەندۈرۈشى"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
 #: app/config.ui:43
 #, kde-format
 msgid "Position:"
-msgstr ""
+msgstr "ئورنى:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:51
 #, kde-format
 msgid "North"
-msgstr ""
+msgstr "شىمال"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:56
 #, kde-format
 msgid "East"
-msgstr ""
+msgstr "شەرق"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:61
 #, kde-format
 msgid "South"
-msgstr ""
+msgstr "جەنۇب"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:66
 #, kde-format
 msgid "West"
-msgstr ""
+msgstr "غەرب"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendPosition)
 #: app/config.ui:71
 #, kde-format
 msgid "Floating"
-msgstr ""
+msgstr "لەيلىتىش"
 
 #. i18n: ectx: property (text), widget (QLabel, legendAlignmentLabel)
 #: app/config.ui:79
 #, kde-format
 msgid "Alignment:"
-msgstr ""
+msgstr "توغرىلاش:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:87
 #, kde-format
 msgid "Left"
-msgstr ""
+msgstr "سول"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:92
 #, kde-format
 msgid "Center"
-msgstr ""
+msgstr "ئوتتۇرا"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:97
 #, kde-format
 msgid "Right"
-msgstr ""
+msgstr "ئوڭ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:102
 #, kde-format
 msgid "Top"
-msgstr ""
+msgstr "ئۈستى"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LegendAlignment)
 #: app/config.ui:107
 #, kde-format
 msgid "Bottom"
-msgstr ""
+msgstr "ئاستى"
 
 #. i18n: ectx: property (text), widget (QLabel, legendFontSizeLabel)
 #: app/config.ui:115
@@ -228,11 +227,10 @@ msgid "Font Size:"
 msgstr ""
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
-msgstr "تەڭشەكلەر"
+msgstr "تەڭشەك"
 
 #: app/documentwidget.cpp:111
 #, kde-kuit-format
@@ -276,7 +274,7 @@ msgstr ""
 #: app/main.cpp:45
 #, kde-format
 msgid "Milian Wolff"
-msgstr ""
+msgstr "Milian Wolff"
 
 #: app/main.cpp:45
 #, kde-format
@@ -304,8 +302,7 @@ msgid "[FILE...]"
 msgstr ""
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
-#| msgid "Shorten Templates"
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "قىسقارتىلغان قېلىپلار"
@@ -317,8 +314,7 @@ msgid "Select Peak Snapshot"
 msgstr ""
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
-#| msgid "add"
+#, kde-format
 msgctxt "@action"
 msgid "Add"
 msgstr "قوش"
@@ -330,11 +326,10 @@ msgid "Add custom allocator"
 msgstr ""
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
-#| msgid "remove"
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "چىقىرىۋېتىش"
+msgstr "چىقىرىۋەت"
 
 #: app/mainwindow.cpp:206
 #, kde-format
@@ -578,10 +573,9 @@ msgid "below threshold"
 msgstr ""
 
 #: visualizer/allocatorsmodel.cpp:160
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgid "Function"
-msgstr "ئورنى"
+msgstr "فۇنكسىيە"
 
 #: visualizer/allocatorsmodel.cpp:162
 #, kde-format

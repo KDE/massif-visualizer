@@ -496,7 +496,7 @@ msgstr "Schriftgröße für Legende"
 #: app/massif-visualizer-settings.kcfg:46
 #, kde-format
 msgid "Defines the font size used in the legend."
-msgstr "Definiert die Schriftart, die in der Legende benutzt wird."
+msgstr "Definiert die Schriftart, die in der Legende verwendet wird."
 
 #. i18n: ectx: Menu (file)
 #: app/massif-visualizerui.rc:5
@@ -594,7 +594,7 @@ msgstr "<dt>Adresse:</dt><dd>%1</dd>\n"
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>Speicherverbrauch:</dt><dd>%1, d.h. %2 % von Messung #%3</dd>"
+msgstr "<dt>Speicherverbrauch:</dt><dd>%1, d. h. %2 % von Messung #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format

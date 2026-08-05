@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: 2026-07-05 16:30+0200\n"
+"PO-Revision-Date: 2026-08-04 20:25+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.11.70\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -30,10 +30,10 @@ msgid "Your emails"
 msgstr "karl@huftis.org"
 
 #: app/callgraphtab.cpp:90
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Focus Most Expensive Node"
-msgstr "Fokuser på den «dyraste» noden"
+msgstr "Fokuser på dyraste node"
 
 #. i18n: ectx: ToolBar (callgraphToolBar)
 #: app/callgraphtabui.rc:13
@@ -42,13 +42,13 @@ msgid "CallGraph Toolbar"
 msgstr "Kallgraf-verktøylinje"
 
 #: app/charttab.cpp:187
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Total Cost Graph"
-msgstr "Slå på/av graf for totalkostnad"
+msgstr "Slå på/av totalkostnadsgraf"
 
 #: app/charttab.cpp:193
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Toggle Detailed Cost Graph"
 msgstr "Slå på/av detaljert kostnadsgraf"
@@ -59,22 +59,22 @@ msgid "Stacked diagrams"
 msgstr "Stabla diagram"
 
 #: app/charttab.cpp:204
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Stacked diagrams:"
 msgstr "Stabla diagram:"
 
 #: app/charttab.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Hide Function"
-msgstr "gøym funksjon"
+msgstr "Gøym funksjon"
 
 #: app/charttab.cpp:216
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Hide Other Functions"
-msgstr "gøym andre funksjonar"
+msgstr "Gøym andre funksjonar"
 
 #: app/charttab.cpp:281
 #, kde-format
@@ -106,7 +106,7 @@ msgstr ""
 "Valgrind-val: %2"
 
 #: app/charttab.cpp:466
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Current Visualization"
 msgstr "Lagra gjeldande visualisering"
@@ -122,7 +122,7 @@ msgid "Failed to save the image to %1."
 msgstr "Klarte ikkje lagra biletet til %1."
 
 #: app/charttab.cpp:503
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
 msgstr "Førehandsvising av Massif-diagram"
@@ -141,9 +141,9 @@ msgstr "Presisjon for kostnad:"
 
 #. i18n: ectx: property (text), widget (QLabel)
 #: app/config.ui:27
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shorten Templates:"
-msgstr "Forkort malar"
+msgstr "Forkort malar:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: app/config.ui:37
@@ -230,31 +230,31 @@ msgid "Font Size:"
 msgstr "Skriftstorleik:"
 
 #: app/configdialog.cpp:41
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:tab"
 msgid "Settings"
 msgstr "Innstillingar"
 
 #: app/documentwidget.cpp:111
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:status"
 msgid "Loading file <filename>%1</filename>…"
-msgstr "lastar fila <i>%1</i> …"
+msgstr "Opnar fila <filename>%1</filename> …"
 
 #: app/documentwidget.cpp:191
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:tab"
 msgid "Memory Chart"
 msgstr "Minnediagram"
 
 #: app/documentwidget.cpp:199
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:tab"
 msgid "Callgraph"
 msgstr "Kallgraf"
 
 #: app/documentwidget.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:tab"
 msgid "Allocators"
 msgstr "Allokatorar"
@@ -306,55 +306,55 @@ msgid "[FILE...]"
 msgstr "[FIL …]"
 
 #: app/mainwindow.cpp:188
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Shorten Templates"
 msgstr "Forkort malar"
 
 #: app/mainwindow.cpp:194
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Select Peak Snapshot"
 msgstr "Vel topp-minnebilete"
 
 #: app/mainwindow.cpp:200
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Add"
-msgstr "legg til"
+msgstr "Legg til"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Add custom allocator"
-msgstr "legg til sjølvvald allokator"
+msgstr "Legg til sjølvvald allokator"
 
 #: app/mainwindow.cpp:204
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Remove"
-msgstr "fjern"
+msgstr "Fjern"
 
 #: app/mainwindow.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove selected allocator"
-msgstr "fjern vald allokator"
+msgstr "Fjern vald allokator"
 
 #: app/mainwindow.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Mark as Custom Allocator"
-msgstr "marker som sjølvvald allokator"
+msgstr "Merk som sjølvvald allokator"
 
 #: app/mainwindow.cpp:224
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Open Massif Data File"
 msgstr "Opna Massif-datafil"
 
 #: app/mainwindow.cpp:256
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Massif Output File"
 msgstr "Opna Massif-utdatafil"
@@ -365,19 +365,19 @@ msgid "Massif data files (massif.out.*)"
 msgstr "Massif-datafiler (massif.out.*)"
 
 #: app/mainwindow.cpp:394
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom Allocator"
 msgstr "Legg til sjølvvald allokator"
 
 #: app/mainwindow.cpp:394
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Allocator:"
-msgstr "Allokatorar"
+msgstr "Allokator:"
 
 #: app/mainwindow.cpp:478
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Evaluation of %1 (%2)"
 msgstr "Evaluering av %1 (%2)"

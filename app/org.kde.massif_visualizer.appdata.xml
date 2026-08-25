@@ -51,6 +51,7 @@
   <summary xml:lang="ar">مصور لملفات بيانات Massif من Valgrind</summary>
   <summary xml:lang="ca">Un visualitzador per als fitxers de dades Massif del Valgrind</summary>
   <summary xml:lang="ca-valencia">Un visor per als fitxers de dades Massif de Valgrind</summary>
+  <summary xml:lang="cs">Vizualizátor pro datové soubory Valgrind Massif</summary>
   <summary xml:lang="da">En visualisering til Valgrind Massif-datafiler</summary>
   <summary xml:lang="de">Ein Programm zum Visualisieren von Massif-Datendateien</summary>
   <summary xml:lang="el">Ένας οπτικός αναπαραγωγέας για αρχεία δεδομένων Valgrind Massif</summary>
@@ -93,6 +94,7 @@
     <p xml:lang="ar">مصور Massif أداة - من يظن ذلك؟ - تصور بيانات Massif. شغّل تطبيقك في Valgrind باستخدام --tool=massif ثم افتح الملف massif.out.%pid المُنشأ في المصور. افتح ملفات Massif المضغوطة بـ Gzip أو Bzip2 أيضًا بـ **آلي**ة.</p>
     <p xml:lang="ca">Massif Visualizer és una eina que -com imagineu- visualitza les dades massif. Executeu l'aplicació en el Valgrind amb --tool=massif i després obriu el massif.out.%pid generat en el visualitzador. Els fitxers massif comprimits amb gzip o bzip2 també es poden obrir de forma transparent.</p>
     <p xml:lang="ca-valencia">Massif Visualizer és una eina que -com imagineu- visualitza les dades massif. Executeu l'aplicació en Valgrind amb --tool=massif i després obriu massif.out.%pid generat en el visor. Els fitxers massif comprimits amb gzip o bzip2 també es poden obrir de forma transparent.</p>
+    <p xml:lang="cs">Massif Visualizer je nástroj, který – jak jinak – vizualizuje data ve formátu Massif. Spustíte svou aplikaci ve Valgrindu s parametrem --tool=massif a poté otevřete vygenerovaný soubor massif.out.%pid ve vizualizátoru. Soubory Massif komprimované pomocí gzipu nebo bzip2 lze rovněž otevřít bez jakýchkoli potíží.</p>
     <p xml:lang="da">Massif-visualisering er et værktøj til - du gættede det - visualisering af massif-data. Du kører dit program i Valgrind med --tool=massif og åbner så den genererede massif.out.%pid i din visualisering. Gzip- eller Bzip2-komprimerede massif-filer kan også åbnes transparent.</p>
     <p xml:lang="de">Massif Visualizer ist ein Programm, das die Daten von Massif anzeigt. Starten Sie Ihre Anwendung in Valgrind mit --tool=massif und öffnen Sie dann im Betrachter die Datei massif. Out. %pid. Komprimierte Massivdateien mit gzip oder bzip2 können auch transparent geöffnet werden.</p>
     <p xml:lang="el">Το Massif Visualizer είναι ένα εργαλείο το οποίο - ποιος το περίμενε - οπτικοποιεί δεδομένα massif. Εκτελείτε την εφαρμογή σας στο Valgrind με --tool=massif και ανοίγετε το παραγόμενο massif.out.%pid στον οπτικό αναπαραγωγέα. Ανοίγει και συμπιεσμένα Gzip ή Bzip αρχεία masif.</p>
@@ -168,6 +170,7 @@
       <li xml:lang="ar">مخطط تفاعلي لاستهلاك الذاكرة بمرور الوقت.</li>
       <li xml:lang="ca">Gràfic interactiu del consum de memòria al llarg del temps</li>
       <li xml:lang="ca-valencia">Gràfic interactiu del consum de memòria al llarg del temps</li>
+      <li xml:lang="cs">Interaktivní graf vývoje spotřeby paměti v čase.</li>
       <li xml:lang="da">Interaktivt skema af hukommelsesforbrug over tid.</li>
       <li xml:lang="de">Interaktive Diagramme des Speicherverbrauch über Zeiträume.</li>
       <li xml:lang="el">Διαδραστικό χρονοδιάγραμμα κατανάλωσης μνήμης.</li>
@@ -203,6 +206,7 @@
       <li xml:lang="ar">تحليل مفصل للقطات مع تصور لمخطط الاستدعاء (يتطلب KGraphViewer).</li>
       <li xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</li>
       <li xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requerix KGraphViewer)</li>
+      <li xml:lang="cs">Podrobná analýza snímků s vizualizací grafu volání (vyžaduje KGraphViewer).</li>
       <li xml:lang="da">Detaljeret analyse af øjebliksbillede med callgraph-visualisering (kræver KGraphViewer).</li>
       <li xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer).</li>
       <li xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer).</li>
@@ -238,6 +242,7 @@
       <li xml:lang="ar">ملخص لذروة استهلاك الذاكرة لجميع الدوال التي تخصصها.</li>
       <li xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</li>
       <li xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació</li>
+      <li xml:lang="cs">Přehled maximální spotřeby paměti u všech funkcí provádějících alokaci.</li>
       <li xml:lang="da">Sammendrag af spidspunktshukommelsesforbrug for alle allokeringsfunktioner.</li>
       <li xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen.</li>
       <li xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες.</li>
@@ -318,6 +323,7 @@
       <caption xml:lang="ar">تحليل مفصل للقطات مع تصور لمخطط الاستدعاء (يتطلب KGraphViewer)</caption>
       <caption xml:lang="ca">Anàlisi detallada de les captures amb visualització de «callgraph» (requereix el KGraphViewer)</caption>
       <caption xml:lang="ca-valencia">Anàlisi detallada de les captures amb visualització de «callgraph» (requerix KGraphViewer)</caption>
+      <caption xml:lang="cs">Podrobná analýza snímků s vizualizací grafu volání (vyžaduje KGraphViewer)</caption>
       <caption xml:lang="de">Detaillierte Analyse der Messungen mit Callgraph-Visualisierung (benötigt KGraphViewer)</caption>
       <caption xml:lang="el">Λεπτομερής ανάλυση στιγμιοτύπου με οπτική αναπαράσταση γράφου (απαιτεί KGraphViewer)</caption>
       <caption xml:lang="en-GB">Detailed snapshot analysis with callgraph visualisation (requires KGraphViewer)</caption>
@@ -354,6 +360,7 @@
       <caption xml:lang="ar">ملخص لذروة استهلاك الذاكرة لجميع الدوال التي تخصصها</caption>
       <caption xml:lang="ca">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
       <caption xml:lang="ca-valencia">Resum dels pics de consum de memòria de totes les funcions d'assignació</caption>
+      <caption xml:lang="cs">Přehled maximální spotřeby paměti u všech funkcí provádějících alokaci</caption>
       <caption xml:lang="de">Zusammenfassung des maximalen Speicherverbrauchs aller Anforderungsfunktionen</caption>
       <caption xml:lang="el">Περίληψη κατανάλωσης αιχμών μνήμης για όλες τις διανεμημένες λειτουργίες</caption>
       <caption xml:lang="en-GB">Summary of peak memory consumption of all allocating functions</caption>

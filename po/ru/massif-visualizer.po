@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: 2026-02-17 17:39+0200\n"
-"Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
+"PO-Revision-Date: 2026-11-11 23:00+0200\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -573,7 +573,7 @@ msgstr "<dt>адрес:</dt><dd>%1</dd>\n"
 #: massifdata/util.cpp:155
 #, kde-format
 msgid "<dt>cost:</dt><dd>%1, i.e. %2% of snapshot #%3</dd>"
-msgstr "<dt>стоимость:</dt><dd>%1, т.е. %2% в снимке #%3</dd>"
+msgstr "<dt>стоимость:</dt><dd>%1, т.е. %2 % в снимке #%3</dd>"
 
 #: visualizer/allocatorsmodel.cpp:127
 #, kde-format

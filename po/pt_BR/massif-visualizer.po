@@ -2,9 +2,9 @@
 # Copyright (C) 2010-2015 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2010, 2025 Marcus Vinícius de Andrade Gama <marcus.gama@gmail.com>
+# SPDX-FileCopyrightText: 2010, 2025 Marcus Vinícius de Andrade Gama <marcus.gama@kde.org>
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2010, 2011, 2012, 2013, 2014, 2015.
-# Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
+# Marcus Gama <marcus.gama@kde.org>, 2011, 2012.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2015, 2016, 2019, 2022.
 # SPDX-FileCopyrightText: 2025 Guilherme Marçal Silva <guimarcalsilva@gmail.com>
 msgid ""
@@ -30,7 +30,7 @@ msgstr "Marcus Gama, André Marcelo Alvarenga"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "marcus.gama@gmail.com, alvarenga@kde.org"
+msgstr "marcus.gama@kde.org, alvarenga@kde.org"
 
 #: app/callgraphtab.cpp:90
 #, kde-format

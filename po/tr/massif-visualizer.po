@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: extragear-sdk-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: 2026-11-16 18:49+0300\n"
+"PO-Revision-Date: 2026-11-18 19:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -126,7 +126,7 @@ msgstr "Görsel, %1 konumuna kaydedilemedi."
 #, kde-format
 msgctxt "@title:window"
 msgid "Massif Chart Print Preview"
-msgstr "Massif Grafiği Yazdırma Ön İzlemesi"
+msgstr "Massif Grafiği Baskı Ön İzleme"
 
 #. i18n: ectx: ToolBar (chartToolBar)
 #: app/charttabui.rc:17
